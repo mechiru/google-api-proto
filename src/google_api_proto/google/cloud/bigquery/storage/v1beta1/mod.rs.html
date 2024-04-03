@@ -775,24 +775,27 @@
 <a href="#773" id="773">773</a>
 <a href="#774" id="774">774</a>
 <a href="#775" id="775">775</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Arrow schema.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ArrowSchema {
-    <span class="doccomment">/// IPC serialized Arrow schema.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_schema: ::prost::bytes::Bytes,
+</span><span class="kw">pub struct </span>TableReference {
+    <span class="doccomment">/// The assigned project ID of the project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the dataset in the above project.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the table in the above dataset.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>table_id: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Arrow RecordBatch.
+<span class="doccomment">/// All fields in this message optional.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ArrowRecordBatch {
-    <span class="doccomment">/// IPC serialized Arrow RecordBatch.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_record_batch: ::prost::bytes::Bytes,
-    <span class="doccomment">/// The count of rows in the returning block.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>row_count: i64,
+</span><span class="kw">pub struct </span>TableModifiers {
+    <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>snapshot_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// Options dictating how we read a table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -880,27 +883,24 @@
     </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>row_count: i64,
 }
-<span class="doccomment">/// Table reference that includes just the 3 strings needed to identify a table.
+<span class="doccomment">/// Arrow schema.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableReference {
-    <span class="doccomment">/// The assigned project ID of the project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the dataset in the above project.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the table in the above dataset.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>table_id: ::prost::alloc::string::String,
+</span><span class="kw">pub struct </span>ArrowSchema {
+    <span class="doccomment">/// IPC serialized Arrow schema.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_schema: ::prost::bytes::Bytes,
 }
-<span class="doccomment">/// All fields in this message optional.
+<span class="doccomment">/// Arrow RecordBatch.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TableModifiers {
-    <span class="doccomment">/// The snapshot time of the table. If not set, interpreted as now.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>snapshot_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+</span><span class="kw">pub struct </span>ArrowRecordBatch {
+    <span class="doccomment">/// IPC serialized Arrow RecordBatch.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_record_batch: ::prost::bytes::Bytes,
+    <span class="doccomment">/// The count of rows in the returning block.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>row_count: i64,
 }
 <span class="doccomment">/// Information about a single data stream within a read session.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

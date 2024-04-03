@@ -2085,7 +2085,96 @@
 <a href="#2083" id="2083">2083</a>
 <a href="#2084" id="2084">2084</a>
 <a href="#2085" id="2085">2085</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Encapsulates an encoded polyline.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Information related to how and why a fallback result was used. If this field
+/// is set, then it means the server used a different routing mode from your
+/// preferred mode as fallback.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FallbackInfo {
+    <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode
+    /// may be different from routing preference set in the original client
+    /// request.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"FallbackRoutingMode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>routing_mode: i32,
+    <span class="doccomment">/// The reason why fallback response was used instead of the original response.
+    /// This field is only populated when the fallback mode is triggered and the
+    /// fallback response is returned.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"FallbackReason"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reason: i32,
+}
+<span class="doccomment">/// Reasons for using fallback response.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>FallbackReason {
+    <span class="doccomment">/// No fallback reason specified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// A server error happened while calculating routes with your preferred
+    /// routing mode, but we were able to return a result calculated by an
+    /// alternative mode.
+    </span>ServerError = <span class="number">1</span>,
+    <span class="doccomment">/// We were not able to finish the calculation with your preferred routing mode
+    /// on time, but we were able to return a result calculated by an alternative
+    /// mode.
+    </span>LatencyExceeded = <span class="number">2</span>,
+}
+<span class="kw">impl </span>FallbackReason {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            FallbackReason::Unspecified =&gt; <span class="string">"FALLBACK_REASON_UNSPECIFIED"</span>,
+            FallbackReason::ServerError =&gt; <span class="string">"SERVER_ERROR"</span>,
+            FallbackReason::LatencyExceeded =&gt; <span class="string">"LATENCY_EXCEEDED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"FALLBACK_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"SERVER_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServerError),
+            <span class="string">"LATENCY_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LatencyExceeded),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Actual routing mode used for returned fallback response.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>FallbackRoutingMode {
+    <span class="doccomment">/// Not used.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Indicates the "TRAFFIC_UNAWARE" routing mode was used to compute the
+    /// response.
+    </span>FallbackTrafficUnaware = <span class="number">1</span>,
+    <span class="doccomment">/// Indicates the "TRAFFIC_AWARE" routing mode was used to compute the
+    /// response.
+    </span>FallbackTrafficAware = <span class="number">2</span>,
+}
+<span class="kw">impl </span>FallbackRoutingMode {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            FallbackRoutingMode::Unspecified =&gt; <span class="string">"FALLBACK_ROUTING_MODE_UNSPECIFIED"</span>,
+            FallbackRoutingMode::FallbackTrafficUnaware =&gt; <span class="string">"FALLBACK_TRAFFIC_UNAWARE"</span>,
+            FallbackRoutingMode::FallbackTrafficAware =&gt; <span class="string">"FALLBACK_TRAFFIC_AWARE"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"FALLBACK_ROUTING_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"FALLBACK_TRAFFIC_UNAWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FallbackTrafficUnaware),
+            <span class="string">"FALLBACK_TRAFFIC_AWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FallbackTrafficAware),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Encapsulates an encoded polyline.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Polyline {
@@ -2182,6 +2271,454 @@
         }
     }
 }
+<span class="doccomment">/// List of toll passes around the world that we support.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TollPass {
+    <span class="doccomment">/// Not used. If this value is used, then the request fails.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// One of many Sydney toll pass providers.
+    ///   &lt;https://www.myetoll.com.au&gt;
+    </span>AuEtollTag = <span class="number">82</span>,
+    <span class="doccomment">/// One of many Sydney toll pass providers.
+    ///   &lt;https://www.tollpay.com.au/&gt;
+    </span>AuEwayTag = <span class="number">83</span>,
+    <span class="doccomment">/// Australia-wide toll pass.
+    /// See additional details at &lt;https://www.linkt.com.au/.&gt;
+    </span>AuLinkt = <span class="number">2</span>,
+    <span class="doccomment">/// Argentina toll pass. See additional details at &lt;https://telepase.com.ar&gt;
+    </span>ArTelepase = <span class="number">3</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://www.autoexpreso.com&gt;
+    </span>BrAutoExpreso = <span class="number">81</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://conectcar.com.&gt;
+    </span>BrConectcar = <span class="number">7</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://movemais.com.&gt;
+    </span>BrMoveMais = <span class="number">8</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://pasorapido.gob.do/&gt;
+    </span>BrPassaRapido = <span class="number">88</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://www.semparar.com.br.&gt;
+    </span>BrSemParar = <span class="number">9</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://taggy.com.br.&gt;
+    </span>BrTaggy = <span class="number">10</span>,
+    <span class="doccomment">/// Brazil toll pass. See additional details at
+    /// &lt;https://veloe.com.br/site/onde-usar.&gt;
+    </span>BrVeloe = <span class="number">11</span>,
+    <span class="doccomment">/// Canada to United States border crossing.
+    </span>CaUsAkwasasneSeawayCorporateCard = <span class="number">84</span>,
+    <span class="doccomment">/// Canada to United States border crossing.
+    </span>CaUsAkwasasneSeawayTransitCard = <span class="number">85</span>,
+    <span class="doccomment">/// Ontario, Canada to Michigan, United States border crossing.
+    </span>CaUsBlueWaterEdgePass = <span class="number">18</span>,
+    <span class="doccomment">/// Ontario, Canada to Michigan, United States border crossing.
+    </span>CaUsConnexion = <span class="number">19</span>,
+    <span class="doccomment">/// Canada to United States border crossing.
+    </span>CaUsNexusCard = <span class="number">20</span>,
+    <span class="doccomment">/// Indonesia.
+    /// E-card provided by multiple banks used to pay for tolls. All e-cards
+    /// via banks are charged the same so only one enum value is needed. E.g.
+    /// Bank Mandiri &lt;https://www.bankmandiri.co.id/e-money&gt;
+    /// BCA &lt;https://www.bca.co.id/flazz&gt;
+    /// BNI &lt;https://www.bni.co.id/id-id/ebanking/tapcash&gt;
+    </span>IdEToll = <span class="number">16</span>,
+    <span class="doccomment">/// India.
+    </span>InFastag = <span class="number">78</span>,
+    <span class="doccomment">/// India, HP state plate exemption.
+    </span>InLocalHpPlateExempt = <span class="number">79</span>,
+    <span class="doccomment">/// Mexico toll pass.
+    </span>MxTagIave = <span class="number">12</span>,
+    <span class="doccomment">/// Mexico toll pass company. One of many operating in Mexico City. See
+    /// additional details at &lt;https://www.televia.com.mx.&gt;
+    </span>MxTagTelevia = <span class="number">13</span>,
+    <span class="doccomment">/// Mexico toll pass. See additional details at
+    /// &lt;https://www.viapass.com.mx/viapass/web_home.aspx.&gt;
+    </span>MxViapass = <span class="number">14</span>,
+    <span class="doccomment">/// AL, USA.
+    </span>UsAlFreedomPass = <span class="number">21</span>,
+    <span class="doccomment">/// AK, USA.
+    </span>UsAkAntonAndersonTunnelBookOf10Tickets = <span class="number">22</span>,
+    <span class="doccomment">/// CA, USA.
+    </span>UsCaFastrak = <span class="number">4</span>,
+    <span class="doccomment">/// Indicates driver has any FasTrak pass in addition to the DMV issued Clean
+    /// Air Vehicle (CAV) sticker.
+    /// &lt;https://www.bayareafastrak.org/en/guide/doINeedFlex.shtml&gt;
+    </span>UsCaFastrakCavSticker = <span class="number">86</span>,
+    <span class="doccomment">/// CO, USA.
+    </span>UsCoExpresstoll = <span class="number">23</span>,
+    <span class="doccomment">/// CO, USA.
+    </span>UsCoGoPass = <span class="number">24</span>,
+    <span class="doccomment">/// DE, USA.
+    </span>UsDeEzpassde = <span class="number">25</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlBobSikesTollBridgePass = <span class="number">65</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlDunesCommunityDevelopmentDistrictExpresscard = <span class="number">66</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlEpass = <span class="number">67</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlGibaTollPass = <span class="number">68</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlLeeway = <span class="number">69</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlSunpass = <span class="number">70</span>,
+    <span class="doccomment">/// FL, USA.
+    </span>UsFlSunpassPro = <span class="number">71</span>,
+    <span class="doccomment">/// IL, USA.
+    </span>UsIlEzpassil = <span class="number">73</span>,
+    <span class="doccomment">/// IL, USA.
+    </span>UsIlIpass = <span class="number">72</span>,
+    <span class="doccomment">/// IN, USA.
+    </span>UsInEzpassin = <span class="number">26</span>,
+    <span class="doccomment">/// KS, USA.
+    </span>UsKsBestpassHorizon = <span class="number">27</span>,
+    <span class="doccomment">/// KS, USA.
+    </span>UsKsKtag = <span class="number">28</span>,
+    <span class="doccomment">/// KS, USA.
+    </span>UsKsNationalpass = <span class="number">29</span>,
+    <span class="doccomment">/// KS, USA.
+    </span>UsKsPrepassElitepass = <span class="number">30</span>,
+    <span class="doccomment">/// KY, USA.
+    </span>UsKyRiverlink = <span class="number">31</span>,
+    <span class="doccomment">/// LA, USA.
+    </span>UsLaGeauxpass = <span class="number">32</span>,
+    <span class="doccomment">/// LA, USA.
+    </span>UsLaTollTag = <span class="number">33</span>,
+    <span class="doccomment">/// MA, USA.
+    </span>UsMaEzpassma = <span class="number">6</span>,
+    <span class="doccomment">/// MD, USA.
+    </span>UsMdEzpassmd = <span class="number">34</span>,
+    <span class="doccomment">/// ME, USA.
+    </span>UsMeEzpassme = <span class="number">35</span>,
+    <span class="doccomment">/// MI, USA.
+    </span>UsMiAmbassadorBridgePremierCommuterCard = <span class="number">36</span>,
+    <span class="doccomment">/// MI, USA.
+    </span>UsMiGrosseIleTollBridgePassTag = <span class="number">37</span>,
+    <span class="doccomment">/// MI, USA.
+    </span>UsMiIqProxCard = <span class="number">38</span>,
+    <span class="doccomment">/// MI, USA.
+    </span>UsMiMackinacBridgeMacPass = <span class="number">39</span>,
+    <span class="doccomment">/// MI, USA.
+    </span>UsMiNexpressToll = <span class="number">40</span>,
+    <span class="doccomment">/// MN, USA.
+    </span>UsMnEzpassmn = <span class="number">41</span>,
+    <span class="doccomment">/// NC, USA.
+    </span>UsNcEzpassnc = <span class="number">42</span>,
+    <span class="doccomment">/// NC, USA.
+    </span>UsNcPeachPass = <span class="number">87</span>,
+    <span class="doccomment">/// NC, USA.
+    </span>UsNcQuickPass = <span class="number">43</span>,
+    <span class="doccomment">/// NH, USA.
+    </span>UsNhEzpassnh = <span class="number">80</span>,
+    <span class="doccomment">/// NJ, USA.
+    </span>UsNjDownbeachExpressPass = <span class="number">75</span>,
+    <span class="doccomment">/// NJ, USA.
+    </span>UsNjEzpassnj = <span class="number">74</span>,
+    <span class="doccomment">/// NY, USA.
+    </span>UsNyExpresspass = <span class="number">76</span>,
+    <span class="doccomment">/// NY, USA.
+    </span>UsNyEzpassny = <span class="number">77</span>,
+    <span class="doccomment">/// OH, USA.
+    </span>UsOhEzpassoh = <span class="number">44</span>,
+    <span class="doccomment">/// PA, USA.
+    </span>UsPaEzpasspa = <span class="number">45</span>,
+    <span class="doccomment">/// RI, USA.
+    </span>UsRiEzpassri = <span class="number">46</span>,
+    <span class="doccomment">/// SC, USA.
+    </span>UsScPalpass = <span class="number">47</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxBancpass = <span class="number">48</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxDelRioPass = <span class="number">49</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxEfastPass = <span class="number">50</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxEaglePassExpressCard = <span class="number">51</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxEptoll = <span class="number">52</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxEzCross = <span class="number">53</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxEztag = <span class="number">54</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxLaredoTradeTag = <span class="number">55</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxPluspass = <span class="number">56</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxTolltag = <span class="number">57</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxTxtag = <span class="number">58</span>,
+    <span class="doccomment">/// TX, USA.
+    </span>UsTxXpressCard = <span class="number">59</span>,
+    <span class="doccomment">/// UT, USA.
+    </span>UsUtAdamsAveParkwayExpresscard = <span class="number">60</span>,
+    <span class="doccomment">/// VA, USA.
+    </span>UsVaEzpassva = <span class="number">61</span>,
+    <span class="doccomment">/// WA, USA.
+    </span>UsWaBreezeby = <span class="number">17</span>,
+    <span class="doccomment">/// WA, USA.
+    </span>UsWaGoodToGo = <span class="number">1</span>,
+    <span class="doccomment">/// WV, USA.
+    </span>UsWvEzpasswv = <span class="number">62</span>,
+    <span class="doccomment">/// WV, USA.
+    </span>UsWvMemorialBridgeTickets = <span class="number">63</span>,
+    <span class="doccomment">/// WV, USA.
+    </span>UsWvNewellTollBridgeTicket = <span class="number">64</span>,
+}
+<span class="kw">impl </span>TollPass {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TollPass::Unspecified =&gt; <span class="string">"TOLL_PASS_UNSPECIFIED"</span>,
+            TollPass::AuEtollTag =&gt; <span class="string">"AU_ETOLL_TAG"</span>,
+            TollPass::AuEwayTag =&gt; <span class="string">"AU_EWAY_TAG"</span>,
+            TollPass::AuLinkt =&gt; <span class="string">"AU_LINKT"</span>,
+            TollPass::ArTelepase =&gt; <span class="string">"AR_TELEPASE"</span>,
+            TollPass::BrAutoExpreso =&gt; <span class="string">"BR_AUTO_EXPRESO"</span>,
+            TollPass::BrConectcar =&gt; <span class="string">"BR_CONECTCAR"</span>,
+            TollPass::BrMoveMais =&gt; <span class="string">"BR_MOVE_MAIS"</span>,
+            TollPass::BrPassaRapido =&gt; <span class="string">"BR_PASSA_RAPIDO"</span>,
+            TollPass::BrSemParar =&gt; <span class="string">"BR_SEM_PARAR"</span>,
+            TollPass::BrTaggy =&gt; <span class="string">"BR_TAGGY"</span>,
+            TollPass::BrVeloe =&gt; <span class="string">"BR_VELOE"</span>,
+            TollPass::CaUsAkwasasneSeawayCorporateCard =&gt; {
+                <span class="string">"CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD"
+            </span>}
+            TollPass::CaUsAkwasasneSeawayTransitCard =&gt; {
+                <span class="string">"CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD"
+            </span>}
+            TollPass::CaUsBlueWaterEdgePass =&gt; <span class="string">"CA_US_BLUE_WATER_EDGE_PASS"</span>,
+            TollPass::CaUsConnexion =&gt; <span class="string">"CA_US_CONNEXION"</span>,
+            TollPass::CaUsNexusCard =&gt; <span class="string">"CA_US_NEXUS_CARD"</span>,
+            TollPass::IdEToll =&gt; <span class="string">"ID_E_TOLL"</span>,
+            TollPass::InFastag =&gt; <span class="string">"IN_FASTAG"</span>,
+            TollPass::InLocalHpPlateExempt =&gt; <span class="string">"IN_LOCAL_HP_PLATE_EXEMPT"</span>,
+            TollPass::MxTagIave =&gt; <span class="string">"MX_TAG_IAVE"</span>,
+            TollPass::MxTagTelevia =&gt; <span class="string">"MX_TAG_TELEVIA"</span>,
+            TollPass::MxViapass =&gt; <span class="string">"MX_VIAPASS"</span>,
+            TollPass::UsAlFreedomPass =&gt; <span class="string">"US_AL_FREEDOM_PASS"</span>,
+            TollPass::UsAkAntonAndersonTunnelBookOf10Tickets =&gt; {
+                <span class="string">"US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS"
+            </span>}
+            TollPass::UsCaFastrak =&gt; <span class="string">"US_CA_FASTRAK"</span>,
+            TollPass::UsCaFastrakCavSticker =&gt; <span class="string">"US_CA_FASTRAK_CAV_STICKER"</span>,
+            TollPass::UsCoExpresstoll =&gt; <span class="string">"US_CO_EXPRESSTOLL"</span>,
+            TollPass::UsCoGoPass =&gt; <span class="string">"US_CO_GO_PASS"</span>,
+            TollPass::UsDeEzpassde =&gt; <span class="string">"US_DE_EZPASSDE"</span>,
+            TollPass::UsFlBobSikesTollBridgePass =&gt; <span class="string">"US_FL_BOB_SIKES_TOLL_BRIDGE_PASS"</span>,
+            TollPass::UsFlDunesCommunityDevelopmentDistrictExpresscard =&gt; {
+                <span class="string">"US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD"
+            </span>}
+            TollPass::UsFlEpass =&gt; <span class="string">"US_FL_EPASS"</span>,
+            TollPass::UsFlGibaTollPass =&gt; <span class="string">"US_FL_GIBA_TOLL_PASS"</span>,
+            TollPass::UsFlLeeway =&gt; <span class="string">"US_FL_LEEWAY"</span>,
+            TollPass::UsFlSunpass =&gt; <span class="string">"US_FL_SUNPASS"</span>,
+            TollPass::UsFlSunpassPro =&gt; <span class="string">"US_FL_SUNPASS_PRO"</span>,
+            TollPass::UsIlEzpassil =&gt; <span class="string">"US_IL_EZPASSIL"</span>,
+            TollPass::UsIlIpass =&gt; <span class="string">"US_IL_IPASS"</span>,
+            TollPass::UsInEzpassin =&gt; <span class="string">"US_IN_EZPASSIN"</span>,
+            TollPass::UsKsBestpassHorizon =&gt; <span class="string">"US_KS_BESTPASS_HORIZON"</span>,
+            TollPass::UsKsKtag =&gt; <span class="string">"US_KS_KTAG"</span>,
+            TollPass::UsKsNationalpass =&gt; <span class="string">"US_KS_NATIONALPASS"</span>,
+            TollPass::UsKsPrepassElitepass =&gt; <span class="string">"US_KS_PREPASS_ELITEPASS"</span>,
+            TollPass::UsKyRiverlink =&gt; <span class="string">"US_KY_RIVERLINK"</span>,
+            TollPass::UsLaGeauxpass =&gt; <span class="string">"US_LA_GEAUXPASS"</span>,
+            TollPass::UsLaTollTag =&gt; <span class="string">"US_LA_TOLL_TAG"</span>,
+            TollPass::UsMaEzpassma =&gt; <span class="string">"US_MA_EZPASSMA"</span>,
+            TollPass::UsMdEzpassmd =&gt; <span class="string">"US_MD_EZPASSMD"</span>,
+            TollPass::UsMeEzpassme =&gt; <span class="string">"US_ME_EZPASSME"</span>,
+            TollPass::UsMiAmbassadorBridgePremierCommuterCard =&gt; {
+                <span class="string">"US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD"
+            </span>}
+            TollPass::UsMiGrosseIleTollBridgePassTag =&gt; {
+                <span class="string">"US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG"
+            </span>}
+            TollPass::UsMiIqProxCard =&gt; <span class="string">"US_MI_IQ_PROX_CARD"</span>,
+            TollPass::UsMiMackinacBridgeMacPass =&gt; <span class="string">"US_MI_MACKINAC_BRIDGE_MAC_PASS"</span>,
+            TollPass::UsMiNexpressToll =&gt; <span class="string">"US_MI_NEXPRESS_TOLL"</span>,
+            TollPass::UsMnEzpassmn =&gt; <span class="string">"US_MN_EZPASSMN"</span>,
+            TollPass::UsNcEzpassnc =&gt; <span class="string">"US_NC_EZPASSNC"</span>,
+            TollPass::UsNcPeachPass =&gt; <span class="string">"US_NC_PEACH_PASS"</span>,
+            TollPass::UsNcQuickPass =&gt; <span class="string">"US_NC_QUICK_PASS"</span>,
+            TollPass::UsNhEzpassnh =&gt; <span class="string">"US_NH_EZPASSNH"</span>,
+            TollPass::UsNjDownbeachExpressPass =&gt; <span class="string">"US_NJ_DOWNBEACH_EXPRESS_PASS"</span>,
+            TollPass::UsNjEzpassnj =&gt; <span class="string">"US_NJ_EZPASSNJ"</span>,
+            TollPass::UsNyExpresspass =&gt; <span class="string">"US_NY_EXPRESSPASS"</span>,
+            TollPass::UsNyEzpassny =&gt; <span class="string">"US_NY_EZPASSNY"</span>,
+            TollPass::UsOhEzpassoh =&gt; <span class="string">"US_OH_EZPASSOH"</span>,
+            TollPass::UsPaEzpasspa =&gt; <span class="string">"US_PA_EZPASSPA"</span>,
+            TollPass::UsRiEzpassri =&gt; <span class="string">"US_RI_EZPASSRI"</span>,
+            TollPass::UsScPalpass =&gt; <span class="string">"US_SC_PALPASS"</span>,
+            TollPass::UsTxBancpass =&gt; <span class="string">"US_TX_BANCPASS"</span>,
+            TollPass::UsTxDelRioPass =&gt; <span class="string">"US_TX_DEL_RIO_PASS"</span>,
+            TollPass::UsTxEfastPass =&gt; <span class="string">"US_TX_EFAST_PASS"</span>,
+            TollPass::UsTxEaglePassExpressCard =&gt; <span class="string">"US_TX_EAGLE_PASS_EXPRESS_CARD"</span>,
+            TollPass::UsTxEptoll =&gt; <span class="string">"US_TX_EPTOLL"</span>,
+            TollPass::UsTxEzCross =&gt; <span class="string">"US_TX_EZ_CROSS"</span>,
+            TollPass::UsTxEztag =&gt; <span class="string">"US_TX_EZTAG"</span>,
+            TollPass::UsTxLaredoTradeTag =&gt; <span class="string">"US_TX_LAREDO_TRADE_TAG"</span>,
+            TollPass::UsTxPluspass =&gt; <span class="string">"US_TX_PLUSPASS"</span>,
+            TollPass::UsTxTolltag =&gt; <span class="string">"US_TX_TOLLTAG"</span>,
+            TollPass::UsTxTxtag =&gt; <span class="string">"US_TX_TXTAG"</span>,
+            TollPass::UsTxXpressCard =&gt; <span class="string">"US_TX_XPRESS_CARD"</span>,
+            TollPass::UsUtAdamsAveParkwayExpresscard =&gt; {
+                <span class="string">"US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD"
+            </span>}
+            TollPass::UsVaEzpassva =&gt; <span class="string">"US_VA_EZPASSVA"</span>,
+            TollPass::UsWaBreezeby =&gt; <span class="string">"US_WA_BREEZEBY"</span>,
+            TollPass::UsWaGoodToGo =&gt; <span class="string">"US_WA_GOOD_TO_GO"</span>,
+            TollPass::UsWvEzpasswv =&gt; <span class="string">"US_WV_EZPASSWV"</span>,
+            TollPass::UsWvMemorialBridgeTickets =&gt; <span class="string">"US_WV_MEMORIAL_BRIDGE_TICKETS"</span>,
+            TollPass::UsWvNewellTollBridgeTicket =&gt; <span class="string">"US_WV_NEWELL_TOLL_BRIDGE_TICKET"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TOLL_PASS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"AU_ETOLL_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuEtollTag),
+            <span class="string">"AU_EWAY_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuEwayTag),
+            <span class="string">"AU_LINKT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuLinkt),
+            <span class="string">"AR_TELEPASE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ArTelepase),
+            <span class="string">"BR_AUTO_EXPRESO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrAutoExpreso),
+            <span class="string">"BR_CONECTCAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrConectcar),
+            <span class="string">"BR_MOVE_MAIS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrMoveMais),
+            <span class="string">"BR_PASSA_RAPIDO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrPassaRapido),
+            <span class="string">"BR_SEM_PARAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrSemParar),
+            <span class="string">"BR_TAGGY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrTaggy),
+            <span class="string">"BR_VELOE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrVeloe),
+            <span class="string">"CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsAkwasasneSeawayCorporateCard)
+            }
+            <span class="string">"CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsAkwasasneSeawayTransitCard)
+            }
+            <span class="string">"CA_US_BLUE_WATER_EDGE_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsBlueWaterEdgePass),
+            <span class="string">"CA_US_CONNEXION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsConnexion),
+            <span class="string">"CA_US_NEXUS_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsNexusCard),
+            <span class="string">"ID_E_TOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IdEToll),
+            <span class="string">"IN_FASTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InFastag),
+            <span class="string">"IN_LOCAL_HP_PLATE_EXEMPT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InLocalHpPlateExempt),
+            <span class="string">"MX_TAG_IAVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MxTagIave),
+            <span class="string">"MX_TAG_TELEVIA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MxTagTelevia),
+            <span class="string">"MX_VIAPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MxViapass),
+            <span class="string">"US_AL_FREEDOM_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsAlFreedomPass),
+            <span class="string">"US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsAkAntonAndersonTunnelBookOf10Tickets)
+            }
+            <span class="string">"US_CA_FASTRAK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCaFastrak),
+            <span class="string">"US_CA_FASTRAK_CAV_STICKER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCaFastrakCavSticker),
+            <span class="string">"US_CO_EXPRESSTOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCoExpresstoll),
+            <span class="string">"US_CO_GO_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCoGoPass),
+            <span class="string">"US_DE_EZPASSDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsDeEzpassde),
+            <span class="string">"US_FL_BOB_SIKES_TOLL_BRIDGE_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlBobSikesTollBridgePass),
+            <span class="string">"US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlDunesCommunityDevelopmentDistrictExpresscard)
+            }
+            <span class="string">"US_FL_EPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlEpass),
+            <span class="string">"US_FL_GIBA_TOLL_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlGibaTollPass),
+            <span class="string">"US_FL_LEEWAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlLeeway),
+            <span class="string">"US_FL_SUNPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlSunpass),
+            <span class="string">"US_FL_SUNPASS_PRO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlSunpassPro),
+            <span class="string">"US_IL_EZPASSIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsIlEzpassil),
+            <span class="string">"US_IL_IPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsIlIpass),
+            <span class="string">"US_IN_EZPASSIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsInEzpassin),
+            <span class="string">"US_KS_BESTPASS_HORIZON" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsBestpassHorizon),
+            <span class="string">"US_KS_KTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsKtag),
+            <span class="string">"US_KS_NATIONALPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsNationalpass),
+            <span class="string">"US_KS_PREPASS_ELITEPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsPrepassElitepass),
+            <span class="string">"US_KY_RIVERLINK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKyRiverlink),
+            <span class="string">"US_LA_GEAUXPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsLaGeauxpass),
+            <span class="string">"US_LA_TOLL_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsLaTollTag),
+            <span class="string">"US_MA_EZPASSMA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMaEzpassma),
+            <span class="string">"US_MD_EZPASSMD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMdEzpassmd),
+            <span class="string">"US_ME_EZPASSME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMeEzpassme),
+            <span class="string">"US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiAmbassadorBridgePremierCommuterCard)
+            }
+            <span class="string">"US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiGrosseIleTollBridgePassTag)
+            }
+            <span class="string">"US_MI_IQ_PROX_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiIqProxCard),
+            <span class="string">"US_MI_MACKINAC_BRIDGE_MAC_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiMackinacBridgeMacPass),
+            <span class="string">"US_MI_NEXPRESS_TOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiNexpressToll),
+            <span class="string">"US_MN_EZPASSMN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMnEzpassmn),
+            <span class="string">"US_NC_EZPASSNC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNcEzpassnc),
+            <span class="string">"US_NC_PEACH_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNcPeachPass),
+            <span class="string">"US_NC_QUICK_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNcQuickPass),
+            <span class="string">"US_NH_EZPASSNH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNhEzpassnh),
+            <span class="string">"US_NJ_DOWNBEACH_EXPRESS_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNjDownbeachExpressPass),
+            <span class="string">"US_NJ_EZPASSNJ" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNjEzpassnj),
+            <span class="string">"US_NY_EXPRESSPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNyExpresspass),
+            <span class="string">"US_NY_EZPASSNY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNyEzpassny),
+            <span class="string">"US_OH_EZPASSOH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsOhEzpassoh),
+            <span class="string">"US_PA_EZPASSPA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsPaEzpasspa),
+            <span class="string">"US_RI_EZPASSRI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsRiEzpassri),
+            <span class="string">"US_SC_PALPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsScPalpass),
+            <span class="string">"US_TX_BANCPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxBancpass),
+            <span class="string">"US_TX_DEL_RIO_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxDelRioPass),
+            <span class="string">"US_TX_EFAST_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEfastPass),
+            <span class="string">"US_TX_EAGLE_PASS_EXPRESS_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEaglePassExpressCard),
+            <span class="string">"US_TX_EPTOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEptoll),
+            <span class="string">"US_TX_EZ_CROSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEzCross),
+            <span class="string">"US_TX_EZTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEztag),
+            <span class="string">"US_TX_LAREDO_TRADE_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxLaredoTradeTag),
+            <span class="string">"US_TX_PLUSPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxPluspass),
+            <span class="string">"US_TX_TOLLTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxTolltag),
+            <span class="string">"US_TX_TXTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxTxtag),
+            <span class="string">"US_TX_XPRESS_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxXpressCard),
+            <span class="string">"US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsUtAdamsAveParkwayExpresscard)
+            }
+            <span class="string">"US_VA_EZPASSVA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsVaEzpassva),
+            <span class="string">"US_WA_BREEZEBY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWaBreezeby),
+            <span class="string">"US_WA_GOOD_TO_GO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWaGoodToGo),
+            <span class="string">"US_WV_EZPASSWV" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWvEzpasswv),
+            <span class="string">"US_WV_MEMORIAL_BRIDGE_TICKETS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWvMemorialBridgeTickets),
+            <span class="string">"US_WV_NEWELL_TOLL_BRIDGE_TICKET" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWvNewellTollBridgeTicket),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// A set of values describing the vehicle's emission type.
+/// Applies only to the DRIVE travel mode.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>VehicleEmissionType {
+    <span class="doccomment">/// No emission type specified. Default to GASOLINE.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Gasoline/petrol fueled vehicle.
+    </span>Gasoline = <span class="number">1</span>,
+    <span class="doccomment">/// Electricity powered vehicle.
+    </span>Electric = <span class="number">2</span>,
+    <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.
+    </span>Hybrid = <span class="number">3</span>,
+}
+<span class="kw">impl </span>VehicleEmissionType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            VehicleEmissionType::Unspecified =&gt; <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED"</span>,
+            VehicleEmissionType::Gasoline =&gt; <span class="string">"GASOLINE"</span>,
+            VehicleEmissionType::Electric =&gt; <span class="string">"ELECTRIC"</span>,
+            VehicleEmissionType::Hybrid =&gt; <span class="string">"HYBRID"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"GASOLINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gasoline),
+            <span class="string">"ELECTRIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Electric),
+            <span class="string">"HYBRID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hybrid),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 <span class="doccomment">/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a
 /// route, and include intermediate stops along the route.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2247,6 +2784,251 @@
     /// field only for `DRIVE` and `TWO_WHEELER` travel modes.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>heading: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// ComputeRoutes request message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeRoutesRequest {
+    <span class="doccomment">/// Required. Origin waypoint.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>origin: ::core::option::Option&lt;Waypoint&gt;,
+    <span class="doccomment">/// Required. Destination waypoint.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;Waypoint&gt;,
+    <span class="doccomment">/// Optional. A set of waypoints along the route (excluding terminal points),
+    /// for either stopping at or passing by. Up to 25 intermediate waypoints are
+    /// supported.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>intermediates: ::prost::alloc::vec::Vec&lt;Waypoint&gt;,
+    <span class="doccomment">/// Optional. Specifies the mode of transportation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteTravelMode"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>travel_mode: i32,
+    <span class="doccomment">/// Optional. Specifies how to compute the route. The server
+    /// attempts to use the selected routing preference to compute the route. If
+    ///   the routing preference results in an error or an extra long latency, then
+    /// an error is returned. In the future, we might implement a fallback
+    /// mechanism to use a different option when the preferred option does not give
+    /// a valid result. You can specify this option only when the `travel_mode` is
+    /// `DRIVE` or `TWO_WHEELER`, otherwise the request fails.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RoutingPreference"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>routing_preference: i32,
+    <span class="doccomment">/// Optional. Specifies your preference for the quality of the polyline.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"PolylineQuality"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>polyline_quality: i32,
+    <span class="doccomment">/// Optional. Specifies the preferred encoding for the polyline.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"PolylineEncoding"</span>, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>polyline_encoding: i32,
+    <span class="doccomment">/// Optional. The departure time. If you don't set this value, then this value
+    /// defaults to the time that you made the request. If you set this value to a
+    /// time that has already occurred, then the request fails.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Specifies whether to calculate alternate routes in addition to the route.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>compute_alternative_routes: bool,
+    <span class="doccomment">/// Optional. A set of conditions to satisfy that affect the way routes are
+    /// calculated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>route_modifiers: ::core::option::Option&lt;RouteModifiers&gt;,
+    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
+    /// information, see
+    /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; See
+    /// [Language Support](&lt;https://developers.google.com/maps/faq#languagesupport&gt;)
+    /// for the list of supported languages. When you don't provide this value, the
+    /// display language is inferred from the location of the route request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Specifies the units of measure for the display fields. This
+    /// includes the `instruction` field in `NavigationInstruction`. The units of
+    /// measure used for the route, leg, step distance, and duration are not
+    /// affected by this value. If you don't provide this value, then the display
+    /// units are inferred from the location of the request.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Units"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>units: i32,
+    <span class="doccomment">/// If optimizeWaypointOrder is set to true, an attempt is made to re-order the
+    /// specified intermediate waypoints to minimize the overall cost of the route.
+    /// If any of the intermediate waypoints is via waypoint the request fails. Use
+    /// ComputeRoutesResponse.Routes.optimized_intermediate_waypoint_index to find
+    /// the new ordering. If routes.optimized_intermediate_waypoint_index is not
+    /// requested in the `X-Goog-FieldMask` header, the request fails. If
+    /// optimizeWaypointOrder is set to false,
+    /// ComputeRoutesResponse.optimized_intermediate_waypoint_index is empty.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>optimize_waypoint_order: bool,
+}
+<span class="doccomment">/// Encapsulates a set of optional conditions to satisfy when calculating the
+/// routes.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteModifiers {
+    <span class="doccomment">/// Specifies whether to avoid toll roads where reasonable. Preference will be
+    /// given to routes not containing toll roads. Applies only to the `DRIVE` and
+    /// `TWO_WHEELER` travel modes.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>avoid_tolls: bool,
+    <span class="doccomment">/// Specifies whether to avoid highways where reasonable. Preference will be
+    /// given to routes not containing highways. Applies only to the `DRIVE` and
+    /// `TWO_WHEELER` travel modes.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>avoid_highways: bool,
+    <span class="doccomment">/// Specifies whether to avoid ferries where reasonable. Preference will be
+    /// given to routes not containing travel by ferries.
+    /// Applies only to the `DRIVE` and`TWO_WHEELER` travel modes.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>avoid_ferries: bool,
+    <span class="doccomment">/// Specifies whether to avoid navigating indoors where reasonable. Preference
+    /// will be given to routes not containing indoor navigation.
+    /// Applies only to the `WALK` travel mode.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>avoid_indoor: bool,
+    <span class="doccomment">/// Specifies the vehicle information.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>vehicle_info: ::core::option::Option&lt;VehicleInfo&gt;,
+    <span class="doccomment">/// Encapsulates information about toll passes.
+    /// If toll passes are provided, the API tries to return the pass price. If
+    /// toll passes are not provided, the API treats the toll pass as unknown and
+    /// tries to return the cash price.
+    /// Applies only to the DRIVE and TWO_WHEELER travel modes.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TollPass"</span>, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>toll_passes: ::prost::alloc::vec::Vec&lt;i32&gt;,
+}
+<span class="doccomment">/// Encapsulates the vehicle information, such as the license plate last
+/// character.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VehicleInfo {
+    <span class="doccomment">/// Specifies the license plate last character. Could be a digit or a letter.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>license_plate_last_character: ::prost::alloc::string::String,
+    <span class="doccomment">/// Describes the vehicle's emission type.
+    /// Applies only to the DRIVE travel mode.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"VehicleEmissionType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>emission_type: i32,
+}
+<span class="doccomment">/// A set of values used to specify the mode of travel.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>RouteTravelMode {
+    <span class="doccomment">/// No travel mode specified. Defaults to `DRIVE`.
+    </span>TravelModeUnspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Travel by passenger car.
+    </span>Drive = <span class="number">1</span>,
+    <span class="doccomment">/// Travel by bicycle.
+    </span>Bicycle = <span class="number">2</span>,
+    <span class="doccomment">/// Travel by walking.
+    </span>Walk = <span class="number">3</span>,
+    <span class="doccomment">/// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this
+    /// differs from the `BICYCLE` travel mode which covers human-powered mode.
+    </span>TwoWheeler = <span class="number">4</span>,
+    <span class="doccomment">/// Travel by licensed taxi, which may allow the vehicle to travel on
+    /// designated taxi lanes in some areas.
+    </span>Taxi = <span class="number">5</span>,
+}
+<span class="kw">impl </span>RouteTravelMode {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            RouteTravelMode::TravelModeUnspecified =&gt; <span class="string">"TRAVEL_MODE_UNSPECIFIED"</span>,
+            RouteTravelMode::Drive =&gt; <span class="string">"DRIVE"</span>,
+            RouteTravelMode::Bicycle =&gt; <span class="string">"BICYCLE"</span>,
+            RouteTravelMode::Walk =&gt; <span class="string">"WALK"</span>,
+            RouteTravelMode::TwoWheeler =&gt; <span class="string">"TWO_WHEELER"</span>,
+            RouteTravelMode::Taxi =&gt; <span class="string">"TAXI"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TRAVEL_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TravelModeUnspecified),
+            <span class="string">"DRIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Drive),
+            <span class="string">"BICYCLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bicycle),
+            <span class="string">"WALK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Walk),
+            <span class="string">"TWO_WHEELER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TwoWheeler),
+            <span class="string">"TAXI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Taxi),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// A set of values that specify factors to take into consideration when
+/// calculating the route.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>RoutingPreference {
+    <span class="doccomment">/// No routing preference specified. Default to `TRAFFIC_AWARE`.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Computes routes without taking traffic conditions into consideration.
+    /// Suitable when traffic conditions don't matter. Using this value produces
+    /// the lowest latency.
+    </span>TrafficUnaware = <span class="number">1</span>,
+    <span class="doccomment">/// Calculates routes taking traffic conditions into consideration. In contrast
+    /// to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to significantly
+    /// reduce latency.
+    </span>TrafficAware = <span class="number">2</span>,
+    <span class="doccomment">/// Calculates the routes taking traffic conditions into consideration,
+    /// without applying most performance optimizations. Using this value produces
+    /// the highest latency.
+    </span>TrafficAwareOptimal = <span class="number">3</span>,
+}
+<span class="kw">impl </span>RoutingPreference {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            RoutingPreference::Unspecified =&gt; <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED"</span>,
+            RoutingPreference::TrafficUnaware =&gt; <span class="string">"TRAFFIC_UNAWARE"</span>,
+            RoutingPreference::TrafficAware =&gt; <span class="string">"TRAFFIC_AWARE"</span>,
+            RoutingPreference::TrafficAwareOptimal =&gt; <span class="string">"TRAFFIC_AWARE_OPTIMAL"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"TRAFFIC_UNAWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficUnaware),
+            <span class="string">"TRAFFIC_AWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAware),
+            <span class="string">"TRAFFIC_AWARE_OPTIMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAwareOptimal),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// A set of values that specify the unit of measure used in the display.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>Units {
+    <span class="doccomment">/// Units of measure not specified. Defaults to the unit of measure inferred
+    /// from the request.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Metric units of measure.
+    </span>Metric = <span class="number">1</span>,
+    <span class="doccomment">/// Imperial (English) units of measure.
+    </span>Imperial = <span class="number">2</span>,
+}
+<span class="kw">impl </span>Units {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            Units::Unspecified =&gt; <span class="string">"UNITS_UNSPECIFIED"</span>,
+            Units::Metric =&gt; <span class="string">"METRIC"</span>,
+            Units::Imperial =&gt; <span class="string">"IMPERIAL"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"UNITS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"METRIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Metric),
+            <span class="string">"IMPERIAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Imperial),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
 }
 <span class="doccomment">/// Encapsulates a route, which consists of a series of connected road segments
 /// that join beginning, ending, and intermediate waypoints.
@@ -2706,965 +3488,23 @@
         }
     }
 }
-<span class="doccomment">/// Encapsulates a custom route computed based on the route objective specified
-/// by the customer. CustomRoute contains a route and a route token, which can be
-/// passed to NavSDK to reconstruct the custom route for turn by turn navigation.
+<span class="doccomment">/// ComputeRoutes the response message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomRoute {
-    <span class="doccomment">/// The route considered 'best' for the input route objective.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>route: ::core::option::Option&lt;Route&gt;,
-    <span class="doccomment">/// Web-safe base64 encoded route token that can be passed to NavSDK, which
-    /// allows NavSDK to reconstruct the route during navigation, and in the event
-    /// of rerouting honor the original intention when RoutesPreferred
-    /// ComputeCustomRoutes is called. Customers should treat this token as an
-    /// opaque blob.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// List of toll passes around the world that we support.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TollPass {
-    <span class="doccomment">/// Not used. If this value is used, then the request fails.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// One of many Sydney toll pass providers.
-    ///   &lt;https://www.myetoll.com.au&gt;
-    </span>AuEtollTag = <span class="number">82</span>,
-    <span class="doccomment">/// One of many Sydney toll pass providers.
-    ///   &lt;https://www.tollpay.com.au/&gt;
-    </span>AuEwayTag = <span class="number">83</span>,
-    <span class="doccomment">/// Australia-wide toll pass.
-    /// See additional details at &lt;https://www.linkt.com.au/.&gt;
-    </span>AuLinkt = <span class="number">2</span>,
-    <span class="doccomment">/// Argentina toll pass. See additional details at &lt;https://telepase.com.ar&gt;
-    </span>ArTelepase = <span class="number">3</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://www.autoexpreso.com&gt;
-    </span>BrAutoExpreso = <span class="number">81</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://conectcar.com.&gt;
-    </span>BrConectcar = <span class="number">7</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://movemais.com.&gt;
-    </span>BrMoveMais = <span class="number">8</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://pasorapido.gob.do/&gt;
-    </span>BrPassaRapido = <span class="number">88</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://www.semparar.com.br.&gt;
-    </span>BrSemParar = <span class="number">9</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at &lt;https://taggy.com.br.&gt;
-    </span>BrTaggy = <span class="number">10</span>,
-    <span class="doccomment">/// Brazil toll pass. See additional details at
-    /// &lt;https://veloe.com.br/site/onde-usar.&gt;
-    </span>BrVeloe = <span class="number">11</span>,
-    <span class="doccomment">/// Canada to United States border crossing.
-    </span>CaUsAkwasasneSeawayCorporateCard = <span class="number">84</span>,
-    <span class="doccomment">/// Canada to United States border crossing.
-    </span>CaUsAkwasasneSeawayTransitCard = <span class="number">85</span>,
-    <span class="doccomment">/// Ontario, Canada to Michigan, United States border crossing.
-    </span>CaUsBlueWaterEdgePass = <span class="number">18</span>,
-    <span class="doccomment">/// Ontario, Canada to Michigan, United States border crossing.
-    </span>CaUsConnexion = <span class="number">19</span>,
-    <span class="doccomment">/// Canada to United States border crossing.
-    </span>CaUsNexusCard = <span class="number">20</span>,
-    <span class="doccomment">/// Indonesia.
-    /// E-card provided by multiple banks used to pay for tolls. All e-cards
-    /// via banks are charged the same so only one enum value is needed. E.g.
-    /// Bank Mandiri &lt;https://www.bankmandiri.co.id/e-money&gt;
-    /// BCA &lt;https://www.bca.co.id/flazz&gt;
-    /// BNI &lt;https://www.bni.co.id/id-id/ebanking/tapcash&gt;
-    </span>IdEToll = <span class="number">16</span>,
-    <span class="doccomment">/// India.
-    </span>InFastag = <span class="number">78</span>,
-    <span class="doccomment">/// India, HP state plate exemption.
-    </span>InLocalHpPlateExempt = <span class="number">79</span>,
-    <span class="doccomment">/// Mexico toll pass.
-    </span>MxTagIave = <span class="number">12</span>,
-    <span class="doccomment">/// Mexico toll pass company. One of many operating in Mexico City. See
-    /// additional details at &lt;https://www.televia.com.mx.&gt;
-    </span>MxTagTelevia = <span class="number">13</span>,
-    <span class="doccomment">/// Mexico toll pass. See additional details at
-    /// &lt;https://www.viapass.com.mx/viapass/web_home.aspx.&gt;
-    </span>MxViapass = <span class="number">14</span>,
-    <span class="doccomment">/// AL, USA.
-    </span>UsAlFreedomPass = <span class="number">21</span>,
-    <span class="doccomment">/// AK, USA.
-    </span>UsAkAntonAndersonTunnelBookOf10Tickets = <span class="number">22</span>,
-    <span class="doccomment">/// CA, USA.
-    </span>UsCaFastrak = <span class="number">4</span>,
-    <span class="doccomment">/// Indicates driver has any FasTrak pass in addition to the DMV issued Clean
-    /// Air Vehicle (CAV) sticker.
-    /// &lt;https://www.bayareafastrak.org/en/guide/doINeedFlex.shtml&gt;
-    </span>UsCaFastrakCavSticker = <span class="number">86</span>,
-    <span class="doccomment">/// CO, USA.
-    </span>UsCoExpresstoll = <span class="number">23</span>,
-    <span class="doccomment">/// CO, USA.
-    </span>UsCoGoPass = <span class="number">24</span>,
-    <span class="doccomment">/// DE, USA.
-    </span>UsDeEzpassde = <span class="number">25</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlBobSikesTollBridgePass = <span class="number">65</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlDunesCommunityDevelopmentDistrictExpresscard = <span class="number">66</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlEpass = <span class="number">67</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlGibaTollPass = <span class="number">68</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlLeeway = <span class="number">69</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlSunpass = <span class="number">70</span>,
-    <span class="doccomment">/// FL, USA.
-    </span>UsFlSunpassPro = <span class="number">71</span>,
-    <span class="doccomment">/// IL, USA.
-    </span>UsIlEzpassil = <span class="number">73</span>,
-    <span class="doccomment">/// IL, USA.
-    </span>UsIlIpass = <span class="number">72</span>,
-    <span class="doccomment">/// IN, USA.
-    </span>UsInEzpassin = <span class="number">26</span>,
-    <span class="doccomment">/// KS, USA.
-    </span>UsKsBestpassHorizon = <span class="number">27</span>,
-    <span class="doccomment">/// KS, USA.
-    </span>UsKsKtag = <span class="number">28</span>,
-    <span class="doccomment">/// KS, USA.
-    </span>UsKsNationalpass = <span class="number">29</span>,
-    <span class="doccomment">/// KS, USA.
-    </span>UsKsPrepassElitepass = <span class="number">30</span>,
-    <span class="doccomment">/// KY, USA.
-    </span>UsKyRiverlink = <span class="number">31</span>,
-    <span class="doccomment">/// LA, USA.
-    </span>UsLaGeauxpass = <span class="number">32</span>,
-    <span class="doccomment">/// LA, USA.
-    </span>UsLaTollTag = <span class="number">33</span>,
-    <span class="doccomment">/// MA, USA.
-    </span>UsMaEzpassma = <span class="number">6</span>,
-    <span class="doccomment">/// MD, USA.
-    </span>UsMdEzpassmd = <span class="number">34</span>,
-    <span class="doccomment">/// ME, USA.
-    </span>UsMeEzpassme = <span class="number">35</span>,
-    <span class="doccomment">/// MI, USA.
-    </span>UsMiAmbassadorBridgePremierCommuterCard = <span class="number">36</span>,
-    <span class="doccomment">/// MI, USA.
-    </span>UsMiGrosseIleTollBridgePassTag = <span class="number">37</span>,
-    <span class="doccomment">/// MI, USA.
-    </span>UsMiIqProxCard = <span class="number">38</span>,
-    <span class="doccomment">/// MI, USA.
-    </span>UsMiMackinacBridgeMacPass = <span class="number">39</span>,
-    <span class="doccomment">/// MI, USA.
-    </span>UsMiNexpressToll = <span class="number">40</span>,
-    <span class="doccomment">/// MN, USA.
-    </span>UsMnEzpassmn = <span class="number">41</span>,
-    <span class="doccomment">/// NC, USA.
-    </span>UsNcEzpassnc = <span class="number">42</span>,
-    <span class="doccomment">/// NC, USA.
-    </span>UsNcPeachPass = <span class="number">87</span>,
-    <span class="doccomment">/// NC, USA.
-    </span>UsNcQuickPass = <span class="number">43</span>,
-    <span class="doccomment">/// NH, USA.
-    </span>UsNhEzpassnh = <span class="number">80</span>,
-    <span class="doccomment">/// NJ, USA.
-    </span>UsNjDownbeachExpressPass = <span class="number">75</span>,
-    <span class="doccomment">/// NJ, USA.
-    </span>UsNjEzpassnj = <span class="number">74</span>,
-    <span class="doccomment">/// NY, USA.
-    </span>UsNyExpresspass = <span class="number">76</span>,
-    <span class="doccomment">/// NY, USA.
-    </span>UsNyEzpassny = <span class="number">77</span>,
-    <span class="doccomment">/// OH, USA.
-    </span>UsOhEzpassoh = <span class="number">44</span>,
-    <span class="doccomment">/// PA, USA.
-    </span>UsPaEzpasspa = <span class="number">45</span>,
-    <span class="doccomment">/// RI, USA.
-    </span>UsRiEzpassri = <span class="number">46</span>,
-    <span class="doccomment">/// SC, USA.
-    </span>UsScPalpass = <span class="number">47</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxBancpass = <span class="number">48</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxDelRioPass = <span class="number">49</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxEfastPass = <span class="number">50</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxEaglePassExpressCard = <span class="number">51</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxEptoll = <span class="number">52</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxEzCross = <span class="number">53</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxEztag = <span class="number">54</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxLaredoTradeTag = <span class="number">55</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxPluspass = <span class="number">56</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxTolltag = <span class="number">57</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxTxtag = <span class="number">58</span>,
-    <span class="doccomment">/// TX, USA.
-    </span>UsTxXpressCard = <span class="number">59</span>,
-    <span class="doccomment">/// UT, USA.
-    </span>UsUtAdamsAveParkwayExpresscard = <span class="number">60</span>,
-    <span class="doccomment">/// VA, USA.
-    </span>UsVaEzpassva = <span class="number">61</span>,
-    <span class="doccomment">/// WA, USA.
-    </span>UsWaBreezeby = <span class="number">17</span>,
-    <span class="doccomment">/// WA, USA.
-    </span>UsWaGoodToGo = <span class="number">1</span>,
-    <span class="doccomment">/// WV, USA.
-    </span>UsWvEzpasswv = <span class="number">62</span>,
-    <span class="doccomment">/// WV, USA.
-    </span>UsWvMemorialBridgeTickets = <span class="number">63</span>,
-    <span class="doccomment">/// WV, USA.
-    </span>UsWvNewellTollBridgeTicket = <span class="number">64</span>,
-}
-<span class="kw">impl </span>TollPass {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TollPass::Unspecified =&gt; <span class="string">"TOLL_PASS_UNSPECIFIED"</span>,
-            TollPass::AuEtollTag =&gt; <span class="string">"AU_ETOLL_TAG"</span>,
-            TollPass::AuEwayTag =&gt; <span class="string">"AU_EWAY_TAG"</span>,
-            TollPass::AuLinkt =&gt; <span class="string">"AU_LINKT"</span>,
-            TollPass::ArTelepase =&gt; <span class="string">"AR_TELEPASE"</span>,
-            TollPass::BrAutoExpreso =&gt; <span class="string">"BR_AUTO_EXPRESO"</span>,
-            TollPass::BrConectcar =&gt; <span class="string">"BR_CONECTCAR"</span>,
-            TollPass::BrMoveMais =&gt; <span class="string">"BR_MOVE_MAIS"</span>,
-            TollPass::BrPassaRapido =&gt; <span class="string">"BR_PASSA_RAPIDO"</span>,
-            TollPass::BrSemParar =&gt; <span class="string">"BR_SEM_PARAR"</span>,
-            TollPass::BrTaggy =&gt; <span class="string">"BR_TAGGY"</span>,
-            TollPass::BrVeloe =&gt; <span class="string">"BR_VELOE"</span>,
-            TollPass::CaUsAkwasasneSeawayCorporateCard =&gt; {
-                <span class="string">"CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD"
-            </span>}
-            TollPass::CaUsAkwasasneSeawayTransitCard =&gt; {
-                <span class="string">"CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD"
-            </span>}
-            TollPass::CaUsBlueWaterEdgePass =&gt; <span class="string">"CA_US_BLUE_WATER_EDGE_PASS"</span>,
-            TollPass::CaUsConnexion =&gt; <span class="string">"CA_US_CONNEXION"</span>,
-            TollPass::CaUsNexusCard =&gt; <span class="string">"CA_US_NEXUS_CARD"</span>,
-            TollPass::IdEToll =&gt; <span class="string">"ID_E_TOLL"</span>,
-            TollPass::InFastag =&gt; <span class="string">"IN_FASTAG"</span>,
-            TollPass::InLocalHpPlateExempt =&gt; <span class="string">"IN_LOCAL_HP_PLATE_EXEMPT"</span>,
-            TollPass::MxTagIave =&gt; <span class="string">"MX_TAG_IAVE"</span>,
-            TollPass::MxTagTelevia =&gt; <span class="string">"MX_TAG_TELEVIA"</span>,
-            TollPass::MxViapass =&gt; <span class="string">"MX_VIAPASS"</span>,
-            TollPass::UsAlFreedomPass =&gt; <span class="string">"US_AL_FREEDOM_PASS"</span>,
-            TollPass::UsAkAntonAndersonTunnelBookOf10Tickets =&gt; {
-                <span class="string">"US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS"
-            </span>}
-            TollPass::UsCaFastrak =&gt; <span class="string">"US_CA_FASTRAK"</span>,
-            TollPass::UsCaFastrakCavSticker =&gt; <span class="string">"US_CA_FASTRAK_CAV_STICKER"</span>,
-            TollPass::UsCoExpresstoll =&gt; <span class="string">"US_CO_EXPRESSTOLL"</span>,
-            TollPass::UsCoGoPass =&gt; <span class="string">"US_CO_GO_PASS"</span>,
-            TollPass::UsDeEzpassde =&gt; <span class="string">"US_DE_EZPASSDE"</span>,
-            TollPass::UsFlBobSikesTollBridgePass =&gt; <span class="string">"US_FL_BOB_SIKES_TOLL_BRIDGE_PASS"</span>,
-            TollPass::UsFlDunesCommunityDevelopmentDistrictExpresscard =&gt; {
-                <span class="string">"US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD"
-            </span>}
-            TollPass::UsFlEpass =&gt; <span class="string">"US_FL_EPASS"</span>,
-            TollPass::UsFlGibaTollPass =&gt; <span class="string">"US_FL_GIBA_TOLL_PASS"</span>,
-            TollPass::UsFlLeeway =&gt; <span class="string">"US_FL_LEEWAY"</span>,
-            TollPass::UsFlSunpass =&gt; <span class="string">"US_FL_SUNPASS"</span>,
-            TollPass::UsFlSunpassPro =&gt; <span class="string">"US_FL_SUNPASS_PRO"</span>,
-            TollPass::UsIlEzpassil =&gt; <span class="string">"US_IL_EZPASSIL"</span>,
-            TollPass::UsIlIpass =&gt; <span class="string">"US_IL_IPASS"</span>,
-            TollPass::UsInEzpassin =&gt; <span class="string">"US_IN_EZPASSIN"</span>,
-            TollPass::UsKsBestpassHorizon =&gt; <span class="string">"US_KS_BESTPASS_HORIZON"</span>,
-            TollPass::UsKsKtag =&gt; <span class="string">"US_KS_KTAG"</span>,
-            TollPass::UsKsNationalpass =&gt; <span class="string">"US_KS_NATIONALPASS"</span>,
-            TollPass::UsKsPrepassElitepass =&gt; <span class="string">"US_KS_PREPASS_ELITEPASS"</span>,
-            TollPass::UsKyRiverlink =&gt; <span class="string">"US_KY_RIVERLINK"</span>,
-            TollPass::UsLaGeauxpass =&gt; <span class="string">"US_LA_GEAUXPASS"</span>,
-            TollPass::UsLaTollTag =&gt; <span class="string">"US_LA_TOLL_TAG"</span>,
-            TollPass::UsMaEzpassma =&gt; <span class="string">"US_MA_EZPASSMA"</span>,
-            TollPass::UsMdEzpassmd =&gt; <span class="string">"US_MD_EZPASSMD"</span>,
-            TollPass::UsMeEzpassme =&gt; <span class="string">"US_ME_EZPASSME"</span>,
-            TollPass::UsMiAmbassadorBridgePremierCommuterCard =&gt; {
-                <span class="string">"US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD"
-            </span>}
-            TollPass::UsMiGrosseIleTollBridgePassTag =&gt; {
-                <span class="string">"US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG"
-            </span>}
-            TollPass::UsMiIqProxCard =&gt; <span class="string">"US_MI_IQ_PROX_CARD"</span>,
-            TollPass::UsMiMackinacBridgeMacPass =&gt; <span class="string">"US_MI_MACKINAC_BRIDGE_MAC_PASS"</span>,
-            TollPass::UsMiNexpressToll =&gt; <span class="string">"US_MI_NEXPRESS_TOLL"</span>,
-            TollPass::UsMnEzpassmn =&gt; <span class="string">"US_MN_EZPASSMN"</span>,
-            TollPass::UsNcEzpassnc =&gt; <span class="string">"US_NC_EZPASSNC"</span>,
-            TollPass::UsNcPeachPass =&gt; <span class="string">"US_NC_PEACH_PASS"</span>,
-            TollPass::UsNcQuickPass =&gt; <span class="string">"US_NC_QUICK_PASS"</span>,
-            TollPass::UsNhEzpassnh =&gt; <span class="string">"US_NH_EZPASSNH"</span>,
-            TollPass::UsNjDownbeachExpressPass =&gt; <span class="string">"US_NJ_DOWNBEACH_EXPRESS_PASS"</span>,
-            TollPass::UsNjEzpassnj =&gt; <span class="string">"US_NJ_EZPASSNJ"</span>,
-            TollPass::UsNyExpresspass =&gt; <span class="string">"US_NY_EXPRESSPASS"</span>,
-            TollPass::UsNyEzpassny =&gt; <span class="string">"US_NY_EZPASSNY"</span>,
-            TollPass::UsOhEzpassoh =&gt; <span class="string">"US_OH_EZPASSOH"</span>,
-            TollPass::UsPaEzpasspa =&gt; <span class="string">"US_PA_EZPASSPA"</span>,
-            TollPass::UsRiEzpassri =&gt; <span class="string">"US_RI_EZPASSRI"</span>,
-            TollPass::UsScPalpass =&gt; <span class="string">"US_SC_PALPASS"</span>,
-            TollPass::UsTxBancpass =&gt; <span class="string">"US_TX_BANCPASS"</span>,
-            TollPass::UsTxDelRioPass =&gt; <span class="string">"US_TX_DEL_RIO_PASS"</span>,
-            TollPass::UsTxEfastPass =&gt; <span class="string">"US_TX_EFAST_PASS"</span>,
-            TollPass::UsTxEaglePassExpressCard =&gt; <span class="string">"US_TX_EAGLE_PASS_EXPRESS_CARD"</span>,
-            TollPass::UsTxEptoll =&gt; <span class="string">"US_TX_EPTOLL"</span>,
-            TollPass::UsTxEzCross =&gt; <span class="string">"US_TX_EZ_CROSS"</span>,
-            TollPass::UsTxEztag =&gt; <span class="string">"US_TX_EZTAG"</span>,
-            TollPass::UsTxLaredoTradeTag =&gt; <span class="string">"US_TX_LAREDO_TRADE_TAG"</span>,
-            TollPass::UsTxPluspass =&gt; <span class="string">"US_TX_PLUSPASS"</span>,
-            TollPass::UsTxTolltag =&gt; <span class="string">"US_TX_TOLLTAG"</span>,
-            TollPass::UsTxTxtag =&gt; <span class="string">"US_TX_TXTAG"</span>,
-            TollPass::UsTxXpressCard =&gt; <span class="string">"US_TX_XPRESS_CARD"</span>,
-            TollPass::UsUtAdamsAveParkwayExpresscard =&gt; {
-                <span class="string">"US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD"
-            </span>}
-            TollPass::UsVaEzpassva =&gt; <span class="string">"US_VA_EZPASSVA"</span>,
-            TollPass::UsWaBreezeby =&gt; <span class="string">"US_WA_BREEZEBY"</span>,
-            TollPass::UsWaGoodToGo =&gt; <span class="string">"US_WA_GOOD_TO_GO"</span>,
-            TollPass::UsWvEzpasswv =&gt; <span class="string">"US_WV_EZPASSWV"</span>,
-            TollPass::UsWvMemorialBridgeTickets =&gt; <span class="string">"US_WV_MEMORIAL_BRIDGE_TICKETS"</span>,
-            TollPass::UsWvNewellTollBridgeTicket =&gt; <span class="string">"US_WV_NEWELL_TOLL_BRIDGE_TICKET"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TOLL_PASS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"AU_ETOLL_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuEtollTag),
-            <span class="string">"AU_EWAY_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuEwayTag),
-            <span class="string">"AU_LINKT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuLinkt),
-            <span class="string">"AR_TELEPASE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ArTelepase),
-            <span class="string">"BR_AUTO_EXPRESO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrAutoExpreso),
-            <span class="string">"BR_CONECTCAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrConectcar),
-            <span class="string">"BR_MOVE_MAIS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrMoveMais),
-            <span class="string">"BR_PASSA_RAPIDO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrPassaRapido),
-            <span class="string">"BR_SEM_PARAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrSemParar),
-            <span class="string">"BR_TAGGY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrTaggy),
-            <span class="string">"BR_VELOE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BrVeloe),
-            <span class="string">"CA_US_AKWASASNE_SEAWAY_CORPORATE_CARD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsAkwasasneSeawayCorporateCard)
-            }
-            <span class="string">"CA_US_AKWASASNE_SEAWAY_TRANSIT_CARD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsAkwasasneSeawayTransitCard)
-            }
-            <span class="string">"CA_US_BLUE_WATER_EDGE_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsBlueWaterEdgePass),
-            <span class="string">"CA_US_CONNEXION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsConnexion),
-            <span class="string">"CA_US_NEXUS_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaUsNexusCard),
-            <span class="string">"ID_E_TOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IdEToll),
-            <span class="string">"IN_FASTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InFastag),
-            <span class="string">"IN_LOCAL_HP_PLATE_EXEMPT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InLocalHpPlateExempt),
-            <span class="string">"MX_TAG_IAVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MxTagIave),
-            <span class="string">"MX_TAG_TELEVIA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MxTagTelevia),
-            <span class="string">"MX_VIAPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MxViapass),
-            <span class="string">"US_AL_FREEDOM_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsAlFreedomPass),
-            <span class="string">"US_AK_ANTON_ANDERSON_TUNNEL_BOOK_OF_10_TICKETS" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsAkAntonAndersonTunnelBookOf10Tickets)
-            }
-            <span class="string">"US_CA_FASTRAK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCaFastrak),
-            <span class="string">"US_CA_FASTRAK_CAV_STICKER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCaFastrakCavSticker),
-            <span class="string">"US_CO_EXPRESSTOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCoExpresstoll),
-            <span class="string">"US_CO_GO_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsCoGoPass),
-            <span class="string">"US_DE_EZPASSDE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsDeEzpassde),
-            <span class="string">"US_FL_BOB_SIKES_TOLL_BRIDGE_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlBobSikesTollBridgePass),
-            <span class="string">"US_FL_DUNES_COMMUNITY_DEVELOPMENT_DISTRICT_EXPRESSCARD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlDunesCommunityDevelopmentDistrictExpresscard)
-            }
-            <span class="string">"US_FL_EPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlEpass),
-            <span class="string">"US_FL_GIBA_TOLL_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlGibaTollPass),
-            <span class="string">"US_FL_LEEWAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlLeeway),
-            <span class="string">"US_FL_SUNPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlSunpass),
-            <span class="string">"US_FL_SUNPASS_PRO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsFlSunpassPro),
-            <span class="string">"US_IL_EZPASSIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsIlEzpassil),
-            <span class="string">"US_IL_IPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsIlIpass),
-            <span class="string">"US_IN_EZPASSIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsInEzpassin),
-            <span class="string">"US_KS_BESTPASS_HORIZON" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsBestpassHorizon),
-            <span class="string">"US_KS_KTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsKtag),
-            <span class="string">"US_KS_NATIONALPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsNationalpass),
-            <span class="string">"US_KS_PREPASS_ELITEPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKsPrepassElitepass),
-            <span class="string">"US_KY_RIVERLINK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsKyRiverlink),
-            <span class="string">"US_LA_GEAUXPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsLaGeauxpass),
-            <span class="string">"US_LA_TOLL_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsLaTollTag),
-            <span class="string">"US_MA_EZPASSMA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMaEzpassma),
-            <span class="string">"US_MD_EZPASSMD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMdEzpassmd),
-            <span class="string">"US_ME_EZPASSME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMeEzpassme),
-            <span class="string">"US_MI_AMBASSADOR_BRIDGE_PREMIER_COMMUTER_CARD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiAmbassadorBridgePremierCommuterCard)
-            }
-            <span class="string">"US_MI_GROSSE_ILE_TOLL_BRIDGE_PASS_TAG" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiGrosseIleTollBridgePassTag)
-            }
-            <span class="string">"US_MI_IQ_PROX_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiIqProxCard),
-            <span class="string">"US_MI_MACKINAC_BRIDGE_MAC_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiMackinacBridgeMacPass),
-            <span class="string">"US_MI_NEXPRESS_TOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMiNexpressToll),
-            <span class="string">"US_MN_EZPASSMN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsMnEzpassmn),
-            <span class="string">"US_NC_EZPASSNC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNcEzpassnc),
-            <span class="string">"US_NC_PEACH_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNcPeachPass),
-            <span class="string">"US_NC_QUICK_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNcQuickPass),
-            <span class="string">"US_NH_EZPASSNH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNhEzpassnh),
-            <span class="string">"US_NJ_DOWNBEACH_EXPRESS_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNjDownbeachExpressPass),
-            <span class="string">"US_NJ_EZPASSNJ" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNjEzpassnj),
-            <span class="string">"US_NY_EXPRESSPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNyExpresspass),
-            <span class="string">"US_NY_EZPASSNY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsNyEzpassny),
-            <span class="string">"US_OH_EZPASSOH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsOhEzpassoh),
-            <span class="string">"US_PA_EZPASSPA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsPaEzpasspa),
-            <span class="string">"US_RI_EZPASSRI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsRiEzpassri),
-            <span class="string">"US_SC_PALPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsScPalpass),
-            <span class="string">"US_TX_BANCPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxBancpass),
-            <span class="string">"US_TX_DEL_RIO_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxDelRioPass),
-            <span class="string">"US_TX_EFAST_PASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEfastPass),
-            <span class="string">"US_TX_EAGLE_PASS_EXPRESS_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEaglePassExpressCard),
-            <span class="string">"US_TX_EPTOLL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEptoll),
-            <span class="string">"US_TX_EZ_CROSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEzCross),
-            <span class="string">"US_TX_EZTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxEztag),
-            <span class="string">"US_TX_LAREDO_TRADE_TAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxLaredoTradeTag),
-            <span class="string">"US_TX_PLUSPASS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxPluspass),
-            <span class="string">"US_TX_TOLLTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxTolltag),
-            <span class="string">"US_TX_TXTAG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxTxtag),
-            <span class="string">"US_TX_XPRESS_CARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsTxXpressCard),
-            <span class="string">"US_UT_ADAMS_AVE_PARKWAY_EXPRESSCARD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsUtAdamsAveParkwayExpresscard)
-            }
-            <span class="string">"US_VA_EZPASSVA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsVaEzpassva),
-            <span class="string">"US_WA_BREEZEBY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWaBreezeby),
-            <span class="string">"US_WA_GOOD_TO_GO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWaGoodToGo),
-            <span class="string">"US_WV_EZPASSWV" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWvEzpasswv),
-            <span class="string">"US_WV_MEMORIAL_BRIDGE_TICKETS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWvMemorialBridgeTickets),
-            <span class="string">"US_WV_NEWELL_TOLL_BRIDGE_TICKET" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UsWvNewellTollBridgeTicket),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A set of values describing the vehicle's emission type.
-/// Applies only to the DRIVE travel mode.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>VehicleEmissionType {
-    <span class="doccomment">/// No emission type specified. Default to GASOLINE.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Gasoline/petrol fueled vehicle.
-    </span>Gasoline = <span class="number">1</span>,
-    <span class="doccomment">/// Electricity powered vehicle.
-    </span>Electric = <span class="number">2</span>,
-    <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.
-    </span>Hybrid = <span class="number">3</span>,
-}
-<span class="kw">impl </span>VehicleEmissionType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            VehicleEmissionType::Unspecified =&gt; <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED"</span>,
-            VehicleEmissionType::Gasoline =&gt; <span class="string">"GASOLINE"</span>,
-            VehicleEmissionType::Electric =&gt; <span class="string">"ELECTRIC"</span>,
-            VehicleEmissionType::Hybrid =&gt; <span class="string">"HYBRID"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"GASOLINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gasoline),
-            <span class="string">"ELECTRIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Electric),
-            <span class="string">"HYBRID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hybrid),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// ComputeRoutes request message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeRoutesRequest {
-    <span class="doccomment">/// Required. Origin waypoint.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>origin: ::core::option::Option&lt;Waypoint&gt;,
-    <span class="doccomment">/// Required. Destination waypoint.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;Waypoint&gt;,
-    <span class="doccomment">/// Optional. A set of waypoints along the route (excluding terminal points),
-    /// for either stopping at or passing by. Up to 25 intermediate waypoints are
-    /// supported.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>intermediates: ::prost::alloc::vec::Vec&lt;Waypoint&gt;,
-    <span class="doccomment">/// Optional. Specifies the mode of transportation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteTravelMode"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>travel_mode: i32,
-    <span class="doccomment">/// Optional. Specifies how to compute the route. The server
-    /// attempts to use the selected routing preference to compute the route. If
-    ///   the routing preference results in an error or an extra long latency, then
-    /// an error is returned. In the future, we might implement a fallback
-    /// mechanism to use a different option when the preferred option does not give
-    /// a valid result. You can specify this option only when the `travel_mode` is
-    /// `DRIVE` or `TWO_WHEELER`, otherwise the request fails.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RoutingPreference"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>routing_preference: i32,
-    <span class="doccomment">/// Optional. Specifies your preference for the quality of the polyline.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"PolylineQuality"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>polyline_quality: i32,
-    <span class="doccomment">/// Optional. Specifies the preferred encoding for the polyline.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"PolylineEncoding"</span>, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>polyline_encoding: i32,
-    <span class="doccomment">/// Optional. The departure time. If you don't set this value, then this value
-    /// defaults to the time that you made the request. If you set this value to a
-    /// time that has already occurred, then the request fails.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Specifies whether to calculate alternate routes in addition to the route.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>compute_alternative_routes: bool,
-    <span class="doccomment">/// Optional. A set of conditions to satisfy that affect the way routes are
-    /// calculated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>route_modifiers: ::core::option::Option&lt;RouteModifiers&gt;,
-    <span class="doccomment">/// Optional. The BCP-47 language code, such as "en-US" or "sr-Latn". For more
-    /// information, see
-    /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; See
-    /// [Language Support](&lt;https://developers.google.com/maps/faq#languagesupport&gt;)
-    /// for the list of supported languages. When you don't provide this value, the
-    /// display language is inferred from the location of the route request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Specifies the units of measure for the display fields. This
-    /// includes the `instruction` field in `NavigationInstruction`. The units of
-    /// measure used for the route, leg, step distance, and duration are not
-    /// affected by this value. If you don't provide this value, then the display
-    /// units are inferred from the location of the request.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Units"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>units: i32,
-    <span class="doccomment">/// If optimizeWaypointOrder is set to true, an attempt is made to re-order the
-    /// specified intermediate waypoints to minimize the overall cost of the route.
-    /// If any of the intermediate waypoints is via waypoint the request fails. Use
-    /// ComputeRoutesResponse.Routes.optimized_intermediate_waypoint_index to find
-    /// the new ordering. If routes.optimized_intermediate_waypoint_index is not
-    /// requested in the `X-Goog-FieldMask` header, the request fails. If
-    /// optimizeWaypointOrder is set to false,
-    /// ComputeRoutesResponse.optimized_intermediate_waypoint_index is empty.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>optimize_waypoint_order: bool,
-}
-<span class="doccomment">/// Encapsulates a set of optional conditions to satisfy when calculating the
-/// routes.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteModifiers {
-    <span class="doccomment">/// Specifies whether to avoid toll roads where reasonable. Preference will be
-    /// given to routes not containing toll roads. Applies only to the `DRIVE` and
-    /// `TWO_WHEELER` travel modes.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>avoid_tolls: bool,
-    <span class="doccomment">/// Specifies whether to avoid highways where reasonable. Preference will be
-    /// given to routes not containing highways. Applies only to the `DRIVE` and
-    /// `TWO_WHEELER` travel modes.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>avoid_highways: bool,
-    <span class="doccomment">/// Specifies whether to avoid ferries where reasonable. Preference will be
-    /// given to routes not containing travel by ferries.
-    /// Applies only to the `DRIVE` and`TWO_WHEELER` travel modes.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>avoid_ferries: bool,
-    <span class="doccomment">/// Specifies whether to avoid navigating indoors where reasonable. Preference
-    /// will be given to routes not containing indoor navigation.
-    /// Applies only to the `WALK` travel mode.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>avoid_indoor: bool,
-    <span class="doccomment">/// Specifies the vehicle information.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>vehicle_info: ::core::option::Option&lt;VehicleInfo&gt;,
-    <span class="doccomment">/// Encapsulates information about toll passes.
-    /// If toll passes are provided, the API tries to return the pass price. If
-    /// toll passes are not provided, the API treats the toll pass as unknown and
-    /// tries to return the cash price.
-    /// Applies only to the DRIVE and TWO_WHEELER travel modes.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TollPass"</span>, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>toll_passes: ::prost::alloc::vec::Vec&lt;i32&gt;,
-}
-<span class="doccomment">/// Encapsulates the vehicle information, such as the license plate last
-/// character.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VehicleInfo {
-    <span class="doccomment">/// Specifies the license plate last character. Could be a digit or a letter.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>license_plate_last_character: ::prost::alloc::string::String,
-    <span class="doccomment">/// Describes the vehicle's emission type.
-    /// Applies only to the DRIVE travel mode.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"VehicleEmissionType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>emission_type: i32,
-}
-<span class="doccomment">/// A set of values used to specify the mode of travel.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>RouteTravelMode {
-    <span class="doccomment">/// No travel mode specified. Defaults to `DRIVE`.
-    </span>TravelModeUnspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Travel by passenger car.
-    </span>Drive = <span class="number">1</span>,
-    <span class="doccomment">/// Travel by bicycle.
-    </span>Bicycle = <span class="number">2</span>,
-    <span class="doccomment">/// Travel by walking.
-    </span>Walk = <span class="number">3</span>,
-    <span class="doccomment">/// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this
-    /// differs from the `BICYCLE` travel mode which covers human-powered mode.
-    </span>TwoWheeler = <span class="number">4</span>,
-    <span class="doccomment">/// Travel by licensed taxi, which may allow the vehicle to travel on
-    /// designated taxi lanes in some areas.
-    </span>Taxi = <span class="number">5</span>,
-}
-<span class="kw">impl </span>RouteTravelMode {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            RouteTravelMode::TravelModeUnspecified =&gt; <span class="string">"TRAVEL_MODE_UNSPECIFIED"</span>,
-            RouteTravelMode::Drive =&gt; <span class="string">"DRIVE"</span>,
-            RouteTravelMode::Bicycle =&gt; <span class="string">"BICYCLE"</span>,
-            RouteTravelMode::Walk =&gt; <span class="string">"WALK"</span>,
-            RouteTravelMode::TwoWheeler =&gt; <span class="string">"TWO_WHEELER"</span>,
-            RouteTravelMode::Taxi =&gt; <span class="string">"TAXI"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TRAVEL_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TravelModeUnspecified),
-            <span class="string">"DRIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Drive),
-            <span class="string">"BICYCLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bicycle),
-            <span class="string">"WALK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Walk),
-            <span class="string">"TWO_WHEELER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TwoWheeler),
-            <span class="string">"TAXI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Taxi),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A set of values that specify factors to take into consideration when
-/// calculating the route.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>RoutingPreference {
-    <span class="doccomment">/// No routing preference specified. Default to `TRAFFIC_AWARE`.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Computes routes without taking traffic conditions into consideration.
-    /// Suitable when traffic conditions don't matter. Using this value produces
-    /// the lowest latency.
-    </span>TrafficUnaware = <span class="number">1</span>,
-    <span class="doccomment">/// Calculates routes taking traffic conditions into consideration. In contrast
-    /// to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to significantly
-    /// reduce latency.
-    </span>TrafficAware = <span class="number">2</span>,
-    <span class="doccomment">/// Calculates the routes taking traffic conditions into consideration,
-    /// without applying most performance optimizations. Using this value produces
-    /// the highest latency.
-    </span>TrafficAwareOptimal = <span class="number">3</span>,
-}
-<span class="kw">impl </span>RoutingPreference {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            RoutingPreference::Unspecified =&gt; <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED"</span>,
-            RoutingPreference::TrafficUnaware =&gt; <span class="string">"TRAFFIC_UNAWARE"</span>,
-            RoutingPreference::TrafficAware =&gt; <span class="string">"TRAFFIC_AWARE"</span>,
-            RoutingPreference::TrafficAwareOptimal =&gt; <span class="string">"TRAFFIC_AWARE_OPTIMAL"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"TRAFFIC_UNAWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficUnaware),
-            <span class="string">"TRAFFIC_AWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAware),
-            <span class="string">"TRAFFIC_AWARE_OPTIMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAwareOptimal),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A set of values that specify the unit of measure used in the display.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>Units {
-    <span class="doccomment">/// Units of measure not specified. Defaults to the unit of measure inferred
-    /// from the request.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Metric units of measure.
-    </span>Metric = <span class="number">1</span>,
-    <span class="doccomment">/// Imperial (English) units of measure.
-    </span>Imperial = <span class="number">2</span>,
-}
-<span class="kw">impl </span>Units {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            Units::Unspecified =&gt; <span class="string">"UNITS_UNSPECIFIED"</span>,
-            Units::Metric =&gt; <span class="string">"METRIC"</span>,
-            Units::Imperial =&gt; <span class="string">"IMPERIAL"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"UNITS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"METRIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Metric),
-            <span class="string">"IMPERIAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Imperial),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// ComputeRouteMatrix request message
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeRouteMatrixRequest {
-    <span class="doccomment">/// Required. Array of origins, which determines the rows of the response matrix.
-    /// Several size restrictions apply to the cardinality of origins and
-    /// destinations:
-    ///
-    /// * The number of elements (origins × destinations) must be no greater than
-    /// 625 in any case.
-    /// * The number of elements (origins × destinations) must be no greater than
-    /// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.
-    /// * The number of waypoints (origins + destinations) specified as `place_id`
-    /// must be no greater than 50.
+</span><span class="kw">pub struct </span>ComputeRoutesResponse {
+    <span class="doccomment">/// Contains an array of computed routes (up to three) when you specify
+    /// compute_alternatives_routes, and contains just one route when you don't.
+    /// When this array contains multiple entries, the first one is the most
+    /// recommended route. If the array is empty, then it means no route could be
+    /// found.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>origins: ::prost::alloc::vec::Vec&lt;RouteMatrixOrigin&gt;,
-    <span class="doccomment">/// Required. Array of destinations, which determines the columns of the response matrix.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;RouteMatrixDestination&gt;,
-    <span class="doccomment">/// Optional. Specifies the mode of transportation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteTravelMode"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>travel_mode: i32,
-    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected
-    /// routing preference to compute the route. If the routing preference results
-    /// in an error or an extra long latency, an error is returned. In the future,
-    /// we might implement a fallback mechanism to use a different option when the
-    /// preferred option does not give a valid result. You can specify this option
-    /// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the
-    /// request fails.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RoutingPreference"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>routing_preference: i32,
-    <span class="doccomment">/// Optional. The departure time. If you don't set this value, this defaults to the time
-    /// that you made the request. If you set this value to a time that has already
-    /// occurred, the request fails.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// A single origin for ComputeRouteMatrixRequest
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteMatrixOrigin {
-    <span class="doccomment">/// Required. Origin waypoint
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>waypoint: ::core::option::Option&lt;Waypoint&gt;,
-    <span class="doccomment">/// Optional. Modifiers for every route that takes this as the origin
+    </span><span class="kw">pub </span>routes: ::prost::alloc::vec::Vec&lt;Route&gt;,
+    <span class="doccomment">/// In some cases when the server is not able to compute the route results with
+    /// all of the input preferences, it may fallback to using a different way of
+    /// computation. When fallback mode is used, this field contains detailed info
+    /// about the fallback response. Otherwise this field is unset.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>route_modifiers: ::core::option::Option&lt;RouteModifiers&gt;,
-}
-<span class="doccomment">/// A single destination for ComputeRouteMatrixRequest
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteMatrixDestination {
-    <span class="doccomment">/// Required. Destination waypoint
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>waypoint: ::core::option::Option&lt;Waypoint&gt;,
-}
-<span class="doccomment">/// Information related to how and why a fallback result was used. If this field
-/// is set, then it means the server used a different routing mode from your
-/// preferred mode as fallback.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FallbackInfo {
-    <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode
-    /// may be different from routing preference set in the original client
-    /// request.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"FallbackRoutingMode"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>routing_mode: i32,
-    <span class="doccomment">/// The reason why fallback response was used instead of the original response.
-    /// This field is only populated when the fallback mode is triggered and the
-    /// fallback response is returned.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"FallbackReason"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reason: i32,
-}
-<span class="doccomment">/// Reasons for using fallback response.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>FallbackReason {
-    <span class="doccomment">/// No fallback reason specified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// A server error happened while calculating routes with your preferred
-    /// routing mode, but we were able to return a result calculated by an
-    /// alternative mode.
-    </span>ServerError = <span class="number">1</span>,
-    <span class="doccomment">/// We were not able to finish the calculation with your preferred routing mode
-    /// on time, but we were able to return a result calculated by an alternative
-    /// mode.
-    </span>LatencyExceeded = <span class="number">2</span>,
-}
-<span class="kw">impl </span>FallbackReason {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            FallbackReason::Unspecified =&gt; <span class="string">"FALLBACK_REASON_UNSPECIFIED"</span>,
-            FallbackReason::ServerError =&gt; <span class="string">"SERVER_ERROR"</span>,
-            FallbackReason::LatencyExceeded =&gt; <span class="string">"LATENCY_EXCEEDED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"FALLBACK_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"SERVER_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServerError),
-            <span class="string">"LATENCY_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LatencyExceeded),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Actual routing mode used for returned fallback response.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>FallbackRoutingMode {
-    <span class="doccomment">/// Not used.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Indicates the "TRAFFIC_UNAWARE" routing mode was used to compute the
-    /// response.
-    </span>FallbackTrafficUnaware = <span class="number">1</span>,
-    <span class="doccomment">/// Indicates the "TRAFFIC_AWARE" routing mode was used to compute the
-    /// response.
-    </span>FallbackTrafficAware = <span class="number">2</span>,
-}
-<span class="kw">impl </span>FallbackRoutingMode {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            FallbackRoutingMode::Unspecified =&gt; <span class="string">"FALLBACK_ROUTING_MODE_UNSPECIFIED"</span>,
-            FallbackRoutingMode::FallbackTrafficUnaware =&gt; <span class="string">"FALLBACK_TRAFFIC_UNAWARE"</span>,
-            FallbackRoutingMode::FallbackTrafficAware =&gt; <span class="string">"FALLBACK_TRAFFIC_AWARE"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"FALLBACK_ROUTING_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"FALLBACK_TRAFFIC_UNAWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FallbackTrafficUnaware),
-            <span class="string">"FALLBACK_TRAFFIC_AWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FallbackTrafficAware),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// ComputeCustomRoutes response message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeCustomRoutesResponse {
-    <span class="doccomment">/// The ‘best’ routes for the input route objective.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>routes: ::prost::alloc::vec::Vec&lt;CustomRoute&gt;,
-    <span class="doccomment">/// The fastest reference route.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>fastest_route: ::core::option::Option&lt;CustomRoute&gt;,
-    <span class="doccomment">/// The shortest reference route.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>shortest_route: ::core::option::Option&lt;CustomRoute&gt;,
-    <span class="doccomment">/// Fallback info for custom routes.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>fallback_info: ::core::option::Option&lt;
-        compute_custom_routes_response::FallbackInfo,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ComputeCustomRoutesResponse`.
-</span><span class="kw">pub mod </span>compute_custom_routes_response {
-    <span class="doccomment">/// Encapsulates fallback info for ComputeCustomRoutes. ComputeCustomRoutes
-    /// performs two types of fallbacks:
-    ///
-    /// 1. If it cannot compute the route using the routing_preference requested by
-    /// the customer, it will fallback to another routing mode. In this case
-    /// fallback_routing_mode and routing_mode_fallback_reason are used to
-    /// communicate the fallback routing mode used, as well as the reason for
-    /// fallback.
-    ///
-    /// 2. If it cannot compute a 'best' route for the route objective specified by
-    /// the customer, it might fallback to another objective.
-    /// fallback_route_objective is used to communicate the fallback route
-    /// objective.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>FallbackInfo {
-        <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode
-        /// may be different from routing preference set in the original client
-        /// request.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"super::FallbackRoutingMode"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>routing_mode: i32,
-        <span class="doccomment">/// The reason why fallback response was used instead of the original
-        /// response.
-        /// This field is only populated when the fallback mode is triggered and
-        /// the fallback response is returned.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"super::FallbackReason"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>routing_mode_reason: i32,
-        <span class="doccomment">/// The route objective used for the response. If fallback was triggered, the
-        /// objective may be different from the route objective provided in the
-        /// original client request.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"fallback_info::FallbackRouteObjective"</span>, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>route_objective: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FallbackInfo`.
-    </span><span class="kw">pub mod </span>fallback_info {
-        <span class="doccomment">/// RouteObjective used for the response.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>FallbackRouteObjective {
-            <span class="doccomment">/// Fallback route objective unspecified.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// If customer requests RateCard and sets include_tolls to true, and
-            /// Google does not have toll price data for the route, the API falls back
-            /// to RateCard without considering toll price.
-            </span>FallbackRatecardWithoutTollPriceData = <span class="number">1</span>,
-        }
-        <span class="kw">impl </span>FallbackRouteObjective {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    FallbackRouteObjective::Unspecified =&gt; {
-                        <span class="string">"FALLBACK_ROUTE_OBJECTIVE_UNSPECIFIED"
-                    </span>}
-                    FallbackRouteObjective::FallbackRatecardWithoutTollPriceData =&gt; {
-                        <span class="string">"FALLBACK_RATECARD_WITHOUT_TOLL_PRICE_DATA"
-                    </span>}
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"FALLBACK_ROUTE_OBJECTIVE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"FALLBACK_RATECARD_WITHOUT_TOLL_PRICE_DATA" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::FallbackRatecardWithoutTollPriceData)
-                    }
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
+    </span><span class="kw">pub </span>fallback_info: ::core::option::Option&lt;FallbackInfo&gt;,
 }
 <span class="doccomment">/// ComputeCustomRoutes request message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3801,6 +3641,79 @@
         </span>RateCard(RateCard),
     }
 }
+<span class="doccomment">/// ComputeRouteMatrix request message
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeRouteMatrixRequest {
+    <span class="doccomment">/// Required. Array of origins, which determines the rows of the response matrix.
+    /// Several size restrictions apply to the cardinality of origins and
+    /// destinations:
+    ///
+    /// * The number of elements (origins × destinations) must be no greater than
+    /// 625 in any case.
+    /// * The number of elements (origins × destinations) must be no greater than
+    /// 100 if routing_preference is set to `TRAFFIC_AWARE_OPTIMAL`.
+    /// * The number of waypoints (origins + destinations) specified as `place_id`
+    /// must be no greater than 50.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>origins: ::prost::alloc::vec::Vec&lt;RouteMatrixOrigin&gt;,
+    <span class="doccomment">/// Required. Array of destinations, which determines the columns of the response matrix.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;RouteMatrixDestination&gt;,
+    <span class="doccomment">/// Optional. Specifies the mode of transportation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteTravelMode"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>travel_mode: i32,
+    <span class="doccomment">/// Optional. Specifies how to compute the route. The server attempts to use the selected
+    /// routing preference to compute the route. If the routing preference results
+    /// in an error or an extra long latency, an error is returned. In the future,
+    /// we might implement a fallback mechanism to use a different option when the
+    /// preferred option does not give a valid result. You can specify this option
+    /// only when the `travel_mode` is `DRIVE` or `TWO_WHEELER`, otherwise the
+    /// request fails.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RoutingPreference"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>routing_preference: i32,
+    <span class="doccomment">/// Optional. The departure time. If you don't set this value, this defaults to the time
+    /// that you made the request. If you set this value to a time that has already
+    /// occurred, the request fails.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// A single origin for ComputeRouteMatrixRequest
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteMatrixOrigin {
+    <span class="doccomment">/// Required. Origin waypoint
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>waypoint: ::core::option::Option&lt;Waypoint&gt;,
+    <span class="doccomment">/// Optional. Modifiers for every route that takes this as the origin
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>route_modifiers: ::core::option::Option&lt;RouteModifiers&gt;,
+}
+<span class="doccomment">/// A single destination for ComputeRouteMatrixRequest
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteMatrixDestination {
+    <span class="doccomment">/// Required. Destination waypoint
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>waypoint: ::core::option::Option&lt;Waypoint&gt;,
+}
+<span class="doccomment">/// Encapsulates a custom route computed based on the route objective specified
+/// by the customer. CustomRoute contains a route and a route token, which can be
+/// passed to NavSDK to reconstruct the custom route for turn by turn navigation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomRoute {
+    <span class="doccomment">/// The route considered 'best' for the input route objective.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>route: ::core::option::Option&lt;Route&gt;,
+    <span class="doccomment">/// Web-safe base64 encoded route token that can be passed to NavSDK, which
+    /// allows NavSDK to reconstruct the route during navigation, and in the event
+    /// of rerouting honor the original intention when RoutesPreferred
+    /// ComputeCustomRoutes is called. Customers should treat this token as an
+    /// opaque blob.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>token: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Encapsulates route information computed for an origin/destination pair in the
 /// ComputeRouteMatrix API. This proto can be streamed to the client.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3881,23 +3794,110 @@
         }
     }
 }
-<span class="doccomment">/// ComputeRoutes the response message.
+<span class="doccomment">/// ComputeCustomRoutes response message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeRoutesResponse {
-    <span class="doccomment">/// Contains an array of computed routes (up to three) when you specify
-    /// compute_alternatives_routes, and contains just one route when you don't.
-    /// When this array contains multiple entries, the first one is the most
-    /// recommended route. If the array is empty, then it means no route could be
-    /// found.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>routes: ::prost::alloc::vec::Vec&lt;Route&gt;,
-    <span class="doccomment">/// In some cases when the server is not able to compute the route results with
-    /// all of the input preferences, it may fallback to using a different way of
-    /// computation. When fallback mode is used, this field contains detailed info
-    /// about the fallback response. Otherwise this field is unset.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>fallback_info: ::core::option::Option&lt;FallbackInfo&gt;,
+</span><span class="kw">pub struct </span>ComputeCustomRoutesResponse {
+    <span class="doccomment">/// The ‘best’ routes for the input route objective.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>routes: ::prost::alloc::vec::Vec&lt;CustomRoute&gt;,
+    <span class="doccomment">/// The fastest reference route.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>fastest_route: ::core::option::Option&lt;CustomRoute&gt;,
+    <span class="doccomment">/// The shortest reference route.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>shortest_route: ::core::option::Option&lt;CustomRoute&gt;,
+    <span class="doccomment">/// Fallback info for custom routes.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>fallback_info: ::core::option::Option&lt;
+        compute_custom_routes_response::FallbackInfo,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ComputeCustomRoutesResponse`.
+</span><span class="kw">pub mod </span>compute_custom_routes_response {
+    <span class="doccomment">/// Encapsulates fallback info for ComputeCustomRoutes. ComputeCustomRoutes
+    /// performs two types of fallbacks:
+    ///
+    /// 1. If it cannot compute the route using the routing_preference requested by
+    /// the customer, it will fallback to another routing mode. In this case
+    /// fallback_routing_mode and routing_mode_fallback_reason are used to
+    /// communicate the fallback routing mode used, as well as the reason for
+    /// fallback.
+    ///
+    /// 2. If it cannot compute a 'best' route for the route objective specified by
+    /// the customer, it might fallback to another objective.
+    /// fallback_route_objective is used to communicate the fallback route
+    /// objective.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FallbackInfo {
+        <span class="doccomment">/// Routing mode used for the response. If fallback was triggered, the mode
+        /// may be different from routing preference set in the original client
+        /// request.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"super::FallbackRoutingMode"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>routing_mode: i32,
+        <span class="doccomment">/// The reason why fallback response was used instead of the original
+        /// response.
+        /// This field is only populated when the fallback mode is triggered and
+        /// the fallback response is returned.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"super::FallbackReason"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>routing_mode_reason: i32,
+        <span class="doccomment">/// The route objective used for the response. If fallback was triggered, the
+        /// objective may be different from the route objective provided in the
+        /// original client request.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"fallback_info::FallbackRouteObjective"</span>, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>route_objective: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FallbackInfo`.
+    </span><span class="kw">pub mod </span>fallback_info {
+        <span class="doccomment">/// RouteObjective used for the response.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>FallbackRouteObjective {
+            <span class="doccomment">/// Fallback route objective unspecified.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// If customer requests RateCard and sets include_tolls to true, and
+            /// Google does not have toll price data for the route, the API falls back
+            /// to RateCard without considering toll price.
+            </span>FallbackRatecardWithoutTollPriceData = <span class="number">1</span>,
+        }
+        <span class="kw">impl </span>FallbackRouteObjective {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    FallbackRouteObjective::Unspecified =&gt; {
+                        <span class="string">"FALLBACK_ROUTE_OBJECTIVE_UNSPECIFIED"
+                    </span>}
+                    FallbackRouteObjective::FallbackRatecardWithoutTollPriceData =&gt; {
+                        <span class="string">"FALLBACK_RATECARD_WITHOUT_TOLL_PRICE_DATA"
+                    </span>}
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"FALLBACK_ROUTE_OBJECTIVE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"FALLBACK_RATECARD_WITHOUT_TOLL_PRICE_DATA" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::FallbackRatecardWithoutTollPriceData)
+                    }
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
 }
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>routes_preferred_client {

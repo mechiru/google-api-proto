@@ -1113,7 +1113,21 @@
 <a href="#1111" id="1111">1111</a>
 <a href="#1112" id="1112">1112</a>
 <a href="#1113" id="1113">1113</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table.
+</pre></div><pre class="rust"><code><span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Classification Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextClassification {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextClassificationInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextClassificationInputs {
+    <span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>multi_label: bool,
+}
+<span class="doccomment">/// Configuration for exporting test set predictions to a BigQuery table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportEvaluatedDataItemsConfig {
@@ -1520,123 +1534,6 @@
         }
     }
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextSentiment {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextSentimentInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextSentimentInputs {
-    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// Only the Annotations with this sentimentMax will be used for training.
-    /// sentimentMax value must be between 1 and 10 (inclusive).
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sentiment_max: i32,
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoObjectTracking {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoObjectTrackingInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoObjectTrackingInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_object_tracking_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
-</span><span class="kw">pub mod </span>auto_ml_video_object_tracking_inputs {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ModelType {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot
-        /// be exported. Default.
-        </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        </span>MobileVersatile1 = <span class="number">2</span>,
-        <span class="doccomment">/// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        </span>MobileCoralVersatile1 = <span class="number">3</span>,
-        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on a Google Coral device.
-        </span>MobileCoralLowLatency1 = <span class="number">4</span>,
-        <span class="doccomment">/// A versatile model that is meant to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        </span>MobileJetsonVersatile1 = <span class="number">5</span>,
-        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
-        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
-        </span>MobileJetsonLowLatency1 = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>ModelType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
-                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
-                ModelType::MobileCoralVersatile1 =&gt; <span class="string">"MOBILE_CORAL_VERSATILE_1"</span>,
-                ModelType::MobileCoralLowLatency1 =&gt; <span class="string">"MOBILE_CORAL_LOW_LATENCY_1"</span>,
-                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
-                ModelType::MobileJetsonLowLatency1 =&gt; <span class="string">"MOBILE_JETSON_LOW_LATENCY_1"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
-                <span class="string">"MOBILE_CORAL_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralVersatile1),
-                <span class="string">"MOBILE_CORAL_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralLowLatency1),
-                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
-                <span class="string">"MOBILE_JETSON_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonLowLatency1),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Classification Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextClassification {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextClassificationInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextClassificationInputs {
-    <span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>multi_label: bool,
-}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Classification Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1974,74 +1871,6 @@
         }
     }
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoClassification {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoClassificationInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoClassificationInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model_type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
-</span><span class="kw">pub mod </span>auto_ml_video_classification_inputs {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ModelType {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
-        /// be exported. Default.
-        </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        </span>MobileVersatile1 = <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) to a Jetson device
-        /// afterwards.
-        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ModelType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
-                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
-                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
-                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2215,6 +2044,95 @@
         }
     }
 }
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextSentiment {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextSentimentInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextSentimentInputs {
+    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// Only the Annotations with this sentimentMax will be used for training.
+    /// sentimentMax value must be between 1 and 10 (inclusive).
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sentiment_max: i32,
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoClassification {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoClassificationInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoClassificationInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
+</span><span class="kw">pub mod </span>auto_ml_video_classification_inputs {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ModelType {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
+        /// be exported. Default.
+        </span>Cloud = <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        </span>MobileVersatile1 = <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) to a Jetson device
+        /// afterwards.
+        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ModelType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
+                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
+                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
+                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
+                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
+                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2226,4 +2144,86 @@
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AutoMlTextExtractionInputs {}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoObjectTracking {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoObjectTrackingInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoObjectTrackingInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_object_tracking_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoObjectTrackingInputs`.
+</span><span class="kw">pub mod </span>auto_ml_video_object_tracking_inputs {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ModelType {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot
+        /// be exported. Default.
+        </span>Cloud = <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        </span>MobileVersatile1 = <span class="number">2</span>,
+        <span class="doccomment">/// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        </span>MobileCoralVersatile1 = <span class="number">3</span>,
+        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on a Google Coral device.
+        </span>MobileCoralLowLatency1 = <span class="number">4</span>,
+        <span class="doccomment">/// A versatile model that is meant to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        </span>MobileJetsonVersatile1 = <span class="number">5</span>,
+        <span class="doccomment">/// A model that trades off quality for low latency, to be exported (see
+        /// ModelService.ExportModel) and used on an NVIDIA Jetson device.
+        </span>MobileJetsonLowLatency1 = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>ModelType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
+                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
+                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
+                ModelType::MobileCoralVersatile1 =&gt; <span class="string">"MOBILE_CORAL_VERSATILE_1"</span>,
+                ModelType::MobileCoralLowLatency1 =&gt; <span class="string">"MOBILE_CORAL_LOW_LATENCY_1"</span>,
+                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
+                ModelType::MobileJetsonLowLatency1 =&gt; <span class="string">"MOBILE_JETSON_LOW_LATENCY_1"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
+                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
+                <span class="string">"MOBILE_CORAL_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralVersatile1),
+                <span class="string">"MOBILE_CORAL_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralLowLatency1),
+                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
+                <span class="string">"MOBILE_JETSON_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonLowLatency1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 </code></pre></div></section></main></body></html>

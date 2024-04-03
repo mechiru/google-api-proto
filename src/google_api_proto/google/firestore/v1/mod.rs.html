@@ -4555,6 +4555,26 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>unchanged_names: ::core::option::Option&lt;BloomFilter&gt;,
 }
+<span class="doccomment">/// The result of a single bucket from a Firestore aggregation query.
+///
+/// The keys of `aggregate_fields` are the same for all results in an aggregation
+/// query, unlike document queries which can have different fields present for
+/// each result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AggregationResult {
+    <span class="doccomment">/// The result of the aggregation functions, ex: `COUNT(*) AS total_docs`.
+    ///
+    /// The key is the
+    /// [alias][google.firestore.v1.StructuredAggregationQuery.Aggregation.alias]
+    /// assigned to the aggregation function on input and the size of this map
+    /// equals the number of aggregation functions in the query.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>aggregate_fields: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        Value,
+    &gt;,
+}
 <span class="doccomment">/// Explain options for the query.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4622,26 +4642,6 @@
     ///   }
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>debug_stats: ::core::option::Option&lt;::prost_types::Struct&gt;,
-}
-<span class="doccomment">/// The result of a single bucket from a Firestore aggregation query.
-///
-/// The keys of `aggregate_fields` are the same for all results in an aggregation
-/// query, unlike document queries which can have different fields present for
-/// each result.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AggregationResult {
-    <span class="doccomment">/// The result of the aggregation functions, ex: `COUNT(*) AS total_docs`.
-    ///
-    /// The key is the
-    /// [alias][google.firestore.v1.StructuredAggregationQuery.Aggregation.alias]
-    /// assigned to the aggregation function on input and the size of this map
-    /// equals the number of aggregation functions in the query.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>aggregate_fields: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        Value,
-    &gt;,
 }
 <span class="doccomment">/// The request for
 /// [Firestore.GetDocument][google.firestore.v1.Firestore.GetDocument].

@@ -2064,7 +2064,72 @@
 <a href="#2062" id="2062">2062</a>
 <a href="#2063" id="2063">2063</a>
 <a href="#2064" id="2064">2064</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Arrow schema as specified in
+</pre></div><pre class="rust"><code><span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProtoSchema {
+    <span class="doccomment">/// Descriptor for input message.  The provided descriptor must be self
+    /// contained, such that data rows sent can be fully decoded using only the
+    /// single descriptor.  For data rows that are compositions of multiple
+    /// independent messages, this means the descriptor may need to be transformed
+    /// to only use nested types:
+    /// &lt;https://developers.google.com/protocol-buffers/docs/proto#nested&gt;
+    ///
+    /// For additional information for how proto types and values map onto BigQuery
+    /// see: &lt;https://cloud.google.com/bigquery/docs/write-api#data_type_conversions&gt;
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>proto_descriptor: ::core::option::Option&lt;::prost_types::DescriptorProto&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProtoRows {
+    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.
+    ///
+    /// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more
+    /// information on deserializing this field.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_rows: ::prost::alloc::vec::Vec&lt;::prost::bytes::Bytes&gt;,
+}
+<span class="doccomment">/// Avro schema.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroSchema {
+    <span class="doccomment">/// Json serialized schema, as described at
+    /// &lt;https://avro.apache.org/docs/1.8.1/spec.html.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Avro rows.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroRows {
+    <span class="doccomment">/// Binary serialized rows in a block.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
+    <span class="doccomment">/// \[Deprecated\] The count of rows in the returning block.
+    /// Please use the format-independent ReadRowsResponse.row_count instead.
+    </span><span class="attr">#[deprecated]
+    #[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>row_count: i64,
+}
+<span class="doccomment">/// Contains options specific to Avro Serialization.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AvroSerializationOptions {
+    <span class="doccomment">/// Enable displayName attribute in Avro schema.
+    ///
+    /// The Avro specification requires field names to be alphanumeric.  By
+    /// default, in cases when column names do not conform to these requirements
+    /// (e.g. non-ascii unicode codepoints) and Avro is requested as an output
+    /// format, the CreateReadSession call will fail.
+    ///
+    /// Setting this field to true, populates avro field names with a placeholder
+    /// value and populates a "displayName" attribute for every avro field with the
+    /// original column name.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enable_display_name_attribute: bool,
+}
+<span class="doccomment">/// Arrow schema as specified in
 /// &lt;https://arrow.apache.org/docs/python/api/datatypes.html&gt;
 /// and serialized to bytes using IPC:
 /// &lt;https://arrow.apache.org/docs/format/Columnar.html#serialization-and-interprocess-communication-ipc&gt;
@@ -2144,45 +2209,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// Avro schema.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroSchema {
-    <span class="doccomment">/// Json serialized schema, as described at
-    /// &lt;https://avro.apache.org/docs/1.8.1/spec.html.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>schema: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Avro rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroRows {
-    <span class="doccomment">/// Binary serialized rows in a block.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_binary_rows: ::prost::bytes::Bytes,
-    <span class="doccomment">/// \[Deprecated\] The count of rows in the returning block.
-    /// Please use the format-independent ReadRowsResponse.row_count instead.
-    </span><span class="attr">#[deprecated]
-    #[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>row_count: i64,
-}
-<span class="doccomment">/// Contains options specific to Avro Serialization.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AvroSerializationOptions {
-    <span class="doccomment">/// Enable displayName attribute in Avro schema.
-    ///
-    /// The Avro specification requires field names to be alphanumeric.  By
-    /// default, in cases when column names do not conform to these requirements
-    /// (e.g. non-ascii unicode codepoints) and Avro is requested as an output
-    /// format, the CreateReadSession call will fail.
-    ///
-    /// Setting this field to true, populates avro field names with a placeholder
-    /// value and populates a "displayName" attribute for every avro field with the
-    /// original column name.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>enable_display_name_attribute: bool,
 }
 <span class="doccomment">/// Schema of a table. This schema is a subset of
 /// google.cloud.bigquery.v2.TableSchema containing information necessary to
@@ -2883,32 +2909,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// ProtoSchema describes the schema of the serialized protocol buffer data rows.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProtoSchema {
-    <span class="doccomment">/// Descriptor for input message.  The provided descriptor must be self
-    /// contained, such that data rows sent can be fully decoded using only the
-    /// single descriptor.  For data rows that are compositions of multiple
-    /// independent messages, this means the descriptor may need to be transformed
-    /// to only use nested types:
-    /// &lt;https://developers.google.com/protocol-buffers/docs/proto#nested&gt;
-    ///
-    /// For additional information for how proto types and values map onto BigQuery
-    /// see: &lt;https://cloud.google.com/bigquery/docs/write-api#data_type_conversions&gt;
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>proto_descriptor: ::core::option::Option&lt;::prost_types::DescriptorProto&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProtoRows {
-    <span class="doccomment">/// A sequence of rows serialized as a Protocol Buffer.
-    ///
-    /// See &lt;https://developers.google.com/protocol-buffers/docs/overview&gt; for more
-    /// information on deserializing this field.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>serialized_rows: ::prost::alloc::vec::Vec&lt;::prost::bytes::Bytes&gt;,
 }
 <span class="doccomment">/// Request message for `CreateReadSession`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

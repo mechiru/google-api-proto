@@ -1183,7 +1183,230 @@
 <a href="#1181" id="1181">1181</a>
 <a href="#1182" id="1182">1182</a>
 <a href="#1183" id="1183">1183</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Represents the metadata of the long-running operation.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Specification of the GRPC Endpoint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GrpcEndpoint {
+    <span class="doccomment">/// Required. The target URI of the gRPC endpoint. Only UDS path is supported, and
+    /// should start with "unix:".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specification of ValidationCA. Defines the mechanism to obtain the
+/// Certificate Authority certificate to validate the peer certificate.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValidationCa {
+    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
+    </span><span class="attr">#[prost(oneof = <span class="string">"validation_ca::Type"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;validation_ca::Type&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ValidationCA`.
+</span><span class="kw">pub mod </span>validation_ca {
+    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
+        /// obtain the CA certificate.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
+        <span class="doccomment">/// The certificate provider instance specification that will be passed to
+        /// the data plane, which will be used to load necessary credential
+        /// information.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
+    }
+}
+<span class="doccomment">/// Specification of a TLS certificate provider instance. Workloads may have one
+/// or more CertificateProvider instances (plugins) and one of them is enabled
+/// and configured by specifying this message. Workloads use the values from this
+/// message to locate and load the CertificateProvider instance configuration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CertificateProviderInstance {
+    <span class="doccomment">/// Required. Plugin instance name, used to locate and load CertificateProvider instance
+    /// configuration. Set to "google_cloud_private_spiffe" to use Certificate
+    /// Authority Service certificate provider instance.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>plugin_instance: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specification of certificate provider. Defines the mechanism to obtain the
+/// certificate and private key for peer to peer authentication.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CertificateProvider {
+    <span class="doccomment">/// The type of certificate provider which provides the certificates and
+    /// private keys.
+    </span><span class="attr">#[prost(oneof = <span class="string">"certificate_provider::Type"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;certificate_provider::Type&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CertificateProvider`.
+</span><span class="kw">pub mod </span>certificate_provider {
+    <span class="doccomment">/// The type of certificate provider which provides the certificates and
+    /// private keys.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
+        /// obtain the cert and private key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
+        <span class="doccomment">/// The certificate provider instance specification that will be passed to
+        /// the data plane, which will be used to load necessary credential
+        /// information.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
+    }
+}
+<span class="doccomment">/// ServerTlsPolicy is a resource that specifies how a server should authenticate
+/// incoming requests. This resource itself does not affect configuration unless
+/// it is attached to a target https proxy or endpoint config selector resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ServerTlsPolicy {
+    <span class="doccomment">/// Required. Name of the ServerTlsPolicy resource. It matches the pattern
+    /// `projects/*/locations/{location}/serverTlsPolicies/{server_tls_policy}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Free-text description of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when the resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Set of label tags associated with the resource.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">///
+    /// Determines if server allows plaintext connections. If set to true, server
+    /// allows plain text connections. By default, it is set to false. This setting
+    /// is not exclusive of other encryption modes. For example, if `allow_open`
+    /// and `mtls_policy` are set, server allows both plain text and mTLS
+    /// connections. See documentation of other encryption modes to confirm
+    /// compatibility.
+    ///
+    /// Consider using it if you wish to upgrade in place your deployment to TLS
+    /// while having mixed TLS and non-TLS traffic reaching port :80.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>allow_open: bool,
+    <span class="doccomment">///
+    /// Defines a mechanism to provision server identity (public and private keys).
+    /// Cannot be combined with `allow_open` as a permissive mode that allows both
+    /// plain text and TLS is not supported.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>server_certificate: ::core::option::Option&lt;CertificateProvider&gt;,
+    <span class="doccomment">///
+    /// Defines a mechanism to provision peer validation certificates for peer to
+    /// peer authentication (Mutual TLS - mTLS). If not specified, client
+    /// certificate will not be requested. The connection is treated as TLS and not
+    /// mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain
+    /// text and mTLS connections.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>mtls_policy: ::core::option::Option&lt;server_tls_policy::MtlsPolicy&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ServerTlsPolicy`.
+</span><span class="kw">pub mod </span>server_tls_policy {
+    <span class="doccomment">/// Specification of the MTLSPolicy.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>MtlsPolicy {
+        <span class="doccomment">///
+        /// Defines the mechanism to obtain the Certificate Authority certificate to
+        /// validate the client certificate.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>client_validation_ca: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::ValidationCa&gt;,
+    }
+}
+<span class="doccomment">/// Request used by the ListServerTlsPolicies method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListServerTlsPoliciesRequest {
+    <span class="doccomment">/// Required. The project and location from which the ServerTlsPolicies should
+    /// be listed, specified in the format `projects/*/locations/{location}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of ServerTlsPolicies to return per call.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The value returned by the last `ListServerTlsPoliciesResponse`
+    /// Indicates that this is a continuation of a prior
+    /// `ListServerTlsPolicies` call, and that the system
+    /// should return the next page of data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response returned by the ListServerTlsPolicies method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListServerTlsPoliciesResponse {
+    <span class="doccomment">/// List of ServerTlsPolicy resources.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>server_tls_policies: ::prost::alloc::vec::Vec&lt;ServerTlsPolicy&gt;,
+    <span class="doccomment">/// If there might be more results than those appearing in this response, then
+    /// `next_page_token` is included. To get the next set of results, call this
+    /// method again using the value of `next_page_token` as `page_token`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the GetServerTlsPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetServerTlsPolicyRequest {
+    <span class="doccomment">/// Required. A name of the ServerTlsPolicy to get. Must be in the format
+    /// `projects/*/locations/{location}/serverTlsPolicies/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request used by the CreateServerTlsPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateServerTlsPolicyRequest {
+    <span class="doccomment">/// Required. The parent resource of the ServerTlsPolicy. Must be in
+    /// the format `projects/*/locations/{location}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Short name of the ServerTlsPolicy resource to be created. This value should
+    /// be 1-63 characters long, containing only letters, numbers, hyphens, and
+    /// underscores, and should not start with a number. E.g. "server_mtls_policy".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>server_tls_policy_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. ServerTlsPolicy resource to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>server_tls_policy: ::core::option::Option&lt;ServerTlsPolicy&gt;,
+}
+<span class="doccomment">/// Request used by UpdateServerTlsPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateServerTlsPolicyRequest {
+    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
+    /// ServerTlsPolicy resource by the update.  The fields
+    /// specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the
+    /// mask. If the user does not provide a mask then all fields will be
+    /// overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. Updated ServerTlsPolicy resource.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>server_tls_policy: ::core::option::Option&lt;ServerTlsPolicy&gt;,
+}
+<span class="doccomment">/// Request used by the DeleteServerTlsPolicy method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteServerTlsPolicyRequest {
+    <span class="doccomment">/// Required. A name of the ServerTlsPolicy to delete. Must be in
+    /// the format `projects/*/locations/{location}/serverTlsPolicies/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Represents the metadata of the long-running operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OperationMetadata {
@@ -1478,82 +1701,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Specification of the GRPC Endpoint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GrpcEndpoint {
-    <span class="doccomment">/// Required. The target URI of the gRPC endpoint. Only UDS path is supported, and
-    /// should start with "unix:".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specification of ValidationCA. Defines the mechanism to obtain the
-/// Certificate Authority certificate to validate the peer certificate.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValidationCa {
-    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
-    </span><span class="attr">#[prost(oneof = <span class="string">"validation_ca::Type"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;validation_ca::Type&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ValidationCA`.
-</span><span class="kw">pub mod </span>validation_ca {
-    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
-        /// obtain the CA certificate.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
-        <span class="doccomment">/// The certificate provider instance specification that will be passed to
-        /// the data plane, which will be used to load necessary credential
-        /// information.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
-    }
-}
-<span class="doccomment">/// Specification of a TLS certificate provider instance. Workloads may have one
-/// or more CertificateProvider instances (plugins) and one of them is enabled
-/// and configured by specifying this message. Workloads use the values from this
-/// message to locate and load the CertificateProvider instance configuration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CertificateProviderInstance {
-    <span class="doccomment">/// Required. Plugin instance name, used to locate and load CertificateProvider instance
-    /// configuration. Set to "google_cloud_private_spiffe" to use Certificate
-    /// Authority Service certificate provider instance.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>plugin_instance: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specification of certificate provider. Defines the mechanism to obtain the
-/// certificate and private key for peer to peer authentication.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CertificateProvider {
-    <span class="doccomment">/// The type of certificate provider which provides the certificates and
-    /// private keys.
-    </span><span class="attr">#[prost(oneof = <span class="string">"certificate_provider::Type"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;certificate_provider::Type&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CertificateProvider`.
-</span><span class="kw">pub mod </span>certificate_provider {
-    <span class="doccomment">/// The type of certificate provider which provides the certificates and
-    /// private keys.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
-        /// obtain the cert and private key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
-        <span class="doccomment">/// The certificate provider instance specification that will be passed to
-        /// the data plane, which will be used to load necessary credential
-        /// information.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
-    }
-}
 <span class="doccomment">/// ClientTlsPolicy is a resource that specifies how a client should authenticate
 /// connections to backends of a service. This resource itself does not affect
 /// configuration unless it is attached to a backend service resource.
@@ -1672,153 +1819,6 @@
 </span><span class="kw">pub struct </span>DeleteClientTlsPolicyRequest {
     <span class="doccomment">/// Required. A name of the ClientTlsPolicy to delete. Must be in
     /// the format `projects/*/locations/{location}/clientTlsPolicies/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// ServerTlsPolicy is a resource that specifies how a server should authenticate
-/// incoming requests. This resource itself does not affect configuration unless
-/// it is attached to a target https proxy or endpoint config selector resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ServerTlsPolicy {
-    <span class="doccomment">/// Required. Name of the ServerTlsPolicy resource. It matches the pattern
-    /// `projects/*/locations/{location}/serverTlsPolicies/{server_tls_policy}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Free-text description of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when the resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when the resource was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Set of label tags associated with the resource.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">///
-    /// Determines if server allows plaintext connections. If set to true, server
-    /// allows plain text connections. By default, it is set to false. This setting
-    /// is not exclusive of other encryption modes. For example, if `allow_open`
-    /// and `mtls_policy` are set, server allows both plain text and mTLS
-    /// connections. See documentation of other encryption modes to confirm
-    /// compatibility.
-    ///
-    /// Consider using it if you wish to upgrade in place your deployment to TLS
-    /// while having mixed TLS and non-TLS traffic reaching port :80.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>allow_open: bool,
-    <span class="doccomment">///
-    /// Defines a mechanism to provision server identity (public and private keys).
-    /// Cannot be combined with `allow_open` as a permissive mode that allows both
-    /// plain text and TLS is not supported.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>server_certificate: ::core::option::Option&lt;CertificateProvider&gt;,
-    <span class="doccomment">///
-    /// Defines a mechanism to provision peer validation certificates for peer to
-    /// peer authentication (Mutual TLS - mTLS). If not specified, client
-    /// certificate will not be requested. The connection is treated as TLS and not
-    /// mTLS. If `allow_open` and `mtls_policy` are set, server allows both plain
-    /// text and mTLS connections.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>mtls_policy: ::core::option::Option&lt;server_tls_policy::MtlsPolicy&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ServerTlsPolicy`.
-</span><span class="kw">pub mod </span>server_tls_policy {
-    <span class="doccomment">/// Specification of the MTLSPolicy.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>MtlsPolicy {
-        <span class="doccomment">///
-        /// Defines the mechanism to obtain the Certificate Authority certificate to
-        /// validate the client certificate.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>client_validation_ca: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::ValidationCa&gt;,
-    }
-}
-<span class="doccomment">/// Request used by the ListServerTlsPolicies method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListServerTlsPoliciesRequest {
-    <span class="doccomment">/// Required. The project and location from which the ServerTlsPolicies should
-    /// be listed, specified in the format `projects/*/locations/{location}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of ServerTlsPolicies to return per call.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The value returned by the last `ListServerTlsPoliciesResponse`
-    /// Indicates that this is a continuation of a prior
-    /// `ListServerTlsPolicies` call, and that the system
-    /// should return the next page of data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response returned by the ListServerTlsPolicies method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListServerTlsPoliciesResponse {
-    <span class="doccomment">/// List of ServerTlsPolicy resources.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>server_tls_policies: ::prost::alloc::vec::Vec&lt;ServerTlsPolicy&gt;,
-    <span class="doccomment">/// If there might be more results than those appearing in this response, then
-    /// `next_page_token` is included. To get the next set of results, call this
-    /// method again using the value of `next_page_token` as `page_token`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the GetServerTlsPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetServerTlsPolicyRequest {
-    <span class="doccomment">/// Required. A name of the ServerTlsPolicy to get. Must be in the format
-    /// `projects/*/locations/{location}/serverTlsPolicies/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request used by the CreateServerTlsPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateServerTlsPolicyRequest {
-    <span class="doccomment">/// Required. The parent resource of the ServerTlsPolicy. Must be in
-    /// the format `projects/*/locations/{location}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Short name of the ServerTlsPolicy resource to be created. This value should
-    /// be 1-63 characters long, containing only letters, numbers, hyphens, and
-    /// underscores, and should not start with a number. E.g. "server_mtls_policy".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>server_tls_policy_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. ServerTlsPolicy resource to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>server_tls_policy: ::core::option::Option&lt;ServerTlsPolicy&gt;,
-}
-<span class="doccomment">/// Request used by UpdateServerTlsPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateServerTlsPolicyRequest {
-    <span class="doccomment">/// Optional. Field mask is used to specify the fields to be overwritten in the
-    /// ServerTlsPolicy resource by the update.  The fields
-    /// specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the
-    /// mask. If the user does not provide a mask then all fields will be
-    /// overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. Updated ServerTlsPolicy resource.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>server_tls_policy: ::core::option::Option&lt;ServerTlsPolicy&gt;,
-}
-<span class="doccomment">/// Request used by the DeleteServerTlsPolicy method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteServerTlsPolicyRequest {
-    <span class="doccomment">/// Required. A name of the ServerTlsPolicy to delete. Must be in
-    /// the format `projects/*/locations/{location}/serverTlsPolicies/*`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }

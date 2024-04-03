@@ -2742,117 +2742,7 @@
 <a href="#2740" id="2740">2740</a>
 <a href="#2741" id="2741">2741</a>
 <a href="#2742" id="2742">2742</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Encapsulates an encoded polyline.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Polyline {
-    <span class="doccomment">/// Encapsulates the type of polyline. Defaults to encoded_polyline.
-    </span><span class="attr">#[prost(oneof = <span class="string">"polyline::PolylineType"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>polyline_type: ::core::option::Option&lt;polyline::PolylineType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Polyline`.
-</span><span class="kw">pub mod </span>polyline {
-    <span class="doccomment">/// Encapsulates the type of polyline. Defaults to encoded_polyline.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>PolylineType {
-        <span class="doccomment">/// The string encoding of the polyline using the [polyline encoding
-        /// algorithm](&lt;https://developers.google.com/maps/documentation/utilities/polylinealgorithm&gt;)
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>EncodedPolyline(::prost::alloc::string::String),
-        <span class="doccomment">/// Specifies a polyline using the [GeoJSON LineString
-        /// format](&lt;https://tools.ietf.org/html/rfc7946#section-3.1.4&gt;)
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GeoJsonLinestring(::prost_types::Struct),
-    }
-}
-<span class="doccomment">/// A set of values that specify the quality of the polyline.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>PolylineQuality {
-    <span class="doccomment">/// No polyline quality preference specified. Defaults to `OVERVIEW`.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Specifies a high-quality polyline - which is composed using more points
-    /// than `OVERVIEW`, at the cost of increased response size. Use this value
-    /// when you need more precision.
-    </span>HighQuality = <span class="number">1</span>,
-    <span class="doccomment">/// Specifies an overview polyline - which is composed using a small number of
-    /// points. Use this value when displaying an overview of the route. Using this
-    /// option has a lower request latency compared to using the
-    /// `HIGH_QUALITY` option.
-    </span>Overview = <span class="number">2</span>,
-}
-<span class="kw">impl </span>PolylineQuality {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            PolylineQuality::Unspecified =&gt; <span class="string">"POLYLINE_QUALITY_UNSPECIFIED"</span>,
-            PolylineQuality::HighQuality =&gt; <span class="string">"HIGH_QUALITY"</span>,
-            PolylineQuality::Overview =&gt; <span class="string">"OVERVIEW"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"POLYLINE_QUALITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"HIGH_QUALITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HighQuality),
-            <span class="string">"OVERVIEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Overview),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Specifies the preferred type of polyline to be returned.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>PolylineEncoding {
-    <span class="doccomment">/// No polyline type preference specified. Defaults to `ENCODED_POLYLINE`.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Specifies a polyline encoded using the [polyline encoding
-    /// algorithm](&lt;https://developers.google.com/maps/documentation/utilities/polylinealgorithm&gt;).
-    </span>EncodedPolyline = <span class="number">1</span>,
-    <span class="doccomment">/// Specifies a polyline using the [GeoJSON LineString
-    /// format](&lt;https://tools.ietf.org/html/rfc7946#section-3.1.4&gt;)
-    </span>GeoJsonLinestring = <span class="number">2</span>,
-}
-<span class="kw">impl </span>PolylineEncoding {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            PolylineEncoding::Unspecified =&gt; <span class="string">"POLYLINE_ENCODING_UNSPECIFIED"</span>,
-            PolylineEncoding::EncodedPolyline =&gt; <span class="string">"ENCODED_POLYLINE"</span>,
-            PolylineEncoding::GeoJsonLinestring =&gt; <span class="string">"GEO_JSON_LINESTRING"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"POLYLINE_ENCODING_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"ENCODED_POLYLINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EncodedPolyline),
-            <span class="string">"GEO_JSON_LINESTRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GeoJsonLinestring),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Localized description of time.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LocalizedTime {
-    <span class="doccomment">/// The time specified as a string in a given time zone.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>time: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText&gt;,
-    <span class="doccomment">/// Contains the time zone. The value is the name of the time zone as defined
-    /// in the [IANA Time Zone Database](&lt;http://www.iana.org/time-zones&gt;), e.g.
-    /// "America/New_York".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>time_zone: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Encapsulates a location (a geographic point, and an optional heading).
+</pre></div><pre class="rust"><code><span class="doccomment">/// Encapsulates a location (a geographic point, and an optional heading).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Location {
@@ -2867,305 +2757,6 @@
     /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>heading: ::core::option::Option&lt;i32&gt;,
-}
-<span class="doccomment">/// A set of values that specify the navigation action to take for the current
-/// step (e.g., turn left, merge, straight, etc.).
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>Maneuver {
-    <span class="doccomment">/// Not used.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Turn slightly to the left.
-    </span>TurnSlightLeft = <span class="number">1</span>,
-    <span class="doccomment">/// Turn sharply to the left.
-    </span>TurnSharpLeft = <span class="number">2</span>,
-    <span class="doccomment">/// Make a left u-turn.
-    </span>UturnLeft = <span class="number">3</span>,
-    <span class="doccomment">/// Turn left.
-    </span>TurnLeft = <span class="number">4</span>,
-    <span class="doccomment">/// Turn slightly to the right.
-    </span>TurnSlightRight = <span class="number">5</span>,
-    <span class="doccomment">/// Turn sharply to the right.
-    </span>TurnSharpRight = <span class="number">6</span>,
-    <span class="doccomment">/// Make a right u-turn.
-    </span>UturnRight = <span class="number">7</span>,
-    <span class="doccomment">/// Turn right.
-    </span>TurnRight = <span class="number">8</span>,
-    <span class="doccomment">/// Go straight.
-    </span>Straight = <span class="number">9</span>,
-    <span class="doccomment">/// Take the left ramp.
-    </span>RampLeft = <span class="number">10</span>,
-    <span class="doccomment">/// Take the right ramp.
-    </span>RampRight = <span class="number">11</span>,
-    <span class="doccomment">/// Merge into traffic.
-    </span>Merge = <span class="number">12</span>,
-    <span class="doccomment">/// Take the left fork.
-    </span>ForkLeft = <span class="number">13</span>,
-    <span class="doccomment">/// Take the right fork.
-    </span>ForkRight = <span class="number">14</span>,
-    <span class="doccomment">/// Take the ferry.
-    </span>Ferry = <span class="number">15</span>,
-    <span class="doccomment">/// Take the train leading onto the ferry.
-    </span>FerryTrain = <span class="number">16</span>,
-    <span class="doccomment">/// Turn left at the roundabout.
-    </span>RoundaboutLeft = <span class="number">17</span>,
-    <span class="doccomment">/// Turn right at the roundabout.
-    </span>RoundaboutRight = <span class="number">18</span>,
-    <span class="doccomment">/// Initial maneuver.
-    </span>Depart = <span class="number">19</span>,
-    <span class="doccomment">/// Used to indicate a street name change.
-    </span>NameChange = <span class="number">20</span>,
-}
-<span class="kw">impl </span>Maneuver {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            Maneuver::Unspecified =&gt; <span class="string">"MANEUVER_UNSPECIFIED"</span>,
-            Maneuver::TurnSlightLeft =&gt; <span class="string">"TURN_SLIGHT_LEFT"</span>,
-            Maneuver::TurnSharpLeft =&gt; <span class="string">"TURN_SHARP_LEFT"</span>,
-            Maneuver::UturnLeft =&gt; <span class="string">"UTURN_LEFT"</span>,
-            Maneuver::TurnLeft =&gt; <span class="string">"TURN_LEFT"</span>,
-            Maneuver::TurnSlightRight =&gt; <span class="string">"TURN_SLIGHT_RIGHT"</span>,
-            Maneuver::TurnSharpRight =&gt; <span class="string">"TURN_SHARP_RIGHT"</span>,
-            Maneuver::UturnRight =&gt; <span class="string">"UTURN_RIGHT"</span>,
-            Maneuver::TurnRight =&gt; <span class="string">"TURN_RIGHT"</span>,
-            Maneuver::Straight =&gt; <span class="string">"STRAIGHT"</span>,
-            Maneuver::RampLeft =&gt; <span class="string">"RAMP_LEFT"</span>,
-            Maneuver::RampRight =&gt; <span class="string">"RAMP_RIGHT"</span>,
-            Maneuver::Merge =&gt; <span class="string">"MERGE"</span>,
-            Maneuver::ForkLeft =&gt; <span class="string">"FORK_LEFT"</span>,
-            Maneuver::ForkRight =&gt; <span class="string">"FORK_RIGHT"</span>,
-            Maneuver::Ferry =&gt; <span class="string">"FERRY"</span>,
-            Maneuver::FerryTrain =&gt; <span class="string">"FERRY_TRAIN"</span>,
-            Maneuver::RoundaboutLeft =&gt; <span class="string">"ROUNDABOUT_LEFT"</span>,
-            Maneuver::RoundaboutRight =&gt; <span class="string">"ROUNDABOUT_RIGHT"</span>,
-            Maneuver::Depart =&gt; <span class="string">"DEPART"</span>,
-            Maneuver::NameChange =&gt; <span class="string">"NAME_CHANGE"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"MANEUVER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"TURN_SLIGHT_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSlightLeft),
-            <span class="string">"TURN_SHARP_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSharpLeft),
-            <span class="string">"UTURN_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UturnLeft),
-            <span class="string">"TURN_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnLeft),
-            <span class="string">"TURN_SLIGHT_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSlightRight),
-            <span class="string">"TURN_SHARP_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSharpRight),
-            <span class="string">"UTURN_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UturnRight),
-            <span class="string">"TURN_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnRight),
-            <span class="string">"STRAIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Straight),
-            <span class="string">"RAMP_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RampLeft),
-            <span class="string">"RAMP_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RampRight),
-            <span class="string">"MERGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Merge),
-            <span class="string">"FORK_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForkLeft),
-            <span class="string">"FORK_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForkRight),
-            <span class="string">"FERRY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ferry),
-            <span class="string">"FERRY_TRAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FerryTrain),
-            <span class="string">"ROUNDABOUT_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RoundaboutLeft),
-            <span class="string">"ROUNDABOUT_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RoundaboutRight),
-            <span class="string">"DEPART" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Depart),
-            <span class="string">"NAME_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NameChange),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Encapsulates navigation instructions for a
-/// [RouteLegStep][google.maps.routing.v2.RouteLegStep]
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NavigationInstruction {
-    <span class="doccomment">/// Encapsulates the navigation instructions for the current step (e.g., turn
-    /// left, merge, straight, etc.). This field determines which icon to display.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"Maneuver"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>maneuver: i32,
-    <span class="doccomment">/// Instructions for navigating this step.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>instructions: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Labels for the [Route][google.maps.routing.v2.Route] that are useful to
-/// identify specific properties of the route to compare against others.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>RouteLabel {
-    <span class="doccomment">/// Default - not used.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The default "best" route returned for the route computation.
-    </span>DefaultRoute = <span class="number">1</span>,
-    <span class="doccomment">/// An alternative to the default "best" route. Routes like this will be
-    /// returned when
-    /// [compute_alternative_routes][google.maps.routing.v2.ComputeRoutesRequest.compute_alternative_routes]
-    /// is specified.
-    </span>DefaultRouteAlternate = <span class="number">2</span>,
-    <span class="doccomment">/// Fuel efficient route. Routes labeled with this value are determined to be
-    /// optimized for Eco parameters such as fuel consumption.
-    </span>FuelEfficient = <span class="number">3</span>,
-}
-<span class="kw">impl </span>RouteLabel {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            RouteLabel::Unspecified =&gt; <span class="string">"ROUTE_LABEL_UNSPECIFIED"</span>,
-            RouteLabel::DefaultRoute =&gt; <span class="string">"DEFAULT_ROUTE"</span>,
-            RouteLabel::DefaultRouteAlternate =&gt; <span class="string">"DEFAULT_ROUTE_ALTERNATE"</span>,
-            RouteLabel::FuelEfficient =&gt; <span class="string">"FUEL_EFFICIENT"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"ROUTE_LABEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"DEFAULT_ROUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DefaultRoute),
-            <span class="string">"DEFAULT_ROUTE_ALTERNATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DefaultRouteAlternate),
-            <span class="string">"FUEL_EFFICIENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FuelEfficient),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A set of values used to specify the mode of travel.
-/// NOTE: `WALK`, `BICYCLE`, and `TWO_WHEELER` routes are in beta and might
-/// sometimes be missing clear sidewalks, pedestrian paths, or bicycling paths.
-/// You must display this warning to the user for all walking, bicycling, and
-/// two-wheel routes that you display in your app.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>RouteTravelMode {
-    <span class="doccomment">/// No travel mode specified. Defaults to `DRIVE`.
-    </span>TravelModeUnspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Travel by passenger car.
-    </span>Drive = <span class="number">1</span>,
-    <span class="doccomment">/// Travel by bicycle.
-    </span>Bicycle = <span class="number">2</span>,
-    <span class="doccomment">/// Travel by walking.
-    </span>Walk = <span class="number">3</span>,
-    <span class="doccomment">/// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this
-    /// differs from the `BICYCLE` travel mode which covers human-powered mode.
-    </span>TwoWheeler = <span class="number">4</span>,
-    <span class="doccomment">/// Travel by public transit routes, where available.
-    </span>Transit = <span class="number">7</span>,
-}
-<span class="kw">impl </span>RouteTravelMode {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            RouteTravelMode::TravelModeUnspecified =&gt; <span class="string">"TRAVEL_MODE_UNSPECIFIED"</span>,
-            RouteTravelMode::Drive =&gt; <span class="string">"DRIVE"</span>,
-            RouteTravelMode::Bicycle =&gt; <span class="string">"BICYCLE"</span>,
-            RouteTravelMode::Walk =&gt; <span class="string">"WALK"</span>,
-            RouteTravelMode::TwoWheeler =&gt; <span class="string">"TWO_WHEELER"</span>,
-            RouteTravelMode::Transit =&gt; <span class="string">"TRANSIT"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TRAVEL_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TravelModeUnspecified),
-            <span class="string">"DRIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Drive),
-            <span class="string">"BICYCLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bicycle),
-            <span class="string">"WALK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Walk),
-            <span class="string">"TWO_WHEELER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TwoWheeler),
-            <span class="string">"TRANSIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Transit),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Traffic density indicator on a contiguous segment of a polyline or path.
-/// Given a path with points P_0, P_1, ... , P_N (zero-based index), the
-/// SpeedReadingInterval defines an interval and describes its traffic using the
-/// following categories.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SpeedReadingInterval {
-    <span class="doccomment">/// The starting index of this interval in the polyline.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_polyline_point_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// The ending index of this interval in the polyline.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_polyline_point_index: ::core::option::Option&lt;i32&gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"speed_reading_interval::SpeedType"</span>, tags = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>speed_type: ::core::option::Option&lt;speed_reading_interval::SpeedType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SpeedReadingInterval`.
-</span><span class="kw">pub mod </span>speed_reading_interval {
-    <span class="doccomment">/// The classification of polyline speed based on traffic data.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Speed {
-        <span class="doccomment">/// Default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Normal speed, no slowdown is detected.
-        </span>Normal = <span class="number">1</span>,
-        <span class="doccomment">/// Slowdown detected, but no traffic jam formed.
-        </span>Slow = <span class="number">2</span>,
-        <span class="doccomment">/// Traffic jam detected.
-        </span>TrafficJam = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Speed {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Speed::Unspecified =&gt; <span class="string">"SPEED_UNSPECIFIED"</span>,
-                Speed::Normal =&gt; <span class="string">"NORMAL"</span>,
-                Speed::Slow =&gt; <span class="string">"SLOW"</span>,
-                Speed::TrafficJam =&gt; <span class="string">"TRAFFIC_JAM"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SPEED_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"NORMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Normal),
-                <span class="string">"SLOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Slow),
-                <span class="string">"TRAFFIC_JAM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficJam),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>SpeedType {
-        <span class="doccomment">/// Traffic speed in this interval.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"Speed"</span>, tag = <span class="string">"3"</span>)]
-        </span>Speed(i32),
-    }
-}
-<span class="doccomment">/// Encapsulates toll information on a [Route][google.maps.routing.v2.Route] or
-/// on a [RouteLeg][google.maps.routing.v2.RouteLeg].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TollInfo {
-    <span class="doccomment">/// The monetary amount of tolls for the corresponding
-    /// [Route][google.maps.routing.v2.Route] or
-    /// [RouteLeg][google.maps.routing.v2.RouteLeg]. This list contains a money
-    /// amount for each currency that is expected to be charged by the toll
-    /// stations. Typically this list will contain only one item for routes with
-    /// tolls in one currency. For international trips, this list may contain
-    /// multiple items to reflect tolls in different currencies.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>estimated_price: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money&gt;,
 }
 <span class="doccomment">/// A transit agency that operates a transit line.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3356,447 +2947,72 @@
         }
     }
 }
-<span class="doccomment">/// Contains a route, which consists of a series of connected road segments
-/// that join beginning, ending, and intermediate waypoints.
+<span class="doccomment">/// Contains [GeocodedWaypoints][google.maps.routing.v2.GeocodedWaypoint] for
+/// origin, destination and intermediate waypoints. Only populated for address
+/// waypoints.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Route {
-    <span class="doccomment">/// Labels for the `Route` that are useful to identify specific properties
-    /// of the route to compare against others.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteLabel"</span>, repeated, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>route_labels: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// A collection of legs (path segments between waypoints) that make up the
-    /// route. Each leg corresponds to the trip between two non-`via`
-    /// [Waypoints][google.maps.routing.v2.Waypoint]. For example, a route with no
-    /// intermediate waypoints has only one leg. A route that includes one
-    /// non-`via` intermediate waypoint has two legs. A route that includes one
-    /// `via` intermediate waypoint has one leg. The order of the legs matches the
-    /// order of waypoints from `origin` to `intermediates` to `destination`.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>legs: ::prost::alloc::vec::Vec&lt;RouteLeg&gt;,
-    <span class="doccomment">/// The travel distance of the route, in meters.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>distance_meters: i32,
-    <span class="doccomment">/// The length of time needed to navigate the route. If you set the
-    /// `routing_preference` to `TRAFFIC_UNAWARE`, then this value is the same as
-    /// `static_duration`. If you set the `routing_preference` to either
-    /// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated
-    /// taking traffic conditions into account.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The duration of travel through the route without taking traffic
-    /// conditions into consideration.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The overall route polyline. This polyline is the combined polyline of
-    /// all `legs`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>polyline: ::core::option::Option&lt;Polyline&gt;,
-    <span class="doccomment">/// A description of the route.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// An array of warnings to show when displaying the route.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>warnings: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The viewport bounding box of the polyline.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>viewport: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::geo::r#type::Viewport&gt;,
-    <span class="doccomment">/// Additional information about the route.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>travel_advisory: ::core::option::Option&lt;RouteTravelAdvisory&gt;,
-    <span class="doccomment">/// If you set
-    /// [optimize_waypoint_order][google.maps.routing.v2.ComputeRoutesRequest.optimize_waypoint_order]
-    /// to true, this field contains the optimized ordering of intermediate
-    /// waypoints. Otherwise, this field is empty.
-    /// For example, if you give an input of Origin: LA; Intermediate waypoints:
-    /// Dallas, Bangor, Phoenix; Destination: New York; and the optimized
-    /// intermediate waypoint order is Phoenix, Dallas, Bangor, then this field
-    /// contains the values \[2, 0, 1\]. The index starts with 0 for the first
-    /// intermediate waypoint provided in the input.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>optimized_intermediate_waypoint_index: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// Text representations of properties of the `Route`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;route::RouteLocalizedValues&gt;,
-    <span class="doccomment">/// A web-safe, base64-encoded route token that can be passed to the Navigation
-    /// SDK, that allows the Navigation SDK to reconstruct the route during
-    /// navigation, and, in the event of rerouting, honor the original intention
-    /// when you created the route by calling ComputeRoutes. Customers should treat
-    /// this token as an opaque blob. It is not meant for reading or mutating.
-    /// NOTE: `Route.route_token` is only available for requests that have set
-    /// `ComputeRoutesRequest.routing_preference` to `TRAFFIC_AWARE` or
-    /// `TRAFFIC_AWARE_OPTIMAL`. `Route.route_token` is not supported for requests
-    /// that have Via waypoints.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>route_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `Route`.
-</span><span class="kw">pub mod </span>route {
-    <span class="doccomment">/// Text representations of certain properties.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteLocalizedValues {
-        <span class="doccomment">/// Travel distance represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>distance: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-        <span class="doccomment">/// Duration taking traffic conditions into consideration, represented in
-        /// text form. Note: If you did not request traffic information, this value
-        /// will be the same value as static_duration.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>duration: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-        <span class="doccomment">/// Duration without taking traffic conditions into
-        /// consideration, represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-        <span class="doccomment">/// Transit fare represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>transit_fare: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-    }
-}
-<span class="doccomment">/// Contains the additional information that the user should be informed
-/// about, such as possible traffic zone restrictions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteTravelAdvisory {
-    <span class="doccomment">/// Contains information about tolls on the route. This field is only populated
-    /// if tolls are expected on the route. If this field is set, but the
-    /// estimatedPrice subfield is not populated, then the route contains tolls,
-    /// but the estimated price is unknown. If this field is not set, then there
-    /// are no tolls expected on the route.
+</span><span class="kw">pub struct </span>GeocodingResults {
+    <span class="doccomment">/// Origin geocoded waypoint.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>origin: ::core::option::Option&lt;GeocodedWaypoint&gt;,
+    <span class="doccomment">/// Destination geocoded waypoint.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>toll_info: ::core::option::Option&lt;TollInfo&gt;,
-    <span class="doccomment">/// Speed reading intervals detailing traffic density. Applicable in case of
-    /// `TRAFFIC_AWARE` and `TRAFFIC_AWARE_OPTIMAL` routing preferences.
-    /// The intervals cover the entire polyline of the route without overlap.
-    /// The start point of a specified interval is the same as the end point of the
-    /// preceding interval.
-    ///
-    /// Example:
-    ///
-    ///      polyline: A ---- B ---- C ---- D ---- E ---- F ---- G
-    ///      speed_reading_intervals: [A,C), [C,D), [D,G).
+    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;GeocodedWaypoint&gt;,
+    <span class="doccomment">/// A list of intermediate geocoded waypoints each containing an index field
+    /// that corresponds to the zero-based position of the waypoint in the order
+    /// they were specified in the request.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>speed_reading_intervals: ::prost::alloc::vec::Vec&lt;SpeedReadingInterval&gt;,
-    <span class="doccomment">/// The predicted fuel consumption in microliters.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>fuel_consumption_microliters: i64,
-    <span class="doccomment">/// Returned route may have restrictions that are not suitable for requested
-    /// travel mode or route modifiers.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>route_restrictions_partially_ignored: bool,
-    <span class="doccomment">/// If present, contains the total fare or ticket costs on this route
-    /// This property is only returned for `TRANSIT` requests and only
-    /// for routes where fare information is available for all transit steps.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>transit_fare: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money&gt;,
+    </span><span class="kw">pub </span>intermediates: ::prost::alloc::vec::Vec&lt;GeocodedWaypoint&gt;,
 }
-<span class="doccomment">/// Contains the additional information that the user should be informed
-/// about on a leg step, such as possible traffic zone restrictions.
+<span class="doccomment">/// Details about the locations used as waypoints. Only populated for address
+/// waypoints. Includes details about the geocoding results for the purposes of
+/// determining what the address was geocoded to.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteLegTravelAdvisory {
-    <span class="doccomment">/// Contains information about tolls on the specific `RouteLeg`.
-    /// This field is only populated if we expect there are tolls on the
-    /// `RouteLeg`. If this field is set but the estimated_price subfield is not
-    /// populated, we expect that road contains tolls but we do not know an
-    /// estimated price. If this field does not exist, then there is no toll on the
-    /// `RouteLeg`.
+</span><span class="kw">pub struct </span>GeocodedWaypoint {
+    <span class="doccomment">/// Indicates the status code resulting from the geocoding operation.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>toll_info: ::core::option::Option&lt;TollInfo&gt;,
-    <span class="doccomment">/// Speed reading intervals detailing traffic density. Applicable in case of
-    /// `TRAFFIC_AWARE` and `TRAFFIC_AWARE_OPTIMAL` routing preferences.
-    /// The intervals cover the entire polyline of the `RouteLeg` without overlap.
-    /// The start point of a specified interval is the same as the end point of the
-    /// preceding interval.
-    ///
-    /// Example:
-    ///
-    ///      polyline: A ---- B ---- C ---- D ---- E ---- F ---- G
-    ///      speed_reading_intervals: [A,C), [C,D), [D,G).
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>speed_reading_intervals: ::prost::alloc::vec::Vec&lt;SpeedReadingInterval&gt;,
+    </span><span class="kw">pub </span>geocoder_status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+    <span class="doccomment">/// The index of the corresponding intermediate waypoint in the request.
+    /// Only populated if the corresponding waypoint is an intermediate
+    /// waypoint.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>intermediate_waypoint_request_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// The type(s) of the result, in the form of zero or more type tags.
+    /// Supported types:
+    /// &lt;https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Indicates that the geocoder did not return an exact match for the original
+    /// request, though it was able to match part of the requested address. You may
+    /// wish to examine the original request for misspellings and/or an incomplete
+    /// address.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>partial_match: bool,
+    <span class="doccomment">/// The place ID for this result.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>place_id: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Contains the additional information that the user should be informed
-/// about, such as possible traffic zone restrictions on a leg step.
+<span class="doccomment">/// Traffic density indicator on a contiguous segment of a polyline or path.
+/// Given a path with points P_0, P_1, ... , P_N (zero-based index), the
+/// SpeedReadingInterval defines an interval and describes its traffic using the
+/// following categories.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteLegStepTravelAdvisory {
-    <span class="doccomment">/// NOTE: This field is not currently populated.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>speed_reading_intervals: ::prost::alloc::vec::Vec&lt;SpeedReadingInterval&gt;,
+</span><span class="kw">pub struct </span>SpeedReadingInterval {
+    <span class="doccomment">/// The starting index of this interval in the polyline.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_polyline_point_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// The ending index of this interval in the polyline.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_polyline_point_index: ::core::option::Option&lt;i32&gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"speed_reading_interval::SpeedType"</span>, tags = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>speed_type: ::core::option::Option&lt;speed_reading_interval::SpeedType&gt;,
 }
-<span class="doccomment">/// Contains a segment between non-`via` waypoints.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteLeg {
-    <span class="doccomment">/// The travel distance of the route leg, in meters.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>distance_meters: i32,
-    <span class="doccomment">/// The length of time needed to navigate the leg. If the `route_preference`
-    /// is set to `TRAFFIC_UNAWARE`, then this value is the same as
-    /// `static_duration`. If the `route_preference` is either `TRAFFIC_AWARE` or
-    /// `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated taking traffic
-    /// conditions into account.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The duration of travel through the leg, calculated without taking
-    /// traffic conditions into consideration.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The overall polyline for this leg that includes each `step`'s
-    /// polyline.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>polyline: ::core::option::Option&lt;Polyline&gt;,
-    <span class="doccomment">/// The start location of this leg. This location might be different from the
-    /// provided `origin`. For example, when the provided `origin` is not near a
-    /// road, this is a point on the road.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>start_location: ::core::option::Option&lt;Location&gt;,
-    <span class="doccomment">/// The end location of this leg. This location might be different from the
-    /// provided `destination`. For example, when the provided `destination` is not
-    /// near a road, this is a point on the road.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>end_location: ::core::option::Option&lt;Location&gt;,
-    <span class="doccomment">/// An array of steps denoting segments within this leg. Each step represents
-    /// one navigation instruction.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;RouteLegStep&gt;,
-    <span class="doccomment">/// Contains the additional information that the user should be informed
-    /// about, such as possible traffic zone restrictions, on a route leg.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>travel_advisory: ::core::option::Option&lt;RouteLegTravelAdvisory&gt;,
-    <span class="doccomment">/// Text representations of properties of the `RouteLeg`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;route_leg::RouteLegLocalizedValues&gt;,
-    <span class="doccomment">/// Overview information about the steps in this `RouteLeg`. This field is only
-    /// populated for TRANSIT routes.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>steps_overview: ::core::option::Option&lt;route_leg::StepsOverview&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RouteLeg`.
-</span><span class="kw">pub mod </span>route_leg {
-    <span class="doccomment">/// Text representations of certain properties.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteLegLocalizedValues {
-        <span class="doccomment">/// Travel distance represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>distance: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-        <span class="doccomment">/// Duration taking traffic conditions into consideration represented in text
-        /// form. Note: If you did not request traffic information, this value will
-        /// be the same value as static_duration.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>duration: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-        <span class="doccomment">/// Duration without taking traffic conditions into
-        /// consideration, represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-    }
-    <span class="doccomment">/// Provides overview information about a list of `RouteLegStep`s.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>StepsOverview {
-        <span class="doccomment">/// Summarized information about different multi-modal segments of
-        /// the `RouteLeg.steps`. This field is not populated if the `RouteLeg` does
-        /// not contain any multi-modal segments in the steps.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>multi_modal_segments: ::prost::alloc::vec::Vec&lt;
-            steps_overview::MultiModalSegment,
-        &gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `StepsOverview`.
-    </span><span class="kw">pub mod </span>steps_overview {
-        <span class="doccomment">/// Provides summarized information about different multi-modal segments of
-        /// the `RouteLeg.steps`. A multi-modal segment is defined as one or more
-        /// contiguous `RouteLegStep` that have the same `RouteTravelMode`.
-        /// This field is not populated if the `RouteLeg` does not contain any
-        /// multi-modal segments in the steps.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>MultiModalSegment {
-            <span class="doccomment">/// The corresponding `RouteLegStep` index that is the start of a
-            /// multi-modal segment.
-            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>step_start_index: ::core::option::Option&lt;i32&gt;,
-            <span class="doccomment">/// The corresponding `RouteLegStep` index that is the end of a
-            /// multi-modal segment.
-            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>step_end_index: ::core::option::Option&lt;i32&gt;,
-            <span class="doccomment">/// NavigationInstruction for the multi-modal segment.
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>navigation_instruction: ::core::option::Option&lt;
-                <span class="kw">super</span>::<span class="kw">super</span>::NavigationInstruction,
-            &gt;,
-            <span class="doccomment">/// The travel mode of the multi-modal segment.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::RouteTravelMode"</span>, tag = <span class="string">"4"</span>)]
-            </span><span class="kw">pub </span>travel_mode: i32,
-        }
-    }
-}
-<span class="doccomment">/// Contains a segment of a [RouteLeg][google.maps.routing.v2.RouteLeg]. A
-/// step corresponds to a single navigation instruction. Route legs are made up
-/// of steps.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteLegStep {
-    <span class="doccomment">/// The travel distance of this step, in meters. In some circumstances, this
-    /// field might not have a value.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>distance_meters: i32,
-    <span class="doccomment">/// The duration of travel through this step without taking traffic conditions
-    /// into consideration. In some circumstances, this field might not have a
-    /// value.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// The polyline associated with this step.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>polyline: ::core::option::Option&lt;Polyline&gt;,
-    <span class="doccomment">/// The start location of this step.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>start_location: ::core::option::Option&lt;Location&gt;,
-    <span class="doccomment">/// The end location of this step.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>end_location: ::core::option::Option&lt;Location&gt;,
-    <span class="doccomment">/// Navigation instructions.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>navigation_instruction: ::core::option::Option&lt;NavigationInstruction&gt;,
-    <span class="doccomment">/// Contains the additional information that the user should be informed
-    /// about, such as possible traffic zone restrictions, on a leg step.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>travel_advisory: ::core::option::Option&lt;RouteLegStepTravelAdvisory&gt;,
-    <span class="doccomment">/// Text representations of properties of the `RouteLegStep`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;
-        route_leg_step::RouteLegStepLocalizedValues,
-    &gt;,
-    <span class="doccomment">/// Details pertaining to this step if the travel mode is `TRANSIT`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>transit_details: ::core::option::Option&lt;RouteLegStepTransitDetails&gt;,
-    <span class="doccomment">/// The travel mode used for this step.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteTravelMode"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>travel_mode: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `RouteLegStep`.
-</span><span class="kw">pub mod </span>route_leg_step {
-    <span class="doccomment">/// Text representations of certain properties.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>RouteLegStepLocalizedValues {
-        <span class="doccomment">/// Travel distance represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>distance: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-        <span class="doccomment">/// Duration without taking traffic conditions into
-        /// consideration, represented in text form.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
-        &gt;,
-    }
-}
-<span class="doccomment">/// Additional information for the `RouteLegStep` related to `TRANSIT` routes.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RouteLegStepTransitDetails {
-    <span class="doccomment">/// Information about the arrival and departure stops for the step.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>stop_details: ::core::option::Option&lt;
-        route_leg_step_transit_details::TransitStopDetails,
-    &gt;,
-    <span class="doccomment">/// Text representations of properties of the `RouteLegStepTransitDetails`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;
-        route_leg_step_transit_details::TransitDetailsLocalizedValues,
-    &gt;,
-    <span class="doccomment">/// Specifies the direction in which to travel on this line as marked on
-    /// the vehicle or at the departure stop. The direction is often the terminus
-    /// station.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>headsign: ::prost::alloc::string::String,
-    <span class="doccomment">/// Specifies the expected time as a duration between departures from the same
-    /// stop at this time. For example, with a headway seconds value of 600, you
-    /// would expect a ten minute wait if you should miss your bus.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>headway: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Information about the transit line used in this step.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>transit_line: ::core::option::Option&lt;TransitLine&gt;,
-    <span class="doccomment">/// The number of stops from the departure to the arrival stop. This count
-    /// includes the arrival stop, but excludes the departure stop. For example, if
-    /// your route leaves from Stop A, passes through stops B and C, and arrives at
-    /// stop D, stop_count will return 3.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>stop_count: i32,
-    <span class="doccomment">/// The text that appears in schedules and sign boards to identify a transit
-    /// trip to passengers. The text should uniquely identify a trip within a
-    /// service day. For example, "538" is the `trip_short_text` of the Amtrak
-    /// train that leaves San Jose, CA at 15:10 on weekdays to Sacramento, CA.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>trip_short_text: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `RouteLegStepTransitDetails`.
-</span><span class="kw">pub mod </span>route_leg_step_transit_details {
-    <span class="doccomment">/// Details about the transit stops for the `RouteLegStep`
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TransitStopDetails {
-        <span class="doccomment">/// Information about the arrival stop for the step.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>arrival_stop: ::core::option::Option&lt;<span class="kw">super</span>::TransitStop&gt;,
-        <span class="doccomment">/// The estimated time of arrival for the step.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>arrival_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// Information about the departure stop for the step.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>departure_stop: ::core::option::Option&lt;<span class="kw">super</span>::TransitStop&gt;,
-        <span class="doccomment">/// The estimated time of departure for the step.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    }
-    <span class="doccomment">/// Localized descriptions of values for RouteTransitDetails.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TransitDetailsLocalizedValues {
-        <span class="doccomment">/// Time in its formatted text representation with a corresponding time zone.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>arrival_time: ::core::option::Option&lt;<span class="kw">super</span>::LocalizedTime&gt;,
-        <span class="doccomment">/// Time in its formatted text representation with a corresponding time zone.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;<span class="kw">super</span>::LocalizedTime&gt;,
-    }
-}
-<span class="doccomment">/// Preferences for `TRANSIT` based routes that influence the route that is
-/// returned.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TransitPreferences {
-    <span class="doccomment">/// A set of travel modes to use when getting a `TRANSIT` route. Defaults to
-    /// all supported modes of travel.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"transit_preferences::TransitTravelMode"</span>, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>allowed_travel_modes: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// A routing preference that, when specified, influences the `TRANSIT` route
-    /// returned.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"transit_preferences::TransitRoutingPreference"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>routing_preference: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `TransitPreferences`.
-</span><span class="kw">pub mod </span>transit_preferences {
-    <span class="doccomment">/// A set of values used to specify the mode of transit.
+<span class="doccomment">/// Nested message and enum types in `SpeedReadingInterval`.
+</span><span class="kw">pub mod </span>speed_reading_interval {
+    <span class="doccomment">/// The classification of polyline speed based on traffic data.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -3809,183 +3025,95 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>TransitTravelMode {
-        <span class="doccomment">/// No transit travel mode specified.
+    </span><span class="kw">pub enum </span>Speed {
+        <span class="doccomment">/// Default value. This value is unused.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Travel by bus.
-        </span>Bus = <span class="number">1</span>,
-        <span class="doccomment">/// Travel by subway.
-        </span>Subway = <span class="number">2</span>,
-        <span class="doccomment">/// Travel by train.
-        </span>Train = <span class="number">3</span>,
-        <span class="doccomment">/// Travel by light rail or tram.
-        </span>LightRail = <span class="number">4</span>,
-        <span class="doccomment">/// Travel by rail. This is equivalent to a combination of `SUBWAY`, `TRAIN`,
-        /// and `LIGHT_RAIL`.
-        </span>Rail = <span class="number">5</span>,
+        <span class="doccomment">/// Normal speed, no slowdown is detected.
+        </span>Normal = <span class="number">1</span>,
+        <span class="doccomment">/// Slowdown detected, but no traffic jam formed.
+        </span>Slow = <span class="number">2</span>,
+        <span class="doccomment">/// Traffic jam detected.
+        </span>TrafficJam = <span class="number">3</span>,
     }
-    <span class="kw">impl </span>TransitTravelMode {
+    <span class="kw">impl </span>Speed {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                TransitTravelMode::Unspecified =&gt; <span class="string">"TRANSIT_TRAVEL_MODE_UNSPECIFIED"</span>,
-                TransitTravelMode::Bus =&gt; <span class="string">"BUS"</span>,
-                TransitTravelMode::Subway =&gt; <span class="string">"SUBWAY"</span>,
-                TransitTravelMode::Train =&gt; <span class="string">"TRAIN"</span>,
-                TransitTravelMode::LightRail =&gt; <span class="string">"LIGHT_RAIL"</span>,
-                TransitTravelMode::Rail =&gt; <span class="string">"RAIL"</span>,
+                Speed::Unspecified =&gt; <span class="string">"SPEED_UNSPECIFIED"</span>,
+                Speed::Normal =&gt; <span class="string">"NORMAL"</span>,
+                Speed::Slow =&gt; <span class="string">"SLOW"</span>,
+                Speed::TrafficJam =&gt; <span class="string">"TRAFFIC_JAM"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"TRANSIT_TRAVEL_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bus),
-                <span class="string">"SUBWAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Subway),
-                <span class="string">"TRAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Train),
-                <span class="string">"LIGHT_RAIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LightRail),
-                <span class="string">"RAIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rail),
+                <span class="string">"SPEED_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"NORMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Normal),
+                <span class="string">"SLOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Slow),
+                <span class="string">"TRAFFIC_JAM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficJam),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
-    <span class="doccomment">/// Specifies routing preferences for transit routes.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>TransitRoutingPreference {
-        <span class="doccomment">/// No preference specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Indicates that the calculated route should prefer limited amounts of
-        /// walking.
-        </span>LessWalking = <span class="number">1</span>,
-        <span class="doccomment">/// Indicates that the calculated route should prefer a limited number of
-        /// transfers.
-        </span>FewerTransfers = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>TransitRoutingPreference {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                TransitRoutingPreference::Unspecified =&gt; {
-                    <span class="string">"TRANSIT_ROUTING_PREFERENCE_UNSPECIFIED"
-                </span>}
-                TransitRoutingPreference::LessWalking =&gt; <span class="string">"LESS_WALKING"</span>,
-                TransitRoutingPreference::FewerTransfers =&gt; <span class="string">"FEWER_TRANSFERS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TRANSIT_ROUTING_PREFERENCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"LESS_WALKING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LessWalking),
-                <span class="string">"FEWER_TRANSFERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FewerTransfers),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>SpeedType {
+        <span class="doccomment">/// Traffic speed in this interval.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"Speed"</span>, tag = <span class="string">"3"</span>)]
+        </span>Speed(i32),
     }
 }
-<span class="doccomment">/// Specifies the assumptions to use when calculating time in traffic. This
-/// setting affects the value returned in the `duration` field in the
-/// response, which contains the predicted time in traffic based on historical
-/// averages.
+<span class="doccomment">/// A set of values that specify factors to take into consideration when
+/// calculating the route.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-</span><span class="kw">pub enum </span>TrafficModel {
-    <span class="doccomment">/// Unused. If specified, will default to `BEST_GUESS`.
+</span><span class="kw">pub enum </span>RoutingPreference {
+    <span class="doccomment">/// No routing preference specified. Default to `TRAFFIC_UNAWARE`.
     </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Indicates that the returned `duration` should be the best
-    /// estimate of travel time given what is known about both historical traffic
-    /// conditions and live traffic. Live traffic becomes more important the closer
-    /// the `departure_time` is to now.
-    </span>BestGuess = <span class="number">1</span>,
-    <span class="doccomment">/// Indicates that the returned duration should be longer than the
-    /// actual travel time on most days, though occasional days with particularly
-    /// bad traffic conditions may exceed this value.
-    </span>Pessimistic = <span class="number">2</span>,
-    <span class="doccomment">/// Indicates that the returned duration should be shorter than the actual
-    /// travel time on most days, though occasional days with particularly good
-    /// traffic conditions may be faster than this value.
-    </span>Optimistic = <span class="number">3</span>,
+    <span class="doccomment">/// Computes routes without taking live traffic conditions into consideration.
+    /// Suitable when traffic conditions don't matter or are not applicable.
+    /// Using this value produces the lowest latency.
+    /// Note: For [RouteTravelMode][google.maps.routing.v2.RouteTravelMode] `DRIVE`
+    /// and `TWO_WHEELER` choice of route and duration are based on road network
+    /// and average time-independent traffic conditions. Results for a given
+    /// request may vary over time due to changes in the road network, updated
+    /// average traffic conditions, and the distributed nature of the service.
+    /// Results may also vary between nearly-equivalent routes at any time or
+    /// frequency.
+    </span>TrafficUnaware = <span class="number">1</span>,
+    <span class="doccomment">/// Calculates routes taking live traffic conditions into consideration.
+    /// In contrast to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to
+    /// significantly reduce latency.
+    </span>TrafficAware = <span class="number">2</span>,
+    <span class="doccomment">/// Calculates the routes taking live traffic conditions into consideration,
+    /// without applying most performance optimizations. Using this value produces
+    /// the highest latency.
+    </span>TrafficAwareOptimal = <span class="number">3</span>,
 }
-<span class="kw">impl </span>TrafficModel {
+<span class="kw">impl </span>RoutingPreference {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            TrafficModel::Unspecified =&gt; <span class="string">"TRAFFIC_MODEL_UNSPECIFIED"</span>,
-            TrafficModel::BestGuess =&gt; <span class="string">"BEST_GUESS"</span>,
-            TrafficModel::Pessimistic =&gt; <span class="string">"PESSIMISTIC"</span>,
-            TrafficModel::Optimistic =&gt; <span class="string">"OPTIMISTIC"</span>,
+            RoutingPreference::Unspecified =&gt; <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED"</span>,
+            RoutingPreference::TrafficUnaware =&gt; <span class="string">"TRAFFIC_UNAWARE"</span>,
+            RoutingPreference::TrafficAware =&gt; <span class="string">"TRAFFIC_AWARE"</span>,
+            RoutingPreference::TrafficAwareOptimal =&gt; <span class="string">"TRAFFIC_AWARE_OPTIMAL"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
     </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
         <span class="kw">match </span>value {
-            <span class="string">"TRAFFIC_MODEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"BEST_GUESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BestGuess),
-            <span class="string">"PESSIMISTIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pessimistic),
-            <span class="string">"OPTIMISTIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Optimistic),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// A set of values describing the vehicle's emission type.
-/// Applies only to the `DRIVE`
-/// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>VehicleEmissionType {
-    <span class="doccomment">/// No emission type specified. Default to `GASOLINE`.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Gasoline/petrol fueled vehicle.
-    </span>Gasoline = <span class="number">1</span>,
-    <span class="doccomment">/// Electricity powered vehicle.
-    </span>Electric = <span class="number">2</span>,
-    <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.
-    </span>Hybrid = <span class="number">3</span>,
-    <span class="doccomment">/// Diesel fueled vehicle.
-    </span>Diesel = <span class="number">4</span>,
-}
-<span class="kw">impl </span>VehicleEmissionType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            VehicleEmissionType::Unspecified =&gt; <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED"</span>,
-            VehicleEmissionType::Gasoline =&gt; <span class="string">"GASOLINE"</span>,
-            VehicleEmissionType::Electric =&gt; <span class="string">"ELECTRIC"</span>,
-            VehicleEmissionType::Hybrid =&gt; <span class="string">"HYBRID"</span>,
-            VehicleEmissionType::Diesel =&gt; <span class="string">"DIESEL"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"GASOLINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gasoline),
-            <span class="string">"ELECTRIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Electric),
-            <span class="string">"HYBRID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hybrid),
-            <span class="string">"DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Diesel),
+            <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"TRAFFIC_UNAWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficUnaware),
+            <span class="string">"TRAFFIC_AWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAware),
+            <span class="string">"TRAFFIC_AWARE_OPTIMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAwareOptimal),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -4080,63 +3208,6 @@
         }
     }
 }
-<span class="doccomment">/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a
-/// route, and include intermediate stops along the route.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Waypoint {
-    <span class="doccomment">/// Marks this waypoint as a milestone rather a stopping point. For
-    /// each non-via waypoint in the request, the response appends an entry to the
-    /// [legs][google.maps.routing.v2.Route.legs]
-    /// array to provide the details for stopovers on that leg of the trip. Set
-    /// this value to true when you want the route to pass through this waypoint
-    /// without stopping over. Via waypoints don't cause an entry to be added to
-    /// the `legs` array, but they do route the journey through the waypoint. You
-    /// can only set this value on waypoints that are intermediates. The request
-    /// fails if you set this field on terminal waypoints. If
-    /// `ComputeRoutesRequest.optimize_waypoint_order` is set to true then this
-    /// field cannot be set to true; otherwise, the request fails.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>via: bool,
-    <span class="doccomment">/// Indicates that the waypoint is meant for vehicles to stop at, where the
-    /// intention is to either pickup or drop-off. When you set this value, the
-    /// calculated route won't include non-`via` waypoints on roads that are
-    /// unsuitable for pickup and drop-off. This option works only for `DRIVE` and
-    /// `TWO_WHEELER` travel modes, and when the `location_type` is
-    /// [Location][google.maps.routing.v2.Location].
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>vehicle_stopover: bool,
-    <span class="doccomment">/// Indicates that the location of this waypoint is meant to have a preference
-    /// for the vehicle to stop at a particular side of road. When you set this
-    /// value, the route will pass through the location so that the vehicle can
-    /// stop at the side of road that the location is biased towards from the
-    /// center of the road. This option works only for 'DRIVE' and 'TWO_WHEELER'
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>side_of_road: bool,
-    <span class="doccomment">/// Different ways to represent a location.
-    </span><span class="attr">#[prost(oneof = <span class="string">"waypoint::LocationType"</span>, tags = <span class="string">"1, 2, 7"</span>)]
-    </span><span class="kw">pub </span>location_type: ::core::option::Option&lt;waypoint::LocationType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Waypoint`.
-</span><span class="kw">pub mod </span>waypoint {
-    <span class="doccomment">/// Different ways to represent a location.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>LocationType {
-        <span class="doccomment">/// A point specified using geographic coordinates, including an optional
-        /// heading.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Location(<span class="kw">super</span>::Location),
-        <span class="doccomment">/// The POI Place ID associated with the waypoint.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>PlaceId(::prost::alloc::string::String),
-        <span class="doccomment">/// Human readable address or a plus code.
-        /// See &lt;https://plus.codes&gt; for details.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-        </span>Address(::prost::alloc::string::String),
-    }
-}
 <span class="doccomment">/// A set of values that specify the unit of measure used in the display.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -4171,52 +3242,58 @@
         }
     }
 }
-<span class="doccomment">/// Contains [GeocodedWaypoints][google.maps.routing.v2.GeocodedWaypoint] for
-/// origin, destination and intermediate waypoints. Only populated for address
-/// waypoints.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GeocodingResults {
-    <span class="doccomment">/// Origin geocoded waypoint.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>origin: ::core::option::Option&lt;GeocodedWaypoint&gt;,
-    <span class="doccomment">/// Destination geocoded waypoint.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;GeocodedWaypoint&gt;,
-    <span class="doccomment">/// A list of intermediate geocoded waypoints each containing an index field
-    /// that corresponds to the zero-based position of the waypoint in the order
-    /// they were specified in the request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>intermediates: ::prost::alloc::vec::Vec&lt;GeocodedWaypoint&gt;,
+<span class="doccomment">/// A set of values describing the vehicle's emission type.
+/// Applies only to the `DRIVE`
+/// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>VehicleEmissionType {
+    <span class="doccomment">/// No emission type specified. Default to `GASOLINE`.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Gasoline/petrol fueled vehicle.
+    </span>Gasoline = <span class="number">1</span>,
+    <span class="doccomment">/// Electricity powered vehicle.
+    </span>Electric = <span class="number">2</span>,
+    <span class="doccomment">/// Hybrid fuel (such as gasoline + electric) vehicle.
+    </span>Hybrid = <span class="number">3</span>,
+    <span class="doccomment">/// Diesel fueled vehicle.
+    </span>Diesel = <span class="number">4</span>,
 }
-<span class="doccomment">/// Details about the locations used as waypoints. Only populated for address
-/// waypoints. Includes details about the geocoding results for the purposes of
-/// determining what the address was geocoded to.
+<span class="kw">impl </span>VehicleEmissionType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            VehicleEmissionType::Unspecified =&gt; <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED"</span>,
+            VehicleEmissionType::Gasoline =&gt; <span class="string">"GASOLINE"</span>,
+            VehicleEmissionType::Electric =&gt; <span class="string">"ELECTRIC"</span>,
+            VehicleEmissionType::Hybrid =&gt; <span class="string">"HYBRID"</span>,
+            VehicleEmissionType::Diesel =&gt; <span class="string">"DIESEL"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"VEHICLE_EMISSION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"GASOLINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gasoline),
+            <span class="string">"ELECTRIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Electric),
+            <span class="string">"HYBRID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hybrid),
+            <span class="string">"DIESEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Diesel),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Contains the vehicle information, such as the vehicle emission type.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GeocodedWaypoint {
-    <span class="doccomment">/// Indicates the status code resulting from the geocoding operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>geocoder_status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-    <span class="doccomment">/// The index of the corresponding intermediate waypoint in the request.
-    /// Only populated if the corresponding waypoint is an intermediate
-    /// waypoint.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>intermediate_waypoint_request_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// The type(s) of the result, in the form of zero or more type tags.
-    /// Supported types:
-    /// &lt;https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Indicates that the geocoder did not return an exact match for the original
-    /// request, though it was able to match part of the requested address. You may
-    /// wish to examine the original request for misspellings and/or an incomplete
-    /// address.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>partial_match: bool,
-    <span class="doccomment">/// The place ID for this result.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>place_id: ::prost::alloc::string::String,
+</span><span class="kw">pub struct </span>VehicleInfo {
+    <span class="doccomment">/// Describes the vehicle's emission type.
+    /// Applies only to the `DRIVE`
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    </span><span class="attr">#[prost(enumeration = <span class="string">"VehicleEmissionType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>emission_type: i32,
 }
 <span class="doccomment">/// List of toll passes around the world that we support.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -4667,16 +3744,6 @@
         }
     }
 }
-<span class="doccomment">/// Contains the vehicle information, such as the vehicle emission type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VehicleInfo {
-    <span class="doccomment">/// Describes the vehicle's emission type.
-    /// Applies only to the `DRIVE`
-    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
-    </span><span class="attr">#[prost(enumeration = <span class="string">"VehicleEmissionType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>emission_type: i32,
-}
 <span class="doccomment">/// Encapsulates a set of optional conditions to satisfy when calculating the
 /// routes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4714,53 +3781,986 @@
     </span><span class="attr">#[prost(enumeration = <span class="string">"TollPass"</span>, repeated, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>toll_passes: ::prost::alloc::vec::Vec&lt;i32&gt;,
 }
-<span class="doccomment">/// A set of values that specify factors to take into consideration when
-/// calculating the route.
+<span class="doccomment">/// Preferences for `TRANSIT` based routes that influence the route that is
+/// returned.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TransitPreferences {
+    <span class="doccomment">/// A set of travel modes to use when getting a `TRANSIT` route. Defaults to
+    /// all supported modes of travel.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"transit_preferences::TransitTravelMode"</span>, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>allowed_travel_modes: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// A routing preference that, when specified, influences the `TRANSIT` route
+    /// returned.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"transit_preferences::TransitRoutingPreference"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>routing_preference: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `TransitPreferences`.
+</span><span class="kw">pub mod </span>transit_preferences {
+    <span class="doccomment">/// A set of values used to specify the mode of transit.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>TransitTravelMode {
+        <span class="doccomment">/// No transit travel mode specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Travel by bus.
+        </span>Bus = <span class="number">1</span>,
+        <span class="doccomment">/// Travel by subway.
+        </span>Subway = <span class="number">2</span>,
+        <span class="doccomment">/// Travel by train.
+        </span>Train = <span class="number">3</span>,
+        <span class="doccomment">/// Travel by light rail or tram.
+        </span>LightRail = <span class="number">4</span>,
+        <span class="doccomment">/// Travel by rail. This is equivalent to a combination of `SUBWAY`, `TRAIN`,
+        /// and `LIGHT_RAIL`.
+        </span>Rail = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>TransitTravelMode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                TransitTravelMode::Unspecified =&gt; <span class="string">"TRANSIT_TRAVEL_MODE_UNSPECIFIED"</span>,
+                TransitTravelMode::Bus =&gt; <span class="string">"BUS"</span>,
+                TransitTravelMode::Subway =&gt; <span class="string">"SUBWAY"</span>,
+                TransitTravelMode::Train =&gt; <span class="string">"TRAIN"</span>,
+                TransitTravelMode::LightRail =&gt; <span class="string">"LIGHT_RAIL"</span>,
+                TransitTravelMode::Rail =&gt; <span class="string">"RAIL"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TRANSIT_TRAVEL_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bus),
+                <span class="string">"SUBWAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Subway),
+                <span class="string">"TRAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Train),
+                <span class="string">"LIGHT_RAIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LightRail),
+                <span class="string">"RAIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rail),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Specifies routing preferences for transit routes.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>TransitRoutingPreference {
+        <span class="doccomment">/// No preference specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Indicates that the calculated route should prefer limited amounts of
+        /// walking.
+        </span>LessWalking = <span class="number">1</span>,
+        <span class="doccomment">/// Indicates that the calculated route should prefer a limited number of
+        /// transfers.
+        </span>FewerTransfers = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>TransitRoutingPreference {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                TransitRoutingPreference::Unspecified =&gt; {
+                    <span class="string">"TRANSIT_ROUTING_PREFERENCE_UNSPECIFIED"
+                </span>}
+                TransitRoutingPreference::LessWalking =&gt; <span class="string">"LESS_WALKING"</span>,
+                TransitRoutingPreference::FewerTransfers =&gt; <span class="string">"FEWER_TRANSFERS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TRANSIT_ROUTING_PREFERENCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"LESS_WALKING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LessWalking),
+                <span class="string">"FEWER_TRANSFERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FewerTransfers),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A set of values that specify the navigation action to take for the current
+/// step (e.g., turn left, merge, straight, etc.).
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-</span><span class="kw">pub enum </span>RoutingPreference {
-    <span class="doccomment">/// No routing preference specified. Default to `TRAFFIC_UNAWARE`.
+</span><span class="kw">pub enum </span>Maneuver {
+    <span class="doccomment">/// Not used.
     </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Computes routes without taking live traffic conditions into consideration.
-    /// Suitable when traffic conditions don't matter or are not applicable.
-    /// Using this value produces the lowest latency.
-    /// Note: For [RouteTravelMode][google.maps.routing.v2.RouteTravelMode] `DRIVE`
-    /// and `TWO_WHEELER` choice of route and duration are based on road network
-    /// and average time-independent traffic conditions. Results for a given
-    /// request may vary over time due to changes in the road network, updated
-    /// average traffic conditions, and the distributed nature of the service.
-    /// Results may also vary between nearly-equivalent routes at any time or
-    /// frequency.
-    </span>TrafficUnaware = <span class="number">1</span>,
-    <span class="doccomment">/// Calculates routes taking live traffic conditions into consideration.
-    /// In contrast to `TRAFFIC_AWARE_OPTIMAL`, some optimizations are applied to
-    /// significantly reduce latency.
-    </span>TrafficAware = <span class="number">2</span>,
-    <span class="doccomment">/// Calculates the routes taking live traffic conditions into consideration,
-    /// without applying most performance optimizations. Using this value produces
-    /// the highest latency.
-    </span>TrafficAwareOptimal = <span class="number">3</span>,
+    <span class="doccomment">/// Turn slightly to the left.
+    </span>TurnSlightLeft = <span class="number">1</span>,
+    <span class="doccomment">/// Turn sharply to the left.
+    </span>TurnSharpLeft = <span class="number">2</span>,
+    <span class="doccomment">/// Make a left u-turn.
+    </span>UturnLeft = <span class="number">3</span>,
+    <span class="doccomment">/// Turn left.
+    </span>TurnLeft = <span class="number">4</span>,
+    <span class="doccomment">/// Turn slightly to the right.
+    </span>TurnSlightRight = <span class="number">5</span>,
+    <span class="doccomment">/// Turn sharply to the right.
+    </span>TurnSharpRight = <span class="number">6</span>,
+    <span class="doccomment">/// Make a right u-turn.
+    </span>UturnRight = <span class="number">7</span>,
+    <span class="doccomment">/// Turn right.
+    </span>TurnRight = <span class="number">8</span>,
+    <span class="doccomment">/// Go straight.
+    </span>Straight = <span class="number">9</span>,
+    <span class="doccomment">/// Take the left ramp.
+    </span>RampLeft = <span class="number">10</span>,
+    <span class="doccomment">/// Take the right ramp.
+    </span>RampRight = <span class="number">11</span>,
+    <span class="doccomment">/// Merge into traffic.
+    </span>Merge = <span class="number">12</span>,
+    <span class="doccomment">/// Take the left fork.
+    </span>ForkLeft = <span class="number">13</span>,
+    <span class="doccomment">/// Take the right fork.
+    </span>ForkRight = <span class="number">14</span>,
+    <span class="doccomment">/// Take the ferry.
+    </span>Ferry = <span class="number">15</span>,
+    <span class="doccomment">/// Take the train leading onto the ferry.
+    </span>FerryTrain = <span class="number">16</span>,
+    <span class="doccomment">/// Turn left at the roundabout.
+    </span>RoundaboutLeft = <span class="number">17</span>,
+    <span class="doccomment">/// Turn right at the roundabout.
+    </span>RoundaboutRight = <span class="number">18</span>,
+    <span class="doccomment">/// Initial maneuver.
+    </span>Depart = <span class="number">19</span>,
+    <span class="doccomment">/// Used to indicate a street name change.
+    </span>NameChange = <span class="number">20</span>,
 }
-<span class="kw">impl </span>RoutingPreference {
+<span class="kw">impl </span>Maneuver {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            RoutingPreference::Unspecified =&gt; <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED"</span>,
-            RoutingPreference::TrafficUnaware =&gt; <span class="string">"TRAFFIC_UNAWARE"</span>,
-            RoutingPreference::TrafficAware =&gt; <span class="string">"TRAFFIC_AWARE"</span>,
-            RoutingPreference::TrafficAwareOptimal =&gt; <span class="string">"TRAFFIC_AWARE_OPTIMAL"</span>,
+            Maneuver::Unspecified =&gt; <span class="string">"MANEUVER_UNSPECIFIED"</span>,
+            Maneuver::TurnSlightLeft =&gt; <span class="string">"TURN_SLIGHT_LEFT"</span>,
+            Maneuver::TurnSharpLeft =&gt; <span class="string">"TURN_SHARP_LEFT"</span>,
+            Maneuver::UturnLeft =&gt; <span class="string">"UTURN_LEFT"</span>,
+            Maneuver::TurnLeft =&gt; <span class="string">"TURN_LEFT"</span>,
+            Maneuver::TurnSlightRight =&gt; <span class="string">"TURN_SLIGHT_RIGHT"</span>,
+            Maneuver::TurnSharpRight =&gt; <span class="string">"TURN_SHARP_RIGHT"</span>,
+            Maneuver::UturnRight =&gt; <span class="string">"UTURN_RIGHT"</span>,
+            Maneuver::TurnRight =&gt; <span class="string">"TURN_RIGHT"</span>,
+            Maneuver::Straight =&gt; <span class="string">"STRAIGHT"</span>,
+            Maneuver::RampLeft =&gt; <span class="string">"RAMP_LEFT"</span>,
+            Maneuver::RampRight =&gt; <span class="string">"RAMP_RIGHT"</span>,
+            Maneuver::Merge =&gt; <span class="string">"MERGE"</span>,
+            Maneuver::ForkLeft =&gt; <span class="string">"FORK_LEFT"</span>,
+            Maneuver::ForkRight =&gt; <span class="string">"FORK_RIGHT"</span>,
+            Maneuver::Ferry =&gt; <span class="string">"FERRY"</span>,
+            Maneuver::FerryTrain =&gt; <span class="string">"FERRY_TRAIN"</span>,
+            Maneuver::RoundaboutLeft =&gt; <span class="string">"ROUNDABOUT_LEFT"</span>,
+            Maneuver::RoundaboutRight =&gt; <span class="string">"ROUNDABOUT_RIGHT"</span>,
+            Maneuver::Depart =&gt; <span class="string">"DEPART"</span>,
+            Maneuver::NameChange =&gt; <span class="string">"NAME_CHANGE"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
     </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
         <span class="kw">match </span>value {
-            <span class="string">"ROUTING_PREFERENCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"TRAFFIC_UNAWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficUnaware),
-            <span class="string">"TRAFFIC_AWARE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAware),
-            <span class="string">"TRAFFIC_AWARE_OPTIMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TrafficAwareOptimal),
+            <span class="string">"MANEUVER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"TURN_SLIGHT_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSlightLeft),
+            <span class="string">"TURN_SHARP_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSharpLeft),
+            <span class="string">"UTURN_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UturnLeft),
+            <span class="string">"TURN_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnLeft),
+            <span class="string">"TURN_SLIGHT_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSlightRight),
+            <span class="string">"TURN_SHARP_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnSharpRight),
+            <span class="string">"UTURN_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UturnRight),
+            <span class="string">"TURN_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TurnRight),
+            <span class="string">"STRAIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Straight),
+            <span class="string">"RAMP_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RampLeft),
+            <span class="string">"RAMP_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RampRight),
+            <span class="string">"MERGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Merge),
+            <span class="string">"FORK_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForkLeft),
+            <span class="string">"FORK_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ForkRight),
+            <span class="string">"FERRY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ferry),
+            <span class="string">"FERRY_TRAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FerryTrain),
+            <span class="string">"ROUNDABOUT_LEFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RoundaboutLeft),
+            <span class="string">"ROUNDABOUT_RIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RoundaboutRight),
+            <span class="string">"DEPART" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Depart),
+            <span class="string">"NAME_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NameChange),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Localized description of time.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LocalizedTime {
+    <span class="doccomment">/// The time specified as a string in a given time zone.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>time: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText&gt;,
+    <span class="doccomment">/// Contains the time zone. The value is the name of the time zone as defined
+    /// in the [IANA Time Zone Database](&lt;http://www.iana.org/time-zones&gt;), e.g.
+    /// "America/New_York".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>time_zone: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Encapsulates navigation instructions for a
+/// [RouteLegStep][google.maps.routing.v2.RouteLegStep]
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NavigationInstruction {
+    <span class="doccomment">/// Encapsulates the navigation instructions for the current step (e.g., turn
+    /// left, merge, straight, etc.). This field determines which icon to display.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"Maneuver"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>maneuver: i32,
+    <span class="doccomment">/// Instructions for navigating this step.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>instructions: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Labels for the [Route][google.maps.routing.v2.Route] that are useful to
+/// identify specific properties of the route to compare against others.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>RouteLabel {
+    <span class="doccomment">/// Default - not used.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The default "best" route returned for the route computation.
+    </span>DefaultRoute = <span class="number">1</span>,
+    <span class="doccomment">/// An alternative to the default "best" route. Routes like this will be
+    /// returned when
+    /// [compute_alternative_routes][google.maps.routing.v2.ComputeRoutesRequest.compute_alternative_routes]
+    /// is specified.
+    </span>DefaultRouteAlternate = <span class="number">2</span>,
+    <span class="doccomment">/// Fuel efficient route. Routes labeled with this value are determined to be
+    /// optimized for Eco parameters such as fuel consumption.
+    </span>FuelEfficient = <span class="number">3</span>,
+}
+<span class="kw">impl </span>RouteLabel {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            RouteLabel::Unspecified =&gt; <span class="string">"ROUTE_LABEL_UNSPECIFIED"</span>,
+            RouteLabel::DefaultRoute =&gt; <span class="string">"DEFAULT_ROUTE"</span>,
+            RouteLabel::DefaultRouteAlternate =&gt; <span class="string">"DEFAULT_ROUTE_ALTERNATE"</span>,
+            RouteLabel::FuelEfficient =&gt; <span class="string">"FUEL_EFFICIENT"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"ROUTE_LABEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"DEFAULT_ROUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DefaultRoute),
+            <span class="string">"DEFAULT_ROUTE_ALTERNATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DefaultRouteAlternate),
+            <span class="string">"FUEL_EFFICIENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FuelEfficient),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Encapsulates an encoded polyline.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Polyline {
+    <span class="doccomment">/// Encapsulates the type of polyline. Defaults to encoded_polyline.
+    </span><span class="attr">#[prost(oneof = <span class="string">"polyline::PolylineType"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>polyline_type: ::core::option::Option&lt;polyline::PolylineType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Polyline`.
+</span><span class="kw">pub mod </span>polyline {
+    <span class="doccomment">/// Encapsulates the type of polyline. Defaults to encoded_polyline.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>PolylineType {
+        <span class="doccomment">/// The string encoding of the polyline using the [polyline encoding
+        /// algorithm](&lt;https://developers.google.com/maps/documentation/utilities/polylinealgorithm&gt;)
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>EncodedPolyline(::prost::alloc::string::String),
+        <span class="doccomment">/// Specifies a polyline using the [GeoJSON LineString
+        /// format](&lt;https://tools.ietf.org/html/rfc7946#section-3.1.4&gt;)
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GeoJsonLinestring(::prost_types::Struct),
+    }
+}
+<span class="doccomment">/// A set of values that specify the quality of the polyline.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>PolylineQuality {
+    <span class="doccomment">/// No polyline quality preference specified. Defaults to `OVERVIEW`.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Specifies a high-quality polyline - which is composed using more points
+    /// than `OVERVIEW`, at the cost of increased response size. Use this value
+    /// when you need more precision.
+    </span>HighQuality = <span class="number">1</span>,
+    <span class="doccomment">/// Specifies an overview polyline - which is composed using a small number of
+    /// points. Use this value when displaying an overview of the route. Using this
+    /// option has a lower request latency compared to using the
+    /// `HIGH_QUALITY` option.
+    </span>Overview = <span class="number">2</span>,
+}
+<span class="kw">impl </span>PolylineQuality {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            PolylineQuality::Unspecified =&gt; <span class="string">"POLYLINE_QUALITY_UNSPECIFIED"</span>,
+            PolylineQuality::HighQuality =&gt; <span class="string">"HIGH_QUALITY"</span>,
+            PolylineQuality::Overview =&gt; <span class="string">"OVERVIEW"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"POLYLINE_QUALITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"HIGH_QUALITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HighQuality),
+            <span class="string">"OVERVIEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Overview),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Specifies the preferred type of polyline to be returned.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>PolylineEncoding {
+    <span class="doccomment">/// No polyline type preference specified. Defaults to `ENCODED_POLYLINE`.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Specifies a polyline encoded using the [polyline encoding
+    /// algorithm](&lt;https://developers.google.com/maps/documentation/utilities/polylinealgorithm&gt;).
+    </span>EncodedPolyline = <span class="number">1</span>,
+    <span class="doccomment">/// Specifies a polyline using the [GeoJSON LineString
+    /// format](&lt;https://tools.ietf.org/html/rfc7946#section-3.1.4&gt;)
+    </span>GeoJsonLinestring = <span class="number">2</span>,
+}
+<span class="kw">impl </span>PolylineEncoding {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            PolylineEncoding::Unspecified =&gt; <span class="string">"POLYLINE_ENCODING_UNSPECIFIED"</span>,
+            PolylineEncoding::EncodedPolyline =&gt; <span class="string">"ENCODED_POLYLINE"</span>,
+            PolylineEncoding::GeoJsonLinestring =&gt; <span class="string">"GEO_JSON_LINESTRING"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"POLYLINE_ENCODING_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"ENCODED_POLYLINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EncodedPolyline),
+            <span class="string">"GEO_JSON_LINESTRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GeoJsonLinestring),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Encapsulates a waypoint. Waypoints mark both the beginning and end of a
+/// route, and include intermediate stops along the route.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Waypoint {
+    <span class="doccomment">/// Marks this waypoint as a milestone rather a stopping point. For
+    /// each non-via waypoint in the request, the response appends an entry to the
+    /// [legs][google.maps.routing.v2.Route.legs]
+    /// array to provide the details for stopovers on that leg of the trip. Set
+    /// this value to true when you want the route to pass through this waypoint
+    /// without stopping over. Via waypoints don't cause an entry to be added to
+    /// the `legs` array, but they do route the journey through the waypoint. You
+    /// can only set this value on waypoints that are intermediates. The request
+    /// fails if you set this field on terminal waypoints. If
+    /// `ComputeRoutesRequest.optimize_waypoint_order` is set to true then this
+    /// field cannot be set to true; otherwise, the request fails.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>via: bool,
+    <span class="doccomment">/// Indicates that the waypoint is meant for vehicles to stop at, where the
+    /// intention is to either pickup or drop-off. When you set this value, the
+    /// calculated route won't include non-`via` waypoints on roads that are
+    /// unsuitable for pickup and drop-off. This option works only for `DRIVE` and
+    /// `TWO_WHEELER` travel modes, and when the `location_type` is
+    /// [Location][google.maps.routing.v2.Location].
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>vehicle_stopover: bool,
+    <span class="doccomment">/// Indicates that the location of this waypoint is meant to have a preference
+    /// for the vehicle to stop at a particular side of road. When you set this
+    /// value, the route will pass through the location so that the vehicle can
+    /// stop at the side of road that the location is biased towards from the
+    /// center of the road. This option works only for 'DRIVE' and 'TWO_WHEELER'
+    /// [RouteTravelMode][google.maps.routing.v2.RouteTravelMode].
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>side_of_road: bool,
+    <span class="doccomment">/// Different ways to represent a location.
+    </span><span class="attr">#[prost(oneof = <span class="string">"waypoint::LocationType"</span>, tags = <span class="string">"1, 2, 7"</span>)]
+    </span><span class="kw">pub </span>location_type: ::core::option::Option&lt;waypoint::LocationType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Waypoint`.
+</span><span class="kw">pub mod </span>waypoint {
+    <span class="doccomment">/// Different ways to represent a location.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>LocationType {
+        <span class="doccomment">/// A point specified using geographic coordinates, including an optional
+        /// heading.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Location(<span class="kw">super</span>::Location),
+        <span class="doccomment">/// The POI Place ID associated with the waypoint.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>PlaceId(::prost::alloc::string::String),
+        <span class="doccomment">/// Human readable address or a plus code.
+        /// See &lt;https://plus.codes&gt; for details.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+        </span>Address(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// A set of values used to specify the mode of travel.
+/// NOTE: `WALK`, `BICYCLE`, and `TWO_WHEELER` routes are in beta and might
+/// sometimes be missing clear sidewalks, pedestrian paths, or bicycling paths.
+/// You must display this warning to the user for all walking, bicycling, and
+/// two-wheel routes that you display in your app.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>RouteTravelMode {
+    <span class="doccomment">/// No travel mode specified. Defaults to `DRIVE`.
+    </span>TravelModeUnspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Travel by passenger car.
+    </span>Drive = <span class="number">1</span>,
+    <span class="doccomment">/// Travel by bicycle.
+    </span>Bicycle = <span class="number">2</span>,
+    <span class="doccomment">/// Travel by walking.
+    </span>Walk = <span class="number">3</span>,
+    <span class="doccomment">/// Two-wheeled, motorized vehicle. For example, motorcycle. Note that this
+    /// differs from the `BICYCLE` travel mode which covers human-powered mode.
+    </span>TwoWheeler = <span class="number">4</span>,
+    <span class="doccomment">/// Travel by public transit routes, where available.
+    </span>Transit = <span class="number">7</span>,
+}
+<span class="kw">impl </span>RouteTravelMode {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            RouteTravelMode::TravelModeUnspecified =&gt; <span class="string">"TRAVEL_MODE_UNSPECIFIED"</span>,
+            RouteTravelMode::Drive =&gt; <span class="string">"DRIVE"</span>,
+            RouteTravelMode::Bicycle =&gt; <span class="string">"BICYCLE"</span>,
+            RouteTravelMode::Walk =&gt; <span class="string">"WALK"</span>,
+            RouteTravelMode::TwoWheeler =&gt; <span class="string">"TWO_WHEELER"</span>,
+            RouteTravelMode::Transit =&gt; <span class="string">"TRANSIT"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TRAVEL_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TravelModeUnspecified),
+            <span class="string">"DRIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Drive),
+            <span class="string">"BICYCLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bicycle),
+            <span class="string">"WALK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Walk),
+            <span class="string">"TWO_WHEELER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TwoWheeler),
+            <span class="string">"TRANSIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Transit),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Encapsulates toll information on a [Route][google.maps.routing.v2.Route] or
+/// on a [RouteLeg][google.maps.routing.v2.RouteLeg].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TollInfo {
+    <span class="doccomment">/// The monetary amount of tolls for the corresponding
+    /// [Route][google.maps.routing.v2.Route] or
+    /// [RouteLeg][google.maps.routing.v2.RouteLeg]. This list contains a money
+    /// amount for each currency that is expected to be charged by the toll
+    /// stations. Typically this list will contain only one item for routes with
+    /// tolls in one currency. For international trips, this list may contain
+    /// multiple items to reflect tolls in different currencies.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>estimated_price: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money&gt;,
+}
+<span class="doccomment">/// Contains a route, which consists of a series of connected road segments
+/// that join beginning, ending, and intermediate waypoints.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Route {
+    <span class="doccomment">/// Labels for the `Route` that are useful to identify specific properties
+    /// of the route to compare against others.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteLabel"</span>, repeated, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>route_labels: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// A collection of legs (path segments between waypoints) that make up the
+    /// route. Each leg corresponds to the trip between two non-`via`
+    /// [Waypoints][google.maps.routing.v2.Waypoint]. For example, a route with no
+    /// intermediate waypoints has only one leg. A route that includes one
+    /// non-`via` intermediate waypoint has two legs. A route that includes one
+    /// `via` intermediate waypoint has one leg. The order of the legs matches the
+    /// order of waypoints from `origin` to `intermediates` to `destination`.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>legs: ::prost::alloc::vec::Vec&lt;RouteLeg&gt;,
+    <span class="doccomment">/// The travel distance of the route, in meters.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>distance_meters: i32,
+    <span class="doccomment">/// The length of time needed to navigate the route. If you set the
+    /// `routing_preference` to `TRAFFIC_UNAWARE`, then this value is the same as
+    /// `static_duration`. If you set the `routing_preference` to either
+    /// `TRAFFIC_AWARE` or `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated
+    /// taking traffic conditions into account.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The duration of travel through the route without taking traffic
+    /// conditions into consideration.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The overall route polyline. This polyline is the combined polyline of
+    /// all `legs`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>polyline: ::core::option::Option&lt;Polyline&gt;,
+    <span class="doccomment">/// A description of the route.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// An array of warnings to show when displaying the route.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>warnings: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The viewport bounding box of the polyline.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>viewport: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::geo::r#type::Viewport&gt;,
+    <span class="doccomment">/// Additional information about the route.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>travel_advisory: ::core::option::Option&lt;RouteTravelAdvisory&gt;,
+    <span class="doccomment">/// If you set
+    /// [optimize_waypoint_order][google.maps.routing.v2.ComputeRoutesRequest.optimize_waypoint_order]
+    /// to true, this field contains the optimized ordering of intermediate
+    /// waypoints. Otherwise, this field is empty.
+    /// For example, if you give an input of Origin: LA; Intermediate waypoints:
+    /// Dallas, Bangor, Phoenix; Destination: New York; and the optimized
+    /// intermediate waypoint order is Phoenix, Dallas, Bangor, then this field
+    /// contains the values \[2, 0, 1\]. The index starts with 0 for the first
+    /// intermediate waypoint provided in the input.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>optimized_intermediate_waypoint_index: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// Text representations of properties of the `Route`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;route::RouteLocalizedValues&gt;,
+    <span class="doccomment">/// A web-safe, base64-encoded route token that can be passed to the Navigation
+    /// SDK, that allows the Navigation SDK to reconstruct the route during
+    /// navigation, and, in the event of rerouting, honor the original intention
+    /// when you created the route by calling ComputeRoutes. Customers should treat
+    /// this token as an opaque blob. It is not meant for reading or mutating.
+    /// NOTE: `Route.route_token` is only available for requests that have set
+    /// `ComputeRoutesRequest.routing_preference` to `TRAFFIC_AWARE` or
+    /// `TRAFFIC_AWARE_OPTIMAL`. `Route.route_token` is not supported for requests
+    /// that have Via waypoints.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>route_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `Route`.
+</span><span class="kw">pub mod </span>route {
+    <span class="doccomment">/// Text representations of certain properties.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteLocalizedValues {
+        <span class="doccomment">/// Travel distance represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>distance: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+        <span class="doccomment">/// Duration taking traffic conditions into consideration, represented in
+        /// text form. Note: If you did not request traffic information, this value
+        /// will be the same value as static_duration.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>duration: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+        <span class="doccomment">/// Duration without taking traffic conditions into
+        /// consideration, represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+        <span class="doccomment">/// Transit fare represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>transit_fare: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+    }
+}
+<span class="doccomment">/// Contains the additional information that the user should be informed
+/// about, such as possible traffic zone restrictions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteTravelAdvisory {
+    <span class="doccomment">/// Contains information about tolls on the route. This field is only populated
+    /// if tolls are expected on the route. If this field is set, but the
+    /// estimatedPrice subfield is not populated, then the route contains tolls,
+    /// but the estimated price is unknown. If this field is not set, then there
+    /// are no tolls expected on the route.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>toll_info: ::core::option::Option&lt;TollInfo&gt;,
+    <span class="doccomment">/// Speed reading intervals detailing traffic density. Applicable in case of
+    /// `TRAFFIC_AWARE` and `TRAFFIC_AWARE_OPTIMAL` routing preferences.
+    /// The intervals cover the entire polyline of the route without overlap.
+    /// The start point of a specified interval is the same as the end point of the
+    /// preceding interval.
+    ///
+    /// Example:
+    ///
+    ///      polyline: A ---- B ---- C ---- D ---- E ---- F ---- G
+    ///      speed_reading_intervals: [A,C), [C,D), [D,G).
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>speed_reading_intervals: ::prost::alloc::vec::Vec&lt;SpeedReadingInterval&gt;,
+    <span class="doccomment">/// The predicted fuel consumption in microliters.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>fuel_consumption_microliters: i64,
+    <span class="doccomment">/// Returned route may have restrictions that are not suitable for requested
+    /// travel mode or route modifiers.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>route_restrictions_partially_ignored: bool,
+    <span class="doccomment">/// If present, contains the total fare or ticket costs on this route
+    /// This property is only returned for `TRANSIT` requests and only
+    /// for routes where fare information is available for all transit steps.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>transit_fare: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Money&gt;,
+}
+<span class="doccomment">/// Contains the additional information that the user should be informed
+/// about on a leg step, such as possible traffic zone restrictions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteLegTravelAdvisory {
+    <span class="doccomment">/// Contains information about tolls on the specific `RouteLeg`.
+    /// This field is only populated if we expect there are tolls on the
+    /// `RouteLeg`. If this field is set but the estimated_price subfield is not
+    /// populated, we expect that road contains tolls but we do not know an
+    /// estimated price. If this field does not exist, then there is no toll on the
+    /// `RouteLeg`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>toll_info: ::core::option::Option&lt;TollInfo&gt;,
+    <span class="doccomment">/// Speed reading intervals detailing traffic density. Applicable in case of
+    /// `TRAFFIC_AWARE` and `TRAFFIC_AWARE_OPTIMAL` routing preferences.
+    /// The intervals cover the entire polyline of the `RouteLeg` without overlap.
+    /// The start point of a specified interval is the same as the end point of the
+    /// preceding interval.
+    ///
+    /// Example:
+    ///
+    ///      polyline: A ---- B ---- C ---- D ---- E ---- F ---- G
+    ///      speed_reading_intervals: [A,C), [C,D), [D,G).
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>speed_reading_intervals: ::prost::alloc::vec::Vec&lt;SpeedReadingInterval&gt;,
+}
+<span class="doccomment">/// Contains the additional information that the user should be informed
+/// about, such as possible traffic zone restrictions on a leg step.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteLegStepTravelAdvisory {
+    <span class="doccomment">/// NOTE: This field is not currently populated.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>speed_reading_intervals: ::prost::alloc::vec::Vec&lt;SpeedReadingInterval&gt;,
+}
+<span class="doccomment">/// Contains a segment between non-`via` waypoints.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteLeg {
+    <span class="doccomment">/// The travel distance of the route leg, in meters.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>distance_meters: i32,
+    <span class="doccomment">/// The length of time needed to navigate the leg. If the `route_preference`
+    /// is set to `TRAFFIC_UNAWARE`, then this value is the same as
+    /// `static_duration`. If the `route_preference` is either `TRAFFIC_AWARE` or
+    /// `TRAFFIC_AWARE_OPTIMAL`, then this value is calculated taking traffic
+    /// conditions into account.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The duration of travel through the leg, calculated without taking
+    /// traffic conditions into consideration.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The overall polyline for this leg that includes each `step`'s
+    /// polyline.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>polyline: ::core::option::Option&lt;Polyline&gt;,
+    <span class="doccomment">/// The start location of this leg. This location might be different from the
+    /// provided `origin`. For example, when the provided `origin` is not near a
+    /// road, this is a point on the road.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>start_location: ::core::option::Option&lt;Location&gt;,
+    <span class="doccomment">/// The end location of this leg. This location might be different from the
+    /// provided `destination`. For example, when the provided `destination` is not
+    /// near a road, this is a point on the road.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>end_location: ::core::option::Option&lt;Location&gt;,
+    <span class="doccomment">/// An array of steps denoting segments within this leg. Each step represents
+    /// one navigation instruction.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;RouteLegStep&gt;,
+    <span class="doccomment">/// Contains the additional information that the user should be informed
+    /// about, such as possible traffic zone restrictions, on a route leg.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>travel_advisory: ::core::option::Option&lt;RouteLegTravelAdvisory&gt;,
+    <span class="doccomment">/// Text representations of properties of the `RouteLeg`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;route_leg::RouteLegLocalizedValues&gt;,
+    <span class="doccomment">/// Overview information about the steps in this `RouteLeg`. This field is only
+    /// populated for TRANSIT routes.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>steps_overview: ::core::option::Option&lt;route_leg::StepsOverview&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RouteLeg`.
+</span><span class="kw">pub mod </span>route_leg {
+    <span class="doccomment">/// Text representations of certain properties.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteLegLocalizedValues {
+        <span class="doccomment">/// Travel distance represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>distance: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+        <span class="doccomment">/// Duration taking traffic conditions into consideration represented in text
+        /// form. Note: If you did not request traffic information, this value will
+        /// be the same value as static_duration.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>duration: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+        <span class="doccomment">/// Duration without taking traffic conditions into
+        /// consideration, represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+    }
+    <span class="doccomment">/// Provides overview information about a list of `RouteLegStep`s.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>StepsOverview {
+        <span class="doccomment">/// Summarized information about different multi-modal segments of
+        /// the `RouteLeg.steps`. This field is not populated if the `RouteLeg` does
+        /// not contain any multi-modal segments in the steps.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>multi_modal_segments: ::prost::alloc::vec::Vec&lt;
+            steps_overview::MultiModalSegment,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `StepsOverview`.
+    </span><span class="kw">pub mod </span>steps_overview {
+        <span class="doccomment">/// Provides summarized information about different multi-modal segments of
+        /// the `RouteLeg.steps`. A multi-modal segment is defined as one or more
+        /// contiguous `RouteLegStep` that have the same `RouteTravelMode`.
+        /// This field is not populated if the `RouteLeg` does not contain any
+        /// multi-modal segments in the steps.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>MultiModalSegment {
+            <span class="doccomment">/// The corresponding `RouteLegStep` index that is the start of a
+            /// multi-modal segment.
+            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>step_start_index: ::core::option::Option&lt;i32&gt;,
+            <span class="doccomment">/// The corresponding `RouteLegStep` index that is the end of a
+            /// multi-modal segment.
+            </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>step_end_index: ::core::option::Option&lt;i32&gt;,
+            <span class="doccomment">/// NavigationInstruction for the multi-modal segment.
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>navigation_instruction: ::core::option::Option&lt;
+                <span class="kw">super</span>::<span class="kw">super</span>::NavigationInstruction,
+            &gt;,
+            <span class="doccomment">/// The travel mode of the multi-modal segment.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::RouteTravelMode"</span>, tag = <span class="string">"4"</span>)]
+            </span><span class="kw">pub </span>travel_mode: i32,
+        }
+    }
+}
+<span class="doccomment">/// Contains a segment of a [RouteLeg][google.maps.routing.v2.RouteLeg]. A
+/// step corresponds to a single navigation instruction. Route legs are made up
+/// of steps.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteLegStep {
+    <span class="doccomment">/// The travel distance of this step, in meters. In some circumstances, this
+    /// field might not have a value.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>distance_meters: i32,
+    <span class="doccomment">/// The duration of travel through this step without taking traffic conditions
+    /// into consideration. In some circumstances, this field might not have a
+    /// value.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// The polyline associated with this step.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>polyline: ::core::option::Option&lt;Polyline&gt;,
+    <span class="doccomment">/// The start location of this step.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>start_location: ::core::option::Option&lt;Location&gt;,
+    <span class="doccomment">/// The end location of this step.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>end_location: ::core::option::Option&lt;Location&gt;,
+    <span class="doccomment">/// Navigation instructions.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>navigation_instruction: ::core::option::Option&lt;NavigationInstruction&gt;,
+    <span class="doccomment">/// Contains the additional information that the user should be informed
+    /// about, such as possible traffic zone restrictions, on a leg step.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>travel_advisory: ::core::option::Option&lt;RouteLegStepTravelAdvisory&gt;,
+    <span class="doccomment">/// Text representations of properties of the `RouteLegStep`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;
+        route_leg_step::RouteLegStepLocalizedValues,
+    &gt;,
+    <span class="doccomment">/// Details pertaining to this step if the travel mode is `TRANSIT`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>transit_details: ::core::option::Option&lt;RouteLegStepTransitDetails&gt;,
+    <span class="doccomment">/// The travel mode used for this step.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"RouteTravelMode"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>travel_mode: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `RouteLegStep`.
+</span><span class="kw">pub mod </span>route_leg_step {
+    <span class="doccomment">/// Text representations of certain properties.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>RouteLegStepLocalizedValues {
+        <span class="doccomment">/// Travel distance represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>distance: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+        <span class="doccomment">/// Duration without taking traffic conditions into
+        /// consideration, represented in text form.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>static_duration: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText,
+        &gt;,
+    }
+}
+<span class="doccomment">/// Additional information for the `RouteLegStep` related to `TRANSIT` routes.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RouteLegStepTransitDetails {
+    <span class="doccomment">/// Information about the arrival and departure stops for the step.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>stop_details: ::core::option::Option&lt;
+        route_leg_step_transit_details::TransitStopDetails,
+    &gt;,
+    <span class="doccomment">/// Text representations of properties of the `RouteLegStepTransitDetails`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>localized_values: ::core::option::Option&lt;
+        route_leg_step_transit_details::TransitDetailsLocalizedValues,
+    &gt;,
+    <span class="doccomment">/// Specifies the direction in which to travel on this line as marked on
+    /// the vehicle or at the departure stop. The direction is often the terminus
+    /// station.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>headsign: ::prost::alloc::string::String,
+    <span class="doccomment">/// Specifies the expected time as a duration between departures from the same
+    /// stop at this time. For example, with a headway seconds value of 600, you
+    /// would expect a ten minute wait if you should miss your bus.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>headway: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Information about the transit line used in this step.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>transit_line: ::core::option::Option&lt;TransitLine&gt;,
+    <span class="doccomment">/// The number of stops from the departure to the arrival stop. This count
+    /// includes the arrival stop, but excludes the departure stop. For example, if
+    /// your route leaves from Stop A, passes through stops B and C, and arrives at
+    /// stop D, stop_count will return 3.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>stop_count: i32,
+    <span class="doccomment">/// The text that appears in schedules and sign boards to identify a transit
+    /// trip to passengers. The text should uniquely identify a trip within a
+    /// service day. For example, "538" is the `trip_short_text` of the Amtrak
+    /// train that leaves San Jose, CA at 15:10 on weekdays to Sacramento, CA.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>trip_short_text: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `RouteLegStepTransitDetails`.
+</span><span class="kw">pub mod </span>route_leg_step_transit_details {
+    <span class="doccomment">/// Details about the transit stops for the `RouteLegStep`
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TransitStopDetails {
+        <span class="doccomment">/// Information about the arrival stop for the step.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>arrival_stop: ::core::option::Option&lt;<span class="kw">super</span>::TransitStop&gt;,
+        <span class="doccomment">/// The estimated time of arrival for the step.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>arrival_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// Information about the departure stop for the step.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>departure_stop: ::core::option::Option&lt;<span class="kw">super</span>::TransitStop&gt;,
+        <span class="doccomment">/// The estimated time of departure for the step.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    }
+    <span class="doccomment">/// Localized descriptions of values for RouteTransitDetails.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TransitDetailsLocalizedValues {
+        <span class="doccomment">/// Time in its formatted text representation with a corresponding time zone.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>arrival_time: ::core::option::Option&lt;<span class="kw">super</span>::LocalizedTime&gt;,
+        <span class="doccomment">/// Time in its formatted text representation with a corresponding time zone.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>departure_time: ::core::option::Option&lt;<span class="kw">super</span>::LocalizedTime&gt;,
+    }
+}
+<span class="doccomment">/// Specifies the assumptions to use when calculating time in traffic. This
+/// setting affects the value returned in the `duration` field in the
+/// response, which contains the predicted time in traffic based on historical
+/// averages.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TrafficModel {
+    <span class="doccomment">/// Unused. If specified, will default to `BEST_GUESS`.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Indicates that the returned `duration` should be the best
+    /// estimate of travel time given what is known about both historical traffic
+    /// conditions and live traffic. Live traffic becomes more important the closer
+    /// the `departure_time` is to now.
+    </span>BestGuess = <span class="number">1</span>,
+    <span class="doccomment">/// Indicates that the returned duration should be longer than the
+    /// actual travel time on most days, though occasional days with particularly
+    /// bad traffic conditions may exceed this value.
+    </span>Pessimistic = <span class="number">2</span>,
+    <span class="doccomment">/// Indicates that the returned duration should be shorter than the actual
+    /// travel time on most days, though occasional days with particularly good
+    /// traffic conditions may be faster than this value.
+    </span>Optimistic = <span class="number">3</span>,
+}
+<span class="kw">impl </span>TrafficModel {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TrafficModel::Unspecified =&gt; <span class="string">"TRAFFIC_MODEL_UNSPECIFIED"</span>,
+            TrafficModel::BestGuess =&gt; <span class="string">"BEST_GUESS"</span>,
+            TrafficModel::Pessimistic =&gt; <span class="string">"PESSIMISTIC"</span>,
+            TrafficModel::Optimistic =&gt; <span class="string">"OPTIMISTIC"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TRAFFIC_MODEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"BEST_GUESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BestGuess),
+            <span class="string">"PESSIMISTIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pessimistic),
+            <span class="string">"OPTIMISTIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Optimistic),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }

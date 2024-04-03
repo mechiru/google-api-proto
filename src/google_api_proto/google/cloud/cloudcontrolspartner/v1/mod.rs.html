@@ -1665,48 +1665,7 @@
 <a href="#1663" id="1663">1663</a>
 <a href="#1664" id="1664">1664</a>
 <a href="#1665" id="1665">1665</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Enum for possible completion states.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>CompletionState {
-    <span class="doccomment">/// Unspecified completion state.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Task started (has start date) but not yet completed.
-    </span>Pending = <span class="number">1</span>,
-    <span class="doccomment">/// Succeeded state.
-    </span>Succeeded = <span class="number">2</span>,
-    <span class="doccomment">/// Failed state.
-    </span>Failed = <span class="number">3</span>,
-    <span class="doccomment">/// Not applicable state.
-    </span>NotApplicable = <span class="number">4</span>,
-}
-<span class="kw">impl </span>CompletionState {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            CompletionState::Unspecified =&gt; <span class="string">"COMPLETION_STATE_UNSPECIFIED"</span>,
-            CompletionState::Pending =&gt; <span class="string">"PENDING"</span>,
-            CompletionState::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-            CompletionState::Failed =&gt; <span class="string">"FAILED"</span>,
-            CompletionState::NotApplicable =&gt; <span class="string">"NOT_APPLICABLE"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"COMPLETION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
-            <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-            <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-            <span class="string">"NOT_APPLICABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotApplicable),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Details about the Access request.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Details about the Access request.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AccessApprovalRequest {
@@ -1858,6 +1817,47 @@
                 <span class="string">"CLOUD_INITIATED_ACCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudInitiatedAccess),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
+        }
+    }
+}
+<span class="doccomment">/// Enum for possible completion states.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>CompletionState {
+    <span class="doccomment">/// Unspecified completion state.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Task started (has start date) but not yet completed.
+    </span>Pending = <span class="number">1</span>,
+    <span class="doccomment">/// Succeeded state.
+    </span>Succeeded = <span class="number">2</span>,
+    <span class="doccomment">/// Failed state.
+    </span>Failed = <span class="number">3</span>,
+    <span class="doccomment">/// Not applicable state.
+    </span>NotApplicable = <span class="number">4</span>,
+}
+<span class="kw">impl </span>CompletionState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            CompletionState::Unspecified =&gt; <span class="string">"COMPLETION_STATE_UNSPECIFIED"</span>,
+            CompletionState::Pending =&gt; <span class="string">"PENDING"</span>,
+            CompletionState::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+            CompletionState::Failed =&gt; <span class="string">"FAILED"</span>,
+            CompletionState::NotApplicable =&gt; <span class="string">"NOT_APPLICABLE"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"COMPLETION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
+            <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+            <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+            <span class="string">"NOT_APPLICABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotApplicable),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
 }
