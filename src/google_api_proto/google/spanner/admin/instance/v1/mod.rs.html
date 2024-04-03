@@ -2331,6 +2331,47 @@
 <a href="#2329" id="2329">2329</a>
 <a href="#2330" id="2330">2330</a>
 <a href="#2331" id="2331">2331</a>
+<a href="#2332" id="2332">2332</a>
+<a href="#2333" id="2333">2333</a>
+<a href="#2334" id="2334">2334</a>
+<a href="#2335" id="2335">2335</a>
+<a href="#2336" id="2336">2336</a>
+<a href="#2337" id="2337">2337</a>
+<a href="#2338" id="2338">2338</a>
+<a href="#2339" id="2339">2339</a>
+<a href="#2340" id="2340">2340</a>
+<a href="#2341" id="2341">2341</a>
+<a href="#2342" id="2342">2342</a>
+<a href="#2343" id="2343">2343</a>
+<a href="#2344" id="2344">2344</a>
+<a href="#2345" id="2345">2345</a>
+<a href="#2346" id="2346">2346</a>
+<a href="#2347" id="2347">2347</a>
+<a href="#2348" id="2348">2348</a>
+<a href="#2349" id="2349">2349</a>
+<a href="#2350" id="2350">2350</a>
+<a href="#2351" id="2351">2351</a>
+<a href="#2352" id="2352">2352</a>
+<a href="#2353" id="2353">2353</a>
+<a href="#2354" id="2354">2354</a>
+<a href="#2355" id="2355">2355</a>
+<a href="#2356" id="2356">2356</a>
+<a href="#2357" id="2357">2357</a>
+<a href="#2358" id="2358">2358</a>
+<a href="#2359" id="2359">2359</a>
+<a href="#2360" id="2360">2360</a>
+<a href="#2361" id="2361">2361</a>
+<a href="#2362" id="2362">2362</a>
+<a href="#2363" id="2363">2363</a>
+<a href="#2364" id="2364">2364</a>
+<a href="#2365" id="2365">2365</a>
+<a href="#2366" id="2366">2366</a>
+<a href="#2367" id="2367">2367</a>
+<a href="#2368" id="2368">2368</a>
+<a href="#2369" id="2369">2369</a>
+<a href="#2370" id="2370">2370</a>
+<a href="#2371" id="2371">2371</a>
+<a href="#2372" id="2372">2372</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Encapsulates progress related information for a Cloud Spanner long
 /// running instance operations.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2347,6 +2388,41 @@
     /// successfully.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Indicates the expected fulfillment period of an operation.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>FulfillmentPeriod {
+    <span class="doccomment">/// Not specified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Normal fulfillment period. The operation is expected to complete within
+    /// minutes.
+    </span>Normal = <span class="number">1</span>,
+    <span class="doccomment">/// Extended fulfillment period. It can take up to an hour for the operation
+    /// to complete.
+    </span>Extended = <span class="number">2</span>,
+}
+<span class="kw">impl </span>FulfillmentPeriod {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            FulfillmentPeriod::Unspecified =&gt; <span class="string">"FULFILLMENT_PERIOD_UNSPECIFIED"</span>,
+            FulfillmentPeriod::Normal =&gt; <span class="string">"FULFILLMENT_PERIOD_NORMAL"</span>,
+            FulfillmentPeriod::Extended =&gt; <span class="string">"FULFILLMENT_PERIOD_EXTENDED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"FULFILLMENT_PERIOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"FULFILLMENT_PERIOD_NORMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Normal),
+            <span class="string">"FULFILLMENT_PERIOD_EXTENDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Extended),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
 }
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3196,6 +3272,9 @@
     <span class="doccomment">/// The time at which this operation failed or was completed successfully.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The expected fulfillment period of this create operation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"FulfillmentPeriod"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>expected_fulfillment_period: i32,
 }
 <span class="doccomment">/// Metadata type for the operation returned by
 /// [UpdateInstance][google.spanner.admin.instance.v1.InstanceAdmin.UpdateInstance].
@@ -3218,6 +3297,9 @@
     <span class="doccomment">/// The time at which this operation failed or was completed successfully.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The expected fulfillment period of this update operation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"FulfillmentPeriod"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>expected_fulfillment_period: i32,
 }
 <span class="doccomment">/// Metadata type for the operation returned by
 /// [CreateInstanceConfig][google.spanner.admin.instance.v1.InstanceAdmin.CreateInstanceConfig].
