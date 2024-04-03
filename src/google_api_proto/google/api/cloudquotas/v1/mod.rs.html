@@ -833,6 +833,19 @@
 <a href="#831" id="831">831</a>
 <a href="#832" id="832">832</a>
 <a href="#833" id="833">833</a>
+<a href="#834" id="834">834</a>
+<a href="#835" id="835">835</a>
+<a href="#836" id="836">836</a>
+<a href="#837" id="837">837</a>
+<a href="#838" id="838">838</a>
+<a href="#839" id="839">839</a>
+<a href="#840" id="840">840</a>
+<a href="#841" id="841">841</a>
+<a href="#842" id="842">842</a>
+<a href="#843" id="843">843</a>
+<a href="#844" id="844">844</a>
+<a href="#845" id="845">845</a>
+<a href="#846" id="846">846</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// QuotaInfo represents information about a particular quota for a given
 /// project, folder or organization.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1200,6 +1213,19 @@
     <span class="doccomment">/// The value currently in effect and being enforced.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>value: i64,
+    <span class="doccomment">/// Rollout information of this quota.
+    /// This field is present only if the effective limit will change due to the
+    /// ongoing rollout of the service config.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>rollout_info: ::core::option::Option&lt;RolloutInfo&gt;,
+}
+<span class="doccomment">/// \[Output only\] Rollout information of a quota.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RolloutInfo {
+    <span class="doccomment">/// Whether there is an ongoing rollout for a quota or not.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ongoing_rollout: bool,
 }
 <span class="doccomment">/// Enumerations of quota safety checks.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]

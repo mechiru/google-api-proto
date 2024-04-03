@@ -1884,6 +1884,38 @@
 <a href="#1882" id="1882">1882</a>
 <a href="#1883" id="1883">1883</a>
 <a href="#1884" id="1884">1884</a>
+<a href="#1885" id="1885">1885</a>
+<a href="#1886" id="1886">1886</a>
+<a href="#1887" id="1887">1887</a>
+<a href="#1888" id="1888">1888</a>
+<a href="#1889" id="1889">1889</a>
+<a href="#1890" id="1890">1890</a>
+<a href="#1891" id="1891">1891</a>
+<a href="#1892" id="1892">1892</a>
+<a href="#1893" id="1893">1893</a>
+<a href="#1894" id="1894">1894</a>
+<a href="#1895" id="1895">1895</a>
+<a href="#1896" id="1896">1896</a>
+<a href="#1897" id="1897">1897</a>
+<a href="#1898" id="1898">1898</a>
+<a href="#1899" id="1899">1899</a>
+<a href="#1900" id="1900">1900</a>
+<a href="#1901" id="1901">1901</a>
+<a href="#1902" id="1902">1902</a>
+<a href="#1903" id="1903">1903</a>
+<a href="#1904" id="1904">1904</a>
+<a href="#1905" id="1905">1905</a>
+<a href="#1906" id="1906">1906</a>
+<a href="#1907" id="1907">1907</a>
+<a href="#1908" id="1908">1908</a>
+<a href="#1909" id="1909">1909</a>
+<a href="#1910" id="1910">1910</a>
+<a href="#1911" id="1911">1911</a>
+<a href="#1912" id="1912">1912</a>
+<a href="#1913" id="1913">1913</a>
+<a href="#1914" id="1914">1914</a>
+<a href="#1915" id="1915">1915</a>
+<a href="#1916" id="1916">1916</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Request to executor service that start a new Spanner action.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1918,6 +1950,9 @@
     /// database path if it applies to the same database as the previous action.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>database_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Configuration options for Spanner backend
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>spanner_options: ::core::option::Option&lt;SpannerOptions&gt;,
     <span class="doccomment">/// Action represents a spanner action kind, there will only be one action kind
     /// per SpannerAction.
     </span><span class="attr">#[prost(
@@ -2576,9 +2611,9 @@
         <span class="doccomment">/// Action that cancels an operation.
         </span><span class="attr">#[prost(message, tag = <span class="string">"26"</span>)]
         </span>CancelOperation(<span class="kw">super</span>::CancelOperationAction),
-        <span class="doccomment">/// Action that reconfigures a Cloud Spanner database.
+        <span class="doccomment">/// Action that changes quorum of a Cloud Spanner database.
         </span><span class="attr">#[prost(message, tag = <span class="string">"28"</span>)]
-        </span>ReconfigureCloudDatabase(<span class="kw">super</span>::ReconfigureCloudDatabaseAction),
+        </span>ChangeQuorumCloudDatabase(<span class="kw">super</span>::ChangeQuorumCloudDatabaseAction),
     }
 }
 <span class="doccomment">/// Action that creates a user instance config.
@@ -2822,11 +2857,11 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>database_id: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Action that reconfigures a Cloud Spanner database.
+<span class="doccomment">/// Action that changes quorum of a Cloud Spanner database.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReconfigureCloudDatabaseAction {
-    <span class="doccomment">/// The fully qualified uri of the database to be reconfigured.
+</span><span class="kw">pub struct </span>ChangeQuorumCloudDatabaseAction {
+    <span class="doccomment">/// The fully qualified uri of the database whose quorum has to be changed.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>database_uri: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
     <span class="doccomment">/// The locations of the serving regions, e.g. "asia-south1".
@@ -2940,6 +2975,12 @@
     /// database must not already exist.
     </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>database_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The KMS key(s) used to encrypt the restored database to be created if the
+    /// restored database should be CMEK protected.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>encryption_config: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::admin::database::v1::EncryptionConfig,
+    &gt;,
 }
 <span class="doccomment">/// Action that gets a Cloud Spanner database.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2982,6 +3023,12 @@
     /// cloud spanner frontend API (See details: go/cs-pitr-lite-design).
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>version_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The KMS key(s) used to encrypt the backup to be created if the backup
+    /// should be CMEK protected.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>encryption_config: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::admin::database::v1::EncryptionConfig,
+    &gt;,
 }
 <span class="doccomment">/// Action that copies a Cloud Spanner database backup.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3649,6 +3696,23 @@
     <span class="doccomment">/// Timestamp for this heartbeat check.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>heartbeat_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Options for Cloud Spanner Service.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SpannerOptions {
+    <span class="doccomment">/// Options for configuring the session pool
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>session_pool_options: ::core::option::Option&lt;SessionPoolOptions&gt;,
+}
+<span class="doccomment">/// Options for the session pool used by the DatabaseClient.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SessionPoolOptions {
+    <span class="doccomment">/// passing this as true, will make applicable RPCs use multiplexed sessions
+    /// instead of regular sessions
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>use_multiplexed: bool,
 }
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>spanner_executor_proxy_client {
