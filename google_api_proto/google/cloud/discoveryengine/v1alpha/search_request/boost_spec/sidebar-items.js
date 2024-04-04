@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["ConditionBoostSpec"]};
+window.SIDEBAR_ITEMS = {"mod":["condition_boost_spec"],"struct":["ConditionBoostSpec"]};

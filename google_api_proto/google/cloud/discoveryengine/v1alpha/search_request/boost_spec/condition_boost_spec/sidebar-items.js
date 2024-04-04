@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["boost_control_spec"],"struct":["BoostControlSpec"]};

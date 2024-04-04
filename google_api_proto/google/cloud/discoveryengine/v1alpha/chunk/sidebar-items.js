@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["DocumentMetadata"]};
+window.SIDEBAR_ITEMS = {"struct":["ChunkMetadata","DocumentMetadata","PageSpan"]};

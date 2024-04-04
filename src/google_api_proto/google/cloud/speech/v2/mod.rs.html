@@ -2885,6 +2885,19 @@
 <a href="#2883" id="2883">2883</a>
 <a href="#2884" id="2884">2884</a>
 <a href="#2885" id="2885">2885</a>
+<a href="#2886" id="2886">2886</a>
+<a href="#2887" id="2887">2887</a>
+<a href="#2888" id="2888">2888</a>
+<a href="#2889" id="2889">2889</a>
+<a href="#2890" id="2890">2890</a>
+<a href="#2891" id="2891">2891</a>
+<a href="#2892" id="2892">2892</a>
+<a href="#2893" id="2893">2893</a>
+<a href="#2894" id="2894">2894</a>
+<a href="#2895" id="2895">2895</a>
+<a href="#2896" id="2896">2896</a>
+<a href="#2897" id="2897">2897</a>
+<a href="#2898" id="2898">2898</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Request message for the
 /// [CreateRecognizer][google.cloud.speech.v2.Speech.CreateRecognizer] method.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3538,6 +3551,15 @@
         </span><span class="kw">pub </span>case_sensitive: bool,
     }
 }
+<span class="doccomment">/// Translation configuration. Use to translate the given audio into text for the
+/// desired language.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TranslationConfig {
+    <span class="doccomment">/// Required. The language code to translate to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_language: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Provides "hints" to the speech recognizer to favor specific words and phrases
 /// in the results. PhraseSets can be specified as an inline resource, or a
 /// reference to an existing PhraseSet resource.
@@ -3619,6 +3641,10 @@
     /// and final transcripts.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>transcript_normalization: ::core::option::Option&lt;TranscriptNormalization&gt;,
+    <span class="doccomment">/// Optional. Optional configuration used to automatically run translation on
+    /// the given audio to the desired language for supported models.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>translation_config: ::core::option::Option&lt;TranslationConfig&gt;,
     <span class="doccomment">/// Decoding parameters for audio being sent for recognition.
     </span><span class="attr">#[prost(oneof = <span class="string">"recognition_config::DecodingConfig"</span>, tags = <span class="string">"7, 8"</span>)]
     </span><span class="kw">pub </span>decoding_config: ::core::option::Option&lt;recognition_config::DecodingConfig&gt;,
