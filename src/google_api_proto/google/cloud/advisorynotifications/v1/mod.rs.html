@@ -552,6 +552,8 @@
 <a href="#550" id="550">550</a>
 <a href="#551" id="551">551</a>
 <a href="#552" id="552">552</a>
+<a href="#553" id="553">553</a>
+<a href="#554" id="554">554</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// A notification object for notifying customers about security and privacy
 /// issues.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -679,7 +681,7 @@
 </span><span class="kw">pub struct </span>ListNotificationsRequest {
     <span class="doccomment">/// Required. The parent, which owns this collection of notifications.
     /// Must be of the form "organizations/{organization}/locations/{location}"
-    /// or "projects/{project}/locations/{location}"
+    /// or "projects/{project}/locations/{location}".
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
     <span class="doccomment">/// The maximum number of notifications to return. The service may return
@@ -742,9 +744,10 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Settings {
-    <span class="doccomment">/// Output only. The resource name of the settings to retrieve.
+    <span class="doccomment">/// Identifier. The resource name of the settings to retrieve.
     /// Format:
-    /// organizations/{organization}/locations/{location}/settings.
+    /// organizations/{organization}/locations/{location}/settings or
+    /// projects/{projects}/locations/{location}/settings.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. Map of each notification type and its settings to get/set all
@@ -776,7 +779,8 @@
 </span><span class="kw">pub struct </span>GetSettingsRequest {
     <span class="doccomment">/// Required. The resource name of the settings to retrieve.
     /// Format:
-    /// organizations/{organization}/locations/{location}/settings.
+    /// organizations/{organization}/locations/{location}/settings or
+    /// projects/{projects}/locations/{location}/settings.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }

@@ -1852,6 +1852,8 @@
 <a href="#1850" id="1850">1850</a>
 <a href="#1851" id="1851">1851</a>
 <a href="#1852" id="1852">1852</a>
+<a href="#1853" id="1853">1853</a>
+<a href="#1854" id="1854">1854</a>
 </pre></div><pre class="rust"><code><span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2292,6 +2294,8 @@
     </span><span class="kw">pub </span>compute_resource: ::core::option::Option&lt;ComputeResource&gt;,
     <span class="doccomment">/// Maximum duration the task should run.
     /// The task will be killed and marked as FAILED if over this limit.
+    /// The valid value range for max_run_duration in seconds is [0,
+    /// 315576000000.999999999],
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>max_run_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
     <span class="doccomment">/// Maximum number of retries on failures.
