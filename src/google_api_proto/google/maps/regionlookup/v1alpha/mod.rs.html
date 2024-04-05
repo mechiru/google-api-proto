@@ -775,6 +775,23 @@
         </span>UnitCode(::prost::alloc::string::String),
     }
 }
+<span class="doccomment">/// Region Match.
+///
+/// Next available tag: 5
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RegionMatch {
+    <span class="doccomment">/// Place ID of the region that is matched. If region is found, this field is
+    /// not set.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>matched_place_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Region candidate IDs. Up to three candidates may be returned.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>candidate_place_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Matching debug information for when no match is found.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>debug_info: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Region Search Values.
 ///
 /// Desired search values of a single region.
@@ -925,23 +942,6 @@
         </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
         </span>PlaceId(::prost::alloc::string::String),
     }
-}
-<span class="doccomment">/// Region Match.
-///
-/// Next available tag: 5
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RegionMatch {
-    <span class="doccomment">/// Place ID of the region that is matched. If region is found, this field is
-    /// not set.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>matched_place_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Region candidate IDs. Up to three candidates may be returned.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>candidate_place_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Matching debug information for when no match is found.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>debug_info: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Lookup Region Request.
 ///

@@ -2659,7 +2659,19 @@
 <a href="#2657" id="2657">2657</a>
 <a href="#2658" id="2658">2658</a>
 <a href="#2659" id="2659">2659</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Notification on resource state change.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Notification {
+    <span class="doccomment">/// Required. The Pub/Sub topic where notifications like the resource allowance
+    /// state changes will be published. The topic must exist in the same project
+    /// as the job and billings will be charged to this project. If not specified,
+    /// no Pub/Sub messages will be sent. Topic format:
+    /// `projects/{project}/topics/{topic}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Volume {
@@ -4320,18 +4332,6 @@
     /// addition to the cloud-platform API scope that will be added by default.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>scopes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Notification on resource state change.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Notification {
-    <span class="doccomment">/// Required. The Pub/Sub topic where notifications like the resource allowance
-    /// state changes will be published. The topic must exist in the same project
-    /// as the job and billings will be charged to this project. If not specified,
-    /// no Pub/Sub messages will be sent. Topic format:
-    /// `projects/{project}/topics/{topic}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// The Resource Allowance description for Cloud Batch.
 /// Only one Resource Allowance is supported now under a specific location and

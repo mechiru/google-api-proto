@@ -401,107 +401,7 @@
 <a href="#399" id="399">399</a>
 <a href="#400" id="400">400</a>
 <a href="#401" id="401">401</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Reconciliation log for session ttl event.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReconciliationLog {
-    <span class="doccomment">/// The reconciliation algorithm inputs.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;reconciliation_log::Inputs&gt;,
-    <span class="doccomment">/// The algorithm outputs for the recommended reconciliation operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>outputs: ::core::option::Option&lt;reconciliation_log::Outputs&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ReconciliationLog`.
-</span><span class="kw">pub mod </span>reconciliation_log {
-    <span class="doccomment">/// The input values for the Reconciler recommendation algorithm.
-    /// We could add more details in future if required.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Inputs {
-        <span class="doccomment">/// Idle duration
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>idle_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-        <span class="doccomment">/// Configured idle TTL
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>idle_ttl: ::core::option::Option&lt;::prost_types::Duration&gt;,
-        <span class="doccomment">/// Total session lifetime
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>session_lifetime: ::core::option::Option&lt;::prost_types::Duration&gt;,
-        <span class="doccomment">/// Configured ttl
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>ttl: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    }
-    <span class="doccomment">/// Reconciler recommendations.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Outputs {
-        <span class="doccomment">/// The high-level reconciliation decision.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"super::ReconciliationDecisionType"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>decision: i32,
-        <span class="doccomment">/// Human readable context messages which explain the reconciler decision.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>decision_details: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Reconciliation log for cluster heal event.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReconciliationClusterHealLog {
-    <span class="doccomment">/// The algorithm outputs for the recommended reconciliation operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>outputs: ::core::option::Option&lt;reconciliation_cluster_heal_log::Outputs&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ReconciliationClusterHealLog`.
-</span><span class="kw">pub mod </span>reconciliation_cluster_heal_log {
-    <span class="doccomment">/// Autohealer decision.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Outputs {
-        <span class="doccomment">/// The repair operation id triggered by Autohealer if any.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>repair_operation_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// Human readable context messages which explain the autohealer decision.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>decision_details: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Decision type
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ReconciliationDecisionType {
-    <span class="doccomment">/// Unspecified type
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Terminate session
-    </span>ReconciliationTerminateSession = <span class="number">1</span>,
-}
-<span class="kw">impl </span>ReconciliationDecisionType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ReconciliationDecisionType::Unspecified =&gt; {
-                <span class="string">"RECONCILIATION_DECISION_TYPE_UNSPECIFIED"
-            </span>}
-            ReconciliationDecisionType::ReconciliationTerminateSession =&gt; {
-                <span class="string">"RECONCILIATION_TERMINATE_SESSION"
-            </span>}
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"RECONCILIATION_DECISION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"RECONCILIATION_TERMINATE_SESSION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReconciliationTerminateSession)
-            }
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// The short version of cluster configuration for Cloud Logging.
+</pre></div><pre class="rust"><code><span class="doccomment">/// The short version of cluster configuration for Cloud Logging.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ClusterSize {
@@ -798,6 +698,106 @@
             <span class="string">"YARN_MEMORY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::YarnMemory),
             <span class="string">"YARN_CORES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::YarnCores),
             <span class="string">"SPARK_EXECUTORS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SparkExecutors),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Reconciliation log for session ttl event.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReconciliationLog {
+    <span class="doccomment">/// The reconciliation algorithm inputs.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;reconciliation_log::Inputs&gt;,
+    <span class="doccomment">/// The algorithm outputs for the recommended reconciliation operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>outputs: ::core::option::Option&lt;reconciliation_log::Outputs&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ReconciliationLog`.
+</span><span class="kw">pub mod </span>reconciliation_log {
+    <span class="doccomment">/// The input values for the Reconciler recommendation algorithm.
+    /// We could add more details in future if required.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Inputs {
+        <span class="doccomment">/// Idle duration
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>idle_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Configured idle TTL
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>idle_ttl: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Total session lifetime
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>session_lifetime: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Configured ttl
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>ttl: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    }
+    <span class="doccomment">/// Reconciler recommendations.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Outputs {
+        <span class="doccomment">/// The high-level reconciliation decision.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"super::ReconciliationDecisionType"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>decision: i32,
+        <span class="doccomment">/// Human readable context messages which explain the reconciler decision.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>decision_details: ::prost::alloc::string::String,
+    }
+}
+<span class="doccomment">/// Reconciliation log for cluster heal event.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReconciliationClusterHealLog {
+    <span class="doccomment">/// The algorithm outputs for the recommended reconciliation operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>outputs: ::core::option::Option&lt;reconciliation_cluster_heal_log::Outputs&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ReconciliationClusterHealLog`.
+</span><span class="kw">pub mod </span>reconciliation_cluster_heal_log {
+    <span class="doccomment">/// Autohealer decision.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Outputs {
+        <span class="doccomment">/// The repair operation id triggered by Autohealer if any.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>repair_operation_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// Human readable context messages which explain the autohealer decision.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>decision_details: ::prost::alloc::string::String,
+    }
+}
+<span class="doccomment">/// Decision type
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ReconciliationDecisionType {
+    <span class="doccomment">/// Unspecified type
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Terminate session
+    </span>ReconciliationTerminateSession = <span class="number">1</span>,
+}
+<span class="kw">impl </span>ReconciliationDecisionType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ReconciliationDecisionType::Unspecified =&gt; {
+                <span class="string">"RECONCILIATION_DECISION_TYPE_UNSPECIFIED"
+            </span>}
+            ReconciliationDecisionType::ReconciliationTerminateSession =&gt; {
+                <span class="string">"RECONCILIATION_TERMINATE_SESSION"
+            </span>}
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"RECONCILIATION_DECISION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"RECONCILIATION_TERMINATE_SESSION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReconciliationTerminateSession)
+            }
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }

@@ -4848,328 +4848,248 @@
 <a href="#4846" id="4846">4846</a>
 <a href="#4847" id="4847">4847</a>
 <a href="#4848" id="4848">4848</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// An Instance resource is the computing unit that App Engine uses to
-/// automatically scale an application.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Metadata for the given [google.longrunning.Operation][google.longrunning.Operation].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Instance {
-    <span class="doccomment">/// Output only. Full path to the Instance resource in the API.
-    /// Example: `apps/myapp/services/default/versions/v1/instances/instance-1`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Relative name of the instance within the version.
-    /// Example: `instance-1`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. App Engine release this instance is running on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>app_engine_release: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Availability of the instance.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::Availability"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>availability: i32,
-    <span class="doccomment">/// Output only. Name of the virtual machine where this instance lives. Only applicable
-    /// for instances in App Engine flexible environment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>vm_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Zone where the virtual machine is located. Only applicable for instances
-    /// in App Engine flexible environment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>vm_zone_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Virtual machine ID of this instance. Only applicable for instances in
-    /// App Engine flexible environment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>vm_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time that this instance was started.
+</span><span class="kw">pub struct </span>OperationMetadataV1 {
+    <span class="doccomment">/// API method that initiated this operation. Example:
+    /// `google.appengine.v1.Versions.CreateVersion`.
     ///
     /// @OutputOnly
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Number of requests since this instance was started.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>requests: i32,
-    <span class="doccomment">/// Output only. Number of errors since this instance was started.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>errors: i32,
-    <span class="doccomment">/// Output only. Average queries per second (QPS) over the last minute.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>qps: f32,
-    <span class="doccomment">/// Output only. Average latency (ms) over the last minute.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>average_latency: i32,
-    <span class="doccomment">/// Output only. Total memory in use (bytes).
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>memory_usage: i64,
-    <span class="doccomment">/// Output only. Status of the virtual machine where this instance lives. Only applicable
-    /// for instances in App Engine flexible environment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>vm_status: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Whether this instance is in debug mode. Only applicable for instances in
-    /// App Engine flexible environment.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>vm_debug_enabled: bool,
-    <span class="doccomment">/// Output only. The IP address of this instance. Only applicable for instances in App
-    /// Engine flexible environment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>vm_ip: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The liveness health check of this instance. Only applicable for instances
-    /// in App Engine flexible environment.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::liveness::LivenessState"</span>, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>vm_liveness: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `Instance`.
-</span><span class="kw">pub mod </span>instance {
-    <span class="doccomment">/// Wrapper for LivenessState enum.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Liveness {}
-    <span class="doccomment">/// Nested message and enum types in `Liveness`.
-    </span><span class="kw">pub mod </span>liveness {
-        <span class="doccomment">/// Liveness health check status for Flex instances.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>LivenessState {
-            <span class="doccomment">/// There is no liveness health check for the instance. Only applicable for
-            /// instances in App Engine standard environment.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The health checking system is aware of the instance but its health is
-            /// not known at the moment.
-            </span>Unknown = <span class="number">1</span>,
-            <span class="doccomment">/// The instance is reachable i.e. a connection to the application health
-            /// checking endpoint can be established, and conforms to the requirements
-            /// defined by the health check.
-            </span>Healthy = <span class="number">2</span>,
-            <span class="doccomment">/// The instance is reachable, but does not conform to the requirements
-            /// defined by the health check.
-            </span>Unhealthy = <span class="number">3</span>,
-            <span class="doccomment">/// The instance is being drained. The existing connections to the instance
-            /// have time to complete, but the new ones are being refused.
-            </span>Draining = <span class="number">4</span>,
-            <span class="doccomment">/// The instance is unreachable i.e. a connection to the application health
-            /// checking endpoint cannot be established, or the server does not respond
-            /// within the specified timeout.
-            </span>Timeout = <span class="number">5</span>,
-        }
-        <span class="kw">impl </span>LivenessState {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    LivenessState::Unspecified =&gt; <span class="string">"LIVENESS_STATE_UNSPECIFIED"</span>,
-                    LivenessState::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                    LivenessState::Healthy =&gt; <span class="string">"HEALTHY"</span>,
-                    LivenessState::Unhealthy =&gt; <span class="string">"UNHEALTHY"</span>,
-                    LivenessState::Draining =&gt; <span class="string">"DRAINING"</span>,
-                    LivenessState::Timeout =&gt; <span class="string">"TIMEOUT"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"LIVENESS_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                    <span class="string">"HEALTHY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Healthy),
-                    <span class="string">"UNHEALTHY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unhealthy),
-                    <span class="string">"DRAINING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Draining),
-                    <span class="string">"TIMEOUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Timeout),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Availability of the instance.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Availability {
-        Unspecified = <span class="number">0</span>,
-        Resident = <span class="number">1</span>,
-        Dynamic = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Availability {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Availability::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                Availability::Resident =&gt; <span class="string">"RESIDENT"</span>,
-                Availability::Dynamic =&gt; <span class="string">"DYNAMIC"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESIDENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Resident),
-                <span class="string">"DYNAMIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dynamic),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A NetworkSettings resource is a container for ingress settings for a version
-/// or service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NetworkSettings {
-    <span class="doccomment">/// The ingress settings for version or service.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"network_settings::IngressTrafficAllowed"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ingress_traffic_allowed: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `NetworkSettings`.
-</span><span class="kw">pub mod </span>network_settings {
-    <span class="doccomment">/// If unspecified, INGRESS_TRAFFIC_ALLOWED_ALL will be used.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>IngressTrafficAllowed {
-        <span class="doccomment">/// Unspecified
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Allow HTTP traffic from public and private sources.
-        </span>All = <span class="number">1</span>,
-        <span class="doccomment">/// Allow HTTP traffic from only private VPC sources.
-        </span>InternalOnly = <span class="number">2</span>,
-        <span class="doccomment">/// Allow HTTP traffic from private VPC sources and through load balancers.
-        </span>InternalAndLb = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>IngressTrafficAllowed {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                IngressTrafficAllowed::Unspecified =&gt; {
-                    <span class="string">"INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED"
-                </span>}
-                IngressTrafficAllowed::All =&gt; <span class="string">"INGRESS_TRAFFIC_ALLOWED_ALL"</span>,
-                IngressTrafficAllowed::InternalOnly =&gt; {
-                    <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY"
-                </span>}
-                IngressTrafficAllowed::InternalAndLb =&gt; {
-                    <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"INGRESS_TRAFFIC_ALLOWED_ALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::All),
-                <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalOnly),
-                <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalAndLb),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A single firewall rule that is evaluated against incoming traffic
-/// and provides an action to take on matched requests.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FirewallRule {
-    <span class="doccomment">/// A positive integer between \[1, Int32.MaxValue-1\] that defines the order of
-    /// rule evaluation. Rules with the lowest priority are evaluated first.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>method: ::prost::alloc::string::String,
+    <span class="doccomment">/// Time that this operation was created.
     ///
-    /// A default rule at priority Int32.MaxValue matches all IPv4 and IPv6 traffic
-    /// when no previous rule matches. Only the action of this rule can be modified
-    /// by the user.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>priority: i32,
-    <span class="doccomment">/// The action to take on matched requests.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"firewall_rule::Action"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>action: i32,
-    <span class="doccomment">/// IP address or range, defined using CIDR notation, of requests that this
-    /// rule applies to. You can use the wildcard character "*" to match all IPs
-    /// equivalent to "0/0" and "::/0" together.
-    /// Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32`
-    ///            or `2001:0db8:0000:0042:0000:8a2e:0370:7334`.
+    /// @OutputOnly
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>insert_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Time that this operation completed.
     ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// User who requested this operation.
     ///
-    /// &lt;p&gt;Truncation will be silently performed on addresses which are not
-    /// properly truncated. For example, `1.2.3.4/24` is accepted as the same
-    /// address as `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` is accepted
-    /// as the same address as `2001:db8::/32`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>source_range: ::prost::alloc::string::String,
-    <span class="doccomment">/// An optional string description of this rule.
-    /// This field has a maximum length of 100 characters.
+    /// @OutputOnly
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    </span><span class="kw">pub </span>user: ::prost::alloc::string::String,
+    <span class="doccomment">/// Name of the resource that this operation is acting on. Example:
+    /// `apps/myapp/services/default`.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
+    <span class="doccomment">/// Ephemeral message that may change every time the operation is polled.
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>ephemeral_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Durable messages that persist on every operation poll.
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>warning: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Metadata specific to the type of operation in progress.
+    /// @OutputOnly
+    </span><span class="attr">#[prost(oneof = <span class="string">"operation_metadata_v1::MethodMetadata"</span>, tags = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>method_metadata: ::core::option::Option&lt;operation_metadata_v1::MethodMetadata&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `FirewallRule`.
-</span><span class="kw">pub mod </span>firewall_rule {
-    <span class="doccomment">/// Available actions to take on matching requests.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Action {
-        UnspecifiedAction = <span class="number">0</span>,
-        <span class="doccomment">/// Matching requests are allowed.
-        </span>Allow = <span class="number">1</span>,
-        <span class="doccomment">/// Matching requests are denied.
-        </span>Deny = <span class="number">2</span>,
+<span class="doccomment">/// Nested message and enum types in `OperationMetadataV1`.
+</span><span class="kw">pub mod </span>operation_metadata_v1 {
+    <span class="doccomment">/// Metadata specific to the type of operation in progress.
+    /// @OutputOnly
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>MethodMetadata {
+        <span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+        </span>CreateVersionMetadata(<span class="kw">super</span>::CreateVersionMetadataV1),
     }
-    <span class="kw">impl </span>Action {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Action::UnspecifiedAction =&gt; <span class="string">"UNSPECIFIED_ACTION"</span>,
-                Action::Allow =&gt; <span class="string">"ALLOW"</span>,
-                Action::Deny =&gt; <span class="string">"DENY"</span>,
-            }
+}
+<span class="doccomment">/// Metadata for the given [google.longrunning.Operation][google.longrunning.Operation] during a
+/// [google.appengine.v1.CreateVersionRequest][google.appengine.v1.CreateVersionRequest].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateVersionMetadataV1 {
+    <span class="doccomment">/// The Cloud Build ID if one was created as part of the version create.
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cloud_build_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// An SSL certificate that a user has been authorized to administer. A user
+/// is authorized to administer any certificate that applies to one of their
+/// authorized domains.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AuthorizedCertificate {
+    <span class="doccomment">/// Full path to the `AuthorizedCertificate` resource in the API. Example:
+    /// `apps/myapp/authorizedCertificates/12345`.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Relative name of the certificate. This is a unique value autogenerated
+    /// on `AuthorizedCertificate` resource creation. Example: `12345`.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The user-specified display name of the certificate. This is not
+    /// guaranteed to be unique. Example: `My Certificate`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Topmost applicable domains of this certificate. This certificate
+    /// applies to these domains and their subdomains. Example: `example.com`.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>domain_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The time when this certificate expires. To update the renewal time on this
+    /// certificate, upload an SSL certificate with a different expiration time
+    /// using [`AuthorizedCertificates.UpdateAuthorizedCertificate`]().
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The SSL certificate serving the `AuthorizedCertificate` resource. This
+    /// must be obtained independently from a certificate authority.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>certificate_raw_data: ::core::option::Option&lt;CertificateRawData&gt;,
+    <span class="doccomment">/// Only applicable if this certificate is managed by App Engine. Managed
+    /// certificates are tied to the lifecycle of a `DomainMapping` and cannot be
+    /// updated or deleted via the `AuthorizedCertificates` API. If this
+    /// certificate is manually administered by the user, this field will be empty.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>managed_certificate: ::core::option::Option&lt;ManagedCertificate&gt;,
+    <span class="doccomment">/// The full paths to user visible Domain Mapping resources that have this
+    /// certificate mapped. Example: `apps/myapp/domainMappings/example.com`.
+    ///
+    /// This may not represent the full list of mapped domain mappings if the user
+    /// does not have `VIEWER` permissions on all of the applications that have
+    /// this certificate mapped. See `domain_mappings_count` for a complete count.
+    ///
+    /// Only returned by `GET` or `LIST` requests when specifically requested by
+    /// the `view=FULL_CERTIFICATE` option.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>visible_domain_mappings: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Aggregate count of the domain mappings with this certificate mapped. This
+    /// count includes domain mappings on applications for which the user does not
+    /// have `VIEWER` permissions.
+    ///
+    /// Only returned by `GET` or `LIST` requests when specifically requested by
+    /// the `view=FULL_CERTIFICATE` option.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>domain_mappings_count: i32,
+}
+<span class="doccomment">/// An SSL certificate obtained from a certificate authority.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CertificateRawData {
+    <span class="doccomment">/// PEM encoded x.509 public key certificate. This field is set once on
+    /// certificate creation. Must include the header and footer. Example:
+    /// &lt;pre&gt;
+    /// -----BEGIN CERTIFICATE-----
+    /// &lt;certificate_value&gt;
+    /// -----END CERTIFICATE-----
+    /// &lt;/pre&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>public_certificate: ::prost::alloc::string::String,
+    <span class="doccomment">/// Unencrypted PEM encoded RSA private key. This field is set once on
+    /// certificate creation and then encrypted. The key size must be 2048
+    /// bits or fewer. Must include the header and footer. Example:
+    /// &lt;pre&gt;
+    /// -----BEGIN RSA PRIVATE KEY-----
+    /// &lt;unencrypted_key_value&gt;
+    /// -----END RSA PRIVATE KEY-----
+    /// &lt;/pre&gt;
+    /// @InputOnly
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>private_key: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A certificate managed by App Engine.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ManagedCertificate {
+    <span class="doccomment">/// Time at which the certificate was last renewed. The renewal process is
+    /// fully managed. Certificate renewal will automatically occur before the
+    /// certificate expires. Renewal errors can be tracked via `ManagementStatus`.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>last_renewal_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Status of certificate management. Refers to the most recent certificate
+    /// acquisition or renewal attempt.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ManagementStatus"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>status: i32,
+}
+<span class="doccomment">/// State of certificate management. Refers to the most recent certificate
+/// acquisition or renewal attempt.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ManagementStatus {
+    Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Certificate was successfully obtained and inserted into the serving
+    /// system.
+    </span><span class="prelude-val">Ok </span>= <span class="number">1</span>,
+    <span class="doccomment">/// Certificate is under active attempts to acquire or renew.
+    </span>Pending = <span class="number">2</span>,
+    <span class="doccomment">/// Most recent renewal failed due to an invalid DNS setup and will be
+    /// retried. Renewal attempts will continue to fail until the certificate
+    /// domain's DNS configuration is fixed. The last successfully provisioned
+    /// certificate may still be serving.
+    </span>FailedRetryingNotVisible = <span class="number">4</span>,
+    <span class="doccomment">/// All renewal attempts have been exhausted, likely due to an invalid DNS
+    /// setup.
+    </span>FailedPermanent = <span class="number">6</span>,
+    <span class="doccomment">/// Most recent renewal failed due to an explicit CAA record that does not
+    /// include one of the in-use CAs (Google CA and Let's Encrypt). Renewals will
+    /// continue to fail until the CAA is reconfigured. The last successfully
+    /// provisioned certificate may still be serving.
+    </span>FailedRetryingCaaForbidden = <span class="number">7</span>,
+    <span class="doccomment">/// Most recent renewal failed due to a CAA retrieval failure. This means that
+    /// the domain's DNS provider does not properly handle CAA records, failing
+    /// requests for CAA records when no CAA records are defined. Renewals will
+    /// continue to fail until the DNS provider is changed or a CAA record is
+    /// added for the given domain. The last successfully provisioned certificate
+    /// may still be serving.
+    </span>FailedRetryingCaaChecking = <span class="number">8</span>,
+}
+<span class="kw">impl </span>ManagementStatus {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ManagementStatus::Unspecified =&gt; <span class="string">"MANAGEMENT_STATUS_UNSPECIFIED"</span>,
+            ManagementStatus::Ok =&gt; <span class="string">"OK"</span>,
+            ManagementStatus::Pending =&gt; <span class="string">"PENDING"</span>,
+            ManagementStatus::FailedRetryingNotVisible =&gt; <span class="string">"FAILED_RETRYING_NOT_VISIBLE"</span>,
+            ManagementStatus::FailedPermanent =&gt; <span class="string">"FAILED_PERMANENT"</span>,
+            ManagementStatus::FailedRetryingCaaForbidden =&gt; {
+                <span class="string">"FAILED_RETRYING_CAA_FORBIDDEN"
+            </span>}
+            ManagementStatus::FailedRetryingCaaChecking =&gt; <span class="string">"FAILED_RETRYING_CAA_CHECKING"</span>,
         }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED_ACTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnspecifiedAction),
-                <span class="string">"ALLOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Allow),
-                <span class="string">"DENY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deny),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"MANAGEMENT_STATUS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"OK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ok),
+            <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
+            <span class="string">"FAILED_RETRYING_NOT_VISIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedRetryingNotVisible),
+            <span class="string">"FAILED_PERMANENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedPermanent),
+            <span class="string">"FAILED_RETRYING_CAA_FORBIDDEN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedRetryingCaaForbidden),
+            <span class="string">"FAILED_RETRYING_CAA_CHECKING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedRetryingCaaChecking),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
 }
@@ -5440,186 +5360,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// An SSL certificate that a user has been authorized to administer. A user
-/// is authorized to administer any certificate that applies to one of their
-/// authorized domains.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AuthorizedCertificate {
-    <span class="doccomment">/// Full path to the `AuthorizedCertificate` resource in the API. Example:
-    /// `apps/myapp/authorizedCertificates/12345`.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Relative name of the certificate. This is a unique value autogenerated
-    /// on `AuthorizedCertificate` resource creation. Example: `12345`.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The user-specified display name of the certificate. This is not
-    /// guaranteed to be unique. Example: `My Certificate`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Topmost applicable domains of this certificate. This certificate
-    /// applies to these domains and their subdomains. Example: `example.com`.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>domain_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The time when this certificate expires. To update the renewal time on this
-    /// certificate, upload an SSL certificate with a different expiration time
-    /// using [`AuthorizedCertificates.UpdateAuthorizedCertificate`]().
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The SSL certificate serving the `AuthorizedCertificate` resource. This
-    /// must be obtained independently from a certificate authority.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>certificate_raw_data: ::core::option::Option&lt;CertificateRawData&gt;,
-    <span class="doccomment">/// Only applicable if this certificate is managed by App Engine. Managed
-    /// certificates are tied to the lifecycle of a `DomainMapping` and cannot be
-    /// updated or deleted via the `AuthorizedCertificates` API. If this
-    /// certificate is manually administered by the user, this field will be empty.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>managed_certificate: ::core::option::Option&lt;ManagedCertificate&gt;,
-    <span class="doccomment">/// The full paths to user visible Domain Mapping resources that have this
-    /// certificate mapped. Example: `apps/myapp/domainMappings/example.com`.
-    ///
-    /// This may not represent the full list of mapped domain mappings if the user
-    /// does not have `VIEWER` permissions on all of the applications that have
-    /// this certificate mapped. See `domain_mappings_count` for a complete count.
-    ///
-    /// Only returned by `GET` or `LIST` requests when specifically requested by
-    /// the `view=FULL_CERTIFICATE` option.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>visible_domain_mappings: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Aggregate count of the domain mappings with this certificate mapped. This
-    /// count includes domain mappings on applications for which the user does not
-    /// have `VIEWER` permissions.
-    ///
-    /// Only returned by `GET` or `LIST` requests when specifically requested by
-    /// the `view=FULL_CERTIFICATE` option.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>domain_mappings_count: i32,
-}
-<span class="doccomment">/// An SSL certificate obtained from a certificate authority.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CertificateRawData {
-    <span class="doccomment">/// PEM encoded x.509 public key certificate. This field is set once on
-    /// certificate creation. Must include the header and footer. Example:
-    /// &lt;pre&gt;
-    /// -----BEGIN CERTIFICATE-----
-    /// &lt;certificate_value&gt;
-    /// -----END CERTIFICATE-----
-    /// &lt;/pre&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>public_certificate: ::prost::alloc::string::String,
-    <span class="doccomment">/// Unencrypted PEM encoded RSA private key. This field is set once on
-    /// certificate creation and then encrypted. The key size must be 2048
-    /// bits or fewer. Must include the header and footer. Example:
-    /// &lt;pre&gt;
-    /// -----BEGIN RSA PRIVATE KEY-----
-    /// &lt;unencrypted_key_value&gt;
-    /// -----END RSA PRIVATE KEY-----
-    /// &lt;/pre&gt;
-    /// @InputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>private_key: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A certificate managed by App Engine.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ManagedCertificate {
-    <span class="doccomment">/// Time at which the certificate was last renewed. The renewal process is
-    /// fully managed. Certificate renewal will automatically occur before the
-    /// certificate expires. Renewal errors can be tracked via `ManagementStatus`.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>last_renewal_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Status of certificate management. Refers to the most recent certificate
-    /// acquisition or renewal attempt.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ManagementStatus"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>status: i32,
-}
-<span class="doccomment">/// State of certificate management. Refers to the most recent certificate
-/// acquisition or renewal attempt.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ManagementStatus {
-    Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Certificate was successfully obtained and inserted into the serving
-    /// system.
-    </span><span class="prelude-val">Ok </span>= <span class="number">1</span>,
-    <span class="doccomment">/// Certificate is under active attempts to acquire or renew.
-    </span>Pending = <span class="number">2</span>,
-    <span class="doccomment">/// Most recent renewal failed due to an invalid DNS setup and will be
-    /// retried. Renewal attempts will continue to fail until the certificate
-    /// domain's DNS configuration is fixed. The last successfully provisioned
-    /// certificate may still be serving.
-    </span>FailedRetryingNotVisible = <span class="number">4</span>,
-    <span class="doccomment">/// All renewal attempts have been exhausted, likely due to an invalid DNS
-    /// setup.
-    </span>FailedPermanent = <span class="number">6</span>,
-    <span class="doccomment">/// Most recent renewal failed due to an explicit CAA record that does not
-    /// include one of the in-use CAs (Google CA and Let's Encrypt). Renewals will
-    /// continue to fail until the CAA is reconfigured. The last successfully
-    /// provisioned certificate may still be serving.
-    </span>FailedRetryingCaaForbidden = <span class="number">7</span>,
-    <span class="doccomment">/// Most recent renewal failed due to a CAA retrieval failure. This means that
-    /// the domain's DNS provider does not properly handle CAA records, failing
-    /// requests for CAA records when no CAA records are defined. Renewals will
-    /// continue to fail until the DNS provider is changed or a CAA record is
-    /// added for the given domain. The last successfully provisioned certificate
-    /// may still be serving.
-    </span>FailedRetryingCaaChecking = <span class="number">8</span>,
-}
-<span class="kw">impl </span>ManagementStatus {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ManagementStatus::Unspecified =&gt; <span class="string">"MANAGEMENT_STATUS_UNSPECIFIED"</span>,
-            ManagementStatus::Ok =&gt; <span class="string">"OK"</span>,
-            ManagementStatus::Pending =&gt; <span class="string">"PENDING"</span>,
-            ManagementStatus::FailedRetryingNotVisible =&gt; <span class="string">"FAILED_RETRYING_NOT_VISIBLE"</span>,
-            ManagementStatus::FailedPermanent =&gt; <span class="string">"FAILED_PERMANENT"</span>,
-            ManagementStatus::FailedRetryingCaaForbidden =&gt; {
-                <span class="string">"FAILED_RETRYING_CAA_FORBIDDEN"
-            </span>}
-            ManagementStatus::FailedRetryingCaaChecking =&gt; <span class="string">"FAILED_RETRYING_CAA_CHECKING"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"MANAGEMENT_STATUS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"OK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ok),
-            <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
-            <span class="string">"FAILED_RETRYING_NOT_VISIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedRetryingNotVisible),
-            <span class="string">"FAILED_PERMANENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedPermanent),
-            <span class="string">"FAILED_RETRYING_CAA_FORBIDDEN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedRetryingCaaForbidden),
-            <span class="string">"FAILED_RETRYING_CAA_CHECKING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailedRetryingCaaChecking),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
 <span class="doccomment">/// A domain serving an App Engine application.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5788,6 +5528,331 @@
                 <span class="string">"A" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::A),
                 <span class="string">"AAAA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Aaaa),
                 <span class="string">"CNAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cname),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A single firewall rule that is evaluated against incoming traffic
+/// and provides an action to take on matched requests.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FirewallRule {
+    <span class="doccomment">/// A positive integer between \[1, Int32.MaxValue-1\] that defines the order of
+    /// rule evaluation. Rules with the lowest priority are evaluated first.
+    ///
+    /// A default rule at priority Int32.MaxValue matches all IPv4 and IPv6 traffic
+    /// when no previous rule matches. Only the action of this rule can be modified
+    /// by the user.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>priority: i32,
+    <span class="doccomment">/// The action to take on matched requests.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"firewall_rule::Action"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>action: i32,
+    <span class="doccomment">/// IP address or range, defined using CIDR notation, of requests that this
+    /// rule applies to. You can use the wildcard character "*" to match all IPs
+    /// equivalent to "0/0" and "::/0" together.
+    /// Examples: `192.168.1.1` or `192.168.0.0/16` or `2001:db8::/32`
+    ///            or `2001:0db8:0000:0042:0000:8a2e:0370:7334`.
+    ///
+    ///
+    /// &lt;p&gt;Truncation will be silently performed on addresses which are not
+    /// properly truncated. For example, `1.2.3.4/24` is accepted as the same
+    /// address as `1.2.3.0/24`. Similarly, for IPv6, `2001:db8::1/32` is accepted
+    /// as the same address as `2001:db8::/32`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>source_range: ::prost::alloc::string::String,
+    <span class="doccomment">/// An optional string description of this rule.
+    /// This field has a maximum length of 100 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `FirewallRule`.
+</span><span class="kw">pub mod </span>firewall_rule {
+    <span class="doccomment">/// Available actions to take on matching requests.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Action {
+        UnspecifiedAction = <span class="number">0</span>,
+        <span class="doccomment">/// Matching requests are allowed.
+        </span>Allow = <span class="number">1</span>,
+        <span class="doccomment">/// Matching requests are denied.
+        </span>Deny = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Action {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Action::UnspecifiedAction =&gt; <span class="string">"UNSPECIFIED_ACTION"</span>,
+                Action::Allow =&gt; <span class="string">"ALLOW"</span>,
+                Action::Deny =&gt; <span class="string">"DENY"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED_ACTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnspecifiedAction),
+                <span class="string">"ALLOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Allow),
+                <span class="string">"DENY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deny),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// An Instance resource is the computing unit that App Engine uses to
+/// automatically scale an application.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Instance {
+    <span class="doccomment">/// Output only. Full path to the Instance resource in the API.
+    /// Example: `apps/myapp/services/default/versions/v1/instances/instance-1`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Relative name of the instance within the version.
+    /// Example: `instance-1`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. App Engine release this instance is running on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>app_engine_release: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Availability of the instance.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::Availability"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>availability: i32,
+    <span class="doccomment">/// Output only. Name of the virtual machine where this instance lives. Only applicable
+    /// for instances in App Engine flexible environment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>vm_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Zone where the virtual machine is located. Only applicable for instances
+    /// in App Engine flexible environment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>vm_zone_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Virtual machine ID of this instance. Only applicable for instances in
+    /// App Engine flexible environment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>vm_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time that this instance was started.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Number of requests since this instance was started.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>requests: i32,
+    <span class="doccomment">/// Output only. Number of errors since this instance was started.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>errors: i32,
+    <span class="doccomment">/// Output only. Average queries per second (QPS) over the last minute.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>qps: f32,
+    <span class="doccomment">/// Output only. Average latency (ms) over the last minute.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>average_latency: i32,
+    <span class="doccomment">/// Output only. Total memory in use (bytes).
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>memory_usage: i64,
+    <span class="doccomment">/// Output only. Status of the virtual machine where this instance lives. Only applicable
+    /// for instances in App Engine flexible environment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>vm_status: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Whether this instance is in debug mode. Only applicable for instances in
+    /// App Engine flexible environment.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>vm_debug_enabled: bool,
+    <span class="doccomment">/// Output only. The IP address of this instance. Only applicable for instances in App
+    /// Engine flexible environment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>vm_ip: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The liveness health check of this instance. Only applicable for instances
+    /// in App Engine flexible environment.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::liveness::LivenessState"</span>, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>vm_liveness: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `Instance`.
+</span><span class="kw">pub mod </span>instance {
+    <span class="doccomment">/// Wrapper for LivenessState enum.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Liveness {}
+    <span class="doccomment">/// Nested message and enum types in `Liveness`.
+    </span><span class="kw">pub mod </span>liveness {
+        <span class="doccomment">/// Liveness health check status for Flex instances.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>LivenessState {
+            <span class="doccomment">/// There is no liveness health check for the instance. Only applicable for
+            /// instances in App Engine standard environment.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The health checking system is aware of the instance but its health is
+            /// not known at the moment.
+            </span>Unknown = <span class="number">1</span>,
+            <span class="doccomment">/// The instance is reachable i.e. a connection to the application health
+            /// checking endpoint can be established, and conforms to the requirements
+            /// defined by the health check.
+            </span>Healthy = <span class="number">2</span>,
+            <span class="doccomment">/// The instance is reachable, but does not conform to the requirements
+            /// defined by the health check.
+            </span>Unhealthy = <span class="number">3</span>,
+            <span class="doccomment">/// The instance is being drained. The existing connections to the instance
+            /// have time to complete, but the new ones are being refused.
+            </span>Draining = <span class="number">4</span>,
+            <span class="doccomment">/// The instance is unreachable i.e. a connection to the application health
+            /// checking endpoint cannot be established, or the server does not respond
+            /// within the specified timeout.
+            </span>Timeout = <span class="number">5</span>,
+        }
+        <span class="kw">impl </span>LivenessState {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    LivenessState::Unspecified =&gt; <span class="string">"LIVENESS_STATE_UNSPECIFIED"</span>,
+                    LivenessState::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                    LivenessState::Healthy =&gt; <span class="string">"HEALTHY"</span>,
+                    LivenessState::Unhealthy =&gt; <span class="string">"UNHEALTHY"</span>,
+                    LivenessState::Draining =&gt; <span class="string">"DRAINING"</span>,
+                    LivenessState::Timeout =&gt; <span class="string">"TIMEOUT"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"LIVENESS_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                    <span class="string">"HEALTHY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Healthy),
+                    <span class="string">"UNHEALTHY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unhealthy),
+                    <span class="string">"DRAINING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Draining),
+                    <span class="string">"TIMEOUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Timeout),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Availability of the instance.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Availability {
+        Unspecified = <span class="number">0</span>,
+        Resident = <span class="number">1</span>,
+        Dynamic = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Availability {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Availability::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                Availability::Resident =&gt; <span class="string">"RESIDENT"</span>,
+                Availability::Dynamic =&gt; <span class="string">"DYNAMIC"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESIDENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Resident),
+                <span class="string">"DYNAMIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dynamic),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A NetworkSettings resource is a container for ingress settings for a version
+/// or service.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NetworkSettings {
+    <span class="doccomment">/// The ingress settings for version or service.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"network_settings::IngressTrafficAllowed"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ingress_traffic_allowed: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `NetworkSettings`.
+</span><span class="kw">pub mod </span>network_settings {
+    <span class="doccomment">/// If unspecified, INGRESS_TRAFFIC_ALLOWED_ALL will be used.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>IngressTrafficAllowed {
+        <span class="doccomment">/// Unspecified
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Allow HTTP traffic from public and private sources.
+        </span>All = <span class="number">1</span>,
+        <span class="doccomment">/// Allow HTTP traffic from only private VPC sources.
+        </span>InternalOnly = <span class="number">2</span>,
+        <span class="doccomment">/// Allow HTTP traffic from private VPC sources and through load balancers.
+        </span>InternalAndLb = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>IngressTrafficAllowed {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                IngressTrafficAllowed::Unspecified =&gt; {
+                    <span class="string">"INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED"
+                </span>}
+                IngressTrafficAllowed::All =&gt; <span class="string">"INGRESS_TRAFFIC_ALLOWED_ALL"</span>,
+                IngressTrafficAllowed::InternalOnly =&gt; {
+                    <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY"
+                </span>}
+                IngressTrafficAllowed::InternalAndLb =&gt; {
+                    <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"INGRESS_TRAFFIC_ALLOWED_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INGRESS_TRAFFIC_ALLOWED_ALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::All),
+                <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_ONLY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalOnly),
+                <span class="string">"INGRESS_TRAFFIC_ALLOWED_INTERNAL_AND_LB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalAndLb),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -9568,90 +9633,6 @@
         </span>}
     }
 }
-<span class="doccomment">/// Metadata for the given [google.longrunning.Operation][google.longrunning.Operation].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationMetadataV1 {
-    <span class="doccomment">/// API method that initiated this operation. Example:
-    /// `google.appengine.v1.Versions.CreateVersion`.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>method: ::prost::alloc::string::String,
-    <span class="doccomment">/// Time that this operation was created.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>insert_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Time that this operation completed.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// User who requested this operation.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>user: ::prost::alloc::string::String,
-    <span class="doccomment">/// Name of the resource that this operation is acting on. Example:
-    /// `apps/myapp/services/default`.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
-    <span class="doccomment">/// Ephemeral message that may change every time the operation is polled.
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>ephemeral_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Durable messages that persist on every operation poll.
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>warning: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Metadata specific to the type of operation in progress.
-    /// @OutputOnly
-    </span><span class="attr">#[prost(oneof = <span class="string">"operation_metadata_v1::MethodMetadata"</span>, tags = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>method_metadata: ::core::option::Option&lt;operation_metadata_v1::MethodMetadata&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `OperationMetadataV1`.
-</span><span class="kw">pub mod </span>operation_metadata_v1 {
-    <span class="doccomment">/// Metadata specific to the type of operation in progress.
-    /// @OutputOnly
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>MethodMetadata {
-        <span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
-        </span>CreateVersionMetadata(<span class="kw">super</span>::CreateVersionMetadataV1),
-    }
-}
-<span class="doccomment">/// Metadata for the given [google.longrunning.Operation][google.longrunning.Operation] during a
-/// [google.appengine.v1.CreateVersionRequest][google.appengine.v1.CreateVersionRequest].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateVersionMetadataV1 {
-    <span class="doccomment">/// The Cloud Build ID if one was created as part of the version create.
-    /// @OutputOnly
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cloud_build_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Metadata for the given [google.cloud.location.Location][google.cloud.location.Location].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LocationMetadata {
-    <span class="doccomment">/// App Engine standard environment is available in the given location.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>standard_environment_available: bool,
-    <span class="doccomment">/// App Engine flexible environment is available in the given location.
-    ///
-    /// @OutputOnly
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>flexible_environment_available: bool,
-    <span class="doccomment">/// Output only. [Search API](&lt;https://cloud.google.com/appengine/docs/standard/python/search&gt;)
-    /// is available in the given location.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>search_api_available: bool,
-}
 <span class="doccomment">/// App Engine admin service audit log.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -9695,5 +9676,24 @@
     <span class="doccomment">/// Create version request.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>request: ::core::option::Option&lt;CreateVersionRequest&gt;,
+}
+<span class="doccomment">/// Metadata for the given [google.cloud.location.Location][google.cloud.location.Location].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LocationMetadata {
+    <span class="doccomment">/// App Engine standard environment is available in the given location.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>standard_environment_available: bool,
+    <span class="doccomment">/// App Engine flexible environment is available in the given location.
+    ///
+    /// @OutputOnly
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>flexible_environment_available: bool,
+    <span class="doccomment">/// Output only. [Search API](&lt;https://cloud.google.com/appengine/docs/standard/python/search&gt;)
+    /// is available in the given location.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>search_api_available: bool,
 }
 </code></pre></div></section></main></body></html>

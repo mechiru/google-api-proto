@@ -2848,179 +2848,6 @@
         </span>Finding(<span class="kw">super</span>::Finding),
     }
 }
-<span class="doccomment">/// Security Command Center representation of a Google Cloud
-/// resource.
-///
-/// The Asset is a Security Command Center resource that captures information
-/// about a single Google Cloud resource. All modifications to an Asset are only
-/// within the context of Security Command Center and don't affect the referenced
-/// Google Cloud resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Asset {
-    <span class="doccomment">/// The relative resource name of this asset. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
-    /// Example:
-    /// "organizations/{organization_id}/assets/{asset_id}".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by
-    /// Security Command Center and cannot be modified by the user.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>security_center_properties: ::core::option::Option&lt;
-        asset::SecurityCenterProperties,
-    &gt;,
-    <span class="doccomment">/// Resource managed properties. These properties are managed and defined by
-    /// the Google Cloud resource and cannot be modified by the user.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>resource_properties: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost_types::Value,
-    &gt;,
-    <span class="doccomment">/// User specified security marks. These marks are entirely managed by the user
-    /// and come from the SecurityMarks resource that belongs to the asset.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>security_marks: ::core::option::Option&lt;SecurityMarks&gt;,
-    <span class="doccomment">/// The time at which the asset was created in Security Command Center.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time at which the asset was last updated or added in Cloud SCC.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource
-    /// described by the Security Command Center asset. This information is managed
-    /// and defined by the Google Cloud resource and cannot be modified by the
-    /// user.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>iam_policy: ::core::option::Option&lt;asset::IamPolicy&gt;,
-    <span class="doccomment">/// The canonical name of the resource. It's either
-    /// "organizations/{organization_id}/assets/{asset_id}",
-    /// "folders/{folder_id}/assets/{asset_id}" or
-    /// "projects/{project_number}/assets/{asset_id}", depending on the closest CRM
-    /// ancestor of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `Asset`.
-</span><span class="kw">pub mod </span>asset {
-    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by
-    /// Security Command Center and cannot be modified by the user.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>SecurityCenterProperties {
-        <span class="doccomment">/// The full resource name of the Google Cloud resource this asset
-        /// represents. This field is immutable after create time. See:
-        /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>resource_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The type of the Google Cloud resource. Examples include: APPLICATION,
-        /// PROJECT, and ORGANIZATION. This is a case insensitive field defined by
-        /// Security Command Center and/or the producer of the resource and is
-        /// immutable after create time.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>resource_type: ::prost::alloc::string::String,
-        <span class="doccomment">/// The full resource name of the immediate parent of the resource. See:
-        /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>resource_parent: ::prost::alloc::string::String,
-        <span class="doccomment">/// The full resource name of the project the resource belongs to. See:
-        /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>resource_project: ::prost::alloc::string::String,
-        <span class="doccomment">/// Owners of the Google Cloud resource.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>resource_owners: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// The user defined display name for this resource.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>resource_display_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The user defined display name for the parent of this resource.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>resource_parent_display_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The user defined display name for the project of this resource.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>resource_project_display_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Contains a Folder message for each folder in the assets ancestry.
-        /// The first folder is the deepest nested folder, and the last folder is the
-        /// folder directly under the Organization.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"10"</span>)]
-        </span><span class="kw">pub </span>folders: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Folder&gt;,
-    }
-    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource
-    /// described by the Security Command Center asset. This information is managed
-    /// and defined by the Google Cloud resource and cannot be modified by the
-    /// user.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>IamPolicy {
-        <span class="doccomment">/// The JSON representation of the Policy associated with the asset.
-        /// See &lt;https://cloud.google.com/iam/docs/reference/rest/v1/Policy&gt; for
-        /// format details.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>policy_blob: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Response of asset discovery run
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RunAssetDiscoveryResponse {
-    <span class="doccomment">/// The state of an asset discovery run.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"run_asset_discovery_response::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// The duration between asset discovery run start and end
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RunAssetDiscoveryResponse`.
-</span><span class="kw">pub mod </span>run_asset_discovery_response {
-    <span class="doccomment">/// The state of an asset discovery run.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Asset discovery run state was unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Asset discovery run completed successfully.
-        </span>Completed = <span class="number">1</span>,
-        <span class="doccomment">/// Asset discovery run was cancelled with tasks still pending, as another
-        /// run for the same organization was started with a higher priority.
-        </span>Superseded = <span class="number">2</span>,
-        <span class="doccomment">/// Asset discovery run was killed and terminated.
-        </span>Terminated = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Completed =&gt; <span class="string">"COMPLETED"</span>,
-                State::Superseded =&gt; <span class="string">"SUPERSEDED"</span>,
-                State::Terminated =&gt; <span class="string">"TERMINATED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"COMPLETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Completed),
-                <span class="string">"SUPERSEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Superseded),
-                <span class="string">"TERMINATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Terminated),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// Security Command Center notification configs.
 ///
 /// A notification config is a Security Command Center resource that contains the
@@ -3132,6 +2959,216 @@
         </span>StreamingConfig(StreamingConfig),
     }
 }
+<span class="doccomment">/// Security Command Center finding source. A finding source
+/// is an entity or a mechanism that can produce a finding. A source is like a
+/// container of findings that come from the same scanner, logger, monitor, etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Source {
+    <span class="doccomment">/// The relative resource name of this source. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
+    /// Example:
+    /// "organizations/{organization_id}/sources/{source_id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The source's display name.
+    /// A source's display name must be unique amongst its siblings, for example,
+    /// two sources with the same parent can't share the same display name.
+    /// The display name must have a length between 1 and 64 characters
+    /// (inclusive).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the source (max of 1024 characters).
+    /// Example:
+    /// "Web Security Scanner is a web security scanner for common
+    /// vulnerabilities in App Engine applications. It can automatically
+    /// scan and detect four common vulnerabilities, including cross-site-scripting
+    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
+    /// outdated/insecure libraries."
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The canonical name of the finding. It's either
+    /// "organizations/{organization_id}/sources/{source_id}",
+    /// "folders/{folder_id}/sources/{source_id}" or
+    /// "projects/{project_number}/sources/{source_id}",
+    /// depending on the closest CRM ancestor of the resource associated with the
+    /// finding.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response of asset discovery run
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RunAssetDiscoveryResponse {
+    <span class="doccomment">/// The state of an asset discovery run.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"run_asset_discovery_response::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The duration between asset discovery run start and end
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RunAssetDiscoveryResponse`.
+</span><span class="kw">pub mod </span>run_asset_discovery_response {
+    <span class="doccomment">/// The state of an asset discovery run.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Asset discovery run state was unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Asset discovery run completed successfully.
+        </span>Completed = <span class="number">1</span>,
+        <span class="doccomment">/// Asset discovery run was cancelled with tasks still pending, as another
+        /// run for the same organization was started with a higher priority.
+        </span>Superseded = <span class="number">2</span>,
+        <span class="doccomment">/// Asset discovery run was killed and terminated.
+        </span>Terminated = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Completed =&gt; <span class="string">"COMPLETED"</span>,
+                State::Superseded =&gt; <span class="string">"SUPERSEDED"</span>,
+                State::Terminated =&gt; <span class="string">"TERMINATED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"COMPLETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Completed),
+                <span class="string">"SUPERSEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Superseded),
+                <span class="string">"TERMINATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Terminated),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Security Command Center representation of a Google Cloud
+/// resource.
+///
+/// The Asset is a Security Command Center resource that captures information
+/// about a single Google Cloud resource. All modifications to an Asset are only
+/// within the context of Security Command Center and don't affect the referenced
+/// Google Cloud resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Asset {
+    <span class="doccomment">/// The relative resource name of this asset. See:
+    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
+    /// Example:
+    /// "organizations/{organization_id}/assets/{asset_id}".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by
+    /// Security Command Center and cannot be modified by the user.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>security_center_properties: ::core::option::Option&lt;
+        asset::SecurityCenterProperties,
+    &gt;,
+    <span class="doccomment">/// Resource managed properties. These properties are managed and defined by
+    /// the Google Cloud resource and cannot be modified by the user.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>resource_properties: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost_types::Value,
+    &gt;,
+    <span class="doccomment">/// User specified security marks. These marks are entirely managed by the user
+    /// and come from the SecurityMarks resource that belongs to the asset.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>security_marks: ::core::option::Option&lt;SecurityMarks&gt;,
+    <span class="doccomment">/// The time at which the asset was created in Security Command Center.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time at which the asset was last updated or added in Cloud SCC.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource
+    /// described by the Security Command Center asset. This information is managed
+    /// and defined by the Google Cloud resource and cannot be modified by the
+    /// user.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>iam_policy: ::core::option::Option&lt;asset::IamPolicy&gt;,
+    <span class="doccomment">/// The canonical name of the resource. It's either
+    /// "organizations/{organization_id}/assets/{asset_id}",
+    /// "folders/{folder_id}/assets/{asset_id}" or
+    /// "projects/{project_number}/assets/{asset_id}", depending on the closest CRM
+    /// ancestor of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `Asset`.
+</span><span class="kw">pub mod </span>asset {
+    <span class="doccomment">/// Security Command Center managed properties. These properties are managed by
+    /// Security Command Center and cannot be modified by the user.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>SecurityCenterProperties {
+        <span class="doccomment">/// The full resource name of the Google Cloud resource this asset
+        /// represents. This field is immutable after create time. See:
+        /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>resource_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The type of the Google Cloud resource. Examples include: APPLICATION,
+        /// PROJECT, and ORGANIZATION. This is a case insensitive field defined by
+        /// Security Command Center and/or the producer of the resource and is
+        /// immutable after create time.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>resource_type: ::prost::alloc::string::String,
+        <span class="doccomment">/// The full resource name of the immediate parent of the resource. See:
+        /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>resource_parent: ::prost::alloc::string::String,
+        <span class="doccomment">/// The full resource name of the project the resource belongs to. See:
+        /// &lt;https://cloud.google.com/apis/design/resource_names#full_resource_name&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>resource_project: ::prost::alloc::string::String,
+        <span class="doccomment">/// Owners of the Google Cloud resource.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>resource_owners: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// The user defined display name for this resource.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>resource_display_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The user defined display name for the parent of this resource.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>resource_parent_display_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The user defined display name for the project of this resource.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>resource_project_display_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Contains a Folder message for each folder in the assets ancestry.
+        /// The first folder is the deepest nested folder, and the last folder is the
+        /// folder directly under the Organization.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"10"</span>)]
+        </span><span class="kw">pub </span>folders: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Folder&gt;,
+    }
+    <span class="doccomment">/// Cloud IAM Policy information associated with the Google Cloud resource
+    /// described by the Security Command Center asset. This information is managed
+    /// and defined by the Google Cloud resource and cannot be modified by the
+    /// user.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>IamPolicy {
+        <span class="doccomment">/// The JSON representation of the Policy associated with the asset.
+        /// See &lt;https://cloud.google.com/iam/docs/reference/rest/v1/Policy&gt; for
+        /// format details.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>policy_blob: ::prost::alloc::string::String,
+    }
+}
 <span class="doccomment">/// User specified settings that are attached to the Security Command
 /// Center organization.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3228,43 +3265,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// Security Command Center finding source. A finding source
-/// is an entity or a mechanism that can produce a finding. A source is like a
-/// container of findings that come from the same scanner, logger, monitor, etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Source {
-    <span class="doccomment">/// The relative resource name of this source. See:
-    /// &lt;https://cloud.google.com/apis/design/resource_names#relative_resource_name&gt;
-    /// Example:
-    /// "organizations/{organization_id}/sources/{source_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The source's display name.
-    /// A source's display name must be unique amongst its siblings, for example,
-    /// two sources with the same parent can't share the same display name.
-    /// The display name must have a length between 1 and 64 characters
-    /// (inclusive).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the source (max of 1024 characters).
-    /// Example:
-    /// "Web Security Scanner is a web security scanner for common
-    /// vulnerabilities in App Engine applications. It can automatically
-    /// scan and detect four common vulnerabilities, including cross-site-scripting
-    /// (XSS), Flash injection, mixed content (HTTP in HTTPS), and
-    /// outdated/insecure libraries."
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The canonical name of the finding. It's either
-    /// "organizations/{organization_id}/sources/{source_id}",
-    /// "folders/{folder_id}/sources/{source_id}" or
-    /// "projects/{project_number}/sources/{source_id}",
-    /// depending on the closest CRM ancestor of the resource associated with the
-    /// finding.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>canonical_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Request message for creating a finding.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

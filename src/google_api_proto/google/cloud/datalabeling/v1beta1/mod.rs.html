@@ -5571,6 +5571,66 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
+<span class="doccomment">/// Instruction of how to perform the labeling task for human operators.
+/// Currently only PDF instruction is supported.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Instruction {
+    <span class="doccomment">/// Output only. Instruction resource name, format:
+    /// projects/{project_id}/instructions/{instruction_id}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The display name of the instruction. Maximum of 64 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. User-provided description of the instruction.
+    /// The description can be up to 10000 characters long.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Creation time of instruction.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Last update time of instruction.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Required. The data type of this instruction.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"DataType"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>data_type: i32,
+    <span class="doccomment">/// Deprecated: this instruction format is not supported any more.
+    /// Instruction from a CSV file, such as for classification task.
+    /// The CSV file should have exact two columns, in the following format:
+    ///
+    /// * The first column is labeled data, such as an image reference, text.
+    /// * The second column is comma separated labels associated with data.
+    </span><span class="attr">#[deprecated]
+    #[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>csv_instruction: ::core::option::Option&lt;CsvInstruction&gt;,
+    <span class="doccomment">/// Instruction from a PDF document. The PDF should be in a Cloud Storage
+    /// bucket.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>pdf_instruction: ::core::option::Option&lt;PdfInstruction&gt;,
+    <span class="doccomment">/// Output only. The names of any related resources that are blocking changes
+    /// to the instruction.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>blocking_resources: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Deprecated: this instruction format is not supported any more.
+/// Instruction from a CSV file.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CsvInstruction {
+    <span class="doccomment">/// CSV file for the instruction. Only gcs path is allowed.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcs_file_uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Instruction from a PDF file.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PdfInstruction {
+    <span class="doccomment">/// PDF file for the instruction. Only gcs path is allowed.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcs_file_uri: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Describes an evaluation between a machine learning model's predictions and
 /// ground truth labels. Created when an [EvaluationJob][google.cloud.datalabeling.v1beta1.EvaluationJob] runs successfully.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6086,66 +6146,6 @@
     <span class="doccomment">/// Details of errors that occurred.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>partial_failures: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-}
-<span class="doccomment">/// Instruction of how to perform the labeling task for human operators.
-/// Currently only PDF instruction is supported.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Instruction {
-    <span class="doccomment">/// Output only. Instruction resource name, format:
-    /// projects/{project_id}/instructions/{instruction_id}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The display name of the instruction. Maximum of 64 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. User-provided description of the instruction.
-    /// The description can be up to 10000 characters long.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Creation time of instruction.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Last update time of instruction.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Required. The data type of this instruction.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"DataType"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>data_type: i32,
-    <span class="doccomment">/// Deprecated: this instruction format is not supported any more.
-    /// Instruction from a CSV file, such as for classification task.
-    /// The CSV file should have exact two columns, in the following format:
-    ///
-    /// * The first column is labeled data, such as an image reference, text.
-    /// * The second column is comma separated labels associated with data.
-    </span><span class="attr">#[deprecated]
-    #[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>csv_instruction: ::core::option::Option&lt;CsvInstruction&gt;,
-    <span class="doccomment">/// Instruction from a PDF document. The PDF should be in a Cloud Storage
-    /// bucket.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>pdf_instruction: ::core::option::Option&lt;PdfInstruction&gt;,
-    <span class="doccomment">/// Output only. The names of any related resources that are blocking changes
-    /// to the instruction.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>blocking_resources: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Deprecated: this instruction format is not supported any more.
-/// Instruction from a CSV file.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CsvInstruction {
-    <span class="doccomment">/// CSV file for the instruction. Only gcs path is allowed.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcs_file_uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Instruction from a PDF file.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PdfInstruction {
-    <span class="doccomment">/// PDF file for the instruction. Only gcs path is allowed.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcs_file_uri: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Request message for CreateDataset.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

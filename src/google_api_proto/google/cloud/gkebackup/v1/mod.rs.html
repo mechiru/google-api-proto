@@ -3271,6 +3271,799 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>gcp_kms_encryption_key: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Represents both a request to Restore some portion of a Backup into
+/// a target GKE cluster and a record of the restore operation itself.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Restore {
+    <span class="doccomment">/// Output only. The full name of the Restore resource.
+    /// Format: `projects/*/locations/*/restorePlans/*/restores/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server generated global unique identifier of
+    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when this Restore resource was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when this Restore resource was last
+    /// updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// User specified descriptive string for this Restore.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. A reference to the
+    /// [Backup][google.cloud.gkebackup.v1.Backup] used as the source from which
+    /// this Restore will restore. Note that this Backup must be a sub-resource of
+    /// the RestorePlan's
+    /// [backup_plan][google.cloud.gkebackup.v1.RestorePlan.backup_plan]. Format:
+    /// `projects/*/locations/*/backupPlans/*/backups/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>backup: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The target cluster into which this Restore will restore data.
+    /// Valid formats:
+    ///
+    ///    - `projects/*/locations/*/clusters/*`
+    ///    - `projects/*/zones/*/clusters/*`
+    ///
+    /// Inherited from parent RestorePlan's
+    /// [cluster][google.cloud.gkebackup.v1.RestorePlan.cluster] value.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Configuration of the Restore.  Inherited from parent
+    /// RestorePlan's
+    /// [restore_config][google.cloud.gkebackup.v1.RestorePlan.restore_config].
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>restore_config: ::core::option::Option&lt;RestoreConfig&gt;,
+    <span class="doccomment">/// A set of custom labels supplied by user.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. The current state of the Restore.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"restore::State"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. Human-readable description of why the Restore is in its
+    /// current state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Timestamp of when the restore operation completed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Number of resources restored during the restore execution.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>resources_restored_count: i32,
+    <span class="doccomment">/// Output only. Number of resources excluded during the restore execution.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>resources_excluded_count: i32,
+    <span class="doccomment">/// Output only. Number of resources that failed to be restored during the
+    /// restore execution.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>resources_failed_count: i32,
+    <span class="doccomment">/// Output only. Number of volumes restored during the restore execution.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>volumes_restored_count: i32,
+    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
+    /// help prevent simultaneous updates of a restore from overwriting each other.
+    /// It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform restore updates in order to avoid
+    /// race conditions: An `etag` is returned in the response to `GetRestore`,
+    /// and systems are expected to put that etag in the request to
+    /// `UpdateRestore` or `DeleteRestore` to ensure that their change will be
+    /// applied to the same version of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `Restore`.
+</span><span class="kw">pub mod </span>restore {
+    <span class="doccomment">/// Possible values for state of the Restore.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The Restore resource is in the process of being created.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The Restore resource has been created and the associated RestoreJob
+        /// Kubernetes resource has been injected into target cluster.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the restore
+        /// operation.
+        </span>InProgress = <span class="number">2</span>,
+        <span class="doccomment">/// The restore operation has completed successfully. Restored workloads may
+        /// not yet be operational.
+        </span>Succeeded = <span class="number">3</span>,
+        <span class="doccomment">/// The restore operation has failed.
+        </span>Failed = <span class="number">4</span>,
+        <span class="doccomment">/// This Restore resource is in the process of being deleted.
+        </span>Deleting = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::InProgress =&gt; <span class="string">"IN_PROGRESS"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InProgress),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Configuration of a restore.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RestoreConfig {
+    <span class="doccomment">/// Optional. Specifies the mechanism to be used to restore volume data.
+    /// Default: VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED (will be treated as
+    /// NO_VOLUME_DATA_RESTORATION).
+    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_config::VolumeDataRestorePolicy"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>volume_data_restore_policy: i32,
+    <span class="doccomment">/// Optional. Defines the behavior for handling the situation where
+    /// cluster-scoped resources being restored already exist in the target
+    /// cluster. This MUST be set to a value other than
+    /// CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED if
+    /// [cluster_resource_restore_scope][google.cloud.gkebackup.v1.RestoreConfig.cluster_resource_restore_scope]
+    /// is not empty.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_config::ClusterResourceConflictPolicy"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>cluster_resource_conflict_policy: i32,
+    <span class="doccomment">/// Optional. Defines the behavior for handling the situation where sets of
+    /// namespaced resources being restored already exist in the target cluster.
+    /// This MUST be set to a value other than
+    /// NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_config::NamespacedResourceRestoreMode"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>namespaced_resource_restore_mode: i32,
+    <span class="doccomment">/// Optional. Identifies the cluster-scoped resources to restore from the
+    /// Backup. Not specifying it means NO cluster resource will be restored.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>cluster_resource_restore_scope: ::core::option::Option&lt;
+        restore_config::ClusterResourceRestoreScope,
+    &gt;,
+    <span class="doccomment">/// Optional. A list of transformation rules to be applied against Kubernetes
+    /// resources as they are selected for restoration from a Backup. Rules are
+    /// executed in order defined - this order matters, as changes made by a rule
+    /// may impact the filtering logic of subsequent rules. An empty list means no
+    /// substitution will occur.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>substitution_rules: ::prost::alloc::vec::Vec&lt;restore_config::SubstitutionRule&gt;,
+    <span class="doccomment">/// Optional. A list of transformation rules to be applied against Kubernetes
+    /// resources as they are selected for restoration from a Backup. Rules are
+    /// executed in order defined - this order matters, as changes made by a rule
+    /// may impact the filtering logic of subsequent rules. An empty list means no
+    /// transformation will occur.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>transformation_rules: ::prost::alloc::vec::Vec&lt;
+        restore_config::TransformationRule,
+    &gt;,
+    <span class="doccomment">/// Specifies the namespaced resources to restore from the Backup.
+    /// Only one of the entries may be specified. If not specified, NO namespaced
+    /// resources will be restored.
+    ///
+    /// Note: Resources will never be restored into *managed* namespaces such as
+    /// `kube-system`, `kube-public`, or `kube-node-lease`. These namespaces
+    /// are silently skipped when
+    /// [all_namespaces][google.cloud.gkebackup.v1.RestoreConfig.all_namespaces] is
+    /// selected. Listing them explicitly will result in an error.
+    </span><span class="attr">#[prost(
+        oneof = <span class="string">"restore_config::NamespacedResourceRestoreScope"</span>,
+        tags = <span class="string">"5, 6, 7, 9, 10"
+    </span>)]
+    </span><span class="kw">pub </span>namespaced_resource_restore_scope: ::core::option::Option&lt;
+        restore_config::NamespacedResourceRestoreScope,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RestoreConfig`.
+</span><span class="kw">pub mod </span>restore_config {
+    <span class="doccomment">/// This is a direct map to the Kubernetes GroupKind type
+    /// [GroupKind](&lt;https://godoc.org/k8s.io/apimachinery/pkg/runtime/schema#GroupKind&gt;)
+    /// and is used for identifying specific "types" of resources to restore.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>GroupKind {
+        <span class="doccomment">/// Optional. API group string of a Kubernetes resource, e.g.
+        /// "apiextensions.k8s.io", "storage.k8s.io", etc.
+        /// Note: use empty string for core API group
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>resource_group: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. Kind of a Kubernetes resource, must be in UpperCamelCase
+        /// (PascalCase) and singular form. E.g. "CustomResourceDefinition",
+        /// "StorageClass", etc.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>resource_kind: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Defines the scope of cluster-scoped resources to restore.
+    ///
+    /// Some group kinds are not reasonable choices for a restore, and will cause
+    /// an error if selected here. Any scope selection that would restore
+    /// "all valid" resources automatically excludes these group kinds.
+    /// - gkebackup.gke.io/BackupJob
+    /// - gkebackup.gke.io/RestoreJob
+    /// - metrics.k8s.io/NodeMetrics
+    /// - migration.k8s.io/StorageState
+    /// - migration.k8s.io/StorageVersionMigration
+    /// - Node
+    /// - snapshot.storage.k8s.io/VolumeSnapshotContent
+    /// - storage.k8s.io/CSINode
+    ///
+    /// Some group kinds are driven by restore configuration elsewhere,
+    /// and will cause an error if selected here.
+    /// - Namespace
+    /// - PersistentVolume
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ClusterResourceRestoreScope {
+        <span class="doccomment">/// Optional. A list of cluster-scoped resource group kinds to restore from
+        /// the backup. If specified, only the selected resources will be restored.
+        /// Mutually exclusive to any other field in the message.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>selected_group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
+        <span class="doccomment">/// Optional. A list of cluster-scoped resource group kinds to NOT restore
+        /// from the backup. If specified, all valid cluster-scoped resources will be
+        /// restored except for those specified in the list.
+        /// Mutually exclusive to any other field in the message.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>excluded_group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
+        <span class="doccomment">/// Optional. If True, all valid cluster-scoped resources will be restored.
+        /// Mutually exclusive to any other field in the message.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>all_group_kinds: bool,
+        <span class="doccomment">/// Optional. If True, no cluster-scoped resources will be restored.
+        /// This has the same restore scope as if the message is not defined.
+        /// Mutually exclusive to any other field in the message.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>no_group_kinds: bool,
+    }
+    <span class="doccomment">/// A transformation rule to be applied against Kubernetes resources as they
+    /// are selected for restoration from a Backup. A rule contains both filtering
+    /// logic (which resources are subject to substitution) and substitution logic.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>SubstitutionRule {
+        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to substitution must
+        /// be contained within one of the listed Kubernetes Namespace in the Backup.
+        /// If this field is not provided, no namespace filtering will be performed
+        /// (all resources in all Namespaces, including all cluster-scoped resources,
+        /// will be candidates for substitution).
+        /// To mix cluster-scoped and namespaced resources in the same rule, use an
+        /// empty string ("") as one of the target namespaces.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>target_namespaces: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to substitution must
+        /// belong to one of the listed "types". If this field is not provided, no
+        /// type filtering will be performed (all resources of all types matching
+        /// previous filtering parameters will be candidates for substitution).
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>target_group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
+        <span class="doccomment">/// Required. This is a \[JSONPath\]
+        /// (&lt;https://kubernetes.io/docs/reference/kubectl/jsonpath/&gt;)
+        /// expression that matches specific fields of candidate
+        /// resources and it operates as both a filtering parameter (resources that
+        /// are not matched with this expression will not be candidates for
+        /// substitution) as well as a field identifier (identifies exactly which
+        /// fields out of the candidate resources will be modified).
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>target_json_path: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. (Filtering parameter) This is a \[regular expression\]
+        /// (&lt;https://en.wikipedia.org/wiki/Regular_expression&gt;)
+        /// that is compared against the fields matched by the target_json_path
+        /// expression (and must also have passed the previous filters).
+        /// Substitution will not be performed against fields whose
+        /// value does not match this expression. If this field is NOT specified,
+        /// then ALL fields matched by the target_json_path expression will undergo
+        /// substitution. Note that an empty (e.g., "", rather than unspecified)
+        /// value for this field will only match empty fields.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>original_value_pattern: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. This is the new value to set for any fields that pass the
+        /// filtering and selection criteria. To remove a value from a Kubernetes
+        /// resource, either leave this field unspecified, or set it to the empty
+        /// string ("").
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>new_value: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// TransformationRuleAction defines a TransformationRule action based on the
+    /// JSON Patch RFC (&lt;https://www.rfc-editor.org/rfc/rfc6902&gt;)
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TransformationRuleAction {
+        <span class="doccomment">/// Required. op specifies the operation to perform.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"transformation_rule_action::Op"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>op: i32,
+        <span class="doccomment">/// Optional. A string containing a JSON Pointer value that references the
+        /// location in the target document to move the value from.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>from_path: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. A string containing a JSON-Pointer value that references a
+        /// location within the target document where the operation is performed.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. A string that specifies the desired value in string format to
+        /// use for transformation.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `TransformationRuleAction`.
+    </span><span class="kw">pub mod </span>transformation_rule_action {
+        <span class="doccomment">/// Possible values for operations of a transformation rule action.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Op {
+            <span class="doccomment">/// Unspecified operation
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The "remove" operation removes the value at the target location.
+            </span>Remove = <span class="number">1</span>,
+            <span class="doccomment">/// The "move" operation removes the value at a specified location and
+            /// adds it to the target location.
+            </span>Move = <span class="number">2</span>,
+            <span class="doccomment">/// The "copy" operation copies the value at a specified location to the
+            /// target location.
+            </span>Copy = <span class="number">3</span>,
+            <span class="doccomment">/// The "add" operation performs one of the following functions,
+            /// depending upon what the target location references:
+            /// 1. If the target location specifies an array index, a new value is
+            /// inserted into the array at the specified index.
+            /// 2. If the target location specifies an object member that does not
+            /// already exist, a new member is added to the object.
+            /// 3. If the target location specifies an object member that does exist,
+            /// that member's value is replaced.
+            </span>Add = <span class="number">4</span>,
+            <span class="doccomment">/// The "test" operation tests that a value at the target location is
+            /// equal to a specified value.
+            </span>Test = <span class="number">5</span>,
+            <span class="doccomment">/// The "replace" operation replaces the value at the target location
+            /// with a new value.  The operation object MUST contain a "value" member
+            /// whose content specifies the replacement value.
+            </span>Replace = <span class="number">6</span>,
+        }
+        <span class="kw">impl </span>Op {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Op::Unspecified =&gt; <span class="string">"OP_UNSPECIFIED"</span>,
+                    Op::Remove =&gt; <span class="string">"REMOVE"</span>,
+                    Op::Move =&gt; <span class="string">"MOVE"</span>,
+                    Op::Copy =&gt; <span class="string">"COPY"</span>,
+                    Op::Add =&gt; <span class="string">"ADD"</span>,
+                    Op::Test =&gt; <span class="string">"TEST"</span>,
+                    Op::Replace =&gt; <span class="string">"REPLACE"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"OP_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"REMOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Remove),
+                    <span class="string">"MOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Move),
+                    <span class="string">"COPY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Copy),
+                    <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
+                    <span class="string">"TEST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Test),
+                    <span class="string">"REPLACE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Replace),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// ResourceFilter specifies matching criteria to limit the scope of a
+    /// change to a specific set of kubernetes resources that are selected for
+    /// restoration from a backup.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ResourceFilter {
+        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to transformation
+        /// must be contained within one of the listed Kubernetes Namespace in the
+        /// Backup. If this field is not provided, no namespace filtering will be
+        /// performed (all resources in all Namespaces, including all cluster-scoped
+        /// resources, will be candidates for transformation).
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>namespaces: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to transformation
+        /// must belong to one of the listed "types". If this field is not provided,
+        /// no type filtering will be performed (all resources of all types matching
+        /// previous filtering parameters will be candidates for transformation).
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
+        <span class="doccomment">/// Optional. This is a \[JSONPath\]
+        /// (&lt;https://github.com/json-path/JsonPath/blob/master/README.md&gt;)
+        /// expression that matches specific fields of candidate
+        /// resources and it operates as a filtering parameter (resources that
+        /// are not matched with this expression will not be candidates for
+        /// transformation).
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>json_path: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// A transformation rule to be applied against Kubernetes resources as they
+    /// are selected for restoration from a Backup. A rule contains both filtering
+    /// logic (which resources are subject to transform) and transformation logic.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TransformationRule {
+        <span class="doccomment">/// Required. A list of transformation rule actions to take against candidate
+        /// resources. Actions are executed in order defined - this order matters, as
+        /// they could potentially interfere with each other and the first operation
+        /// could affect the outcome of the second operation.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>field_actions: ::prost::alloc::vec::Vec&lt;TransformationRuleAction&gt;,
+        <span class="doccomment">/// Optional. This field is used to specify a set of fields that should be
+        /// used to determine which resources in backup should be acted upon by the
+        /// supplied transformation rule actions, and this will ensure that only
+        /// specific resources are affected by transformation rule actions.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>resource_filter: ::core::option::Option&lt;ResourceFilter&gt;,
+        <span class="doccomment">/// Optional. The description is a user specified string description of the
+        /// transformation rule.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Defines how volume data should be restored.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>VolumeDataRestorePolicy {
+        <span class="doccomment">/// Unspecified (illegal).
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// For each PVC to be restored, create a new underlying volume and PV
+        /// from the corresponding VolumeBackup contained within the Backup.
+        </span>RestoreVolumeDataFromBackup = <span class="number">1</span>,
+        <span class="doccomment">/// For each PVC to be restored, attempt to reuse the original PV contained
+        /// in the Backup (with its original underlying volume). This option
+        /// is likely only usable when restoring a workload to its original cluster.
+        </span>ReuseVolumeHandleFromBackup = <span class="number">2</span>,
+        <span class="doccomment">/// For each PVC to be restored, create PVC without any particular
+        /// action to restore data. In this case, the normal Kubernetes provisioning
+        /// logic would kick in, and this would likely result in either dynamically
+        /// provisioning blank PVs or binding to statically provisioned PVs.
+        </span>NoVolumeDataRestoration = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>VolumeDataRestorePolicy {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                VolumeDataRestorePolicy::Unspecified =&gt; {
+                    <span class="string">"VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED"
+                </span>}
+                VolumeDataRestorePolicy::RestoreVolumeDataFromBackup =&gt; {
+                    <span class="string">"RESTORE_VOLUME_DATA_FROM_BACKUP"
+                </span>}
+                VolumeDataRestorePolicy::ReuseVolumeHandleFromBackup =&gt; {
+                    <span class="string">"REUSE_VOLUME_HANDLE_FROM_BACKUP"
+                </span>}
+                VolumeDataRestorePolicy::NoVolumeDataRestoration =&gt; {
+                    <span class="string">"NO_VOLUME_DATA_RESTORATION"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESTORE_VOLUME_DATA_FROM_BACKUP" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::RestoreVolumeDataFromBackup)
+                }
+                <span class="string">"REUSE_VOLUME_HANDLE_FROM_BACKUP" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReuseVolumeHandleFromBackup)
+                }
+                <span class="string">"NO_VOLUME_DATA_RESTORATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoVolumeDataRestoration),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Defines the behavior for handling the situation where cluster-scoped
+    /// resources being restored already exist in the target cluster.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ClusterResourceConflictPolicy {
+        <span class="doccomment">/// Unspecified. Only allowed if no cluster-scoped resources will be
+        /// restored.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Do not attempt to restore the conflicting resource.
+        </span>UseExistingVersion = <span class="number">1</span>,
+        <span class="doccomment">/// Delete the existing version before re-creating it from the Backup.
+        /// This is a dangerous option which could cause unintentional
+        /// data loss if used inappropriately. For example, deleting a CRD will
+        /// cause Kubernetes to delete all CRs of that type.
+        </span>UseBackupVersion = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>ClusterResourceConflictPolicy {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ClusterResourceConflictPolicy::Unspecified =&gt; {
+                    <span class="string">"CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED"
+                </span>}
+                ClusterResourceConflictPolicy::UseExistingVersion =&gt; {
+                    <span class="string">"USE_EXISTING_VERSION"
+                </span>}
+                ClusterResourceConflictPolicy::UseBackupVersion =&gt; <span class="string">"USE_BACKUP_VERSION"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"USE_EXISTING_VERSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UseExistingVersion),
+                <span class="string">"USE_BACKUP_VERSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UseBackupVersion),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Defines the behavior for handling the situation where sets of namespaced
+    /// resources being restored already exist in the target cluster.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>NamespacedResourceRestoreMode {
+        <span class="doccomment">/// Unspecified (invalid).
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// When conflicting top-level resources (either Namespaces or
+        /// ProtectedApplications, depending upon the scope) are encountered, this
+        /// will first trigger a delete of the conflicting resource AND ALL OF ITS
+        /// REFERENCED RESOURCES (e.g., all resources in the Namespace or all
+        /// resources referenced by the ProtectedApplication) before restoring the
+        /// resources from the Backup. This mode should only be used when you are
+        /// intending to revert some portion of a cluster to an earlier state.
+        </span>DeleteAndRestore = <span class="number">1</span>,
+        <span class="doccomment">/// If conflicting top-level resources (either Namespaces or
+        /// ProtectedApplications, depending upon the scope) are encountered at the
+        /// beginning of a restore process, the Restore will fail.  If a conflict
+        /// occurs during the restore process itself (e.g., because an out of band
+        /// process creates conflicting resources), a conflict will be reported.
+        </span>FailOnConflict = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>NamespacedResourceRestoreMode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                NamespacedResourceRestoreMode::Unspecified =&gt; {
+                    <span class="string">"NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED"
+                </span>}
+                NamespacedResourceRestoreMode::DeleteAndRestore =&gt; <span class="string">"DELETE_AND_RESTORE"</span>,
+                NamespacedResourceRestoreMode::FailOnConflict =&gt; <span class="string">"FAIL_ON_CONFLICT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DELETE_AND_RESTORE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeleteAndRestore),
+                <span class="string">"FAIL_ON_CONFLICT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailOnConflict),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Specifies the namespaced resources to restore from the Backup.
+    /// Only one of the entries may be specified. If not specified, NO namespaced
+    /// resources will be restored.
+    ///
+    /// Note: Resources will never be restored into *managed* namespaces such as
+    /// `kube-system`, `kube-public`, or `kube-node-lease`. These namespaces
+    /// are silently skipped when
+    /// [all_namespaces][google.cloud.gkebackup.v1.RestoreConfig.all_namespaces] is
+    /// selected. Listing them explicitly will result in an error.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>NamespacedResourceRestoreScope {
+        <span class="doccomment">/// Restore all namespaced resources in the Backup if set to "True".
+        /// Specifying this field to "False" is an error.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+        </span>AllNamespaces(bool),
+        <span class="doccomment">/// A list of selected Namespaces to restore from the Backup. The listed
+        /// Namespaces and all resources contained in them will be restored.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>SelectedNamespaces(<span class="kw">super</span>::Namespaces),
+        <span class="doccomment">/// A list of selected ProtectedApplications to restore. The listed
+        /// ProtectedApplications and all the resources to which they refer will be
+        /// restored.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+        </span>SelectedApplications(<span class="kw">super</span>::NamespacedNames),
+        <span class="doccomment">/// Do not restore any namespaced resources if set to "True".
+        /// Specifying this field to "False" is not allowed.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
+        </span>NoNamespaces(bool),
+        <span class="doccomment">/// A list of selected namespaces excluded from restoration. All
+        /// namespaces except those in this list will be restored.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
+        </span>ExcludedNamespaces(<span class="kw">super</span>::Namespaces),
+    }
+}
+<span class="doccomment">/// The configuration of a potential series of Restore operations to be performed
+/// against Backups belong to a particular BackupPlan.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RestorePlan {
+    <span class="doccomment">/// Output only. The full name of the RestorePlan resource.
+    /// Format: `projects/*/locations/*/restorePlans/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server generated global unique identifier of
+    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was
+    /// created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was last
+    /// updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. User specified descriptive string for this RestorePlan.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. A reference to the
+    /// [BackupPlan][google.cloud.gkebackup.v1.BackupPlan] from which Backups may
+    /// be used as the source for Restores created via this RestorePlan. Format:
+    /// `projects/*/locations/*/backupPlans/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>backup_plan: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. The target cluster into which Restores created via
+    /// this RestorePlan will restore data. NOTE: the cluster's region must be the
+    /// same as the RestorePlan. Valid formats:
+    ///
+    ///    - `projects/*/locations/*/clusters/*`
+    ///    - `projects/*/zones/*/clusters/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Configuration of Restores created via this RestorePlan.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>restore_config: ::core::option::Option&lt;RestoreConfig&gt;,
+    <span class="doccomment">/// Optional. A set of custom labels supplied by user.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
+    /// help prevent simultaneous updates of a restore from overwriting each other.
+    /// It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform restore updates in order to avoid
+    /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
+    /// and systems are expected to put that etag in the request to
+    /// `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change
+    /// will be applied to the same version of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. State of the RestorePlan. This State field reflects the
+    /// various stages a RestorePlan can be in
+    /// during the Create operation.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_plan::State"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. Human-readable description of why RestorePlan is in the
+    /// current `state`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `RestorePlan`.
+</span><span class="kw">pub mod </span>restore_plan {
+    <span class="doccomment">/// State
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Default first value for Enums.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Waiting for cluster state to be RUNNING.
+        </span>ClusterPending = <span class="number">1</span>,
+        <span class="doccomment">/// The RestorePlan has successfully been created and is ready for Restores.
+        </span>Ready = <span class="number">2</span>,
+        <span class="doccomment">/// RestorePlan creation has failed.
+        </span>Failed = <span class="number">3</span>,
+        <span class="doccomment">/// The RestorePlan is in the process of being deleted.
+        </span>Deleting = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::ClusterPending =&gt; <span class="string">"CLUSTER_PENDING"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLUSTER_PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClusterPending),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// Represents the backup of a specific persistent volume as a component of a
 /// Backup - both the record of the operation and a pointer to the underlying
 /// storage-specific artifacts.
@@ -4218,799 +5011,6 @@
         <span class="doccomment">/// The exclusion window occurs on these days of each week in UTC.
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>DaysOfWeek(DayOfWeekList),
-    }
-}
-<span class="doccomment">/// Represents both a request to Restore some portion of a Backup into
-/// a target GKE cluster and a record of the restore operation itself.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Restore {
-    <span class="doccomment">/// Output only. The full name of the Restore resource.
-    /// Format: `projects/*/locations/*/restorePlans/*/restores/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server generated global unique identifier of
-    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when this Restore resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this Restore resource was last
-    /// updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// User specified descriptive string for this Restore.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. A reference to the
-    /// [Backup][google.cloud.gkebackup.v1.Backup] used as the source from which
-    /// this Restore will restore. Note that this Backup must be a sub-resource of
-    /// the RestorePlan's
-    /// [backup_plan][google.cloud.gkebackup.v1.RestorePlan.backup_plan]. Format:
-    /// `projects/*/locations/*/backupPlans/*/backups/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>backup: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The target cluster into which this Restore will restore data.
-    /// Valid formats:
-    ///
-    ///    - `projects/*/locations/*/clusters/*`
-    ///    - `projects/*/zones/*/clusters/*`
-    ///
-    /// Inherited from parent RestorePlan's
-    /// [cluster][google.cloud.gkebackup.v1.RestorePlan.cluster] value.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Configuration of the Restore.  Inherited from parent
-    /// RestorePlan's
-    /// [restore_config][google.cloud.gkebackup.v1.RestorePlan.restore_config].
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>restore_config: ::core::option::Option&lt;RestoreConfig&gt;,
-    <span class="doccomment">/// A set of custom labels supplied by user.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. The current state of the Restore.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"restore::State"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. Human-readable description of why the Restore is in its
-    /// current state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Timestamp of when the restore operation completed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Number of resources restored during the restore execution.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>resources_restored_count: i32,
-    <span class="doccomment">/// Output only. Number of resources excluded during the restore execution.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>resources_excluded_count: i32,
-    <span class="doccomment">/// Output only. Number of resources that failed to be restored during the
-    /// restore execution.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>resources_failed_count: i32,
-    <span class="doccomment">/// Output only. Number of volumes restored during the restore execution.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>volumes_restored_count: i32,
-    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a restore from overwriting each other.
-    /// It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform restore updates in order to avoid
-    /// race conditions: An `etag` is returned in the response to `GetRestore`,
-    /// and systems are expected to put that etag in the request to
-    /// `UpdateRestore` or `DeleteRestore` to ensure that their change will be
-    /// applied to the same version of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `Restore`.
-</span><span class="kw">pub mod </span>restore {
-    <span class="doccomment">/// Possible values for state of the Restore.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The Restore resource is in the process of being created.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The Restore resource has been created and the associated RestoreJob
-        /// Kubernetes resource has been injected into target cluster.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the restore
-        /// operation.
-        </span>InProgress = <span class="number">2</span>,
-        <span class="doccomment">/// The restore operation has completed successfully. Restored workloads may
-        /// not yet be operational.
-        </span>Succeeded = <span class="number">3</span>,
-        <span class="doccomment">/// The restore operation has failed.
-        </span>Failed = <span class="number">4</span>,
-        <span class="doccomment">/// This Restore resource is in the process of being deleted.
-        </span>Deleting = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::InProgress =&gt; <span class="string">"IN_PROGRESS"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InProgress),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Configuration of a restore.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RestoreConfig {
-    <span class="doccomment">/// Optional. Specifies the mechanism to be used to restore volume data.
-    /// Default: VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED (will be treated as
-    /// NO_VOLUME_DATA_RESTORATION).
-    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_config::VolumeDataRestorePolicy"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>volume_data_restore_policy: i32,
-    <span class="doccomment">/// Optional. Defines the behavior for handling the situation where
-    /// cluster-scoped resources being restored already exist in the target
-    /// cluster. This MUST be set to a value other than
-    /// CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED if
-    /// [cluster_resource_restore_scope][google.cloud.gkebackup.v1.RestoreConfig.cluster_resource_restore_scope]
-    /// is not empty.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_config::ClusterResourceConflictPolicy"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>cluster_resource_conflict_policy: i32,
-    <span class="doccomment">/// Optional. Defines the behavior for handling the situation where sets of
-    /// namespaced resources being restored already exist in the target cluster.
-    /// This MUST be set to a value other than
-    /// NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_config::NamespacedResourceRestoreMode"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>namespaced_resource_restore_mode: i32,
-    <span class="doccomment">/// Optional. Identifies the cluster-scoped resources to restore from the
-    /// Backup. Not specifying it means NO cluster resource will be restored.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>cluster_resource_restore_scope: ::core::option::Option&lt;
-        restore_config::ClusterResourceRestoreScope,
-    &gt;,
-    <span class="doccomment">/// Optional. A list of transformation rules to be applied against Kubernetes
-    /// resources as they are selected for restoration from a Backup. Rules are
-    /// executed in order defined - this order matters, as changes made by a rule
-    /// may impact the filtering logic of subsequent rules. An empty list means no
-    /// substitution will occur.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>substitution_rules: ::prost::alloc::vec::Vec&lt;restore_config::SubstitutionRule&gt;,
-    <span class="doccomment">/// Optional. A list of transformation rules to be applied against Kubernetes
-    /// resources as they are selected for restoration from a Backup. Rules are
-    /// executed in order defined - this order matters, as changes made by a rule
-    /// may impact the filtering logic of subsequent rules. An empty list means no
-    /// transformation will occur.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>transformation_rules: ::prost::alloc::vec::Vec&lt;
-        restore_config::TransformationRule,
-    &gt;,
-    <span class="doccomment">/// Specifies the namespaced resources to restore from the Backup.
-    /// Only one of the entries may be specified. If not specified, NO namespaced
-    /// resources will be restored.
-    ///
-    /// Note: Resources will never be restored into *managed* namespaces such as
-    /// `kube-system`, `kube-public`, or `kube-node-lease`. These namespaces
-    /// are silently skipped when
-    /// [all_namespaces][google.cloud.gkebackup.v1.RestoreConfig.all_namespaces] is
-    /// selected. Listing them explicitly will result in an error.
-    </span><span class="attr">#[prost(
-        oneof = <span class="string">"restore_config::NamespacedResourceRestoreScope"</span>,
-        tags = <span class="string">"5, 6, 7, 9, 10"
-    </span>)]
-    </span><span class="kw">pub </span>namespaced_resource_restore_scope: ::core::option::Option&lt;
-        restore_config::NamespacedResourceRestoreScope,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RestoreConfig`.
-</span><span class="kw">pub mod </span>restore_config {
-    <span class="doccomment">/// This is a direct map to the Kubernetes GroupKind type
-    /// [GroupKind](&lt;https://godoc.org/k8s.io/apimachinery/pkg/runtime/schema#GroupKind&gt;)
-    /// and is used for identifying specific "types" of resources to restore.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>GroupKind {
-        <span class="doccomment">/// Optional. API group string of a Kubernetes resource, e.g.
-        /// "apiextensions.k8s.io", "storage.k8s.io", etc.
-        /// Note: use empty string for core API group
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>resource_group: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. Kind of a Kubernetes resource, must be in UpperCamelCase
-        /// (PascalCase) and singular form. E.g. "CustomResourceDefinition",
-        /// "StorageClass", etc.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>resource_kind: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Defines the scope of cluster-scoped resources to restore.
-    ///
-    /// Some group kinds are not reasonable choices for a restore, and will cause
-    /// an error if selected here. Any scope selection that would restore
-    /// "all valid" resources automatically excludes these group kinds.
-    /// - gkebackup.gke.io/BackupJob
-    /// - gkebackup.gke.io/RestoreJob
-    /// - metrics.k8s.io/NodeMetrics
-    /// - migration.k8s.io/StorageState
-    /// - migration.k8s.io/StorageVersionMigration
-    /// - Node
-    /// - snapshot.storage.k8s.io/VolumeSnapshotContent
-    /// - storage.k8s.io/CSINode
-    ///
-    /// Some group kinds are driven by restore configuration elsewhere,
-    /// and will cause an error if selected here.
-    /// - Namespace
-    /// - PersistentVolume
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ClusterResourceRestoreScope {
-        <span class="doccomment">/// Optional. A list of cluster-scoped resource group kinds to restore from
-        /// the backup. If specified, only the selected resources will be restored.
-        /// Mutually exclusive to any other field in the message.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>selected_group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
-        <span class="doccomment">/// Optional. A list of cluster-scoped resource group kinds to NOT restore
-        /// from the backup. If specified, all valid cluster-scoped resources will be
-        /// restored except for those specified in the list.
-        /// Mutually exclusive to any other field in the message.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>excluded_group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
-        <span class="doccomment">/// Optional. If True, all valid cluster-scoped resources will be restored.
-        /// Mutually exclusive to any other field in the message.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>all_group_kinds: bool,
-        <span class="doccomment">/// Optional. If True, no cluster-scoped resources will be restored.
-        /// This has the same restore scope as if the message is not defined.
-        /// Mutually exclusive to any other field in the message.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>no_group_kinds: bool,
-    }
-    <span class="doccomment">/// A transformation rule to be applied against Kubernetes resources as they
-    /// are selected for restoration from a Backup. A rule contains both filtering
-    /// logic (which resources are subject to substitution) and substitution logic.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>SubstitutionRule {
-        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to substitution must
-        /// be contained within one of the listed Kubernetes Namespace in the Backup.
-        /// If this field is not provided, no namespace filtering will be performed
-        /// (all resources in all Namespaces, including all cluster-scoped resources,
-        /// will be candidates for substitution).
-        /// To mix cluster-scoped and namespaced resources in the same rule, use an
-        /// empty string ("") as one of the target namespaces.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>target_namespaces: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to substitution must
-        /// belong to one of the listed "types". If this field is not provided, no
-        /// type filtering will be performed (all resources of all types matching
-        /// previous filtering parameters will be candidates for substitution).
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>target_group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
-        <span class="doccomment">/// Required. This is a \[JSONPath\]
-        /// (&lt;https://kubernetes.io/docs/reference/kubectl/jsonpath/&gt;)
-        /// expression that matches specific fields of candidate
-        /// resources and it operates as both a filtering parameter (resources that
-        /// are not matched with this expression will not be candidates for
-        /// substitution) as well as a field identifier (identifies exactly which
-        /// fields out of the candidate resources will be modified).
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>target_json_path: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. (Filtering parameter) This is a \[regular expression\]
-        /// (&lt;https://en.wikipedia.org/wiki/Regular_expression&gt;)
-        /// that is compared against the fields matched by the target_json_path
-        /// expression (and must also have passed the previous filters).
-        /// Substitution will not be performed against fields whose
-        /// value does not match this expression. If this field is NOT specified,
-        /// then ALL fields matched by the target_json_path expression will undergo
-        /// substitution. Note that an empty (e.g., "", rather than unspecified)
-        /// value for this field will only match empty fields.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>original_value_pattern: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. This is the new value to set for any fields that pass the
-        /// filtering and selection criteria. To remove a value from a Kubernetes
-        /// resource, either leave this field unspecified, or set it to the empty
-        /// string ("").
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>new_value: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// TransformationRuleAction defines a TransformationRule action based on the
-    /// JSON Patch RFC (&lt;https://www.rfc-editor.org/rfc/rfc6902&gt;)
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TransformationRuleAction {
-        <span class="doccomment">/// Required. op specifies the operation to perform.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"transformation_rule_action::Op"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>op: i32,
-        <span class="doccomment">/// Optional. A string containing a JSON Pointer value that references the
-        /// location in the target document to move the value from.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>from_path: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. A string containing a JSON-Pointer value that references a
-        /// location within the target document where the operation is performed.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. A string that specifies the desired value in string format to
-        /// use for transformation.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `TransformationRuleAction`.
-    </span><span class="kw">pub mod </span>transformation_rule_action {
-        <span class="doccomment">/// Possible values for operations of a transformation rule action.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Op {
-            <span class="doccomment">/// Unspecified operation
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The "remove" operation removes the value at the target location.
-            </span>Remove = <span class="number">1</span>,
-            <span class="doccomment">/// The "move" operation removes the value at a specified location and
-            /// adds it to the target location.
-            </span>Move = <span class="number">2</span>,
-            <span class="doccomment">/// The "copy" operation copies the value at a specified location to the
-            /// target location.
-            </span>Copy = <span class="number">3</span>,
-            <span class="doccomment">/// The "add" operation performs one of the following functions,
-            /// depending upon what the target location references:
-            /// 1. If the target location specifies an array index, a new value is
-            /// inserted into the array at the specified index.
-            /// 2. If the target location specifies an object member that does not
-            /// already exist, a new member is added to the object.
-            /// 3. If the target location specifies an object member that does exist,
-            /// that member's value is replaced.
-            </span>Add = <span class="number">4</span>,
-            <span class="doccomment">/// The "test" operation tests that a value at the target location is
-            /// equal to a specified value.
-            </span>Test = <span class="number">5</span>,
-            <span class="doccomment">/// The "replace" operation replaces the value at the target location
-            /// with a new value.  The operation object MUST contain a "value" member
-            /// whose content specifies the replacement value.
-            </span>Replace = <span class="number">6</span>,
-        }
-        <span class="kw">impl </span>Op {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Op::Unspecified =&gt; <span class="string">"OP_UNSPECIFIED"</span>,
-                    Op::Remove =&gt; <span class="string">"REMOVE"</span>,
-                    Op::Move =&gt; <span class="string">"MOVE"</span>,
-                    Op::Copy =&gt; <span class="string">"COPY"</span>,
-                    Op::Add =&gt; <span class="string">"ADD"</span>,
-                    Op::Test =&gt; <span class="string">"TEST"</span>,
-                    Op::Replace =&gt; <span class="string">"REPLACE"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"OP_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"REMOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Remove),
-                    <span class="string">"MOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Move),
-                    <span class="string">"COPY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Copy),
-                    <span class="string">"ADD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Add),
-                    <span class="string">"TEST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Test),
-                    <span class="string">"REPLACE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Replace),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// ResourceFilter specifies matching criteria to limit the scope of a
-    /// change to a specific set of kubernetes resources that are selected for
-    /// restoration from a backup.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ResourceFilter {
-        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to transformation
-        /// must be contained within one of the listed Kubernetes Namespace in the
-        /// Backup. If this field is not provided, no namespace filtering will be
-        /// performed (all resources in all Namespaces, including all cluster-scoped
-        /// resources, will be candidates for transformation).
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>namespaces: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Optional. (Filtering parameter) Any resource subject to transformation
-        /// must belong to one of the listed "types". If this field is not provided,
-        /// no type filtering will be performed (all resources of all types matching
-        /// previous filtering parameters will be candidates for transformation).
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>group_kinds: ::prost::alloc::vec::Vec&lt;GroupKind&gt;,
-        <span class="doccomment">/// Optional. This is a \[JSONPath\]
-        /// (&lt;https://github.com/json-path/JsonPath/blob/master/README.md&gt;)
-        /// expression that matches specific fields of candidate
-        /// resources and it operates as a filtering parameter (resources that
-        /// are not matched with this expression will not be candidates for
-        /// transformation).
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>json_path: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// A transformation rule to be applied against Kubernetes resources as they
-    /// are selected for restoration from a Backup. A rule contains both filtering
-    /// logic (which resources are subject to transform) and transformation logic.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TransformationRule {
-        <span class="doccomment">/// Required. A list of transformation rule actions to take against candidate
-        /// resources. Actions are executed in order defined - this order matters, as
-        /// they could potentially interfere with each other and the first operation
-        /// could affect the outcome of the second operation.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>field_actions: ::prost::alloc::vec::Vec&lt;TransformationRuleAction&gt;,
-        <span class="doccomment">/// Optional. This field is used to specify a set of fields that should be
-        /// used to determine which resources in backup should be acted upon by the
-        /// supplied transformation rule actions, and this will ensure that only
-        /// specific resources are affected by transformation rule actions.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>resource_filter: ::core::option::Option&lt;ResourceFilter&gt;,
-        <span class="doccomment">/// Optional. The description is a user specified string description of the
-        /// transformation rule.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Defines how volume data should be restored.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>VolumeDataRestorePolicy {
-        <span class="doccomment">/// Unspecified (illegal).
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// For each PVC to be restored, create a new underlying volume and PV
-        /// from the corresponding VolumeBackup contained within the Backup.
-        </span>RestoreVolumeDataFromBackup = <span class="number">1</span>,
-        <span class="doccomment">/// For each PVC to be restored, attempt to reuse the original PV contained
-        /// in the Backup (with its original underlying volume). This option
-        /// is likely only usable when restoring a workload to its original cluster.
-        </span>ReuseVolumeHandleFromBackup = <span class="number">2</span>,
-        <span class="doccomment">/// For each PVC to be restored, create PVC without any particular
-        /// action to restore data. In this case, the normal Kubernetes provisioning
-        /// logic would kick in, and this would likely result in either dynamically
-        /// provisioning blank PVs or binding to statically provisioned PVs.
-        </span>NoVolumeDataRestoration = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>VolumeDataRestorePolicy {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                VolumeDataRestorePolicy::Unspecified =&gt; {
-                    <span class="string">"VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED"
-                </span>}
-                VolumeDataRestorePolicy::RestoreVolumeDataFromBackup =&gt; {
-                    <span class="string">"RESTORE_VOLUME_DATA_FROM_BACKUP"
-                </span>}
-                VolumeDataRestorePolicy::ReuseVolumeHandleFromBackup =&gt; {
-                    <span class="string">"REUSE_VOLUME_HANDLE_FROM_BACKUP"
-                </span>}
-                VolumeDataRestorePolicy::NoVolumeDataRestoration =&gt; {
-                    <span class="string">"NO_VOLUME_DATA_RESTORATION"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"VOLUME_DATA_RESTORE_POLICY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESTORE_VOLUME_DATA_FROM_BACKUP" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::RestoreVolumeDataFromBackup)
-                }
-                <span class="string">"REUSE_VOLUME_HANDLE_FROM_BACKUP" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReuseVolumeHandleFromBackup)
-                }
-                <span class="string">"NO_VOLUME_DATA_RESTORATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoVolumeDataRestoration),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Defines the behavior for handling the situation where cluster-scoped
-    /// resources being restored already exist in the target cluster.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ClusterResourceConflictPolicy {
-        <span class="doccomment">/// Unspecified. Only allowed if no cluster-scoped resources will be
-        /// restored.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Do not attempt to restore the conflicting resource.
-        </span>UseExistingVersion = <span class="number">1</span>,
-        <span class="doccomment">/// Delete the existing version before re-creating it from the Backup.
-        /// This is a dangerous option which could cause unintentional
-        /// data loss if used inappropriately. For example, deleting a CRD will
-        /// cause Kubernetes to delete all CRs of that type.
-        </span>UseBackupVersion = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>ClusterResourceConflictPolicy {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ClusterResourceConflictPolicy::Unspecified =&gt; {
-                    <span class="string">"CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED"
-                </span>}
-                ClusterResourceConflictPolicy::UseExistingVersion =&gt; {
-                    <span class="string">"USE_EXISTING_VERSION"
-                </span>}
-                ClusterResourceConflictPolicy::UseBackupVersion =&gt; <span class="string">"USE_BACKUP_VERSION"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CLUSTER_RESOURCE_CONFLICT_POLICY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"USE_EXISTING_VERSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UseExistingVersion),
-                <span class="string">"USE_BACKUP_VERSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UseBackupVersion),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Defines the behavior for handling the situation where sets of namespaced
-    /// resources being restored already exist in the target cluster.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>NamespacedResourceRestoreMode {
-        <span class="doccomment">/// Unspecified (invalid).
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// When conflicting top-level resources (either Namespaces or
-        /// ProtectedApplications, depending upon the scope) are encountered, this
-        /// will first trigger a delete of the conflicting resource AND ALL OF ITS
-        /// REFERENCED RESOURCES (e.g., all resources in the Namespace or all
-        /// resources referenced by the ProtectedApplication) before restoring the
-        /// resources from the Backup. This mode should only be used when you are
-        /// intending to revert some portion of a cluster to an earlier state.
-        </span>DeleteAndRestore = <span class="number">1</span>,
-        <span class="doccomment">/// If conflicting top-level resources (either Namespaces or
-        /// ProtectedApplications, depending upon the scope) are encountered at the
-        /// beginning of a restore process, the Restore will fail.  If a conflict
-        /// occurs during the restore process itself (e.g., because an out of band
-        /// process creates conflicting resources), a conflict will be reported.
-        </span>FailOnConflict = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>NamespacedResourceRestoreMode {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                NamespacedResourceRestoreMode::Unspecified =&gt; {
-                    <span class="string">"NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED"
-                </span>}
-                NamespacedResourceRestoreMode::DeleteAndRestore =&gt; <span class="string">"DELETE_AND_RESTORE"</span>,
-                NamespacedResourceRestoreMode::FailOnConflict =&gt; <span class="string">"FAIL_ON_CONFLICT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"NAMESPACED_RESOURCE_RESTORE_MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DELETE_AND_RESTORE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeleteAndRestore),
-                <span class="string">"FAIL_ON_CONFLICT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FailOnConflict),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Specifies the namespaced resources to restore from the Backup.
-    /// Only one of the entries may be specified. If not specified, NO namespaced
-    /// resources will be restored.
-    ///
-    /// Note: Resources will never be restored into *managed* namespaces such as
-    /// `kube-system`, `kube-public`, or `kube-node-lease`. These namespaces
-    /// are silently skipped when
-    /// [all_namespaces][google.cloud.gkebackup.v1.RestoreConfig.all_namespaces] is
-    /// selected. Listing them explicitly will result in an error.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>NamespacedResourceRestoreScope {
-        <span class="doccomment">/// Restore all namespaced resources in the Backup if set to "True".
-        /// Specifying this field to "False" is an error.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-        </span>AllNamespaces(bool),
-        <span class="doccomment">/// A list of selected Namespaces to restore from the Backup. The listed
-        /// Namespaces and all resources contained in them will be restored.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>SelectedNamespaces(<span class="kw">super</span>::Namespaces),
-        <span class="doccomment">/// A list of selected ProtectedApplications to restore. The listed
-        /// ProtectedApplications and all the resources to which they refer will be
-        /// restored.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-        </span>SelectedApplications(<span class="kw">super</span>::NamespacedNames),
-        <span class="doccomment">/// Do not restore any namespaced resources if set to "True".
-        /// Specifying this field to "False" is not allowed.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
-        </span>NoNamespaces(bool),
-        <span class="doccomment">/// A list of selected namespaces excluded from restoration. All
-        /// namespaces except those in this list will be restored.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
-        </span>ExcludedNamespaces(<span class="kw">super</span>::Namespaces),
-    }
-}
-<span class="doccomment">/// The configuration of a potential series of Restore operations to be performed
-/// against Backups belong to a particular BackupPlan.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RestorePlan {
-    <span class="doccomment">/// Output only. The full name of the RestorePlan resource.
-    /// Format: `projects/*/locations/*/restorePlans/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server generated global unique identifier of
-    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was
-    /// created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this RestorePlan resource was last
-    /// updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. User specified descriptive string for this RestorePlan.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. A reference to the
-    /// [BackupPlan][google.cloud.gkebackup.v1.BackupPlan] from which Backups may
-    /// be used as the source for Restores created via this RestorePlan. Format:
-    /// `projects/*/locations/*/backupPlans/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>backup_plan: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. The target cluster into which Restores created via
-    /// this RestorePlan will restore data. NOTE: the cluster's region must be the
-    /// same as the RestorePlan. Valid formats:
-    ///
-    ///    - `projects/*/locations/*/clusters/*`
-    ///    - `projects/*/zones/*/clusters/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Configuration of Restores created via this RestorePlan.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>restore_config: ::core::option::Option&lt;RestoreConfig&gt;,
-    <span class="doccomment">/// Optional. A set of custom labels supplied by user.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a restore from overwriting each other.
-    /// It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform restore updates in order to avoid
-    /// race conditions: An `etag` is returned in the response to `GetRestorePlan`,
-    /// and systems are expected to put that etag in the request to
-    /// `UpdateRestorePlan` or `DeleteRestorePlan` to ensure that their change
-    /// will be applied to the same version of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. State of the RestorePlan. This State field reflects the
-    /// various stages a RestorePlan can be in
-    /// during the Create operation.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"restore_plan::State"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. Human-readable description of why RestorePlan is in the
-    /// current `state`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `RestorePlan`.
-</span><span class="kw">pub mod </span>restore_plan {
-    <span class="doccomment">/// State
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Default first value for Enums.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Waiting for cluster state to be RUNNING.
-        </span>ClusterPending = <span class="number">1</span>,
-        <span class="doccomment">/// The RestorePlan has successfully been created and is ready for Restores.
-        </span>Ready = <span class="number">2</span>,
-        <span class="doccomment">/// RestorePlan creation has failed.
-        </span>Failed = <span class="number">3</span>,
-        <span class="doccomment">/// The RestorePlan is in the process of being deleted.
-        </span>Deleting = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::ClusterPending =&gt; <span class="string">"CLUSTER_PENDING"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLUSTER_PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClusterPending),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
     }
 }
 <span class="doccomment">/// Represents the metadata of the long-running operation.

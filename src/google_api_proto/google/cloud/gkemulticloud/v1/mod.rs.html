@@ -5788,6 +5788,982 @@
         }
     }
 }
+<span class="doccomment">/// An Anthos cluster running on customer own infrastructure.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedCluster {
+    <span class="doccomment">/// The name of this resource.
+    ///
+    /// Cluster names are formatted as
+    /// `projects/&lt;project-number&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud Platform resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. A human readable description of this cluster.
+    /// Cannot be longer than 255 UTF-8 encoded bytes.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. OpenID Connect (OIDC) configuration for the cluster.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>oidc_config: ::core::option::Option&lt;AttachedOidcConfig&gt;,
+    <span class="doccomment">/// Required. The platform version for the cluster (e.g. `1.19.0-gke.1000`).
+    ///
+    /// You can list all supported versions on a given Google Cloud region by
+    /// calling
+    /// [GetAttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedClusters.GetAttachedServerConfig].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>platform_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The Kubernetes distribution of the underlying attached cluster.
+    ///
+    /// Supported values: \["eks", "aks", "generic"\].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>distribution: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The region where this cluster runs.
+    ///
+    /// For EKS clusters, this is a AWS region. For AKS clusters,
+    /// this is an Azure region.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>cluster_region: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Fleet configuration.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>fleet: ::core::option::Option&lt;Fleet&gt;,
+    <span class="doccomment">/// Output only. The current state of the cluster.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"attached_cluster::State"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. A globally unique identifier for the cluster.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. If set, there are currently changes in flight to the cluster.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>reconciling: bool,
+    <span class="doccomment">/// Output only. The time at which this cluster was registered.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time at which this cluster was last updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Allows clients to perform consistent read-modify-writes
+    /// through optimistic concurrency control.
+    ///
+    /// Can be sent on update and delete requests to ensure the
+    /// client has an up-to-date value before proceeding.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The Kubernetes version of the cluster.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>kubernetes_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Annotations on the cluster.
+    ///
+    /// This field has the same restrictions as Kubernetes annotations.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. Workload Identity settings.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>workload_identity_config: ::core::option::Option&lt;WorkloadIdentityConfig&gt;,
+    <span class="doccomment">/// Optional. Logging configuration for this cluster.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>logging_config: ::core::option::Option&lt;LoggingConfig&gt;,
+    <span class="doccomment">/// Output only. A set of errors found in the cluster.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>errors: ::prost::alloc::vec::Vec&lt;AttachedClusterError&gt;,
+    <span class="doccomment">/// Optional. Configuration related to the cluster RBAC settings.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>authorization: ::core::option::Option&lt;AttachedClustersAuthorization&gt;,
+    <span class="doccomment">/// Optional. Monitoring configuration for this cluster.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>monitoring_config: ::core::option::Option&lt;MonitoringConfig&gt;,
+    <span class="doccomment">/// Optional. Proxy configuration for outbound HTTP(S) traffic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
+    </span><span class="kw">pub </span>proxy_config: ::core::option::Option&lt;AttachedProxyConfig&gt;,
+    <span class="doccomment">/// Optional. Binary Authorization configuration for this cluster.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"25"</span>)]
+    </span><span class="kw">pub </span>binary_authorization: ::core::option::Option&lt;BinaryAuthorization&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AttachedCluster`.
+</span><span class="kw">pub mod </span>attached_cluster {
+    <span class="doccomment">/// The lifecycle state of the cluster.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Not set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The PROVISIONING state indicates the cluster is being registered.
+        </span>Provisioning = <span class="number">1</span>,
+        <span class="doccomment">/// The RUNNING state indicates the cluster has been register and is fully
+        /// usable.
+        </span>Running = <span class="number">2</span>,
+        <span class="doccomment">/// The RECONCILING state indicates that some work is actively being done on
+        /// the cluster, such as upgrading software components.
+        </span>Reconciling = <span class="number">3</span>,
+        <span class="doccomment">/// The STOPPING state indicates the cluster is being de-registered.
+        </span>Stopping = <span class="number">4</span>,
+        <span class="doccomment">/// The ERROR state indicates the cluster is in a broken unrecoverable
+        /// state.
+        </span>Error = <span class="number">5</span>,
+        <span class="doccomment">/// The DEGRADED state indicates the cluster requires user action to
+        /// restore full functionality.
+        </span>Degraded = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Provisioning =&gt; <span class="string">"PROVISIONING"</span>,
+                State::Running =&gt; <span class="string">"RUNNING"</span>,
+                State::Reconciling =&gt; <span class="string">"RECONCILING"</span>,
+                State::Stopping =&gt; <span class="string">"STOPPING"</span>,
+                State::Error =&gt; <span class="string">"ERROR"</span>,
+                State::Degraded =&gt; <span class="string">"DEGRADED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PROVISIONING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Provisioning),
+                <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
+                <span class="string">"RECONCILING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reconciling),
+                <span class="string">"STOPPING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stopping),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"DEGRADED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Degraded),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Configuration related to the cluster RBAC settings.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedClustersAuthorization {
+    <span class="doccomment">/// Optional. Users that can perform operations as a cluster admin. A managed
+    /// ClusterRoleBinding will be created to grant the `cluster-admin` ClusterRole
+    /// to the users. Up to ten admin users can be provided.
+    ///
+    /// For more info on RBAC, see
+    /// &lt;https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles&gt;
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>admin_users: ::prost::alloc::vec::Vec&lt;AttachedClusterUser&gt;,
+    <span class="doccomment">/// Optional. Groups of users that can perform operations as a cluster admin. A
+    /// managed ClusterRoleBinding will be created to grant the `cluster-admin`
+    /// ClusterRole to the groups. Up to ten admin groups can be provided.
+    ///
+    /// For more info on RBAC, see
+    /// &lt;https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles&gt;
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>admin_groups: ::prost::alloc::vec::Vec&lt;AttachedClusterGroup&gt;,
+}
+<span class="doccomment">/// Identities of a user-type subject for Attached clusters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedClusterUser {
+    <span class="doccomment">/// Required. The name of the user, e.g. `my-gcp-id@gmail.com`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Identities of a group-type subject for Attached clusters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedClusterGroup {
+    <span class="doccomment">/// Required. The name of the group, e.g. `my-group@domain.com`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>group: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// OIDC discovery information of the target cluster.
+///
+/// Kubernetes Service Account (KSA) tokens are JWT tokens signed by the cluster
+/// API server. This fields indicates how Google Cloud Platform services
+/// validate KSA tokens in order to allow system workloads (such as GKE Connect
+/// and telemetry agents) to authenticate back to Google Cloud Platform.
+///
+/// Both clusters with public and private issuer URLs are supported.
+/// Clusters with public issuers only need to specify the `issuer_url` field
+/// while clusters with private issuers need to provide both
+/// `issuer_url` and `oidc_jwks`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedOidcConfig {
+    <span class="doccomment">/// A JSON Web Token (JWT) issuer URI. `issuer` must start with `&lt;https://`.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>issuer_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. OIDC verification keys in JWKS format (RFC 7517).
+    /// It contains a list of OIDC verification keys that can be used to verify
+    /// OIDC JWTs.
+    ///
+    /// This field is required for cluster that doesn't have a publicly available
+    /// discovery endpoint. When provided, it will be directly used
+    /// to verify the OIDC JWT asserted by the IDP.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>jwks: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// AttachedServerConfig provides information about supported
+/// Kubernetes versions
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedServerConfig {
+    <span class="doccomment">/// The resource name of the config.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// List of valid platform versions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>valid_versions: ::prost::alloc::vec::Vec&lt;AttachedPlatformVersionInfo&gt;,
+}
+<span class="doccomment">/// Information about a supported Attached Clusters platform version.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedPlatformVersionInfo {
+    <span class="doccomment">/// Platform version name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// AttachedClusterError describes errors found on attached clusters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedClusterError {
+    <span class="doccomment">/// Human-friendly description of the error.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Details of a proxy config.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AttachedProxyConfig {
+    <span class="doccomment">/// The Kubernetes Secret resource that contains the HTTP(S) proxy
+    /// configuration. The secret must be a JSON encoded proxy configuration
+    /// as described in
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>kubernetes_secret: ::core::option::Option&lt;KubernetesSecret&gt;,
+}
+<span class="doccomment">/// Information about a Kubernetes Secret
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KubernetesSecret {
+    <span class="doccomment">/// Name of the kubernetes secret.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Namespace in which the kubernetes secret is stored.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>namespace: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.GenerateAttachedClusterInstallManifest`
+/// method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateAttachedClusterInstallManifestRequest {
+    <span class="doccomment">/// Required. The parent location where this
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// will be created.
+    ///
+    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. A client provided ID of the resource. Must be unique within the
+    /// parent resource.
+    ///
+    /// The provided ID will be part of the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// name formatted as
+    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
+    ///
+    /// Valid characters are `/[a-z][0-9]-/`. Cannot be longer than 63 characters.
+    ///
+    /// When generating an install manifest for importing an existing Membership
+    /// resource, the attached_cluster_id field must be the Membership id.
+    ///
+    /// Membership names are formatted as
+    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/memberships/&lt;membership-id&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>attached_cluster_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The platform version for the cluster (e.g. `1.19.0-gke.1000`).
+    ///
+    /// You can list all supported versions on a given Google Cloud region by
+    /// calling
+    /// [GetAttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedClusters.GetAttachedServerConfig].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>platform_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Proxy configuration for outbound HTTP(S) traffic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>proxy_config: ::core::option::Option&lt;AttachedProxyConfig&gt;,
+}
+<span class="doccomment">/// Response message for
+/// `AttachedClusters.GenerateAttachedClusterInstallManifest` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateAttachedClusterInstallManifestResponse {
+    <span class="doccomment">/// A set of Kubernetes resources (in YAML format) to be applied
+    /// to the cluster to be attached.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>manifest: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.CreateAttachedCluster` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateAttachedClusterRequest {
+    <span class="doccomment">/// Required. The parent location where this
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// will be created.
+    ///
+    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The specification of the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>attached_cluster: ::core::option::Option&lt;AttachedCluster&gt;,
+    <span class="doccomment">/// Required. A client provided ID the resource. Must be unique within the
+    /// parent resource.
+    ///
+    /// The provided ID will be part of the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// name formatted as
+    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
+    ///
+    /// Valid characters are `/[a-z][0-9]-/`. Cannot be longer than 63 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>attached_cluster_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set, only validate the request, but do not actually create the cluster.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>validate_only: bool,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.ImportAttachedCluster` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImportAttachedClusterRequest {
+    <span class="doccomment">/// Required. The parent location where this
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// will be created.
+    ///
+    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set, only validate the request, but do not actually import the cluster.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validate_only: bool,
+    <span class="doccomment">/// Required. The name of the fleet membership resource to import.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>fleet_membership: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The platform version for the cluster (e.g. `1.19.0-gke.1000`).
+    ///
+    /// You can list all supported versions on a given Google Cloud region by
+    /// calling
+    /// [GetAttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedClusters.GetAttachedServerConfig].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>platform_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The Kubernetes distribution of the underlying attached cluster.
+    ///
+    /// Supported values: \["eks", "aks"\].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>distribution: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Proxy configuration for outbound HTTP(S) traffic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>proxy_config: ::core::option::Option&lt;AttachedProxyConfig&gt;,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.UpdateAttachedCluster` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateAttachedClusterRequest {
+    <span class="doccomment">/// Required. The
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// to update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>attached_cluster: ::core::option::Option&lt;AttachedCluster&gt;,
+    <span class="doccomment">/// If set, only validate the request, but do not actually update the cluster.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validate_only: bool,
+    <span class="doccomment">/// Required. Mask of fields to update. At least one path must be supplied in
+    /// this field. The elements of the repeated paths field can only include these
+    /// fields from
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster]:
+    ///
+    ///   *   `annotations`.
+    ///   *   `authorization.admin_groups`.
+    ///   *   `authorization.admin_users`.
+    ///   *   `binary_authorization.evaluation_mode`.
+    ///   *   `description`.
+    ///   *   `logging_config.component_config.enable_components`.
+    ///   *   `monitoring_config.managed_prometheus_config.enabled`.
+    ///   *   `platform_version`.
+    ///   *   `proxy_config.kubernetes_secret.name`.
+    ///   *   `proxy_config.kubernetes_secret.namespace`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.GetAttachedCluster` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetAttachedClusterRequest {
+    <span class="doccomment">/// Required. The name of the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// to describe.
+    ///
+    /// `AttachedCluster` names are formatted as
+    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud Platform resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.ListAttachedClusters` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListAttachedClustersRequest {
+    <span class="doccomment">/// Required. The parent location which owns this collection of
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resources.
+    ///
+    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud Platform resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of items to return.
+    ///
+    /// If not specified, a default value of 50 will be used by the service.
+    /// Regardless of the pageSize value, the response can include a partial list
+    /// and a caller should only rely on response's
+    /// [nextPageToken][google.cloud.gkemulticloud.v1.ListAttachedClustersResponse.next_page_token]
+    /// to determine if there are more instances left to be queried.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The `nextPageToken` value returned from a previous
+    /// [attachedClusters.list][google.cloud.gkemulticloud.v1.AttachedClusters.ListAttachedClusters]
+    /// request, if any.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for `AttachedClusters.ListAttachedClusters` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListAttachedClustersResponse {
+    <span class="doccomment">/// A list of [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster]
+    /// resources in the specified Google Cloud Platform project and region region.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>attached_clusters: ::prost::alloc::vec::Vec&lt;AttachedCluster&gt;,
+    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more
+    /// results in the list.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for `AttachedClusters.DeleteAttachedCluster` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteAttachedClusterRequest {
+    <span class="doccomment">/// Required. The resource name the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] to delete.
+    ///
+    /// `AttachedCluster` names are formatted as
+    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud Platform resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set, only validate the request, but do not actually delete the resource.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validate_only: bool,
+    <span class="doccomment">/// If set to true, and the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// is not found, the request will succeed but no action will be taken on the
+    /// server and a completed [Operation][google.longrunning.Operation] will be
+    /// returned.
+    ///
+    /// Useful for idempotent deletion.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>allow_missing: bool,
+    <span class="doccomment">/// If set to true, the deletion of
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+    /// will succeed even if errors occur during deleting in cluster resources.
+    /// Using this parameter may result in orphaned resources in the cluster.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>ignore_errors: bool,
+    <span class="doccomment">/// The current etag of the
+    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster].
+    ///
+    /// Allows clients to perform deletions through optimistic concurrency control.
+    ///
+    /// If the provided etag does not match the current etag of the cluster,
+    /// the request will fail and an ABORTED error will be returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// GetAttachedServerConfigRequest gets the server config for attached
+/// clusters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetAttachedServerConfigRequest {
+    <span class="doccomment">/// Required. The name of the
+    /// [AttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedServerConfig]
+    /// resource to describe.
+    ///
+    /// `AttachedServerConfig` names are formatted as
+    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedServerConfig`.
+    ///
+    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
+    /// for more details on Google Cloud resource names.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateAttachedClusterAgentTokenRequest {
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>attached_cluster: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>subject_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>subject_token_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>grant_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>audience: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>scope: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>requested_token_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>options: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateAttachedClusterAgentTokenResponse {
+    <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>access_token: ::prost::alloc::string::String,
+    <span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>expires_in: i32,
+    <span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>token_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>attached_clusters_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The AttachedClusters API provides a single centrally managed service
+    /// to register and manage Anthos attached clusters that run on customer's owned
+    /// infrastructure.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>AttachedClustersClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; AttachedClustersClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; AttachedClustersClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            AttachedClustersClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Creates a new
+        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+        /// on a given Google Cloud Platform project and region.
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        </span><span class="kw">pub async fn </span>create_attached_cluster(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateAttachedClusterRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/CreateAttachedCluster"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"CreateAttachedCluster"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates an
+        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster].
+        </span><span class="kw">pub async fn </span>update_attached_cluster(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateAttachedClusterRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/UpdateAttachedCluster"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"UpdateAttachedCluster"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Imports creates a new
+        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
+        /// by importing an existing Fleet Membership resource.
+        ///
+        /// Attached Clusters created before the introduction of the Anthos Multi-Cloud
+        /// API can be imported through this method.
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        </span><span class="kw">pub async fn </span>import_attached_cluster(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ImportAttachedClusterRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/ImportAttachedCluster"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"ImportAttachedCluster"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Describes a specific
+        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource.
+        </span><span class="kw">pub async fn </span>get_attached_cluster(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAttachedClusterRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::AttachedCluster&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GetAttachedCluster"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"GetAttachedCluster"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Lists all [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster]
+        /// resources on a given Google Cloud project and region.
+        </span><span class="kw">pub async fn </span>list_attached_clusters(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListAttachedClustersRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListAttachedClustersResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/ListAttachedClusters"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"ListAttachedClusters"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a specific
+        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource.
+        ///
+        /// If successful, the response contains a newly created
+        /// [Operation][google.longrunning.Operation] resource that can be
+        /// described to track the status of the operation.
+        </span><span class="kw">pub async fn </span>delete_attached_cluster(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteAttachedClusterRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/DeleteAttachedCluster"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"DeleteAttachedCluster"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns information, such as supported Kubernetes versions, on a given
+        /// Google Cloud location.
+        </span><span class="kw">pub async fn </span>get_attached_server_config(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAttachedServerConfigRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::AttachedServerConfig&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GetAttachedServerConfig"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"GetAttachedServerConfig"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Generates the install manifest to be installed on the target cluster.
+        </span><span class="kw">pub async fn </span>generate_attached_cluster_install_manifest(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;
+                <span class="kw">super</span>::GenerateAttachedClusterInstallManifestRequest,
+            &gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::GenerateAttachedClusterInstallManifestResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GenerateAttachedClusterInstallManifest"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"GenerateAttachedClusterInstallManifest"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Generates an access token for a cluster agent.
+        </span><span class="kw">pub async fn </span>generate_attached_cluster_agent_token(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;
+                <span class="kw">super</span>::GenerateAttachedClusterAgentTokenRequest,
+            &gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::GenerateAttachedClusterAgentTokenResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GenerateAttachedClusterAgentToken"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
+                        <span class="string">"GenerateAttachedClusterAgentToken"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// An Anthos cluster running on AWS.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -7815,982 +8791,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.gkemulticloud.v1.AwsClusters"</span>,
                         <span class="string">"GetAwsServerConfig"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// An Anthos cluster running on customer own infrastructure.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedCluster {
-    <span class="doccomment">/// The name of this resource.
-    ///
-    /// Cluster names are formatted as
-    /// `projects/&lt;project-number&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud Platform resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. A human readable description of this cluster.
-    /// Cannot be longer than 255 UTF-8 encoded bytes.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. OpenID Connect (OIDC) configuration for the cluster.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>oidc_config: ::core::option::Option&lt;AttachedOidcConfig&gt;,
-    <span class="doccomment">/// Required. The platform version for the cluster (e.g. `1.19.0-gke.1000`).
-    ///
-    /// You can list all supported versions on a given Google Cloud region by
-    /// calling
-    /// [GetAttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedClusters.GetAttachedServerConfig].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>platform_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The Kubernetes distribution of the underlying attached cluster.
-    ///
-    /// Supported values: \["eks", "aks", "generic"\].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>distribution: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The region where this cluster runs.
-    ///
-    /// For EKS clusters, this is a AWS region. For AKS clusters,
-    /// this is an Azure region.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"22"</span>)]
-    </span><span class="kw">pub </span>cluster_region: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Fleet configuration.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>fleet: ::core::option::Option&lt;Fleet&gt;,
-    <span class="doccomment">/// Output only. The current state of the cluster.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"attached_cluster::State"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. A globally unique identifier for the cluster.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. If set, there are currently changes in flight to the cluster.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>reconciling: bool,
-    <span class="doccomment">/// Output only. The time at which this cluster was registered.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time at which this cluster was last updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Allows clients to perform consistent read-modify-writes
-    /// through optimistic concurrency control.
-    ///
-    /// Can be sent on update and delete requests to ensure the
-    /// client has an up-to-date value before proceeding.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The Kubernetes version of the cluster.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>kubernetes_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Annotations on the cluster.
-    ///
-    /// This field has the same restrictions as Kubernetes annotations.
-    /// The total size of all keys and values combined is limited to 256k.
-    /// Key can have 2 segments: prefix (optional) and name (required),
-    /// separated by a slash (/).
-    /// Prefix must be a DNS subdomain.
-    /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. Workload Identity settings.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>workload_identity_config: ::core::option::Option&lt;WorkloadIdentityConfig&gt;,
-    <span class="doccomment">/// Optional. Logging configuration for this cluster.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>logging_config: ::core::option::Option&lt;LoggingConfig&gt;,
-    <span class="doccomment">/// Output only. A set of errors found in the cluster.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"20"</span>)]
-    </span><span class="kw">pub </span>errors: ::prost::alloc::vec::Vec&lt;AttachedClusterError&gt;,
-    <span class="doccomment">/// Optional. Configuration related to the cluster RBAC settings.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>authorization: ::core::option::Option&lt;AttachedClustersAuthorization&gt;,
-    <span class="doccomment">/// Optional. Monitoring configuration for this cluster.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>monitoring_config: ::core::option::Option&lt;MonitoringConfig&gt;,
-    <span class="doccomment">/// Optional. Proxy configuration for outbound HTTP(S) traffic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>proxy_config: ::core::option::Option&lt;AttachedProxyConfig&gt;,
-    <span class="doccomment">/// Optional. Binary Authorization configuration for this cluster.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"25"</span>)]
-    </span><span class="kw">pub </span>binary_authorization: ::core::option::Option&lt;BinaryAuthorization&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AttachedCluster`.
-</span><span class="kw">pub mod </span>attached_cluster {
-    <span class="doccomment">/// The lifecycle state of the cluster.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Not set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The PROVISIONING state indicates the cluster is being registered.
-        </span>Provisioning = <span class="number">1</span>,
-        <span class="doccomment">/// The RUNNING state indicates the cluster has been register and is fully
-        /// usable.
-        </span>Running = <span class="number">2</span>,
-        <span class="doccomment">/// The RECONCILING state indicates that some work is actively being done on
-        /// the cluster, such as upgrading software components.
-        </span>Reconciling = <span class="number">3</span>,
-        <span class="doccomment">/// The STOPPING state indicates the cluster is being de-registered.
-        </span>Stopping = <span class="number">4</span>,
-        <span class="doccomment">/// The ERROR state indicates the cluster is in a broken unrecoverable
-        /// state.
-        </span>Error = <span class="number">5</span>,
-        <span class="doccomment">/// The DEGRADED state indicates the cluster requires user action to
-        /// restore full functionality.
-        </span>Degraded = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Provisioning =&gt; <span class="string">"PROVISIONING"</span>,
-                State::Running =&gt; <span class="string">"RUNNING"</span>,
-                State::Reconciling =&gt; <span class="string">"RECONCILING"</span>,
-                State::Stopping =&gt; <span class="string">"STOPPING"</span>,
-                State::Error =&gt; <span class="string">"ERROR"</span>,
-                State::Degraded =&gt; <span class="string">"DEGRADED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PROVISIONING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Provisioning),
-                <span class="string">"RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
-                <span class="string">"RECONCILING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reconciling),
-                <span class="string">"STOPPING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stopping),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="string">"DEGRADED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Degraded),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Configuration related to the cluster RBAC settings.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedClustersAuthorization {
-    <span class="doccomment">/// Optional. Users that can perform operations as a cluster admin. A managed
-    /// ClusterRoleBinding will be created to grant the `cluster-admin` ClusterRole
-    /// to the users. Up to ten admin users can be provided.
-    ///
-    /// For more info on RBAC, see
-    /// &lt;https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles&gt;
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>admin_users: ::prost::alloc::vec::Vec&lt;AttachedClusterUser&gt;,
-    <span class="doccomment">/// Optional. Groups of users that can perform operations as a cluster admin. A
-    /// managed ClusterRoleBinding will be created to grant the `cluster-admin`
-    /// ClusterRole to the groups. Up to ten admin groups can be provided.
-    ///
-    /// For more info on RBAC, see
-    /// &lt;https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles&gt;
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>admin_groups: ::prost::alloc::vec::Vec&lt;AttachedClusterGroup&gt;,
-}
-<span class="doccomment">/// Identities of a user-type subject for Attached clusters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedClusterUser {
-    <span class="doccomment">/// Required. The name of the user, e.g. `my-gcp-id@gmail.com`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Identities of a group-type subject for Attached clusters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedClusterGroup {
-    <span class="doccomment">/// Required. The name of the group, e.g. `my-group@domain.com`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>group: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// OIDC discovery information of the target cluster.
-///
-/// Kubernetes Service Account (KSA) tokens are JWT tokens signed by the cluster
-/// API server. This fields indicates how Google Cloud Platform services
-/// validate KSA tokens in order to allow system workloads (such as GKE Connect
-/// and telemetry agents) to authenticate back to Google Cloud Platform.
-///
-/// Both clusters with public and private issuer URLs are supported.
-/// Clusters with public issuers only need to specify the `issuer_url` field
-/// while clusters with private issuers need to provide both
-/// `issuer_url` and `oidc_jwks`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedOidcConfig {
-    <span class="doccomment">/// A JSON Web Token (JWT) issuer URI. `issuer` must start with `&lt;https://`.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>issuer_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. OIDC verification keys in JWKS format (RFC 7517).
-    /// It contains a list of OIDC verification keys that can be used to verify
-    /// OIDC JWTs.
-    ///
-    /// This field is required for cluster that doesn't have a publicly available
-    /// discovery endpoint. When provided, it will be directly used
-    /// to verify the OIDC JWT asserted by the IDP.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>jwks: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// AttachedServerConfig provides information about supported
-/// Kubernetes versions
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedServerConfig {
-    <span class="doccomment">/// The resource name of the config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of valid platform versions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>valid_versions: ::prost::alloc::vec::Vec&lt;AttachedPlatformVersionInfo&gt;,
-}
-<span class="doccomment">/// Information about a supported Attached Clusters platform version.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedPlatformVersionInfo {
-    <span class="doccomment">/// Platform version name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// AttachedClusterError describes errors found on attached clusters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedClusterError {
-    <span class="doccomment">/// Human-friendly description of the error.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Details of a proxy config.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AttachedProxyConfig {
-    <span class="doccomment">/// The Kubernetes Secret resource that contains the HTTP(S) proxy
-    /// configuration. The secret must be a JSON encoded proxy configuration
-    /// as described in
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>kubernetes_secret: ::core::option::Option&lt;KubernetesSecret&gt;,
-}
-<span class="doccomment">/// Information about a Kubernetes Secret
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KubernetesSecret {
-    <span class="doccomment">/// Name of the kubernetes secret.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Namespace in which the kubernetes secret is stored.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>namespace: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.GenerateAttachedClusterInstallManifest`
-/// method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateAttachedClusterInstallManifestRequest {
-    <span class="doccomment">/// Required. The parent location where this
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// will be created.
-    ///
-    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. A client provided ID of the resource. Must be unique within the
-    /// parent resource.
-    ///
-    /// The provided ID will be part of the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// name formatted as
-    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
-    ///
-    /// Valid characters are `/[a-z][0-9]-/`. Cannot be longer than 63 characters.
-    ///
-    /// When generating an install manifest for importing an existing Membership
-    /// resource, the attached_cluster_id field must be the Membership id.
-    ///
-    /// Membership names are formatted as
-    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/memberships/&lt;membership-id&gt;`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>attached_cluster_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The platform version for the cluster (e.g. `1.19.0-gke.1000`).
-    ///
-    /// You can list all supported versions on a given Google Cloud region by
-    /// calling
-    /// [GetAttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedClusters.GetAttachedServerConfig].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>platform_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Proxy configuration for outbound HTTP(S) traffic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>proxy_config: ::core::option::Option&lt;AttachedProxyConfig&gt;,
-}
-<span class="doccomment">/// Response message for
-/// `AttachedClusters.GenerateAttachedClusterInstallManifest` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateAttachedClusterInstallManifestResponse {
-    <span class="doccomment">/// A set of Kubernetes resources (in YAML format) to be applied
-    /// to the cluster to be attached.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>manifest: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.CreateAttachedCluster` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateAttachedClusterRequest {
-    <span class="doccomment">/// Required. The parent location where this
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// will be created.
-    ///
-    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The specification of the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>attached_cluster: ::core::option::Option&lt;AttachedCluster&gt;,
-    <span class="doccomment">/// Required. A client provided ID the resource. Must be unique within the
-    /// parent resource.
-    ///
-    /// The provided ID will be part of the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// name formatted as
-    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
-    ///
-    /// Valid characters are `/[a-z][0-9]-/`. Cannot be longer than 63 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>attached_cluster_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set, only validate the request, but do not actually create the cluster.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>validate_only: bool,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.ImportAttachedCluster` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImportAttachedClusterRequest {
-    <span class="doccomment">/// Required. The parent location where this
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// will be created.
-    ///
-    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set, only validate the request, but do not actually import the cluster.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validate_only: bool,
-    <span class="doccomment">/// Required. The name of the fleet membership resource to import.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>fleet_membership: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The platform version for the cluster (e.g. `1.19.0-gke.1000`).
-    ///
-    /// You can list all supported versions on a given Google Cloud region by
-    /// calling
-    /// [GetAttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedClusters.GetAttachedServerConfig].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>platform_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The Kubernetes distribution of the underlying attached cluster.
-    ///
-    /// Supported values: \["eks", "aks"\].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>distribution: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Proxy configuration for outbound HTTP(S) traffic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>proxy_config: ::core::option::Option&lt;AttachedProxyConfig&gt;,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.UpdateAttachedCluster` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateAttachedClusterRequest {
-    <span class="doccomment">/// Required. The
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// to update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>attached_cluster: ::core::option::Option&lt;AttachedCluster&gt;,
-    <span class="doccomment">/// If set, only validate the request, but do not actually update the cluster.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validate_only: bool,
-    <span class="doccomment">/// Required. Mask of fields to update. At least one path must be supplied in
-    /// this field. The elements of the repeated paths field can only include these
-    /// fields from
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster]:
-    ///
-    ///   *   `annotations`.
-    ///   *   `authorization.admin_groups`.
-    ///   *   `authorization.admin_users`.
-    ///   *   `binary_authorization.evaluation_mode`.
-    ///   *   `description`.
-    ///   *   `logging_config.component_config.enable_components`.
-    ///   *   `monitoring_config.managed_prometheus_config.enabled`.
-    ///   *   `platform_version`.
-    ///   *   `proxy_config.kubernetes_secret.name`.
-    ///   *   `proxy_config.kubernetes_secret.namespace`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.GetAttachedCluster` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetAttachedClusterRequest {
-    <span class="doccomment">/// Required. The name of the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// to describe.
-    ///
-    /// `AttachedCluster` names are formatted as
-    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud Platform resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.ListAttachedClusters` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListAttachedClustersRequest {
-    <span class="doccomment">/// Required. The parent location which owns this collection of
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resources.
-    ///
-    /// Location names are formatted as `projects/&lt;project-id&gt;/locations/&lt;region&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud Platform resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of items to return.
-    ///
-    /// If not specified, a default value of 50 will be used by the service.
-    /// Regardless of the pageSize value, the response can include a partial list
-    /// and a caller should only rely on response's
-    /// [nextPageToken][google.cloud.gkemulticloud.v1.ListAttachedClustersResponse.next_page_token]
-    /// to determine if there are more instances left to be queried.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The `nextPageToken` value returned from a previous
-    /// [attachedClusters.list][google.cloud.gkemulticloud.v1.AttachedClusters.ListAttachedClusters]
-    /// request, if any.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for `AttachedClusters.ListAttachedClusters` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListAttachedClustersResponse {
-    <span class="doccomment">/// A list of [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster]
-    /// resources in the specified Google Cloud Platform project and region region.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>attached_clusters: ::prost::alloc::vec::Vec&lt;AttachedCluster&gt;,
-    <span class="doccomment">/// Token to retrieve the next page of results, or empty if there are no more
-    /// results in the list.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for `AttachedClusters.DeleteAttachedCluster` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteAttachedClusterRequest {
-    <span class="doccomment">/// Required. The resource name the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] to delete.
-    ///
-    /// `AttachedCluster` names are formatted as
-    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedClusters/&lt;cluster-id&gt;`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud Platform resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set, only validate the request, but do not actually delete the resource.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validate_only: bool,
-    <span class="doccomment">/// If set to true, and the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// is not found, the request will succeed but no action will be taken on the
-    /// server and a completed [Operation][google.longrunning.Operation] will be
-    /// returned.
-    ///
-    /// Useful for idempotent deletion.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>allow_missing: bool,
-    <span class="doccomment">/// If set to true, the deletion of
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-    /// will succeed even if errors occur during deleting in cluster resources.
-    /// Using this parameter may result in orphaned resources in the cluster.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>ignore_errors: bool,
-    <span class="doccomment">/// The current etag of the
-    /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster].
-    ///
-    /// Allows clients to perform deletions through optimistic concurrency control.
-    ///
-    /// If the provided etag does not match the current etag of the cluster,
-    /// the request will fail and an ABORTED error will be returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// GetAttachedServerConfigRequest gets the server config for attached
-/// clusters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetAttachedServerConfigRequest {
-    <span class="doccomment">/// Required. The name of the
-    /// [AttachedServerConfig][google.cloud.gkemulticloud.v1.AttachedServerConfig]
-    /// resource to describe.
-    ///
-    /// `AttachedServerConfig` names are formatted as
-    /// `projects/&lt;project-id&gt;/locations/&lt;region&gt;/attachedServerConfig`.
-    ///
-    /// See [Resource Names](&lt;https://cloud.google.com/apis/design/resource_names&gt;)
-    /// for more details on Google Cloud resource names.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateAttachedClusterAgentTokenRequest {
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>attached_cluster: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>subject_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>subject_token_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>grant_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>audience: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>scope: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>requested_token_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>options: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateAttachedClusterAgentTokenResponse {
-    <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>access_token: ::prost::alloc::string::String,
-    <span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>expires_in: i32,
-    <span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>token_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>attached_clusters_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The AttachedClusters API provides a single centrally managed service
-    /// to register and manage Anthos attached clusters that run on customer's owned
-    /// infrastructure.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>AttachedClustersClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; AttachedClustersClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; AttachedClustersClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            AttachedClustersClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Creates a new
-        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-        /// on a given Google Cloud Platform project and region.
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        </span><span class="kw">pub async fn </span>create_attached_cluster(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateAttachedClusterRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/CreateAttachedCluster"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"CreateAttachedCluster"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates an
-        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster].
-        </span><span class="kw">pub async fn </span>update_attached_cluster(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateAttachedClusterRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/UpdateAttachedCluster"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"UpdateAttachedCluster"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Imports creates a new
-        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource
-        /// by importing an existing Fleet Membership resource.
-        ///
-        /// Attached Clusters created before the introduction of the Anthos Multi-Cloud
-        /// API can be imported through this method.
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        </span><span class="kw">pub async fn </span>import_attached_cluster(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ImportAttachedClusterRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/ImportAttachedCluster"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"ImportAttachedCluster"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Describes a specific
-        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource.
-        </span><span class="kw">pub async fn </span>get_attached_cluster(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAttachedClusterRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::AttachedCluster&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GetAttachedCluster"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"GetAttachedCluster"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Lists all [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster]
-        /// resources on a given Google Cloud project and region.
-        </span><span class="kw">pub async fn </span>list_attached_clusters(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListAttachedClustersRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListAttachedClustersResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/ListAttachedClusters"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"ListAttachedClusters"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes a specific
-        /// [AttachedCluster][google.cloud.gkemulticloud.v1.AttachedCluster] resource.
-        ///
-        /// If successful, the response contains a newly created
-        /// [Operation][google.longrunning.Operation] resource that can be
-        /// described to track the status of the operation.
-        </span><span class="kw">pub async fn </span>delete_attached_cluster(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteAttachedClusterRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/DeleteAttachedCluster"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"DeleteAttachedCluster"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Returns information, such as supported Kubernetes versions, on a given
-        /// Google Cloud location.
-        </span><span class="kw">pub async fn </span>get_attached_server_config(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAttachedServerConfigRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::AttachedServerConfig&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GetAttachedServerConfig"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"GetAttachedServerConfig"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Generates the install manifest to be installed on the target cluster.
-        </span><span class="kw">pub async fn </span>generate_attached_cluster_install_manifest(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;
-                <span class="kw">super</span>::GenerateAttachedClusterInstallManifestRequest,
-            &gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::GenerateAttachedClusterInstallManifestResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GenerateAttachedClusterInstallManifest"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"GenerateAttachedClusterInstallManifest"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Generates an access token for a cluster agent.
-        </span><span class="kw">pub async fn </span>generate_attached_cluster_agent_token(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;
-                <span class="kw">super</span>::GenerateAttachedClusterAgentTokenRequest,
-            &gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::GenerateAttachedClusterAgentTokenResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.gkemulticloud.v1.AttachedClusters/GenerateAttachedClusterAgentToken"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.gkemulticloud.v1.AttachedClusters"</span>,
-                        <span class="string">"GenerateAttachedClusterAgentToken"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

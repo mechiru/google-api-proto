@@ -1763,89 +1763,50 @@
     </span>)]
     </span><span class="kw">pub </span>served_asset_field_type: i32,
 }
-<span class="doccomment">/// A Search Ads 360 text ad.
+<span class="doccomment">/// Settings for the targeting-related features, at the campaign and ad group
+/// levels. For more details about the targeting setting, visit
+/// &lt;https://support.google.com/google-ads/answer/7365594&gt;
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360TextAdInfo {
-    <span class="doccomment">/// The headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The first line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second line of the ad's description.
+</span><span class="kw">pub struct </span>TargetingSetting {
+    <span class="doccomment">/// The per-targeting-dimension setting to restrict the reach of your campaign
+    /// or ad group.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_restrictions: ::prost::alloc::vec::Vec&lt;TargetRestriction&gt;,
+}
+<span class="doccomment">/// The list of per-targeting-dimension targeting settings.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TargetRestriction {
+    <span class="doccomment">/// The targeting dimension that these settings apply to.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::targeting_dimension_enum::TargetingDimension"</span>,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>targeting_dimension: i32,
+    <span class="doccomment">/// Indicates whether to restrict your ads to show only for the criteria you
+    /// have selected for this targeting_dimension, or to target all values for
+    /// this targeting_dimension and show ads based on your targeting in other
+    /// TargetingDimensions. A value of `true` means that these criteria will only
+    /// apply bid modifiers, and not affect targeting. A value of `false` means
+    /// that these criteria will restrict targeting as well as applying bid
+    /// modifiers.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>bid_only: ::core::option::Option&lt;bool&gt;,
+}
+<span class="doccomment">/// A type of label displaying text on a colored background.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextLabel {
+    <span class="doccomment">/// Background color of the label in RGB format. This string must match the
+    /// regular expression '^\#(\[a-fA-F0-9\]{6}|\[a-fA-F0-9\]{3})$'.
+    /// Note: The background color may not be visible for manager accounts.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The displayed URL of the ad.
+    </span><span class="kw">pub </span>background_color: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// A short description of the label. The length must be no more than 200
+    /// characters.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>display_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The displayed mobile URL of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>display_mobile_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// A Search Ads 360 expanded text ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ExpandedTextAdInfo {
-    <span class="doccomment">/// The headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>headline2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The third headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>headline3: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The first line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Text appended to path1 with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// An expanded dynamic search ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ExpandedDynamicSearchAdInfo {
-    <span class="doccomment">/// The first line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// A Search Ads 360 product ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ProductAdInfo {}
-<span class="doccomment">/// A Search Ads 360 responsive search ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ResponsiveSearchAdInfo {
-    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Text appended to path1 with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
+    </span><span class="kw">pub </span>description: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// An automated bidding strategy that raises bids for clicks
 /// that seem more likely to lead to a conversion and lowers
@@ -2037,62 +1998,89 @@
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>enhanced_cpc_enabled: ::core::option::Option&lt;bool&gt;,
 }
-<span class="doccomment">/// A mapping that can be used by custom parameter tags in a
-/// `tracking_url_template`, `final_urls`, or `mobile_final_urls`.
+<span class="doccomment">/// A Search Ads 360 text ad.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomParameter {
-    <span class="doccomment">/// The key matching the parameter tag name.
+</span><span class="kw">pub struct </span>SearchAds360TextAdInfo {
+    <span class="doccomment">/// The headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The first line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second line of the ad's description.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>key: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The value to be substituted.
+    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The displayed URL of the ad.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    </span><span class="kw">pub </span>display_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The displayed mobile URL of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>display_mobile_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
 }
-<span class="doccomment">/// A rule specifying the maximum number of times an ad (or some set of ads) can
-/// be shown to a user over a particular time period.
+<span class="doccomment">/// A Search Ads 360 expanded text ad.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FrequencyCapEntry {}
-<span class="doccomment">/// Settings for Real-Time Bidding, a feature only available for campaigns
-/// targeting the Ad Exchange network.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RealTimeBiddingSetting {
-    <span class="doccomment">/// Whether the campaign is opted in to real-time bidding.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>opt_in: ::core::option::Option&lt;bool&gt;,
+</span><span class="kw">pub struct </span>SearchAds360ExpandedTextAdInfo {
+    <span class="doccomment">/// The headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>headline2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The third headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>headline3: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The first line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Text appended to path1 with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
 }
-<span class="doccomment">/// Settings for the targeting-related features, at the campaign and ad group
-/// levels. For more details about the targeting setting, visit
-/// &lt;https://support.google.com/google-ads/answer/7365594&gt;
+<span class="doccomment">/// An expanded dynamic search ad.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TargetingSetting {
-    <span class="doccomment">/// The per-targeting-dimension setting to restrict the reach of your campaign
-    /// or ad group.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_restrictions: ::prost::alloc::vec::Vec&lt;TargetRestriction&gt;,
+</span><span class="kw">pub struct </span>SearchAds360ExpandedDynamicSearchAdInfo {
+    <span class="doccomment">/// The first line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
 }
-<span class="doccomment">/// The list of per-targeting-dimension targeting settings.
+<span class="doccomment">/// A Search Ads 360 product ad.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TargetRestriction {
-    <span class="doccomment">/// The targeting dimension that these settings apply to.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::targeting_dimension_enum::TargetingDimension"</span>,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>targeting_dimension: i32,
-    <span class="doccomment">/// Indicates whether to restrict your ads to show only for the criteria you
-    /// have selected for this targeting_dimension, or to target all values for
-    /// this targeting_dimension and show ads based on your targeting in other
-    /// TargetingDimensions. A value of `true` means that these criteria will only
-    /// apply bid modifiers, and not affect targeting. A value of `false` means
-    /// that these criteria will restrict targeting as well as applying bid
-    /// modifiers.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>bid_only: ::core::option::Option&lt;bool&gt;,
+</span><span class="kw">pub struct </span>SearchAds360ProductAdInfo {}
+<span class="doccomment">/// A Search Ads 360 responsive search ad.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAds360ResponsiveSearchAdInfo {
+    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Text appended to path1 with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
 }
 <span class="doccomment">/// A keyword criterion.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2294,6 +2282,32 @@
     <span class="doccomment">/// The Audience resource name.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>audience: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A mapping that can be used by custom parameter tags in a
+/// `tracking_url_template`, `final_urls`, or `mobile_final_urls`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomParameter {
+    <span class="doccomment">/// The key matching the parameter tag name.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>key: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The value to be substituted.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A rule specifying the maximum number of times an ad (or some set of ads) can
+/// be shown to a user over a particular time period.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FrequencyCapEntry {}
+<span class="doccomment">/// Settings for Real-Time Bidding, a feature only available for campaigns
+/// targeting the Ad Exchange network.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RealTimeBiddingSetting {
+    <span class="doccomment">/// Whether the campaign is opted in to real-time bidding.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>opt_in: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// A YouTube asset.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2544,20 +2558,6 @@
     /// linked Business Profile account.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>listing_id: i64,
-}
-<span class="doccomment">/// A type of label displaying text on a colored background.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextLabel {
-    <span class="doccomment">/// Background color of the label in RGB format. This string must match the
-    /// regular expression '^\#(\[a-fA-F0-9\]{6}|\[a-fA-F0-9\]{3})$'.
-    /// Note: The background color may not be visible for manager accounts.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>background_color: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// A short description of the label. The length must be no more than 200
-    /// characters.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// A generic data container.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

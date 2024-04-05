@@ -2206,7 +2206,72 @@
 <a href="#2204" id="2204">2204</a>
 <a href="#2205" id="2205">2205</a>
 <a href="#2206" id="2206">2206</a>
-</pre></div><pre class="rust"><code><span class="doccomment">/// Container for a live session's ad tag detail.
+</pre></div><pre class="rust"><code><span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher
+/// to sign URIs for fetching video manifests and signing
+/// media segments for playback.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CdnKey {
+    <span class="doccomment">/// The resource name of the CDN key, in the form of
+    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
+    /// The name is ignored when creating a CDN key.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The hostname this key applies to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
+    <span class="doccomment">/// Configuration associated with the CDN key.
+    </span><span class="attr">#[prost(oneof = <span class="string">"cdn_key::CdnKeyConfig"</span>, tags = <span class="string">"5, 6, 8"</span>)]
+    </span><span class="kw">pub </span>cdn_key_config: ::core::option::Option&lt;cdn_key::CdnKeyConfig&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CdnKey`.
+</span><span class="kw">pub mod </span>cdn_key {
+    <span class="doccomment">/// Configuration associated with the CDN key.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>CdnKeyConfig {
+        <span class="doccomment">/// The configuration for a Google Cloud CDN key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>GoogleCdnKey(<span class="kw">super</span>::GoogleCdnKey),
+        <span class="doccomment">/// The configuration for an Akamai CDN key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>AkamaiCdnKey(<span class="kw">super</span>::AkamaiCdnKey),
+        <span class="doccomment">/// The configuration for a Media CDN key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+        </span>MediaCdnKey(<span class="kw">super</span>::MediaCdnKey),
+    }
+}
+<span class="doccomment">/// Configuration for a Google Cloud CDN key.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GoogleCdnKey {
+    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
+    <span class="doccomment">/// The public name of the Google Cloud CDN key.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration for an Akamai CDN key.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AkamaiCdnKey {
+    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>token_key: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// Configuration for a Media CDN key.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MediaCdnKey {
+    <span class="doccomment">/// Input only. 64-byte ed25519 private key for this Media CDN key.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
+    <span class="doccomment">/// The keyset name of the Media CDN key.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Container for a live session's ad tag detail.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LiveAdTagDetail {
@@ -2276,71 +2341,6 @@
     <span class="doccomment">/// The body of the response.
     </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Configuration for a CDN key. Used by the Video Stitcher
-/// to sign URIs for fetching video manifests and signing
-/// media segments for playback.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CdnKey {
-    <span class="doccomment">/// The resource name of the CDN key, in the form of
-    /// `projects/{project}/locations/{location}/cdnKeys/{id}`.
-    /// The name is ignored when creating a CDN key.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The hostname this key applies to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>hostname: ::prost::alloc::string::String,
-    <span class="doccomment">/// Configuration associated with the CDN key.
-    </span><span class="attr">#[prost(oneof = <span class="string">"cdn_key::CdnKeyConfig"</span>, tags = <span class="string">"5, 6, 8"</span>)]
-    </span><span class="kw">pub </span>cdn_key_config: ::core::option::Option&lt;cdn_key::CdnKeyConfig&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CdnKey`.
-</span><span class="kw">pub mod </span>cdn_key {
-    <span class="doccomment">/// Configuration associated with the CDN key.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>CdnKeyConfig {
-        <span class="doccomment">/// The configuration for a Google Cloud CDN key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>GoogleCdnKey(<span class="kw">super</span>::GoogleCdnKey),
-        <span class="doccomment">/// The configuration for an Akamai CDN key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>AkamaiCdnKey(<span class="kw">super</span>::AkamaiCdnKey),
-        <span class="doccomment">/// The configuration for a Media CDN key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
-        </span>MediaCdnKey(<span class="kw">super</span>::MediaCdnKey),
-    }
-}
-<span class="doccomment">/// Configuration for a Google Cloud CDN key.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GoogleCdnKey {
-    <span class="doccomment">/// Input only. Secret for this Google Cloud CDN key.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
-    <span class="doccomment">/// The public name of the Google Cloud CDN key.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Configuration for an Akamai CDN key.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AkamaiCdnKey {
-    <span class="doccomment">/// Input only. Token key for the Akamai CDN edge configuration.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>token_key: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// Configuration for a Media CDN key.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MediaCdnKey {
-    <span class="doccomment">/// Input only. 64-byte ed25519 private key for this Media CDN key.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>private_key: ::prost::bytes::Bytes,
-    <span class="doccomment">/// The keyset name of the Media CDN key.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>key_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Metadata for used to register live configs.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

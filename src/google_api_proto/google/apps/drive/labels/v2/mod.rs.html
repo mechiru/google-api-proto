@@ -3750,6 +3750,111 @@
         </span>UserOptions(UserOptions),
     }
 }
+<span class="doccomment">/// The permission that applies to a principal (user, group, audience) on a
+/// label.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LabelPermission {
+    <span class="doccomment">/// Resource name of this permission.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Specifies the email address for a user or group pricinpal. Not populated
+    /// for audience principals. User and Group permissions may only be inserted
+    /// using email address. On update requests, if email address is specified,
+    /// no principal should be specified.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+    <span class="doccomment">/// The role the principal should have.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"label_permission::LabelRole"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>role: i32,
+    <span class="doccomment">/// The principal this permission applies to. Must be either an email, user,
+    /// group, or audience.
+    /// Example:
+    /// * people/12345
+    /// * groups/45678
+    /// * audiences/default
+    </span><span class="attr">#[prost(oneof = <span class="string">"label_permission::Principal"</span>, tags = <span class="string">"3, 4, 5"</span>)]
+    </span><span class="kw">pub </span>principal: ::core::option::Option&lt;label_permission::Principal&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `LabelPermission`.
+</span><span class="kw">pub mod </span>label_permission {
+    <span class="doccomment">/// Roles are concentric with subsequent role.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>LabelRole {
+        <span class="doccomment">/// Unknown role.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A reader can read the label and associated metadata applied to Drive
+        /// items.
+        </span>Reader = <span class="number">1</span>,
+        <span class="doccomment">/// An applier can write associated metadata on Drive items in which they
+        /// also have write access to. Implies `READER`.
+        </span>Applier = <span class="number">2</span>,
+        <span class="doccomment">/// An organizer can pin this label in shared drives they manage
+        /// and add new appliers to the label.
+        </span>Organizer = <span class="number">3</span>,
+        <span class="doccomment">/// Editors can make any update including deleting the label which
+        /// also deletes the associated Drive item metadata. Implies `APPLIER`.
+        </span>Editor = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>LabelRole {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                LabelRole::Unspecified =&gt; <span class="string">"LABEL_ROLE_UNSPECIFIED"</span>,
+                LabelRole::Reader =&gt; <span class="string">"READER"</span>,
+                LabelRole::Applier =&gt; <span class="string">"APPLIER"</span>,
+                LabelRole::Organizer =&gt; <span class="string">"ORGANIZER"</span>,
+                LabelRole::Editor =&gt; <span class="string">"EDITOR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"LABEL_ROLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"READER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reader),
+                <span class="string">"APPLIER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Applier),
+                <span class="string">"ORGANIZER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Organizer),
+                <span class="string">"EDITOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Editor),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The principal this permission applies to. Must be either an email, user,
+    /// group, or audience.
+    /// Example:
+    /// * people/12345
+    /// * groups/45678
+    /// * audiences/default
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Principal {
+        <span class="doccomment">/// Person resource name.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span>Person(::prost::alloc::string::String),
+        <span class="doccomment">/// Group resource name.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span>Group(::prost::alloc::string::String),
+        <span class="doccomment">/// Audience to grant a role to. The magic value of `audiences/default` may
+        /// be used to apply the role to the default audience in the context of the
+        /// organization that owns the Label.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span>Audience(::prost::alloc::string::String),
+    }
+}
 <span class="doccomment">/// A label defines a taxonomy that can be applied to Drive items in order to
 /// organize and search across items. Labels can be simple strings, or can
 /// contain fields that describe additional metadata that can be further used to
@@ -4019,6 +4124,321 @@
         }
     }
 }
+<span class="doccomment">/// Label constraints governing the structure of a Label; such as, the maximum
+/// number of Fields allowed and maximum length of the label title.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LabelLimits {
+    <span class="doccomment">/// Resource name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of characters allowed for the title.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_title_length: i32,
+    <span class="doccomment">/// The maximum number of characters allowed for the description.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_description_length: i32,
+    <span class="doccomment">/// The maximum number of Fields allowed within the label.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>max_fields: i32,
+    <span class="doccomment">/// The maximum number of published Fields that can be deleted.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>max_deleted_fields: i32,
+    <span class="doccomment">/// The maximum number of draft revisions that will be kept before deleting
+    /// old drafts.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>max_draft_revisions: i32,
+    <span class="doccomment">/// The limits for Fields.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>field_limits: ::core::option::Option&lt;FieldLimits&gt;,
+}
+<span class="doccomment">/// Field constants governing the structure of a Field; such as, the maximum
+/// title length, minimum and maximum field values or length, etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FieldLimits {
+    <span class="doccomment">/// Max length for the id.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>max_id_length: i32,
+    <span class="doccomment">/// Limits for Field title.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_display_name_length: i32,
+    <span class="doccomment">/// Limits for Field description, also called help text.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_description_length: i32,
+    <span class="doccomment">/// The relevant limits for the specified Field.Type.
+    /// Text Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>text_limits: ::core::option::Option&lt;TextLimits&gt;,
+    <span class="doccomment">/// Long text Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>long_text_limits: ::core::option::Option&lt;LongTextLimits&gt;,
+    <span class="doccomment">/// Integer Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>integer_limits: ::core::option::Option&lt;IntegerLimits&gt;,
+    <span class="doccomment">/// Date Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>date_limits: ::core::option::Option&lt;DateLimits&gt;,
+    <span class="doccomment">/// User Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>user_limits: ::core::option::Option&lt;UserLimits&gt;,
+    <span class="doccomment">/// Selection Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>selection_limits: ::core::option::Option&lt;SelectionLimits&gt;,
+}
+<span class="doccomment">/// Limits for list-variant of a Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListLimits {
+    <span class="doccomment">/// Maximum number of values allowed for the Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>max_entries: i32,
+}
+<span class="doccomment">/// Limits for text Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextLimits {
+    <span class="doccomment">/// Minimum length allowed for a text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_length: i32,
+    <span class="doccomment">/// Maximum length allowed for a text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_length: i32,
+}
+<span class="doccomment">/// Limits for long text Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LongTextLimits {
+    <span class="doccomment">/// Minimum length allowed for a long text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_length: i32,
+    <span class="doccomment">/// Maximum length allowed for a long text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_length: i32,
+}
+<span class="doccomment">/// Limits for integer Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IntegerLimits {
+    <span class="doccomment">/// Minimum value for an integer Field type.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_value: i64,
+    <span class="doccomment">/// Maximum value for an integer Field type.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_value: i64,
+}
+<span class="doccomment">/// Limits for date Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DateLimits {
+    <span class="doccomment">/// Minimum value for the date Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+    <span class="doccomment">/// Maximum value for the date Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+}
+<span class="doccomment">/// Limits for selection Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SelectionLimits {
+    <span class="doccomment">/// Limits for list-variant of a Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
+    <span class="doccomment">/// Maximum ID length for a selection options.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_id_length: i32,
+    <span class="doccomment">/// Maximum length for display name.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_display_name_length: i32,
+    <span class="doccomment">/// The max number of choices.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>max_choices: i32,
+    <span class="doccomment">/// Maximum number of deleted choices.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>max_deleted_choices: i32,
+}
+<span class="doccomment">/// Limits for Field.Type.USER.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UserLimits {
+    <span class="doccomment">/// Limits for list-variant of a Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
+}
+<span class="doccomment">/// Exception detail.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExceptionDetail {
+    <span class="doccomment">/// The type of exception that occurred. Required.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ExceptionType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>error_type: i32,
+}
+<span class="doccomment">/// Every ExceptionType maps to one and only one Exception class. This allows
+/// internal clients to identify the exact server exception that caused the
+/// error for debugging and logging purposes.
+/// Add new ExceptionTypes to EXCEPTION_TYPE_TO_ERROR_CODE_MAP in
+/// j/c/g/apps/boq/metadata/model/service/exceptions/CategoryExceptionHelper
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ExceptionType {
+    <span class="doccomment">/// Unknown ExceptionType.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The required field is missing.
+    </span>FieldRequired = <span class="number">1</span>,
+    <span class="doccomment">/// Unable to create a metamodel with the given ID because it already exists.
+    </span>MetamodelAlreadyExists = <span class="number">2</span>,
+    <span class="doccomment">/// Metamodel was not found
+    </span>MetamodelNotFound = <span class="number">3</span>,
+    <span class="doccomment">/// Metamodel state transition isn't allowed.
+    </span>IllegalMetamodelStateTransition = <span class="number">4</span>,
+    <span class="doccomment">/// Metamodel deprecation policy is invalid.
+    </span>InvalidMetamodelDeprecationPolicy = <span class="number">5</span>,
+    <span class="doccomment">/// Cannot delete a metamodel due to the pending deprecation policy.
+    </span>MetamodelDeletionDeniedUntil = <span class="number">6</span>,
+    <span class="doccomment">/// A Field value is invalid.
+    </span>InvalidField = <span class="number">7</span>,
+    <span class="doccomment">/// Precondition failed when updating a metamodel
+    </span>MetamodelPreconditionFailed = <span class="number">8</span>,
+    <span class="doccomment">/// Multiple fields had the same key.
+    </span>DuplicateFieldKey = <span class="number">9</span>,
+    <span class="doccomment">/// Removing a field from a Metamodel (e.g. a published Metamodel) is not
+    /// permitted.
+    </span>IllegalFieldRemoval = <span class="number">10</span>,
+    <span class="doccomment">/// Cannot specify field options for a different field type.
+    </span>IllegalFieldOptionsForField = <span class="number">11</span>,
+    <span class="doccomment">/// Some changes are not supported
+    </span>UnsupportedChangeToPublishedMetamodel = <span class="number">12</span>,
+    <span class="doccomment">/// Cannot change the metamodel state in an update
+    </span>IllegalMetamodelStateTransitionInUpdate = <span class="number">13</span>,
+    <span class="doccomment">/// The page token is expired
+    </span>PageTokenExpired = <span class="number">14</span>,
+    <span class="doccomment">/// The user is not authorized to make the request.
+    </span>NotAuthorized = <span class="number">15</span>,
+    <span class="doccomment">/// Illegal field state transition
+    </span>IllegalFieldStateTransition = <span class="number">16</span>,
+    <span class="doccomment">/// Illegal choice set option state transition
+    </span>IllegalChoiceSetOptionStateTransition = <span class="number">17</span>,
+    <span class="doccomment">/// Invalid choice set options
+    </span>InvalidChoiceSetOptions = <span class="number">18</span>,
+    <span class="doccomment">/// Invalid field key
+    </span>InvalidFieldKey = <span class="number">19</span>,
+    <span class="doccomment">/// A specified property on a field is outside the allowed range.
+    </span>InvalidFieldPropertyRange = <span class="number">20</span>,
+    <span class="doccomment">/// A localized string wasn't valid. This may be because the locale is invalid,
+    /// its missing a default value, or the translation is empty for a set locale.
+    </span>InvalidLocalizedString = <span class="number">21</span>,
+    <span class="doccomment">/// cannot change a property on a published field
+    </span>IllegalChangeToPublishedField = <span class="number">22</span>,
+    <span class="doccomment">/// A field update is not inclusive of the previous value
+    </span>InvalidFieldUpdateNotInclusive = <span class="number">23</span>,
+    <span class="doccomment">/// A field update is not inclusive of the previous value
+    </span>InvalidChoiceSetState = <span class="number">24</span>,
+    <span class="doccomment">/// An unknown error occurred
+    </span>InternalServerError = <span class="number">500</span>,
+}
+<span class="kw">impl </span>ExceptionType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ExceptionType::Unspecified =&gt; <span class="string">"EXCEPTION_TYPE_UNSPECIFIED"</span>,
+            ExceptionType::FieldRequired =&gt; <span class="string">"FIELD_REQUIRED"</span>,
+            ExceptionType::MetamodelAlreadyExists =&gt; <span class="string">"METAMODEL_ALREADY_EXISTS"</span>,
+            ExceptionType::MetamodelNotFound =&gt; <span class="string">"METAMODEL_NOT_FOUND"</span>,
+            ExceptionType::IllegalMetamodelStateTransition =&gt; {
+                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION"
+            </span>}
+            ExceptionType::InvalidMetamodelDeprecationPolicy =&gt; {
+                <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY"
+            </span>}
+            ExceptionType::MetamodelDeletionDeniedUntil =&gt; {
+                <span class="string">"METAMODEL_DELETION_DENIED_UNTIL"
+            </span>}
+            ExceptionType::InvalidField =&gt; <span class="string">"INVALID_FIELD"</span>,
+            ExceptionType::MetamodelPreconditionFailed =&gt; <span class="string">"METAMODEL_PRECONDITION_FAILED"</span>,
+            ExceptionType::DuplicateFieldKey =&gt; <span class="string">"DUPLICATE_FIELD_KEY"</span>,
+            ExceptionType::IllegalFieldRemoval =&gt; <span class="string">"ILLEGAL_FIELD_REMOVAL"</span>,
+            ExceptionType::IllegalFieldOptionsForField =&gt; {
+                <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD"
+            </span>}
+            ExceptionType::UnsupportedChangeToPublishedMetamodel =&gt; {
+                <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL"
+            </span>}
+            ExceptionType::IllegalMetamodelStateTransitionInUpdate =&gt; {
+                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE"
+            </span>}
+            ExceptionType::PageTokenExpired =&gt; <span class="string">"PAGE_TOKEN_EXPIRED"</span>,
+            ExceptionType::NotAuthorized =&gt; <span class="string">"NOT_AUTHORIZED"</span>,
+            ExceptionType::IllegalFieldStateTransition =&gt; {
+                <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION"
+            </span>}
+            ExceptionType::IllegalChoiceSetOptionStateTransition =&gt; {
+                <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION"
+            </span>}
+            ExceptionType::InvalidChoiceSetOptions =&gt; <span class="string">"INVALID_CHOICE_SET_OPTIONS"</span>,
+            ExceptionType::InvalidFieldKey =&gt; <span class="string">"INVALID_FIELD_KEY"</span>,
+            ExceptionType::InvalidFieldPropertyRange =&gt; <span class="string">"INVALID_FIELD_PROPERTY_RANGE"</span>,
+            ExceptionType::InvalidLocalizedString =&gt; <span class="string">"INVALID_LOCALIZED_STRING"</span>,
+            ExceptionType::IllegalChangeToPublishedField =&gt; {
+                <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD"
+            </span>}
+            ExceptionType::InvalidFieldUpdateNotInclusive =&gt; {
+                <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE"
+            </span>}
+            ExceptionType::InvalidChoiceSetState =&gt; <span class="string">"INVALID_CHOICE_SET_STATE"</span>,
+            ExceptionType::InternalServerError =&gt; <span class="string">"INTERNAL_SERVER_ERROR"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"EXCEPTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"FIELD_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldRequired),
+            <span class="string">"METAMODEL_ALREADY_EXISTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelAlreadyExists),
+            <span class="string">"METAMODEL_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelNotFound),
+            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransition)
+            }
+            <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidMetamodelDeprecationPolicy)
+            }
+            <span class="string">"METAMODEL_DELETION_DENIED_UNTIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelDeletionDeniedUntil),
+            <span class="string">"INVALID_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidField),
+            <span class="string">"METAMODEL_PRECONDITION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelPreconditionFailed),
+            <span class="string">"DUPLICATE_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateFieldKey),
+            <span class="string">"ILLEGAL_FIELD_REMOVAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldRemoval),
+            <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldOptionsForField),
+            <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedChangeToPublishedMetamodel)
+            }
+            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransitionInUpdate)
+            }
+            <span class="string">"PAGE_TOKEN_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PageTokenExpired),
+            <span class="string">"NOT_AUTHORIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAuthorized),
+            <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldStateTransition),
+            <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChoiceSetOptionStateTransition)
+            }
+            <span class="string">"INVALID_CHOICE_SET_OPTIONS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetOptions),
+            <span class="string">"INVALID_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldKey),
+            <span class="string">"INVALID_FIELD_PROPERTY_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldPropertyRange),
+            <span class="string">"INVALID_LOCALIZED_STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidLocalizedString),
+            <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChangeToPublishedField)
+            }
+            <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldUpdateNotInclusive)
+            }
+            <span class="string">"INVALID_CHOICE_SET_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetState),
+            <span class="string">"INTERNAL_SERVER_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalServerError),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 <span class="doccomment">/// A Lock that can be applied to a Label, Field, or Choice.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4109,109 +4529,225 @@
         }
     }
 }
-<span class="doccomment">/// The permission that applies to a principal (user, group, audience) on a
-/// label.
+<span class="doccomment">/// Describes violations in a request to create or update a Label or its
+/// Fields.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LabelPermission {
-    <span class="doccomment">/// Resource name of this permission.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Specifies the email address for a user or group pricinpal. Not populated
-    /// for audience principals. User and Group permissions may only be inserted
-    /// using email address. On update requests, if email address is specified,
-    /// no principal should be specified.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
-    <span class="doccomment">/// The role the principal should have.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"label_permission::LabelRole"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>role: i32,
-    <span class="doccomment">/// The principal this permission applies to. Must be either an email, user,
-    /// group, or audience.
-    /// Example:
-    /// * people/12345
-    /// * groups/45678
-    /// * audiences/default
-    </span><span class="attr">#[prost(oneof = <span class="string">"label_permission::Principal"</span>, tags = <span class="string">"3, 4, 5"</span>)]
-    </span><span class="kw">pub </span>principal: ::core::option::Option&lt;label_permission::Principal&gt;,
+</span><span class="kw">pub struct </span>InvalidArgument {
+    <span class="doccomment">/// Describes all violations in a client request.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>field_violations: ::prost::alloc::vec::Vec&lt;invalid_argument::FieldViolation&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `LabelPermission`.
-</span><span class="kw">pub mod </span>label_permission {
-    <span class="doccomment">/// Roles are concentric with subsequent role.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>LabelRole {
-        <span class="doccomment">/// Unknown role.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A reader can read the label and associated metadata applied to Drive
-        /// items.
-        </span>Reader = <span class="number">1</span>,
-        <span class="doccomment">/// An applier can write associated metadata on Drive items in which they
-        /// also have write access to. Implies `READER`.
-        </span>Applier = <span class="number">2</span>,
-        <span class="doccomment">/// An organizer can pin this label in shared drives they manage
-        /// and add new appliers to the label.
-        </span>Organizer = <span class="number">3</span>,
-        <span class="doccomment">/// Editors can make any update including deleting the label which
-        /// also deletes the associated Drive item metadata. Implies `APPLIER`.
-        </span>Editor = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>LabelRole {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                LabelRole::Unspecified =&gt; <span class="string">"LABEL_ROLE_UNSPECIFIED"</span>,
-                LabelRole::Reader =&gt; <span class="string">"READER"</span>,
-                LabelRole::Applier =&gt; <span class="string">"APPLIER"</span>,
-                LabelRole::Organizer =&gt; <span class="string">"ORGANIZER"</span>,
-                LabelRole::Editor =&gt; <span class="string">"EDITOR"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"LABEL_ROLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"READER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reader),
-                <span class="string">"APPLIER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Applier),
-                <span class="string">"ORGANIZER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Organizer),
-                <span class="string">"EDITOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Editor),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The principal this permission applies to. Must be either an email, user,
-    /// group, or audience.
-    /// Example:
-    /// * people/12345
-    /// * groups/45678
-    /// * audiences/default
+<span class="doccomment">/// Nested message and enum types in `InvalidArgument`.
+</span><span class="kw">pub mod </span>invalid_argument {
+    <span class="doccomment">/// Describes the Field in which the violation occurred.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Principal {
-        <span class="doccomment">/// Person resource name.
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FieldViolation {
+        <span class="doccomment">/// The path to the field where this violation occurred. This path is
+        /// specified using `FieldMask` format:
+        /// &lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>field: ::prost::alloc::string::String,
+        <span class="doccomment">/// The detailed reason for this FieldViolation.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"field_violation::Reason"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>reason: i32,
+        <span class="doccomment">/// A message that describes the violation. This message is intended to
+        /// be shown to end users, and is localized into the requesting user's
+        /// preferred language.
         </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span>Person(::prost::alloc::string::String),
-        <span class="doccomment">/// Group resource name.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span>Group(::prost::alloc::string::String),
-        <span class="doccomment">/// Audience to grant a role to. The magic value of `audiences/default` may
-        /// be used to apply the role to the default audience in the context of the
-        /// organization that owns the Label.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span>Audience(::prost::alloc::string::String),
+        </span><span class="kw">pub </span>display_message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FieldViolation`.
+    </span><span class="kw">pub mod </span>field_violation {
+        <span class="doccomment">/// Possible reasons a field is invalid.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Reason {
+            <span class="doccomment">/// Unknown reason.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The referenced field is required.
+            </span>FieldRequired = <span class="number">1</span>,
+            <span class="doccomment">/// The referenced value was invalid.
+            </span>InvalidValue = <span class="number">2</span>,
+            <span class="doccomment">/// The specified numeric value is out of the allowed range.
+            </span>ValueOutOfRange = <span class="number">3</span>,
+            <span class="doccomment">/// The specified string value was too long.
+            </span>StringValueTooLong = <span class="number">4</span>,
+            <span class="doccomment">/// The number of entries exceeded the maximum.
+            </span>MaxEntriesExceeded = <span class="number">5</span>,
+            <span class="doccomment">/// The specified field is not found in the Label.
+            </span>FieldNotFound = <span class="number">6</span>,
+            <span class="doccomment">/// The specified choice is not found in the Field.
+            </span>ChoiceNotFound = <span class="number">7</span>,
+        }
+        <span class="kw">impl </span>Reason {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
+                    Reason::FieldRequired =&gt; <span class="string">"FIELD_REQUIRED"</span>,
+                    Reason::InvalidValue =&gt; <span class="string">"INVALID_VALUE"</span>,
+                    Reason::ValueOutOfRange =&gt; <span class="string">"VALUE_OUT_OF_RANGE"</span>,
+                    Reason::StringValueTooLong =&gt; <span class="string">"STRING_VALUE_TOO_LONG"</span>,
+                    Reason::MaxEntriesExceeded =&gt; <span class="string">"MAX_ENTRIES_EXCEEDED"</span>,
+                    Reason::FieldNotFound =&gt; <span class="string">"FIELD_NOT_FOUND"</span>,
+                    Reason::ChoiceNotFound =&gt; <span class="string">"CHOICE_NOT_FOUND"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"FIELD_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldRequired),
+                    <span class="string">"INVALID_VALUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidValue),
+                    <span class="string">"VALUE_OUT_OF_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ValueOutOfRange),
+                    <span class="string">"STRING_VALUE_TOO_LONG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StringValueTooLong),
+                    <span class="string">"MAX_ENTRIES_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MaxEntriesExceeded),
+                    <span class="string">"FIELD_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldNotFound),
+                    <span class="string">"CHOICE_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChoiceNotFound),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+}
+<span class="doccomment">/// Describes what preconditions have failed.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PreconditionFailure {
+    <span class="doccomment">/// Describes all violations in a client request.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>violation: ::prost::alloc::vec::Vec&lt;precondition_failure::Violation&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PreconditionFailure`.
+</span><span class="kw">pub mod </span>precondition_failure {
+    <span class="doccomment">/// Specific failure reason.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Violation {
+        <span class="doccomment">/// The path to the field where this violation occurred. This path is
+        /// specified using `FieldMask` format:
+        /// &lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>field: ::prost::alloc::string::String,
+        <span class="doccomment">/// The type of this violation.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"violation::Reason"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>reason: i32,
+        <span class="doccomment">/// A message that describes the violation. This message is intended to
+        /// be shown to end users, and is localized into the requesting user's
+        /// preferred language.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>display_message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Violation`.
+    </span><span class="kw">pub mod </span>violation {
+        <span class="doccomment">/// The possible reasons a the violation occurred.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Reason {
+            <span class="doccomment">/// Unknown violation type.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// This Resource cannot be Disabled. Only Published resources can be
+            /// Disabled.
+            </span>CannotDisable = <span class="number">1</span>,
+            <span class="doccomment">/// This Resource cannot be Enabled. Only Disabled resources can be
+            /// Enabled.
+            </span>CannotEnable = <span class="number">2</span>,
+            <span class="doccomment">/// This Resource cannot be Published. Only Draft or Disabled resources
+            /// can be Published.
+            </span>CannotPublish = <span class="number">3</span>,
+            <span class="doccomment">/// This Resource cannot be Unpublished. Once published, resources may
+            /// not be set in "Draft" state.
+            </span>CannotUnpublish = <span class="number">4</span>,
+            <span class="doccomment">/// This Resource cannot be Deleted. Only Disabled resources
+            /// can be Deleted.
+            </span>CannotDelete = <span class="number">5</span>,
+            <span class="doccomment">/// The request modified a range in a Field, but the new range does
+            /// not include the previous range. When this error happens, `field` points
+            /// at the Field where the violation occurred.
+            </span>CannotRestrictRange = <span class="number">6</span>,
+            <span class="doccomment">/// The specified change cannot be made to published Resources.
+            </span>CannotChangePublishedField = <span class="number">7</span>,
+            <span class="doccomment">/// The customer cannot create new labels because the maximum number
+            /// of labels for the customer has been reached.
+            </span>CannotCreateMoreLabels = <span class="number">8</span>,
+            <span class="doccomment">/// The Field type cannot be changed because the Field has been published.
+            </span>CannotChangePublishedFieldType = <span class="number">9</span>,
+            <span class="doccomment">/// The Label component is locked and cannot be modified
+            </span>CannotModifyLockedComponent = <span class="number">10</span>,
+        }
+        <span class="kw">impl </span>Reason {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
+                    Reason::CannotDisable =&gt; <span class="string">"CANNOT_DISABLE"</span>,
+                    Reason::CannotEnable =&gt; <span class="string">"CANNOT_ENABLE"</span>,
+                    Reason::CannotPublish =&gt; <span class="string">"CANNOT_PUBLISH"</span>,
+                    Reason::CannotUnpublish =&gt; <span class="string">"CANNOT_UNPUBLISH"</span>,
+                    Reason::CannotDelete =&gt; <span class="string">"CANNOT_DELETE"</span>,
+                    Reason::CannotRestrictRange =&gt; <span class="string">"CANNOT_RESTRICT_RANGE"</span>,
+                    Reason::CannotChangePublishedField =&gt; <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD"</span>,
+                    Reason::CannotCreateMoreLabels =&gt; <span class="string">"CANNOT_CREATE_MORE_LABELS"</span>,
+                    Reason::CannotChangePublishedFieldType =&gt; {
+                        <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD_TYPE"
+                    </span>}
+                    Reason::CannotModifyLockedComponent =&gt; {
+                        <span class="string">"CANNOT_MODIFY_LOCKED_COMPONENT"
+                    </span>}
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"CANNOT_DISABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotDisable),
+                    <span class="string">"CANNOT_ENABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotEnable),
+                    <span class="string">"CANNOT_PUBLISH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotPublish),
+                    <span class="string">"CANNOT_UNPUBLISH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotUnpublish),
+                    <span class="string">"CANNOT_DELETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotDelete),
+                    <span class="string">"CANNOT_RESTRICT_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotRestrictRange),
+                    <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotChangePublishedField)
+                    }
+                    <span class="string">"CANNOT_CREATE_MORE_LABELS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotCreateMoreLabels),
+                    <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD_TYPE" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotChangePublishedFieldType)
+                    }
+                    <span class="string">"CANNOT_MODIFY_LOCKED_COMPONENT" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotModifyLockedComponent)
+                    }
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
     }
 }
 <span class="doccomment">/// Provides control over how write requests are executed. When not specified,
@@ -5080,148 +5616,6 @@
         }
     }
 }
-<span class="doccomment">/// Label constraints governing the structure of a Label; such as, the maximum
-/// number of Fields allowed and maximum length of the label title.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LabelLimits {
-    <span class="doccomment">/// Resource name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of characters allowed for the title.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_title_length: i32,
-    <span class="doccomment">/// The maximum number of characters allowed for the description.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_description_length: i32,
-    <span class="doccomment">/// The maximum number of Fields allowed within the label.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>max_fields: i32,
-    <span class="doccomment">/// The maximum number of published Fields that can be deleted.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>max_deleted_fields: i32,
-    <span class="doccomment">/// The maximum number of draft revisions that will be kept before deleting
-    /// old drafts.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>max_draft_revisions: i32,
-    <span class="doccomment">/// The limits for Fields.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>field_limits: ::core::option::Option&lt;FieldLimits&gt;,
-}
-<span class="doccomment">/// Field constants governing the structure of a Field; such as, the maximum
-/// title length, minimum and maximum field values or length, etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FieldLimits {
-    <span class="doccomment">/// Max length for the id.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>max_id_length: i32,
-    <span class="doccomment">/// Limits for Field title.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_display_name_length: i32,
-    <span class="doccomment">/// Limits for Field description, also called help text.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_description_length: i32,
-    <span class="doccomment">/// The relevant limits for the specified Field.Type.
-    /// Text Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>text_limits: ::core::option::Option&lt;TextLimits&gt;,
-    <span class="doccomment">/// Long text Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>long_text_limits: ::core::option::Option&lt;LongTextLimits&gt;,
-    <span class="doccomment">/// Integer Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>integer_limits: ::core::option::Option&lt;IntegerLimits&gt;,
-    <span class="doccomment">/// Date Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>date_limits: ::core::option::Option&lt;DateLimits&gt;,
-    <span class="doccomment">/// User Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>user_limits: ::core::option::Option&lt;UserLimits&gt;,
-    <span class="doccomment">/// Selection Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>selection_limits: ::core::option::Option&lt;SelectionLimits&gt;,
-}
-<span class="doccomment">/// Limits for list-variant of a Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListLimits {
-    <span class="doccomment">/// Maximum number of values allowed for the Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>max_entries: i32,
-}
-<span class="doccomment">/// Limits for text Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextLimits {
-    <span class="doccomment">/// Minimum length allowed for a text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_length: i32,
-    <span class="doccomment">/// Maximum length allowed for a text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_length: i32,
-}
-<span class="doccomment">/// Limits for long text Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LongTextLimits {
-    <span class="doccomment">/// Minimum length allowed for a long text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_length: i32,
-    <span class="doccomment">/// Maximum length allowed for a long text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_length: i32,
-}
-<span class="doccomment">/// Limits for integer Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IntegerLimits {
-    <span class="doccomment">/// Minimum value for an integer Field type.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_value: i64,
-    <span class="doccomment">/// Maximum value for an integer Field type.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_value: i64,
-}
-<span class="doccomment">/// Limits for date Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DateLimits {
-    <span class="doccomment">/// Minimum value for the date Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-    <span class="doccomment">/// Maximum value for the date Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-}
-<span class="doccomment">/// Limits for selection Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SelectionLimits {
-    <span class="doccomment">/// Limits for list-variant of a Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
-    <span class="doccomment">/// Maximum ID length for a selection options.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_id_length: i32,
-    <span class="doccomment">/// Maximum length for display name.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_display_name_length: i32,
-    <span class="doccomment">/// The max number of choices.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>max_choices: i32,
-    <span class="doccomment">/// Maximum number of deleted choices.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>max_deleted_choices: i32,
-}
-<span class="doccomment">/// Limits for Field.Type.USER.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UserLimits {
-    <span class="doccomment">/// Limits for list-variant of a Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
-}
 <span class="doccomment">/// The capabilities of a user.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5900,400 +6294,6 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-    }
-}
-<span class="doccomment">/// Describes violations in a request to create or update a Label or its
-/// Fields.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InvalidArgument {
-    <span class="doccomment">/// Describes all violations in a client request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>field_violations: ::prost::alloc::vec::Vec&lt;invalid_argument::FieldViolation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `InvalidArgument`.
-</span><span class="kw">pub mod </span>invalid_argument {
-    <span class="doccomment">/// Describes the Field in which the violation occurred.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>FieldViolation {
-        <span class="doccomment">/// The path to the field where this violation occurred. This path is
-        /// specified using `FieldMask` format:
-        /// &lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>field: ::prost::alloc::string::String,
-        <span class="doccomment">/// The detailed reason for this FieldViolation.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"field_violation::Reason"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>reason: i32,
-        <span class="doccomment">/// A message that describes the violation. This message is intended to
-        /// be shown to end users, and is localized into the requesting user's
-        /// preferred language.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>display_message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FieldViolation`.
-    </span><span class="kw">pub mod </span>field_violation {
-        <span class="doccomment">/// Possible reasons a field is invalid.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Reason {
-            <span class="doccomment">/// Unknown reason.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The referenced field is required.
-            </span>FieldRequired = <span class="number">1</span>,
-            <span class="doccomment">/// The referenced value was invalid.
-            </span>InvalidValue = <span class="number">2</span>,
-            <span class="doccomment">/// The specified numeric value is out of the allowed range.
-            </span>ValueOutOfRange = <span class="number">3</span>,
-            <span class="doccomment">/// The specified string value was too long.
-            </span>StringValueTooLong = <span class="number">4</span>,
-            <span class="doccomment">/// The number of entries exceeded the maximum.
-            </span>MaxEntriesExceeded = <span class="number">5</span>,
-            <span class="doccomment">/// The specified field is not found in the Label.
-            </span>FieldNotFound = <span class="number">6</span>,
-            <span class="doccomment">/// The specified choice is not found in the Field.
-            </span>ChoiceNotFound = <span class="number">7</span>,
-        }
-        <span class="kw">impl </span>Reason {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
-                    Reason::FieldRequired =&gt; <span class="string">"FIELD_REQUIRED"</span>,
-                    Reason::InvalidValue =&gt; <span class="string">"INVALID_VALUE"</span>,
-                    Reason::ValueOutOfRange =&gt; <span class="string">"VALUE_OUT_OF_RANGE"</span>,
-                    Reason::StringValueTooLong =&gt; <span class="string">"STRING_VALUE_TOO_LONG"</span>,
-                    Reason::MaxEntriesExceeded =&gt; <span class="string">"MAX_ENTRIES_EXCEEDED"</span>,
-                    Reason::FieldNotFound =&gt; <span class="string">"FIELD_NOT_FOUND"</span>,
-                    Reason::ChoiceNotFound =&gt; <span class="string">"CHOICE_NOT_FOUND"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"FIELD_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldRequired),
-                    <span class="string">"INVALID_VALUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidValue),
-                    <span class="string">"VALUE_OUT_OF_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ValueOutOfRange),
-                    <span class="string">"STRING_VALUE_TOO_LONG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StringValueTooLong),
-                    <span class="string">"MAX_ENTRIES_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MaxEntriesExceeded),
-                    <span class="string">"FIELD_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldNotFound),
-                    <span class="string">"CHOICE_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChoiceNotFound),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-}
-<span class="doccomment">/// Describes what preconditions have failed.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PreconditionFailure {
-    <span class="doccomment">/// Describes all violations in a client request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>violation: ::prost::alloc::vec::Vec&lt;precondition_failure::Violation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PreconditionFailure`.
-</span><span class="kw">pub mod </span>precondition_failure {
-    <span class="doccomment">/// Specific failure reason.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Violation {
-        <span class="doccomment">/// The path to the field where this violation occurred. This path is
-        /// specified using `FieldMask` format:
-        /// &lt;https://developers.google.com/protocol-buffers/docs/reference/google.protobuf#fieldmask&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>field: ::prost::alloc::string::String,
-        <span class="doccomment">/// The type of this violation.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"violation::Reason"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>reason: i32,
-        <span class="doccomment">/// A message that describes the violation. This message is intended to
-        /// be shown to end users, and is localized into the requesting user's
-        /// preferred language.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>display_message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Violation`.
-    </span><span class="kw">pub mod </span>violation {
-        <span class="doccomment">/// The possible reasons a the violation occurred.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Reason {
-            <span class="doccomment">/// Unknown violation type.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// This Resource cannot be Disabled. Only Published resources can be
-            /// Disabled.
-            </span>CannotDisable = <span class="number">1</span>,
-            <span class="doccomment">/// This Resource cannot be Enabled. Only Disabled resources can be
-            /// Enabled.
-            </span>CannotEnable = <span class="number">2</span>,
-            <span class="doccomment">/// This Resource cannot be Published. Only Draft or Disabled resources
-            /// can be Published.
-            </span>CannotPublish = <span class="number">3</span>,
-            <span class="doccomment">/// This Resource cannot be Unpublished. Once published, resources may
-            /// not be set in "Draft" state.
-            </span>CannotUnpublish = <span class="number">4</span>,
-            <span class="doccomment">/// This Resource cannot be Deleted. Only Disabled resources
-            /// can be Deleted.
-            </span>CannotDelete = <span class="number">5</span>,
-            <span class="doccomment">/// The request modified a range in a Field, but the new range does
-            /// not include the previous range. When this error happens, `field` points
-            /// at the Field where the violation occurred.
-            </span>CannotRestrictRange = <span class="number">6</span>,
-            <span class="doccomment">/// The specified change cannot be made to published Resources.
-            </span>CannotChangePublishedField = <span class="number">7</span>,
-            <span class="doccomment">/// The customer cannot create new labels because the maximum number
-            /// of labels for the customer has been reached.
-            </span>CannotCreateMoreLabels = <span class="number">8</span>,
-            <span class="doccomment">/// The Field type cannot be changed because the Field has been published.
-            </span>CannotChangePublishedFieldType = <span class="number">9</span>,
-            <span class="doccomment">/// The Label component is locked and cannot be modified
-            </span>CannotModifyLockedComponent = <span class="number">10</span>,
-        }
-        <span class="kw">impl </span>Reason {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
-                    Reason::CannotDisable =&gt; <span class="string">"CANNOT_DISABLE"</span>,
-                    Reason::CannotEnable =&gt; <span class="string">"CANNOT_ENABLE"</span>,
-                    Reason::CannotPublish =&gt; <span class="string">"CANNOT_PUBLISH"</span>,
-                    Reason::CannotUnpublish =&gt; <span class="string">"CANNOT_UNPUBLISH"</span>,
-                    Reason::CannotDelete =&gt; <span class="string">"CANNOT_DELETE"</span>,
-                    Reason::CannotRestrictRange =&gt; <span class="string">"CANNOT_RESTRICT_RANGE"</span>,
-                    Reason::CannotChangePublishedField =&gt; <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD"</span>,
-                    Reason::CannotCreateMoreLabels =&gt; <span class="string">"CANNOT_CREATE_MORE_LABELS"</span>,
-                    Reason::CannotChangePublishedFieldType =&gt; {
-                        <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD_TYPE"
-                    </span>}
-                    Reason::CannotModifyLockedComponent =&gt; {
-                        <span class="string">"CANNOT_MODIFY_LOCKED_COMPONENT"
-                    </span>}
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"CANNOT_DISABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotDisable),
-                    <span class="string">"CANNOT_ENABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotEnable),
-                    <span class="string">"CANNOT_PUBLISH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotPublish),
-                    <span class="string">"CANNOT_UNPUBLISH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotUnpublish),
-                    <span class="string">"CANNOT_DELETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotDelete),
-                    <span class="string">"CANNOT_RESTRICT_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotRestrictRange),
-                    <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotChangePublishedField)
-                    }
-                    <span class="string">"CANNOT_CREATE_MORE_LABELS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotCreateMoreLabels),
-                    <span class="string">"CANNOT_CHANGE_PUBLISHED_FIELD_TYPE" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotChangePublishedFieldType)
-                    }
-                    <span class="string">"CANNOT_MODIFY_LOCKED_COMPONENT" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CannotModifyLockedComponent)
-                    }
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-}
-<span class="doccomment">/// Exception detail.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExceptionDetail {
-    <span class="doccomment">/// The type of exception that occurred. Required.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ExceptionType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>error_type: i32,
-}
-<span class="doccomment">/// Every ExceptionType maps to one and only one Exception class. This allows
-/// internal clients to identify the exact server exception that caused the
-/// error for debugging and logging purposes.
-/// Add new ExceptionTypes to EXCEPTION_TYPE_TO_ERROR_CODE_MAP in
-/// j/c/g/apps/boq/metadata/model/service/exceptions/CategoryExceptionHelper
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ExceptionType {
-    <span class="doccomment">/// Unknown ExceptionType.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The required field is missing.
-    </span>FieldRequired = <span class="number">1</span>,
-    <span class="doccomment">/// Unable to create a metamodel with the given ID because it already exists.
-    </span>MetamodelAlreadyExists = <span class="number">2</span>,
-    <span class="doccomment">/// Metamodel was not found
-    </span>MetamodelNotFound = <span class="number">3</span>,
-    <span class="doccomment">/// Metamodel state transition isn't allowed.
-    </span>IllegalMetamodelStateTransition = <span class="number">4</span>,
-    <span class="doccomment">/// Metamodel deprecation policy is invalid.
-    </span>InvalidMetamodelDeprecationPolicy = <span class="number">5</span>,
-    <span class="doccomment">/// Cannot delete a metamodel due to the pending deprecation policy.
-    </span>MetamodelDeletionDeniedUntil = <span class="number">6</span>,
-    <span class="doccomment">/// A Field value is invalid.
-    </span>InvalidField = <span class="number">7</span>,
-    <span class="doccomment">/// Precondition failed when updating a metamodel
-    </span>MetamodelPreconditionFailed = <span class="number">8</span>,
-    <span class="doccomment">/// Multiple fields had the same key.
-    </span>DuplicateFieldKey = <span class="number">9</span>,
-    <span class="doccomment">/// Removing a field from a Metamodel (e.g. a published Metamodel) is not
-    /// permitted.
-    </span>IllegalFieldRemoval = <span class="number">10</span>,
-    <span class="doccomment">/// Cannot specify field options for a different field type.
-    </span>IllegalFieldOptionsForField = <span class="number">11</span>,
-    <span class="doccomment">/// Some changes are not supported
-    </span>UnsupportedChangeToPublishedMetamodel = <span class="number">12</span>,
-    <span class="doccomment">/// Cannot change the metamodel state in an update
-    </span>IllegalMetamodelStateTransitionInUpdate = <span class="number">13</span>,
-    <span class="doccomment">/// The page token is expired
-    </span>PageTokenExpired = <span class="number">14</span>,
-    <span class="doccomment">/// The user is not authorized to make the request.
-    </span>NotAuthorized = <span class="number">15</span>,
-    <span class="doccomment">/// Illegal field state transition
-    </span>IllegalFieldStateTransition = <span class="number">16</span>,
-    <span class="doccomment">/// Illegal choice set option state transition
-    </span>IllegalChoiceSetOptionStateTransition = <span class="number">17</span>,
-    <span class="doccomment">/// Invalid choice set options
-    </span>InvalidChoiceSetOptions = <span class="number">18</span>,
-    <span class="doccomment">/// Invalid field key
-    </span>InvalidFieldKey = <span class="number">19</span>,
-    <span class="doccomment">/// A specified property on a field is outside the allowed range.
-    </span>InvalidFieldPropertyRange = <span class="number">20</span>,
-    <span class="doccomment">/// A localized string wasn't valid. This may be because the locale is invalid,
-    /// its missing a default value, or the translation is empty for a set locale.
-    </span>InvalidLocalizedString = <span class="number">21</span>,
-    <span class="doccomment">/// cannot change a property on a published field
-    </span>IllegalChangeToPublishedField = <span class="number">22</span>,
-    <span class="doccomment">/// A field update is not inclusive of the previous value
-    </span>InvalidFieldUpdateNotInclusive = <span class="number">23</span>,
-    <span class="doccomment">/// A field update is not inclusive of the previous value
-    </span>InvalidChoiceSetState = <span class="number">24</span>,
-    <span class="doccomment">/// An unknown error occurred
-    </span>InternalServerError = <span class="number">500</span>,
-}
-<span class="kw">impl </span>ExceptionType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ExceptionType::Unspecified =&gt; <span class="string">"EXCEPTION_TYPE_UNSPECIFIED"</span>,
-            ExceptionType::FieldRequired =&gt; <span class="string">"FIELD_REQUIRED"</span>,
-            ExceptionType::MetamodelAlreadyExists =&gt; <span class="string">"METAMODEL_ALREADY_EXISTS"</span>,
-            ExceptionType::MetamodelNotFound =&gt; <span class="string">"METAMODEL_NOT_FOUND"</span>,
-            ExceptionType::IllegalMetamodelStateTransition =&gt; {
-                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION"
-            </span>}
-            ExceptionType::InvalidMetamodelDeprecationPolicy =&gt; {
-                <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY"
-            </span>}
-            ExceptionType::MetamodelDeletionDeniedUntil =&gt; {
-                <span class="string">"METAMODEL_DELETION_DENIED_UNTIL"
-            </span>}
-            ExceptionType::InvalidField =&gt; <span class="string">"INVALID_FIELD"</span>,
-            ExceptionType::MetamodelPreconditionFailed =&gt; <span class="string">"METAMODEL_PRECONDITION_FAILED"</span>,
-            ExceptionType::DuplicateFieldKey =&gt; <span class="string">"DUPLICATE_FIELD_KEY"</span>,
-            ExceptionType::IllegalFieldRemoval =&gt; <span class="string">"ILLEGAL_FIELD_REMOVAL"</span>,
-            ExceptionType::IllegalFieldOptionsForField =&gt; {
-                <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD"
-            </span>}
-            ExceptionType::UnsupportedChangeToPublishedMetamodel =&gt; {
-                <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL"
-            </span>}
-            ExceptionType::IllegalMetamodelStateTransitionInUpdate =&gt; {
-                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE"
-            </span>}
-            ExceptionType::PageTokenExpired =&gt; <span class="string">"PAGE_TOKEN_EXPIRED"</span>,
-            ExceptionType::NotAuthorized =&gt; <span class="string">"NOT_AUTHORIZED"</span>,
-            ExceptionType::IllegalFieldStateTransition =&gt; {
-                <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION"
-            </span>}
-            ExceptionType::IllegalChoiceSetOptionStateTransition =&gt; {
-                <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION"
-            </span>}
-            ExceptionType::InvalidChoiceSetOptions =&gt; <span class="string">"INVALID_CHOICE_SET_OPTIONS"</span>,
-            ExceptionType::InvalidFieldKey =&gt; <span class="string">"INVALID_FIELD_KEY"</span>,
-            ExceptionType::InvalidFieldPropertyRange =&gt; <span class="string">"INVALID_FIELD_PROPERTY_RANGE"</span>,
-            ExceptionType::InvalidLocalizedString =&gt; <span class="string">"INVALID_LOCALIZED_STRING"</span>,
-            ExceptionType::IllegalChangeToPublishedField =&gt; {
-                <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD"
-            </span>}
-            ExceptionType::InvalidFieldUpdateNotInclusive =&gt; {
-                <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE"
-            </span>}
-            ExceptionType::InvalidChoiceSetState =&gt; <span class="string">"INVALID_CHOICE_SET_STATE"</span>,
-            ExceptionType::InternalServerError =&gt; <span class="string">"INTERNAL_SERVER_ERROR"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"EXCEPTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"FIELD_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldRequired),
-            <span class="string">"METAMODEL_ALREADY_EXISTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelAlreadyExists),
-            <span class="string">"METAMODEL_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelNotFound),
-            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransition)
-            }
-            <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidMetamodelDeprecationPolicy)
-            }
-            <span class="string">"METAMODEL_DELETION_DENIED_UNTIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelDeletionDeniedUntil),
-            <span class="string">"INVALID_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidField),
-            <span class="string">"METAMODEL_PRECONDITION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelPreconditionFailed),
-            <span class="string">"DUPLICATE_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateFieldKey),
-            <span class="string">"ILLEGAL_FIELD_REMOVAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldRemoval),
-            <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldOptionsForField),
-            <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedChangeToPublishedMetamodel)
-            }
-            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransitionInUpdate)
-            }
-            <span class="string">"PAGE_TOKEN_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PageTokenExpired),
-            <span class="string">"NOT_AUTHORIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAuthorized),
-            <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldStateTransition),
-            <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChoiceSetOptionStateTransition)
-            }
-            <span class="string">"INVALID_CHOICE_SET_OPTIONS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetOptions),
-            <span class="string">"INVALID_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldKey),
-            <span class="string">"INVALID_FIELD_PROPERTY_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldPropertyRange),
-            <span class="string">"INVALID_LOCALIZED_STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidLocalizedString),
-            <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChangeToPublishedField)
-            }
-            <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldUpdateNotInclusive)
-            }
-            <span class="string">"INVALID_CHOICE_SET_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetState),
-            <span class="string">"INTERNAL_SERVER_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalServerError),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
     }
 }
 </code></pre></div></section></main></body></html>
