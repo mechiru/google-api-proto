@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Input"],"mod":["search_result_list"],"struct":["SearchParams","SearchResultList"]};

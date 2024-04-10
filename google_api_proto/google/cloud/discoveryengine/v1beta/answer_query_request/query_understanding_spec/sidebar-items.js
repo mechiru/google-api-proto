@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["query_classification_spec"],"struct":["QueryClassificationSpec","QueryRephraserSpec"]};
