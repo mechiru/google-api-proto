@@ -8,10 +8,18 @@
 <a href="#6" id="6">6</a>
 <a href="#7" id="7">7</a>
 <a href="#8" id="8">8</a>
+<a href="#9" id="9">9</a>
+<a href="#10" id="10">10</a>
+<a href="#11" id="11">11</a>
+<a href="#12" id="12">12</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-merchant-conversions-v1beta"</span>))]
 </span><span class="kw">pub mod </span>conversions;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-merchant-inventories-v1beta"</span>))]
 </span><span class="kw">pub mod </span>inventories;
+<span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-merchant-lfp-v1beta"</span>))]
+</span><span class="kw">pub mod </span>lfp;
+<span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-merchant-notifications-v1beta"</span>))]
+</span><span class="kw">pub mod </span>notifications;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-merchant-quota-v1beta"</span>))]
 </span><span class="kw">pub mod </span>quota;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-shopping-merchant-reports-v1beta"</span>))]

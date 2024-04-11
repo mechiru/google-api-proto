@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["lfp_inventory_service_client","lfp_sale_service_client","lfp_store","lfp_store_service_client"],"struct":["DeleteLfpStoreRequest","GetLfpStoreRequest","InsertLfpInventoryRequest","InsertLfpSaleRequest","InsertLfpStoreRequest","LfpInventory","LfpSale","LfpStore","ListLfpStoresRequest","ListLfpStoresResponse"]};
