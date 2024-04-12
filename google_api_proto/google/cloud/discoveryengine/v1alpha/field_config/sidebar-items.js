@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["CompletableOption","DynamicFacetableOption","FieldType","FilterableOption","IndexableOption","RetrievableOption","SearchableOption"]};
+window.SIDEBAR_ITEMS = {"enum":["AdvancedSiteSearchDataSource","CompletableOption","DynamicFacetableOption","FieldType","FilterableOption","IndexableOption","RetrievableOption","SearchableOption"]};
