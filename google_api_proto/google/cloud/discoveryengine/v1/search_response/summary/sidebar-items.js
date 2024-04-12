@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SummarySkippedReason"],"struct":["Citation","CitationMetadata","CitationSource","Reference","SafetyAttributes","SummaryWithMetadata"]};
+window.SIDEBAR_ITEMS = {"enum":["SummarySkippedReason"],"mod":["reference"],"struct":["Citation","CitationMetadata","CitationSource","Reference","SafetyAttributes","SummaryWithMetadata"]};
