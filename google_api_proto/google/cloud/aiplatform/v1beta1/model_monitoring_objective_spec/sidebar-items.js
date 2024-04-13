@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Objective"],"struct":["DataDriftSpec","FeatureAttributionSpec","TabularObjective"]};

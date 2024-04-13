@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DataLocation"],"mod":["model_monitoring_big_query_source","model_monitoring_gcs_source"],"struct":["ModelMonitoringBigQuerySource","ModelMonitoringGcsSource"]};

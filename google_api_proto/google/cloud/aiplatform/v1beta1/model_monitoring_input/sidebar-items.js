@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Dataset","TimeSpec"],"mod":["model_monitoring_dataset"],"struct":["BatchPredictionOutput","ModelMonitoringDataset","TimeOffset","VertexEndpointLogs"]};

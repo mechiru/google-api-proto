@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DefaultObjective"],"mod":["model_monitoring_target"],"struct":["ModelMonitoringTarget"]};
