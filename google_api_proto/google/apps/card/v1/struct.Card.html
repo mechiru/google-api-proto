@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A card interface displayed in a Google Chat message or Google Workspace Add-on."><title>Card in google_api_proto::google::apps::card::v1 - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.2 (25ef9e3d8 2024-04-09)" data-channel="1.77.2" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc struct"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../../../google_api_proto/index.html">google_api_proto</a><span class="version">1.591.0</span></h2></div><h2 class="location"><a href="#">Card</a></h2><div class="sidebar-elems"><section><h3><a href="#fields">Fields</a></h3><ul class="block structfield"><li><a href="#structfield.card_actions">card_actions</a></li><li><a href="#structfield.display_style">display_style</a></li><li><a href="#structfield.fixed_footer">fixed_footer</a></li><li><a href="#structfield.header">header</a></li><li><a href="#structfield.name">name</a></li><li><a href="#structfield.peek_card_header">peek_card_header</a></li><li><a href="#structfield.section_divider_style">section_divider_style</a></li><li><a href="#structfield.sections">sections</a></li></ul><h3><a href="#implementations">Methods</a></h3><ul class="block method"><li><a href="#method.display_style">display_style</a></li><li><a href="#method.section_divider_style">section_divider_style</a></li><li><a href="#method.set_display_style">set_display_style</a></li><li><a href="#method.set_section_divider_style">set_section_divider_style</a></li></ul><h3><a href="#trait-implementations">Trait Implementations</a></h3><ul class="block trait-implementation"><li><a href="#impl-Clone-for-Card">Clone</a></li><li><a href="#impl-Debug-for-Card">Debug</a></li><li><a href="#impl-Default-for-Card">Default</a></li><li><a href="#impl-Message-for-Card">Message</a></li><li><a href="#impl-PartialEq-for-Card">PartialEq</a></li><li><a href="#impl-StructuralPartialEq-for-Card">StructuralPartialEq</a></li></ul><h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-RefUnwindSafe-for-Card">RefUnwindSafe</a></li><li><a href="#impl-Send-for-Card">Send</a></li><li><a href="#impl-Sync-for-Card">Sync</a></li><li><a href="#impl-Unpin-for-Card">Unpin</a></li><li><a href="#impl-UnwindSafe-for-Card">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">Blanket Implementations</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T">Borrow&lt;T&gt;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T">BorrowMut&lt;T&gt;</a></li><li><a href="#impl-From%3CT%3E-for-T">From&lt;T&gt;</a></li><li><a href="#impl-FromRef%3CT%3E-for-T">FromRef&lt;T&gt;</a></li><li><a href="#impl-Instrument-for-T">Instrument</a></li><li><a href="#impl-Into%3CU%3E-for-T">Into&lt;U&gt;</a></li><li><a href="#impl-IntoRequest%3CT%3E-for-T">IntoRequest&lt;T&gt;</a></li><li><a href="#impl-ToOwned-for-T">ToOwned</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T">TryFrom&lt;U&gt;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T">TryInto&lt;U&gt;</a></li><li><a href="#impl-VZip%3CV%3E-for-T">VZip&lt;V&gt;</a></li><li><a href="#impl-WithSubscriber-for-T">WithSubscriber</a></li></ul></section><h2><a href="index.html">In google_api_proto::google::apps::card::v1</a></h2></div></nav><div class="sidebar-resizer"></div>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="A card interface displayed in a Google Chat message or Google Workspace Add-on."><title>Card in google_api_proto::google::apps::card::v1 - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-5bc39a1768837dd0.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.77.2 (25ef9e3d8 2024-04-09)" data-channel="1.77.2" data-search-js="search-dd67cee4cfa65049.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-4c98445ec4002617.js"></script><script defer src="sidebar-items.js"></script><script defer src="../../../../../static.files/main-48f368f3872407c8.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-04d5337699b92874.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc struct"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle" title="show sidebar"></button></nav><nav class="sidebar"><div class="sidebar-crate"><h2><a href="../../../../../google_api_proto/index.html">google_api_proto</a><span class="version">1.592.0</span></h2></div><h2 class="location"><a href="#">Card</a></h2><div class="sidebar-elems"><section><h3><a href="#fields">Fields</a></h3><ul class="block structfield"><li><a href="#structfield.card_actions">card_actions</a></li><li><a href="#structfield.display_style">display_style</a></li><li><a href="#structfield.fixed_footer">fixed_footer</a></li><li><a href="#structfield.header">header</a></li><li><a href="#structfield.name">name</a></li><li><a href="#structfield.peek_card_header">peek_card_header</a></li><li><a href="#structfield.section_divider_style">section_divider_style</a></li><li><a href="#structfield.sections">sections</a></li></ul><h3><a href="#implementations">Methods</a></h3><ul class="block method"><li><a href="#method.display_style">display_style</a></li><li><a href="#method.section_divider_style">section_divider_style</a></li><li><a href="#method.set_display_style">set_display_style</a></li><li><a href="#method.set_section_divider_style">set_section_divider_style</a></li></ul><h3><a href="#trait-implementations">Trait Implementations</a></h3><ul class="block trait-implementation"><li><a href="#impl-Clone-for-Card">Clone</a></li><li><a href="#impl-Debug-for-Card">Debug</a></li><li><a href="#impl-Default-for-Card">Default</a></li><li><a href="#impl-Message-for-Card">Message</a></li><li><a href="#impl-PartialEq-for-Card">PartialEq</a></li><li><a href="#impl-StructuralPartialEq-for-Card">StructuralPartialEq</a></li></ul><h3><a href="#synthetic-implementations">Auto Trait Implementations</a></h3><ul class="block synthetic-implementation"><li><a href="#impl-RefUnwindSafe-for-Card">RefUnwindSafe</a></li><li><a href="#impl-Send-for-Card">Send</a></li><li><a href="#impl-Sync-for-Card">Sync</a></li><li><a href="#impl-Unpin-for-Card">Unpin</a></li><li><a href="#impl-UnwindSafe-for-Card">UnwindSafe</a></li></ul><h3><a href="#blanket-implementations">Blanket Implementations</a></h3><ul class="block blanket-implementation"><li><a href="#impl-Any-for-T">Any</a></li><li><a href="#impl-Borrow%3CT%3E-for-T">Borrow&lt;T&gt;</a></li><li><a href="#impl-BorrowMut%3CT%3E-for-T">BorrowMut&lt;T&gt;</a></li><li><a href="#impl-From%3CT%3E-for-T">From&lt;T&gt;</a></li><li><a href="#impl-FromRef%3CT%3E-for-T">FromRef&lt;T&gt;</a></li><li><a href="#impl-Instrument-for-T">Instrument</a></li><li><a href="#impl-Into%3CU%3E-for-T">Into&lt;U&gt;</a></li><li><a href="#impl-IntoRequest%3CT%3E-for-T">IntoRequest&lt;T&gt;</a></li><li><a href="#impl-ToOwned-for-T">ToOwned</a></li><li><a href="#impl-TryFrom%3CU%3E-for-T">TryFrom&lt;U&gt;</a></li><li><a href="#impl-TryInto%3CU%3E-for-T">TryInto&lt;U&gt;</a></li><li><a href="#impl-VZip%3CV%3E-for-T">VZip&lt;V&gt;</a></li><li><a href="#impl-WithSubscriber-for-T">WithSubscriber</a></li></ul></section><h2><a href="index.html">In google_api_proto::google::apps::card::v1</a></h2></div></nav><div class="sidebar-resizer"></div>
     <main><div class="width-limiter"><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="main-heading"><h1>Struct <a href="../../../../index.html">google_api_proto</a>::<wbr><a href="../../../index.html">google</a>::<wbr><a href="../../index.html">apps</a>::<wbr><a href="../index.html">card</a>::<wbr><a href="index.html">v1</a>::<wbr><a class="struct" href="#">Card</a><button id="copy-path" title="Copy item path to clipboard"><img src="../../../../../static.files/clipboard-7571035ce49a181d.svg" width="19" height="18" alt="Copy item path"></button></h1><span class="out-of-band"><a class="src" href="../../../../../src/google_api_proto/google/apps/card/v1/mod.rs.html#108-195">source</a> · <button id="toggle-all-docs" title="collapse all docs">[<span>&#x2212;</span>]</button></span></div><pre class="rust item-decl"><code>pub struct Card {
     pub header: <a class="enum" href="https://doc.rust-lang.org/1.77.2/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="card/struct.CardHeader.html" title="struct google_api_proto::google::apps::card::v1::card::CardHeader">CardHeader</a>&gt;,
     pub sections: <a class="struct" href="https://doc.rust-lang.org/1.77.2/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="card/struct.Section.html" title="struct google_api_proto::google::apps::card::v1::card::Section">Section</a>&gt;,
@@ -17,13 +17,13 @@ gather information from users, and guide users to take a next step.</p>
 <p>To learn how
 to build cards, see the following documentation:</p>
 <ul>
-<li>For Google Chat apps, see <a href="https://developers.google.com/chat/ui">Design dynamic, interactive, and consistent UIs
-with cards</a>.</li>
+<li>For Google Chat apps, see <a href="https://developers.google.com/workspace/chat/design-components-card-dialog">Design the components of a card or
+dialog</a>.</li>
 <li>For Google Workspace Add-ons, see <a href="https://developers.google.com/apps-script/add-ons/concepts/cards">Card-based
 interfaces</a>.</li>
 </ul>
 <p><strong>Example: Card message for a Google Chat app</strong></p>
-<p><img src="https://developers.google.com/chat/images/card_api_reference.png" alt="Example contact card" /></p>
+<p><img src="https://developers.google.com/workspace/chat/images/card_api_reference.png" alt="Example contact card" /></p>
 <p>To create the sample card message in Google Chat, use the following JSON:</p>
 
 <div class="example-wrap"><pre class="rust rust-example-rendered"><code>{
@@ -32,84 +32,84 @@ interfaces</a>.</li>
        <span class="string">"cardId"</span>: <span class="string">"unique-card-id"</span>,
        <span class="string">"card"</span>: {
          <span class="string">"header"</span>: {
-           <span class="string">"title"</span>: <span class="string">"Sasha"</span>,
-           <span class="string">"subtitle"</span>: <span class="string">"Software Engineer"</span>,
-           <span class="string">"imageUrl"</span>:
-           <span class="string">"&lt;https://developers.google.com/chat/images/quickstart-app-avatar.png"</span>,&gt;
-           <span class="string">"imageType"</span>: <span class="string">"CIRCLE"</span>,
-           <span class="string">"imageAltText"</span>: <span class="string">"Avatar for Sasha"</span>,
-         },
-         <span class="string">"sections"</span>: [
-           {
-             <span class="string">"header"</span>: <span class="string">"Contact Info"</span>,
-             <span class="string">"collapsible"</span>: <span class="bool-val">true</span>,
-             <span class="string">"uncollapsibleWidgetsCount"</span>: <span class="number">1</span>,
-             <span class="string">"widgets"</span>: [
-               {
-                 <span class="string">"decoratedText"</span>: {
-                   <span class="string">"startIcon"</span>: {
-                     <span class="string">"knownIcon"</span>: <span class="string">"EMAIL"</span>,
-                   },
-                   <span class="string">"text"</span>: <span class="string">"sasha@example.com"</span>,
-                 }
-               },
-               {
-                 <span class="string">"decoratedText"</span>: {
-                   <span class="string">"startIcon"</span>: {
-                     <span class="string">"knownIcon"</span>: <span class="string">"PERSON"</span>,
-                   },
-                   <span class="string">"text"</span>: <span class="string">"&lt;font color=\"#80e27e\"&gt;Online&lt;/font&gt;"</span>,
-                 },
-               },
-               {
-                 <span class="string">"decoratedText"</span>: {
-                   <span class="string">"startIcon"</span>: {
-                     <span class="string">"knownIcon"</span>: <span class="string">"PHONE"</span>,
-                   },
-                   <span class="string">"text"</span>: <span class="string">"+1 (555) 555-1234"</span>,
-                 }
-               },
-               {
-                 <span class="string">"buttonList"</span>: {
-                   <span class="string">"buttons"</span>: [
-                     {
-                       <span class="string">"text"</span>: <span class="string">"Share"</span>,
-                       <span class="string">"onClick"</span>: {
+            <span class="string">"title"</span>: <span class="string">"Sasha"</span>,
+            <span class="string">"subtitle"</span>: <span class="string">"Software Engineer"</span>,
+            <span class="string">"imageUrl"</span>:
+            <span class="string">"&lt;https://developers.google.com/workspace/chat/images/quickstart-app-avatar.png"</span>,&gt;
+            <span class="string">"imageType"</span>: <span class="string">"CIRCLE"</span>,
+            <span class="string">"imageAltText"</span>: <span class="string">"Avatar for Sasha"
+          </span>},
+          <span class="string">"sections"</span>: [
+            {
+              <span class="string">"header"</span>: <span class="string">"Contact Info"</span>,
+              <span class="string">"collapsible"</span>: <span class="bool-val">true</span>,
+              <span class="string">"uncollapsibleWidgetsCount"</span>: <span class="number">1</span>,
+              <span class="string">"widgets"</span>: [
+                {
+                  <span class="string">"decoratedText"</span>: {
+                    <span class="string">"startIcon"</span>: {
+                      <span class="string">"knownIcon"</span>: <span class="string">"EMAIL"
+                    </span>},
+                    <span class="string">"text"</span>: <span class="string">"sasha@example.com"
+                  </span>}
+                },
+                {
+                  <span class="string">"decoratedText"</span>: {
+                    <span class="string">"startIcon"</span>: {
+                      <span class="string">"knownIcon"</span>: <span class="string">"PERSON"
+                    </span>},
+                    <span class="string">"text"</span>: <span class="string">"&lt;font color=\"#80e27e\"&gt;Online&lt;/font&gt;"
+                  </span>}
+                },
+                {
+                  <span class="string">"decoratedText"</span>: {
+                    <span class="string">"startIcon"</span>: {
+                      <span class="string">"knownIcon"</span>: <span class="string">"PHONE"
+                    </span>},
+                    <span class="string">"text"</span>: <span class="string">"+1 (555) 555-1234"
+                  </span>}
+                },
+                {
+                  <span class="string">"buttonList"</span>: {
+                    <span class="string">"buttons"</span>: [
+                      {
+                        <span class="string">"text"</span>: <span class="string">"Share"</span>,
+                        <span class="string">"onClick"</span>: {
                          <span class="string">"openLink"</span>: {
-                           <span class="string">"url"</span>: <span class="string">"&lt;https://example.com/share"</span>,&gt;
-                         }
-                       }
-                     },
-                     {
-                       <span class="string">"text"</span>: <span class="string">"Edit"</span>,
-                       <span class="string">"onClick"</span>: {
-                         <span class="string">"action"</span>: {
-                           <span class="string">"function"</span>: <span class="string">"goToView"</span>,
-                           <span class="string">"parameters"</span>: [
-                             {
-                               <span class="string">"key"</span>: <span class="string">"viewType"</span>,
-                               <span class="string">"value"</span>: <span class="string">"EDIT"</span>,
-                             }
-                           ],
-                         }
-                       }
-                     },
-                   ],
-                 }
-               },
-             ],
-           },
-         ],
-       },
+                            <span class="string">"url"</span>: <span class="string">"&lt;https://example.com/share"</span>&gt;
+                          }
+                        }
+                      },
+                      {
+                        <span class="string">"text"</span>: <span class="string">"Edit"</span>,
+                        <span class="string">"onClick"</span>: {
+                          <span class="string">"action"</span>: {
+                            <span class="string">"function"</span>: <span class="string">"goToView"</span>,
+                            <span class="string">"parameters"</span>: [
+                              {
+                                <span class="string">"key"</span>: <span class="string">"viewType"</span>,
+                                <span class="string">"value"</span>: <span class="string">"EDIT"
+                              </span>}
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
      }
-   ],
+   ]
 }</code></pre></div>
 </div></details><h2 id="fields" class="fields section-header">Fields<a href="#fields" class="anchor">§</a></h2><span id="structfield.header" class="structfield section-header"><a href="#structfield.header" class="anchor field">§</a><code>header: <a class="enum" href="https://doc.rust-lang.org/1.77.2/core/option/enum.Option.html" title="enum core::option::Option">Option</a>&lt;<a class="struct" href="card/struct.CardHeader.html" title="struct google_api_proto::google::apps::card::v1::card::CardHeader">CardHeader</a>&gt;</code></span><div class="docblock"><p>The header of the card. A header usually contains a leading image and a
 title. Headers always appear at the top of a card.</p>
 </div><span id="structfield.sections" class="structfield section-header"><a href="#structfield.sections" class="anchor field">§</a><code>sections: <a class="struct" href="https://doc.rust-lang.org/1.77.2/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="card/struct.Section.html" title="struct google_api_proto::google::apps::card::v1::card::Section">Section</a>&gt;</code></span><div class="docblock"><p>Contains a collection of widgets. Each section has its own, optional
 header. Sections are visually separated by a line divider. For an example
-in Google Chat apps, see <a href="https://developers.google.com/chat/ui/widgets/card-section">Card
-section</a>.</p>
+in Google Chat apps, see <a href="https://developers.google.com/workspace/chat/design-components-card-dialog#define_a_section_of_a_card">Define a section of a
+card</a>.</p>
 </div><span id="structfield.section_divider_style" class="structfield section-header"><a href="#structfield.section_divider_style" class="anchor field">§</a><code>section_divider_style: <a class="primitive" href="https://doc.rust-lang.org/1.77.2/std/primitive.i32.html">i32</a></code></span><div class="docblock"><p>The divider style between sections.</p>
 </div><span id="structfield.card_actions" class="structfield section-header"><a href="#structfield.card_actions" class="anchor field">§</a><code>card_actions: <a class="struct" href="https://doc.rust-lang.org/1.77.2/alloc/vec/struct.Vec.html" title="struct alloc::vec::Vec">Vec</a>&lt;<a class="struct" href="card/struct.CardAction.html" title="struct google_api_proto::google::apps::card::v1::card::CardAction">CardAction</a>&gt;</code></span><div class="docblock"><p>The card’s actions. Actions are added to the card’s toolbar menu.</p>
 <p><a href="https://developers.google.com/workspace/add-ons">Google Workspace
@@ -149,8 +149,8 @@ Add-ons</a>:</p>
 <p>Setting <code>fixedFooter</code> without specifying a <code>primaryButton</code> or a
 <code>secondaryButton</code> causes an error. For Chat apps, you can use fixed footers
 in
-<a href="https://developers.google.com/chat/how-tos/dialogs">dialogs</a>, but not
-<a href="https://developers.google.com/chat/api/guides/v1/messages/create#create">card
+<a href="https://developers.google.com/workspace/chat/dialogs">dialogs</a>, but not
+<a href="https://developers.google.com/workspace/chat/create-messages#create">card
 messages</a>.</p>
 <p><a href="https://developers.google.com/workspace/extend">Google Workspace Add-ons and Chat
 apps</a>:</p>
