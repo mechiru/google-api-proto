@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ContentType","RequestMethod"],"mod":["response_status_code"],"struct":["BasicAuthentication","ResponseStatusCode"]};
+window.SIDEBAR_ITEMS = {"enum":["AuthMethod","ContentType","RequestMethod"],"mod":["response_status_code","service_agent_authentication"],"struct":["BasicAuthentication","ResponseStatusCode","ServiceAgentAuthentication"]};
