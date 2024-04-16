@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["endpointsapis","library"]};
+window.SIDEBAR_ITEMS = {"mod":["library"]};

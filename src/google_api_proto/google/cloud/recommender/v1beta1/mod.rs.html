@@ -1972,118 +1972,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Configuration for a Recommender.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RecommenderConfig {
-    <span class="doccomment">/// Name of recommender config.
-    /// Eg,
-    /// projects/\[PROJECT_NUMBER\]/locations/\[LOCATION\]/recommenders/\[RECOMMENDER_ID\]/config
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// RecommenderGenerationConfig which configures the Generation of
-    /// recommendations for this recommender.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>recommender_generation_config: ::core::option::Option&lt;
-        RecommenderGenerationConfig,
-    &gt;,
-    <span class="doccomment">/// Fingerprint of the RecommenderConfig. Provides optimistic locking when
-    /// updating.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Last time when the config was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Immutable. The revision ID of the config.
-    /// A new revision is committed whenever the config is changed in any way.
-    /// The format is an 8-character hexadecimal string.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>revision_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Allows clients to store small amounts of arbitrary data. Annotations must
-    /// follow the Kubernetes syntax.
-    /// The total size of all keys and values combined is limited to 256k.
-    /// Key can have 2 segments: prefix (optional) and name (required),
-    /// separated by a slash (/).
-    /// Prefix must be a DNS subdomain.
-    /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// A user-settable field to provide a human-readable name to be used in user
-    /// interfaces.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A Configuration to customize the generation of recommendations.
-/// Eg, customizing the lookback period considered when generating a
-/// recommendation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RecommenderGenerationConfig {
-    <span class="doccomment">/// Parameters for this RecommenderGenerationConfig. These configs can be used
-    /// by or are applied to all subtypes.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>params: ::core::option::Option&lt;::prost_types::Struct&gt;,
-}
-<span class="doccomment">/// Configuration for an InsightType.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InsightTypeConfig {
-    <span class="doccomment">/// Name of insight type config.
-    /// Eg,
-    /// projects/\[PROJECT_NUMBER\]/locations/\[LOCATION\]/insightTypes/\[INSIGHT_TYPE_ID\]/config
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// InsightTypeGenerationConfig which configures the generation of
-    /// insights for this insight type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>insight_type_generation_config: ::core::option::Option&lt;
-        InsightTypeGenerationConfig,
-    &gt;,
-    <span class="doccomment">/// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
-    /// updating.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Last time when the config was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Immutable. The revision ID of the config.
-    /// A new revision is committed whenever the config is changed in any way.
-    /// The format is an 8-character hexadecimal string.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>revision_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Allows clients to store small amounts of arbitrary data. Annotations must
-    /// follow the Kubernetes syntax.
-    /// The total size of all keys and values combined is limited to 256k.
-    /// Key can have 2 segments: prefix (optional) and name (required),
-    /// separated by a slash (/).
-    /// Prefix must be a DNS subdomain.
-    /// Name must be 63 characters or less, begin and end with alphanumerics,
-    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// A user-settable field to provide a human-readable name to be used in user
-    /// interfaces.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A configuration to customize the generation of insights.
-/// Eg, customizing the lookback period considered when generating a
-/// insight.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InsightTypeGenerationConfig {
-    <span class="doccomment">/// Parameters for this InsightTypeGenerationConfig. These configs can be used
-    /// by or are applied to all subtypes.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>params: ::core::option::Option&lt;::prost_types::Struct&gt;,
-}
 <span class="doccomment">/// A recommendation along with a suggested action. E.g., a rightsizing
 /// recommendation for an underutilized VM, IAM role recommendations, etc
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2571,6 +2459,118 @@
     /// eg:  recommenderTypes/google.iam.policy.Recommender
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Configuration for an InsightType.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InsightTypeConfig {
+    <span class="doccomment">/// Name of insight type config.
+    /// Eg,
+    /// projects/\[PROJECT_NUMBER\]/locations/\[LOCATION\]/insightTypes/\[INSIGHT_TYPE_ID\]/config
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// InsightTypeGenerationConfig which configures the generation of
+    /// insights for this insight type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>insight_type_generation_config: ::core::option::Option&lt;
+        InsightTypeGenerationConfig,
+    &gt;,
+    <span class="doccomment">/// Fingerprint of the InsightTypeConfig. Provides optimistic locking when
+    /// updating.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Last time when the config was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Immutable. The revision ID of the config.
+    /// A new revision is committed whenever the config is changed in any way.
+    /// The format is an 8-character hexadecimal string.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>revision_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Allows clients to store small amounts of arbitrary data. Annotations must
+    /// follow the Kubernetes syntax.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// A user-settable field to provide a human-readable name to be used in user
+    /// interfaces.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A configuration to customize the generation of insights.
+/// Eg, customizing the lookback period considered when generating a
+/// insight.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InsightTypeGenerationConfig {
+    <span class="doccomment">/// Parameters for this InsightTypeGenerationConfig. These configs can be used
+    /// by or are applied to all subtypes.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>params: ::core::option::Option&lt;::prost_types::Struct&gt;,
+}
+<span class="doccomment">/// Configuration for a Recommender.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RecommenderConfig {
+    <span class="doccomment">/// Name of recommender config.
+    /// Eg,
+    /// projects/\[PROJECT_NUMBER\]/locations/\[LOCATION\]/recommenders/\[RECOMMENDER_ID\]/config
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// RecommenderGenerationConfig which configures the Generation of
+    /// recommendations for this recommender.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>recommender_generation_config: ::core::option::Option&lt;
+        RecommenderGenerationConfig,
+    &gt;,
+    <span class="doccomment">/// Fingerprint of the RecommenderConfig. Provides optimistic locking when
+    /// updating.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Last time when the config was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Immutable. The revision ID of the config.
+    /// A new revision is committed whenever the config is changed in any way.
+    /// The format is an 8-character hexadecimal string.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>revision_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Allows clients to store small amounts of arbitrary data. Annotations must
+    /// follow the Kubernetes syntax.
+    /// The total size of all keys and values combined is limited to 256k.
+    /// Key can have 2 segments: prefix (optional) and name (required),
+    /// separated by a slash (/).
+    /// Prefix must be a DNS subdomain.
+    /// Name must be 63 characters or less, begin and end with alphanumerics,
+    /// with dashes (-), underscores (_), dots (.), and alphanumerics between.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// A user-settable field to provide a human-readable name to be used in user
+    /// interfaces.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A Configuration to customize the generation of recommendations.
+/// Eg, customizing the lookback period considered when generating a
+/// recommendation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RecommenderGenerationConfig {
+    <span class="doccomment">/// Parameters for this RecommenderGenerationConfig. These configs can be used
+    /// by or are applied to all subtypes.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>params: ::core::option::Option&lt;::prost_types::Struct&gt;,
 }
 <span class="doccomment">/// Request for the `ListInsights` method.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

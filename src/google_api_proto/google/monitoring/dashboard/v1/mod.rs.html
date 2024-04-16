@@ -2673,6 +2673,91 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DashboardFilter {
+    <span class="doccomment">/// Required. The key for the label
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
+    /// query. If omitted, the dashboard filter will be applied to all relevant
+    /// widgets in the dashboard.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
+    <span class="doccomment">/// The specified filter type
+    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>filter_type: i32,
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
+</span><span class="kw">pub mod </span>dashboard_filter {
+    <span class="doccomment">/// The type for the dashboard filter
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>FilterType {
+        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Filter on a resource label value
+        </span>ResourceLabel = <span class="number">1</span>,
+        <span class="doccomment">/// Filter on a metrics label value
+        </span>MetricLabel = <span class="number">2</span>,
+        <span class="doccomment">/// Filter on a user metadata label value
+        </span>UserMetadataLabel = <span class="number">3</span>,
+        <span class="doccomment">/// Filter on a system metadata label value
+        </span>SystemMetadataLabel = <span class="number">4</span>,
+        <span class="doccomment">/// Filter on a group id
+        </span>Group = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>FilterType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
+                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
+                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
+                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
+                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
+                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
+                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
+                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
+                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
+                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>DefaultValue {
+        <span class="doccomment">/// A variable-length string value.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span>StringValue(::prost::alloc::string::String),
+    }
+}
 <span class="doccomment">/// A widget that groups the other widgets. All widgets that are within
 /// the area spanned by the grouping widget are considered member widgets.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4744,91 +4829,6 @@
         <span class="doccomment">/// A widget that groups the other widgets by using a dropdown menu.
         </span><span class="attr">#[prost(message, tag = <span class="string">"22"</span>)]
         </span>SingleViewGroup(<span class="kw">super</span>::SingleViewGroup),
-    }
-}
-<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DashboardFilter {
-    <span class="doccomment">/// Required. The key for the label
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
-    /// query. If omitted, the dashboard filter will be applied to all relevant
-    /// widgets in the dashboard.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
-    <span class="doccomment">/// The specified filter type
-    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>filter_type: i32,
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
-</span><span class="kw">pub mod </span>dashboard_filter {
-    <span class="doccomment">/// The type for the dashboard filter
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>FilterType {
-        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Filter on a resource label value
-        </span>ResourceLabel = <span class="number">1</span>,
-        <span class="doccomment">/// Filter on a metrics label value
-        </span>MetricLabel = <span class="number">2</span>,
-        <span class="doccomment">/// Filter on a user metadata label value
-        </span>UserMetadataLabel = <span class="number">3</span>,
-        <span class="doccomment">/// Filter on a system metadata label value
-        </span>SystemMetadataLabel = <span class="number">4</span>,
-        <span class="doccomment">/// Filter on a group id
-        </span>Group = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>FilterType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
-                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
-                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
-                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
-                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
-                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
-                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
-                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
-                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
-                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>DefaultValue {
-        <span class="doccomment">/// A variable-length string value.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span>StringValue(::prost::alloc::string::String),
     }
 }
 <span class="doccomment">/// A basic layout divides the available space into vertical columns of equal

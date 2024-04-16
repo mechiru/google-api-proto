@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["workspaces_client"],"struct":["CreateWorkspaceRequest","DeleteWorkspaceRequest","GetWorkspaceRequest","ListWorkspacesRequest","ListWorkspacesResponse","UpdateWorkspaceRequest","Workspace"]};

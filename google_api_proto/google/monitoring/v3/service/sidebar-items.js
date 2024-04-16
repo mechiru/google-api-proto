@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Identifier"],"struct":["AppEngine","CloudEndpoints","ClusterIstio","Custom","IstioCanonicalService","MeshIstio","Telemetry"]};
+window.SIDEBAR_ITEMS = {"enum":["Identifier"],"struct":["AppEngine","BasicService","CloudEndpoints","CloudRun","ClusterIstio","Custom","GkeNamespace","GkeService","GkeWorkload","IstioCanonicalService","MeshIstio","Telemetry"]};
