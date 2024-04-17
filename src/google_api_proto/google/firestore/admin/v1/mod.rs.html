@@ -3359,6 +3359,151 @@
         }
     }
 }
+<span class="doccomment">/// Represents a single field in the database.
+///
+/// Fields are grouped by their "Collection Group", which represent all
+/// collections in the database with the same id.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Field {
+    <span class="doccomment">/// Required. A field name of the form
+    /// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`
+    ///
+    /// A field path may be a simple field name, e.g. `address` or a path to fields
+    /// within map_value , e.g. `address.city`,
+    /// or a special field path. The only valid special field is `*`, which
+    /// represents any field.
+    ///
+    /// Field paths may be quoted using ` (backtick). The only character that needs
+    /// to be escaped within a quoted field path is the backtick character itself,
+    /// escaped using a backslash. Special characters in field paths that
+    /// must be quoted include: `*`, `.`,
+    /// ``` (backtick), `\[`, `\]`, as well as any ascii symbolic characters.
+    ///
+    /// Examples:
+    /// (Note: Comments here are written in markdown syntax, so there is an
+    ///   additional layer of backticks to represent a code block)
+    /// `\`address.city\`` represents a field named `address.city`, not the map key
+    /// `city` in the field `address`.
+    /// `\`*\`` represents a field named `*`, not any field.
+    ///
+    /// A special `Field` contains the default indexing settings for all fields.
+    /// This field's resource name is:
+    /// `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`
+    /// Indexes defined on this `Field` will be applied to all fields which do not
+    /// have their own `Field` index configuration.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The index configuration for this field. If unset, field indexing will
+    /// revert to the configuration defined by the `ancestor_field`. To
+    /// explicitly remove all indexes for this field, specify an index config
+    /// with an empty list of indexes.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>index_config: ::core::option::Option&lt;field::IndexConfig&gt;,
+    <span class="doccomment">/// The TTL configuration for this `Field`.
+    /// Setting or unsetting this will enable or disable the TTL for
+    /// documents that have this `Field`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ttl_config: ::core::option::Option&lt;field::TtlConfig&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Field`.
+</span><span class="kw">pub mod </span>field {
+    <span class="doccomment">/// The index configuration for this field.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>IndexConfig {
+        <span class="doccomment">/// The indexes supported for this field.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>indexes: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Index&gt;,
+        <span class="doccomment">/// Output only. When true, the `Field`'s index configuration is set from the
+        /// configuration specified by the `ancestor_field`.
+        /// When false, the `Field`'s index configuration is defined explicitly.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>uses_ancestor_config: bool,
+        <span class="doccomment">/// Output only. Specifies the resource name of the `Field` from which this field's
+        /// index configuration is set (when `uses_ancestor_config` is true),
+        /// or from which it *would* be set if this field had no index configuration
+        /// (when `uses_ancestor_config` is false).
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>ancestor_field: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only
+        /// When true, the `Field`'s index configuration is in the process of being
+        /// reverted. Once complete, the index config will transition to the same
+        /// state as the field specified by `ancestor_field`, at which point
+        /// `uses_ancestor_config` will be `true` and `reverting` will be `false`.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>reverting: bool,
+    }
+    <span class="doccomment">/// The TTL (time-to-live) configuration for documents that have this `Field`
+    /// set.
+    /// Storing a timestamp value into a TTL-enabled field will be treated as
+    /// the document's absolute expiration time. Using any other data type or
+    /// leaving the field absent will disable the TTL for the individual document.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>TtlConfig {
+        <span class="doccomment">/// Output only. The state of the TTL configuration.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"ttl_config::State"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>state: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `TtlConfig`.
+    </span><span class="kw">pub mod </span>ttl_config {
+        <span class="doccomment">/// The state of applying the TTL configuration to all documents.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>State {
+            <span class="doccomment">/// The state is unspecified or unknown.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The TTL is being applied. There is an active long-running operation to
+            /// track the change. Newly written documents will have TTLs applied as
+            /// requested. Requested TTLs on existing documents are still being
+            /// processed. When TTLs on all existing documents have been processed, the
+            /// state will move to 'ACTIVE'.
+            </span>Creating = <span class="number">1</span>,
+            <span class="doccomment">/// The TTL is active for all documents.
+            </span>Active = <span class="number">2</span>,
+            <span class="doccomment">/// The TTL configuration could not be enabled for all existing documents.
+            /// Newly written documents will continue to have their TTL applied.
+            /// The LRO returned when last attempting to enable TTL for this `Field`
+            /// has failed, and may have more details.
+            </span>NeedsRepair = <span class="number">3</span>,
+        }
+        <span class="kw">impl </span>State {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                    State::Creating =&gt; <span class="string">"CREATING"</span>,
+                    State::Active =&gt; <span class="string">"ACTIVE"</span>,
+                    State::NeedsRepair =&gt; <span class="string">"NEEDS_REPAIR"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                    <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+                    <span class="string">"NEEDS_REPAIR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NeedsRepair),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+}
 <span class="doccomment">/// A backup schedule for a Cloud Firestore Database.
 ///
 /// This resource is owned by the database it is backing up, and is deleted along
@@ -3426,115 +3571,6 @@
     </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::r#type::DayOfWeek"</span>, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>day: i32,
 }
-<span class="doccomment">/// A Backup of a Cloud Firestore Database.
-///
-/// The backup contains all documents and index configurations for the given
-/// database at a specific point in time.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Backup {
-    <span class="doccomment">/// Output only. The unique resource name of the Backup.
-    ///
-    /// Format is `projects/{project}/locations/{location}/backups/{backup}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Name of the Firestore database that the backup is from.
-    ///
-    /// Format is `projects/{project}/databases/{database}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>database: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The system-generated UUID4 for the Firestore database that the
-    /// backup is from.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>database_uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The backup contains an externally consistent copy of the
-    /// database at this time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>snapshot_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp at which this backup expires.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Statistics about the backup.
-    ///
-    /// This data only becomes available after the backup is fully materialized to
-    /// secondary storage. This field will be empty till then.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>stats: ::core::option::Option&lt;backup::Stats&gt;,
-    <span class="doccomment">/// Output only. The current state of the backup.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"backup::State"</span>, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `Backup`.
-</span><span class="kw">pub mod </span>backup {
-    <span class="doccomment">/// Backup specific statistics.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Stats {
-        <span class="doccomment">/// Output only. Summation of the size of all documents and index entries in
-        /// the backup, measured in bytes.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>size_bytes: i64,
-        <span class="doccomment">/// Output only. The total number of documents contained in the backup.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>document_count: i64,
-        <span class="doccomment">/// Output only. The total number of index entries contained in the backup.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>index_count: i64,
-    }
-    <span class="doccomment">/// Indicate the current state of the backup.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The state is unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The pending backup is still being created. Operations on the
-        /// backup will be rejected in this state.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The backup is complete and ready to use.
-        </span>Ready = <span class="number">2</span>,
-        <span class="doccomment">/// The backup is not available at this moment.
-        </span>NotAvailable = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::NotAvailable =&gt; <span class="string">"NOT_AVAILABLE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"NOT_AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAvailable),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The metadata message for
-/// [google.cloud.location.Location.metadata][google.cloud.location.Location.metadata].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LocationMetadata {}
 <span class="doccomment">/// A Cloud Firestore Database.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3884,147 +3920,106 @@
         }
     }
 }
-<span class="doccomment">/// Represents a single field in the database.
+<span class="doccomment">/// A Backup of a Cloud Firestore Database.
 ///
-/// Fields are grouped by their "Collection Group", which represent all
-/// collections in the database with the same id.
+/// The backup contains all documents and index configurations for the given
+/// database at a specific point in time.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Field {
-    <span class="doccomment">/// Required. A field name of the form
-    /// `projects/{project_id}/databases/{database_id}/collectionGroups/{collection_id}/fields/{field_path}`
+</span><span class="kw">pub struct </span>Backup {
+    <span class="doccomment">/// Output only. The unique resource name of the Backup.
     ///
-    /// A field path may be a simple field name, e.g. `address` or a path to fields
-    /// within map_value , e.g. `address.city`,
-    /// or a special field path. The only valid special field is `*`, which
-    /// represents any field.
-    ///
-    /// Field paths may be quoted using ` (backtick). The only character that needs
-    /// to be escaped within a quoted field path is the backtick character itself,
-    /// escaped using a backslash. Special characters in field paths that
-    /// must be quoted include: `*`, `.`,
-    /// ``` (backtick), `\[`, `\]`, as well as any ascii symbolic characters.
-    ///
-    /// Examples:
-    /// (Note: Comments here are written in markdown syntax, so there is an
-    ///   additional layer of backticks to represent a code block)
-    /// `\`address.city\`` represents a field named `address.city`, not the map key
-    /// `city` in the field `address`.
-    /// `\`*\`` represents a field named `*`, not any field.
-    ///
-    /// A special `Field` contains the default indexing settings for all fields.
-    /// This field's resource name is:
-    /// `projects/{project_id}/databases/{database_id}/collectionGroups/__default__/fields/*`
-    /// Indexes defined on this `Field` will be applied to all fields which do not
-    /// have their own `Field` index configuration.
+    /// Format is `projects/{project}/locations/{location}/backups/{backup}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The index configuration for this field. If unset, field indexing will
-    /// revert to the configuration defined by the `ancestor_field`. To
-    /// explicitly remove all indexes for this field, specify an index config
-    /// with an empty list of indexes.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>index_config: ::core::option::Option&lt;field::IndexConfig&gt;,
-    <span class="doccomment">/// The TTL configuration for this `Field`.
-    /// Setting or unsetting this will enable or disable the TTL for
-    /// documents that have this `Field`.
+    <span class="doccomment">/// Output only. Name of the Firestore database that the backup is from.
+    ///
+    /// Format is `projects/{project}/databases/{database}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>database: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The system-generated UUID4 for the Firestore database that the
+    /// backup is from.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>database_uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The backup contains an externally consistent copy of the
+    /// database at this time.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ttl_config: ::core::option::Option&lt;field::TtlConfig&gt;,
+    </span><span class="kw">pub </span>snapshot_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp at which this backup expires.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Statistics about the backup.
+    ///
+    /// This data only becomes available after the backup is fully materialized to
+    /// secondary storage. This field will be empty till then.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>stats: ::core::option::Option&lt;backup::Stats&gt;,
+    <span class="doccomment">/// Output only. The current state of the backup.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"backup::State"</span>, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>state: i32,
 }
-<span class="doccomment">/// Nested message and enum types in `Field`.
-</span><span class="kw">pub mod </span>field {
-    <span class="doccomment">/// The index configuration for this field.
+<span class="doccomment">/// Nested message and enum types in `Backup`.
+</span><span class="kw">pub mod </span>backup {
+    <span class="doccomment">/// Backup specific statistics.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>IndexConfig {
-        <span class="doccomment">/// The indexes supported for this field.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>indexes: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Index&gt;,
-        <span class="doccomment">/// Output only. When true, the `Field`'s index configuration is set from the
-        /// configuration specified by the `ancestor_field`.
-        /// When false, the `Field`'s index configuration is defined explicitly.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>uses_ancestor_config: bool,
-        <span class="doccomment">/// Output only. Specifies the resource name of the `Field` from which this field's
-        /// index configuration is set (when `uses_ancestor_config` is true),
-        /// or from which it *would* be set if this field had no index configuration
-        /// (when `uses_ancestor_config` is false).
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>ancestor_field: ::prost::alloc::string::String,
-        <span class="doccomment">/// Output only
-        /// When true, the `Field`'s index configuration is in the process of being
-        /// reverted. Once complete, the index config will transition to the same
-        /// state as the field specified by `ancestor_field`, at which point
-        /// `uses_ancestor_config` will be `true` and `reverting` will be `false`.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>reverting: bool,
+    </span><span class="kw">pub struct </span>Stats {
+        <span class="doccomment">/// Output only. Summation of the size of all documents and index entries in
+        /// the backup, measured in bytes.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>size_bytes: i64,
+        <span class="doccomment">/// Output only. The total number of documents contained in the backup.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>document_count: i64,
+        <span class="doccomment">/// Output only. The total number of index entries contained in the backup.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>index_count: i64,
     }
-    <span class="doccomment">/// The TTL (time-to-live) configuration for documents that have this `Field`
-    /// set.
-    /// Storing a timestamp value into a TTL-enabled field will be treated as
-    /// the document's absolute expiration time. Using any other data type or
-    /// leaving the field absent will disable the TTL for the individual document.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>TtlConfig {
-        <span class="doccomment">/// Output only. The state of the TTL configuration.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"ttl_config::State"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Indicate the current state of the backup.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The state is unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The pending backup is still being created. Operations on the
+        /// backup will be rejected in this state.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The backup is complete and ready to use.
+        </span>Ready = <span class="number">2</span>,
+        <span class="doccomment">/// The backup is not available at this moment.
+        </span>NotAvailable = <span class="number">3</span>,
     }
-    <span class="doccomment">/// Nested message and enum types in `TtlConfig`.
-    </span><span class="kw">pub mod </span>ttl_config {
-        <span class="doccomment">/// The state of applying the TTL configuration to all documents.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>State {
-            <span class="doccomment">/// The state is unspecified or unknown.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The TTL is being applied. There is an active long-running operation to
-            /// track the change. Newly written documents will have TTLs applied as
-            /// requested. Requested TTLs on existing documents are still being
-            /// processed. When TTLs on all existing documents have been processed, the
-            /// state will move to 'ACTIVE'.
-            </span>Creating = <span class="number">1</span>,
-            <span class="doccomment">/// The TTL is active for all documents.
-            </span>Active = <span class="number">2</span>,
-            <span class="doccomment">/// The TTL configuration could not be enabled for all existing documents.
-            /// Newly written documents will continue to have their TTL applied.
-            /// The LRO returned when last attempting to enable TTL for this `Field`
-            /// has failed, and may have more details.
-            </span>NeedsRepair = <span class="number">3</span>,
-        }
-        <span class="kw">impl </span>State {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                    State::Creating =&gt; <span class="string">"CREATING"</span>,
-                    State::Active =&gt; <span class="string">"ACTIVE"</span>,
-                    State::NeedsRepair =&gt; <span class="string">"NEEDS_REPAIR"</span>,
-                }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::NotAvailable =&gt; <span class="string">"NOT_AVAILABLE"</span>,
             }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                    <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-                    <span class="string">"NEEDS_REPAIR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NeedsRepair),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"NOT_AVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAvailable),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
@@ -5322,4 +5317,9 @@
         </span>}
     }
 }
+<span class="doccomment">/// The metadata message for
+/// [google.cloud.location.Location.metadata][google.cloud.location.Location.metadata].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LocationMetadata {}
 </code></pre></div></section></main></body></html>
