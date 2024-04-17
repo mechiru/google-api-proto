@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ProcessorFlags"],"mod":["custom_document_extraction_options"],"struct":["CustomDocumentExtractionOptions","InputData"]};
+window.SIDEBAR_ITEMS = {"enum":["ProcessorFlags"],"mod":["custom_document_extraction_options"],"struct":["CustomDocumentExtractionOptions","FoundationModelTuningOptions","InputData"]};
