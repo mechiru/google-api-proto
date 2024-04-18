@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["StreamActivityLogEntry"]};
+window.SIDEBAR_ITEMS = {"mod":["stream_activity_log_entry"],"struct":["StreamActivityLogEntry"]};
