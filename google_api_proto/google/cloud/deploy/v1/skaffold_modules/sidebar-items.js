@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Source"],"struct":["SkaffoldGcsSource","SkaffoldGitSource"]};
+window.SIDEBAR_ITEMS = {"enum":["Source"],"struct":["SkaffoldGcbRepoSource","SkaffoldGcsSource","SkaffoldGitSource"]};
