@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Scheme"],"struct":["MaximizeConversionValue","MaximizeConversions","TargetCpa","TargetImpressionShare","TargetRoas","TargetSpend"]};

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["common","enums","resources","services"]};
+window.SIDEBAR_ITEMS = {"mod":["common","enums","errors","resources","services"]};
