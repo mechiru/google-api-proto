@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["ChunkPageSpan"]};
+window.SIDEBAR_ITEMS = {"struct":["ChunkPageFooter","ChunkPageHeader","ChunkPageSpan"]};
