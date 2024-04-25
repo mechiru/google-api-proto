@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["event"],"struct":["ConversionValueMapping","Event","FineGrainedConversionValueMappings"]};
+window.SIDEBAR_ITEMS = {"mod":["event","postback_mapping"],"struct":["CoarseGrainedConversionValueMappings","ConversionValueMapping","Event","FineGrainedConversionValueMappings","PostbackMapping"]};
