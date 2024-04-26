@@ -22,7 +22,7 @@ jobs:
           large-packages: false
           swap-storage: false
 
-      - uses: taiki-e/cache-cargo-install-action@v1
+      - uses: taiki-e/cache-cargo-install-action@v2
         with:
           tool: cargo-release@0.24.11
 
