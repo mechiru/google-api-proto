@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Type"],"mod":["interaction","metrics"],"struct":["Interaction","Metrics"]};

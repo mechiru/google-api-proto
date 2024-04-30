@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ManagementType"]};
+window.SIDEBAR_ITEMS = {"enum":["IpVersion","ManagementType"]};

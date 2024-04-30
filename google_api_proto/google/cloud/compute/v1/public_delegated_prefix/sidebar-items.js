@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ByoipApiVersion","Status"]};
+window.SIDEBAR_ITEMS = {"enum":["ByoipApiVersion","Mode","Status"]};

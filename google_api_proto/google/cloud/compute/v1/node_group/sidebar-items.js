@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["MaintenancePolicy","Status"]};
+window.SIDEBAR_ITEMS = {"enum":["MaintenanceInterval","MaintenancePolicy","Status"]};
