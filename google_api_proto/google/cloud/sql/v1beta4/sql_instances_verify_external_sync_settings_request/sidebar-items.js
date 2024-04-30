@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ExternalSyncMode","SyncConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["ExternalSyncMode","MigrationType","SyncConfig"]};
