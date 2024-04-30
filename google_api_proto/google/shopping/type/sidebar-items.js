@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["channel","destination","reporting_context"],"struct":["Channel","CustomAttribute","Destination","Price","ReportingContext"]};
+window.SIDEBAR_ITEMS = {"mod":["channel","destination","reporting_context","weight"],"struct":["Channel","CustomAttribute","Destination","Price","ReportingContext","Weight"]};
