@@ -34670,6 +34670,46 @@
 <a href="#34668" id="34668">34668</a>
 <a href="#34669" id="34669">34669</a>
 <a href="#34670" id="34670">34670</a>
+<a href="#34671" id="34671">34671</a>
+<a href="#34672" id="34672">34672</a>
+<a href="#34673" id="34673">34673</a>
+<a href="#34674" id="34674">34674</a>
+<a href="#34675" id="34675">34675</a>
+<a href="#34676" id="34676">34676</a>
+<a href="#34677" id="34677">34677</a>
+<a href="#34678" id="34678">34678</a>
+<a href="#34679" id="34679">34679</a>
+<a href="#34680" id="34680">34680</a>
+<a href="#34681" id="34681">34681</a>
+<a href="#34682" id="34682">34682</a>
+<a href="#34683" id="34683">34683</a>
+<a href="#34684" id="34684">34684</a>
+<a href="#34685" id="34685">34685</a>
+<a href="#34686" id="34686">34686</a>
+<a href="#34687" id="34687">34687</a>
+<a href="#34688" id="34688">34688</a>
+<a href="#34689" id="34689">34689</a>
+<a href="#34690" id="34690">34690</a>
+<a href="#34691" id="34691">34691</a>
+<a href="#34692" id="34692">34692</a>
+<a href="#34693" id="34693">34693</a>
+<a href="#34694" id="34694">34694</a>
+<a href="#34695" id="34695">34695</a>
+<a href="#34696" id="34696">34696</a>
+<a href="#34697" id="34697">34697</a>
+<a href="#34698" id="34698">34698</a>
+<a href="#34699" id="34699">34699</a>
+<a href="#34700" id="34700">34700</a>
+<a href="#34701" id="34701">34701</a>
+<a href="#34702" id="34702">34702</a>
+<a href="#34703" id="34703">34703</a>
+<a href="#34704" id="34704">34704</a>
+<a href="#34705" id="34705">34705</a>
+<a href="#34706" id="34706">34706</a>
+<a href="#34707" id="34707">34707</a>
+<a href="#34708" id="34708">34708</a>
+<a href="#34709" id="34709">34709</a>
+<a href="#34710" id="34710">34710</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1-schema-predict-instance"</span>,
@@ -37302,6 +37342,8 @@
     </span>TpuV3 = <span class="number">7</span>,
     <span class="doccomment">/// TPU v4.
     </span>TpuV4Pod = <span class="number">10</span>,
+    <span class="doccomment">/// TPU v5.
+    </span>TpuV5Litepod = <span class="number">12</span>,
 }
 <span class="kw">impl </span>AcceleratorType {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -37323,6 +37365,7 @@
             AcceleratorType::TpuV2 =&gt; <span class="string">"TPU_V2"</span>,
             AcceleratorType::TpuV3 =&gt; <span class="string">"TPU_V3"</span>,
             AcceleratorType::TpuV4Pod =&gt; <span class="string">"TPU_V4_POD"</span>,
+            AcceleratorType::TpuV5Litepod =&gt; <span class="string">"TPU_V5_LITEPOD"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -37341,6 +37384,7 @@
             <span class="string">"TPU_V2" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TpuV2),
             <span class="string">"TPU_V3" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TpuV3),
             <span class="string">"TPU_V4_POD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TpuV4Pod),
+            <span class="string">"TPU_V5_LITEPOD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TpuV5Litepod),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -37574,6 +37618,33 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>enable_secure_boot: bool,
 }
+<span class="doccomment">/// Represents configuration for private service connect.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PrivateServiceConnectConfig {
+    <span class="doccomment">/// Required. If true, expose the IndexEndpoint via private service connect.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enable_private_service_connect: bool,
+    <span class="doccomment">/// A list of Projects from which the forwarding rule will target the service
+    /// attachment.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>project_allowlist: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// PscAutomatedEndpoints defines the output of the forwarding rule
+/// automatically created by each PscAutomationConfig.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PscAutomatedEndpoints {
+    <span class="doccomment">/// Corresponding project_id in pscAutomationConfigs
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Corresponding network in pscAutomationConfigs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
+    <span class="doccomment">/// Ip Address created by the automated forwarding rule.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>match_address: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Models are deployed into it, and afterwards Endpoint is called to obtain
 /// predictions and explanations.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -37665,6 +37736,15 @@
     </span><span class="attr">#[deprecated]
     #[prost(bool, tag = <span class="string">"17"</span>)]
     </span><span class="kw">pub </span>enable_private_service_connect: bool,
+    <span class="doccomment">/// Optional. Configuration for private service connect.
+    ///
+    /// [network][google.cloud.aiplatform.v1.Endpoint.network] and
+    /// [private_service_connect_config][google.cloud.aiplatform.v1.Endpoint.private_service_connect_config]
+    /// are mutually exclusive.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>private_service_connect_config: ::core::option::Option&lt;
+        PrivateServiceConnectConfig,
+    &gt;,
     <span class="doccomment">/// Output only. Resource name of the Model Monitoring job associated with this
     /// Endpoint if monitoring is enabled by
     /// [JobService.CreateModelDeploymentMonitoringJob][google.cloud.aiplatform.v1.JobService.CreateModelDeploymentMonitoringJob].
@@ -37872,33 +37952,6 @@
     /// batch prediction.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>successful_forecast_point_count: i64,
-}
-<span class="doccomment">/// Represents configuration for private service connect.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PrivateServiceConnectConfig {
-    <span class="doccomment">/// Required. If true, expose the IndexEndpoint via private service connect.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>enable_private_service_connect: bool,
-    <span class="doccomment">/// A list of Projects from which the forwarding rule will target the service
-    /// attachment.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>project_allowlist: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// PscAutomatedEndpoints defines the output of the forwarding rule
-/// automatically created by each PscAutomationConfig.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PscAutomatedEndpoints {
-    <span class="doccomment">/// Corresponding project_id in pscAutomationConfigs
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Corresponding network in pscAutomationConfigs.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
-    <span class="doccomment">/// Ip Address created by the automated forwarding rule.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>match_address: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Indexes are deployed into it. An IndexEndpoint can have multiple
 /// DeployedIndexes.
@@ -40042,6 +40095,10 @@
             /// any of its supporting files.
             </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
             </span><span class="kw">pub </span>artifact_uri: ::prost::alloc::string::String,
+            <span class="doccomment">/// Optional. The name of the deploy task (e.g., "text to image
+            /// generation").
+            </span><span class="attr">#[prost(string, optional, tag = <span class="string">"10"</span>)]
+            </span><span class="kw">pub </span>deploy_task_name: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
             <span class="doccomment">/// Required. The title of the regional resource reference.
             </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
             </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
@@ -43079,12 +43136,14 @@
     /// generation.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>disable_attribution: bool,
-    <span class="attr">#[prost(oneof = <span class="string">"retrieval::Source"</span>, tags = <span class="string">"2"</span>)]
+    <span class="doccomment">/// The source of the retrieval.
+    </span><span class="attr">#[prost(oneof = <span class="string">"retrieval::Source"</span>, tags = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>source: ::core::option::Option&lt;retrieval::Source&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Retrieval`.
 </span><span class="kw">pub mod </span>retrieval {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    <span class="doccomment">/// The source of the retrieval.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Source {
         <span class="doccomment">/// Set to use data source powered by Vertex AI Search.
@@ -46503,7 +46562,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NotebookRuntimeTemplate {
-    <span class="doccomment">/// Output only. The resource name of the NotebookRuntimeTemplate.
+    <span class="doccomment">/// The resource name of the NotebookRuntimeTemplate.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The display name of the NotebookRuntimeTemplate.
@@ -54070,6 +54129,22 @@
     <span class="doccomment">/// Optional. List of grounding attributions.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>grounding_attributions: ::prost::alloc::vec::Vec&lt;GroundingAttribution&gt;,
+    <span class="doccomment">/// Optional. Google search entry for the following-up web searches.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>search_entry_point: ::core::option::Option&lt;SearchEntryPoint&gt;,
+}
+<span class="doccomment">/// Google search entry point.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchEntryPoint {
+    <span class="doccomment">/// Optional. Web content snippet that can be embedded in a web page or an app
+    /// webview.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>rendered_content: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Base64 encoded JSON representing array of &lt;search term, search
+    /// url&gt; tuple.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>sdk_blob: ::prost::bytes::Bytes,
 }
 <span class="doccomment">/// Harm categories that will block the content.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -59747,8 +59822,8 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. The display name of the
-    /// [TunedModel][google.cloud.aiplatform.v1.Model]. The name can be up to
-    /// 128 characters long and can consist of any UTF-8 characters.
+    /// [TunedModel][google.cloud.aiplatform.v1.Model]. The name can be up to 128
+    /// characters long and can consist of any UTF-8 characters.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>tuned_model_display_name: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. The description of the
@@ -59818,7 +59893,7 @@
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>SourceModel {
-        <span class="doccomment">/// Model name for tuning, e.g., "gemini-1.0-pro-002".
+        <span class="doccomment">/// The base model that is being tuned, e.g., "gemini-1.0-pro-002".
         </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
         </span>BaseModel(::prost::alloc::string::String),
     }
@@ -59950,10 +60025,11 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SupervisedHyperParameters {
-    <span class="doccomment">/// Optional. Number of training epoches for this tuning job.
+    <span class="doccomment">/// Optional. Number of complete passes the model makes over the entire
+    /// training dataset during training.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>epoch_count: i64,
-    <span class="doccomment">/// Optional. Learning rate multiplier for tuning.
+    <span class="doccomment">/// Optional. Multiplier for adjusting the default learning rate.
     </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>learning_rate_multiplier: f64,
     <span class="doccomment">/// Optional. Adapter size for tuning.
@@ -60019,11 +60095,11 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SupervisedTuningSpec {
     <span class="doccomment">/// Required. Cloud Storage path to file containing training dataset for
-    /// tuning.
+    /// tuning. The dataset must be formatted as a JSONL file.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>training_dataset_uri: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. Cloud Storage path to file containing validation dataset for
-    /// tuning.
+    /// tuning. The dataset must be formatted as a JSONL file.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>validation_dataset_uri: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. Hyperparameters for SFT.
@@ -64975,7 +65051,7 @@
 </span><span class="kw">pub struct </span>CreateFeatureGroupRequest {
     <span class="doccomment">/// Required. The resource name of the Location to create FeatureGroups.
     /// Format:
-    /// `projects/{project}/locations/{location}'`
+    /// `projects/{project}/locations/{location}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The FeatureGroup to create.
@@ -66295,6 +66371,8 @@
             </span>InvalidNumericValue = <span class="number">12</span>,
             <span class="doccomment">/// File is not in UTF_8 format.
             </span>InvalidEncoding = <span class="number">13</span>,
+            <span class="doccomment">/// Token restrict value is invalid.
+            </span>InvalidTokenValue = <span class="number">15</span>,
         }
         <span class="kw">impl </span>RecordErrorType {
             <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -66317,6 +66395,7 @@
                     RecordErrorType::MultipleValues =&gt; <span class="string">"MULTIPLE_VALUES"</span>,
                     RecordErrorType::InvalidNumericValue =&gt; <span class="string">"INVALID_NUMERIC_VALUE"</span>,
                     RecordErrorType::InvalidEncoding =&gt; <span class="string">"INVALID_ENCODING"</span>,
+                    RecordErrorType::InvalidTokenValue =&gt; <span class="string">"INVALID_TOKEN_VALUE"</span>,
                 }
             }
             <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -66336,6 +66415,7 @@
                     <span class="string">"MULTIPLE_VALUES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MultipleValues),
                     <span class="string">"INVALID_NUMERIC_VALUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidNumericValue),
                     <span class="string">"INVALID_ENCODING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidEncoding),
+                    <span class="string">"INVALID_TOKEN_VALUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidTokenValue),
                     <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
                 }
             }
