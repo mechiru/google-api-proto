@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["RuleType"],"mod":["statistic_range_expectation"],"struct":["NonNullExpectation","RangeExpectation","RegexExpectation","RowConditionExpectation","SetExpectation","StatisticRangeExpectation","TableConditionExpectation","UniquenessExpectation"]};
+window.SIDEBAR_ITEMS = {"enum":["RuleType"],"mod":["statistic_range_expectation"],"struct":["NonNullExpectation","RangeExpectation","RegexExpectation","RowConditionExpectation","SetExpectation","SqlAssertion","StatisticRangeExpectation","TableConditionExpectation","UniquenessExpectation"]};
