@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["DataSource"],"struct":["VertexRagStore"]};
+window.SIDEBAR_ITEMS = {"enum":["DataSource"],"mod":["vertex_rag_store"],"struct":["VertexRagStore"]};
