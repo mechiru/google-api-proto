@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["TravelMode","UnloadingPolicy"],"mod":["load_limit"],"struct":["DurationLimit","LoadLimit"]};
