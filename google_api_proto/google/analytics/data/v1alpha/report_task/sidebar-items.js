@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["report_metadata"],"struct":["ReportDefinition","ReportMetadata"]};

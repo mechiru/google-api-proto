@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["schema_restriction_response"],"struct":["SchemaRestrictionResponse"]};
