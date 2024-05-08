@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SearchStrategyType"]};
+window.SIDEBAR_ITEMS = {"enum":["SearchStrategyType"],"struct":["ConfidenceScoreIndexConfig"]};
