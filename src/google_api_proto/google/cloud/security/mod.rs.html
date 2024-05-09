@@ -9,6 +9,11 @@
 <a href="#7" id="7">7</a>
 <a href="#8" id="8">8</a>
 <a href="#9" id="9">9</a>
+<a href="#10" id="10">10</a>
+<a href="#11" id="11">11</a>
+<a href="#12" id="12">12</a>
+<a href="#13" id="13">13</a>
+<a href="#14" id="14">14</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-security-privateca-v1"</span>,
@@ -16,6 +21,11 @@
     )
 )]
 </span><span class="kw">pub mod </span>privateca;
-<span class="attr">#[cfg(any(feature = <span class="string">"google-cloud-security-publicca-v1beta1"</span>))]
+<span class="attr">#[cfg(
+    any(
+        feature = <span class="string">"google-cloud-security-publicca-v1"</span>,
+        feature = <span class="string">"google-cloud-security-publicca-v1beta1"</span>,
+    )
+)]
 </span><span class="kw">pub mod </span>publicca;
 </code></pre></div></section></main></body></html>
