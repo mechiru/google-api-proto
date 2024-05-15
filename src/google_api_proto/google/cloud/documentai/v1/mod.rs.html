@@ -5120,16 +5120,16 @@
                 <span class="doccomment">/// Whether the text is underlined.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
                 </span><span class="kw">pub </span>underlined: bool,
-                <span class="doccomment">/// Whether the text is strikethrough.
+                <span class="doccomment">/// Whether the text is strikethrough. This feature is not supported yet.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
                 </span><span class="kw">pub </span>strikeout: bool,
-                <span class="doccomment">/// Whether the text is a subscript.
+                <span class="doccomment">/// Whether the text is a subscript. This feature is not supported yet.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
                 </span><span class="kw">pub </span>subscript: bool,
-                <span class="doccomment">/// Whether the text is a superscript.
+                <span class="doccomment">/// Whether the text is a superscript. This feature is not supported yet.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
                 </span><span class="kw">pub </span>superscript: bool,
-                <span class="doccomment">/// Whether the text is in small caps.
+                <span class="doccomment">/// Whether the text is in small caps. This feature is not supported yet.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"11"</span>)]
                 </span><span class="kw">pub </span>smallcaps: bool,
                 <span class="doccomment">/// TrueType weight on a scale `100` (thin) to `1000` (ultra-heavy).
@@ -6048,7 +6048,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ProcessorVersion {
-    <span class="doccomment">/// The resource name of the processor version.
+    <span class="doccomment">/// Identifier. The resource name of the processor version.
     /// Format:
     /// `projects/{project}/locations/{location}/processors/{processor}/processorVersions/{processor_version}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -6059,7 +6059,7 @@
     <span class="doccomment">/// The schema of the processor version. Describes the output.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>document_schema: ::core::option::Option&lt;DocumentSchema&gt;,
-    <span class="doccomment">/// The state of the processor version.
+    <span class="doccomment">/// Output only. The state of the processor version.
     </span><span class="attr">#[prost(enumeration = <span class="string">"processor_version::State"</span>, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>state: i32,
     <span class="doccomment">/// The time the processor version was created.
