@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["prompt_feedback"],"struct":["PromptFeedback"]};
+window.SIDEBAR_ITEMS = {"mod":["prompt_feedback"],"struct":["PromptFeedback","UsageMetadata"]};
