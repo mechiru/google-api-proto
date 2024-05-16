@@ -4282,409 +4282,6 @@
         }
     }
 }
-<span class="doccomment">/// GetStoragePoolRequest gets a Storage Pool.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetStoragePoolRequest {
-    <span class="doccomment">/// Required. Name of the storage pool
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// ListStoragePoolsRequest lists Storage Pools.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListStoragePoolsRequest {
-    <span class="doccomment">/// Required. Parent value
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of items to return.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. The next_page_token value to use if there are additional
-    /// results to retrieve for this list request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Sort results. Supported values are "name", "name desc" or ""
-    /// (unsorted).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. List filter.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// ListStoragePoolsResponse is the response to a ListStoragePoolsRequest.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListStoragePoolsResponse {
-    <span class="doccomment">/// The list of StoragePools
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>storage_pools: ::prost::alloc::vec::Vec&lt;StoragePool&gt;,
-    <span class="doccomment">/// A token identifying a page of results the server should return.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// CreateStoragePoolRequest creates a Storage Pool.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateStoragePoolRequest {
-    <span class="doccomment">/// Required. Value for parent.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Id of the requesting storage pool
-    /// If auto-generating Id server-side, remove this field and
-    /// id from the method_signature of Create RPC
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>storage_pool_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The required parameters to create a new storage pool.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>storage_pool: ::core::option::Option&lt;StoragePool&gt;,
-}
-<span class="doccomment">/// UpdateStoragePoolRequest updates a Storage Pool.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateStoragePoolRequest {
-    <span class="doccomment">/// Required. Field mask is used to specify the fields to be overwritten in the
-    /// StoragePool resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. The pool being updated
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>storage_pool: ::core::option::Option&lt;StoragePool&gt;,
-}
-<span class="doccomment">/// DeleteStoragePoolRequest deletes a Storage Pool.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteStoragePoolRequest {
-    <span class="doccomment">/// Required. Name of the storage pool
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// StoragePool is a container for volumes with a service level and capacity.
-/// Volumes can be created in a pool of sufficient available capacity.
-/// StoragePool capacity is what you are billed for.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StoragePool {
-    <span class="doccomment">/// Identifier. Name of the storage pool
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Service level of the storage pool
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ServiceLevel"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>service_level: i32,
-    <span class="doccomment">/// Required. Capacity in GIB of the pool
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>capacity_gib: i64,
-    <span class="doccomment">/// Output only. Allocated size of all volumes in GIB in the storage pool
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>volume_capacity_gib: i64,
-    <span class="doccomment">/// Output only. Volume count of the storage pool
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>volume_count: i32,
-    <span class="doccomment">/// Output only. State of the storage pool
-    </span><span class="attr">#[prost(enumeration = <span class="string">"storage_pool::State"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. State details of the storage pool
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>state_details: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Create time of the storage pool
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Description of the storage pool
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Labels as key value pairs
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Required. VPC Network name.
-    /// Format: projects/{project}/global/networks/{network}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Specifies the Active Directory to be used for creating a SMB
-    /// volume.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>active_directory: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Specifies the KMS config to be used for volume encryption.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>kms_config: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Flag indicating if the pool is NFS LDAP enabled or not.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>ldap_enabled: bool,
-    <span class="doccomment">/// Optional. This field is not implemented. The values provided in this field
-    /// are ignored.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>psa_range: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Specifies the current pool encryption key source.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"EncryptionType"</span>, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>encryption_type: i32,
-    <span class="doccomment">/// Deprecated. Used to allow SO pool to access AD or DNS server from other
-    /// regions.
-    </span><span class="attr">#[deprecated]
-    #[prost(bool, optional, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>global_access_allowed: ::core::option::Option&lt;bool&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StoragePool`.
-</span><span class="kw">pub mod </span>storage_pool {
-    <span class="doccomment">/// The Storage Pool States
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified Storage Pool State
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Storage Pool State is Ready
-        </span>Ready = <span class="number">1</span>,
-        <span class="doccomment">/// Storage Pool State is Creating
-        </span>Creating = <span class="number">2</span>,
-        <span class="doccomment">/// Storage Pool State is Deleting
-        </span>Deleting = <span class="number">3</span>,
-        <span class="doccomment">/// Storage Pool State is Updating
-        </span>Updating = <span class="number">4</span>,
-        <span class="doccomment">/// Storage Pool State is Restoring
-        </span>Restoring = <span class="number">5</span>,
-        <span class="doccomment">/// Storage Pool State is Disabled
-        </span>Disabled = <span class="number">6</span>,
-        <span class="doccomment">/// Storage Pool State is Error
-        </span>Error = <span class="number">7</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-                State::Updating =&gt; <span class="string">"UPDATING"</span>,
-                State::Restoring =&gt; <span class="string">"RESTORING"</span>,
-                State::Disabled =&gt; <span class="string">"DISABLED"</span>,
-                State::Error =&gt; <span class="string">"ERROR"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="string">"UPDATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Updating),
-                <span class="string">"RESTORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Restoring),
-                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Backup Policy.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BackupPolicy {
-    <span class="doccomment">/// Identifier. The resource name of the backup policy.
-    /// Format:
-    /// `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Number of daily backups to keep. Note that the minimum daily backup limit
-    /// is 2.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>daily_backup_limit: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Number of weekly backups to keep. Note that the sum of daily, weekly and
-    /// monthly backups should be greater than 1.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>weekly_backup_limit: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Number of monthly backups to keep. Note that the sum of daily, weekly and
-    /// monthly backups should be greater than 1.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>monthly_backup_limit: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Description of the backup policy.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// If enabled, make backups automatically according to the schedules.
-    /// This will be applied to all volumes that have this policy attached and
-    /// enforced on volume level. If not specified, default is true.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>enabled: ::core::option::Option&lt;bool&gt;,
-    <span class="doccomment">/// Output only. The total number of volumes assigned by this backup policy.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>assigned_volume_count: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Output only. The time when the backup policy was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Resource labels to represent user provided metadata.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. The backup policy state.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"backup_policy::State"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `BackupPolicy`.
-</span><span class="kw">pub mod </span>backup_policy {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// State not set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// BackupPolicy is being created.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// BackupPolicy is available for use.
-        </span>Ready = <span class="number">2</span>,
-        <span class="doccomment">/// BackupPolicy is being deleted.
-        </span>Deleting = <span class="number">3</span>,
-        <span class="doccomment">/// BackupPolicy is not valid and cannot be used.
-        </span>Error = <span class="number">4</span>,
-        <span class="doccomment">/// BackupPolicy is being updated.
-        </span>Updating = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-                State::Error =&gt; <span class="string">"ERROR"</span>,
-                State::Updating =&gt; <span class="string">"UPDATING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="string">"UPDATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Updating),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// CreateBackupPolicyRequest creates a backupPolicy.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateBackupPolicyRequest {
-    <span class="doccomment">/// Required. The location to create the backup policies of, in the format
-    /// `projects/{project_id}/locations/{location}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. A backupPolicy resource
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>backup_policy: ::core::option::Option&lt;BackupPolicy&gt;,
-    <span class="doccomment">/// Required. The ID to use for the backup policy.
-    /// The ID must be unique within the specified location.
-    /// This value must start with a lowercase letter followed by up to 62
-    /// lowercase letters, numbers, or hyphens, and cannot end with a hyphen.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>backup_policy_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// GetBackupPolicyRequest gets the state of a backupPolicy.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetBackupPolicyRequest {
-    <span class="doccomment">/// Required. The backupPolicy resource name, in the format
-    /// `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// ListBackupPoliciesRequest for requesting multiple backup policies.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListBackupPoliciesRequest {
-    <span class="doccomment">/// Required. Parent value for ListBackupPoliciesRequest
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Requested page size. Server may return fewer items than requested.
-    /// If unspecified, the server will pick an appropriate default.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A token identifying a page of results the server should return.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Filtering results
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Hint for how to order the results
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// ListBackupPoliciesResponse contains all the backup policies requested.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListBackupPoliciesResponse {
-    <span class="doccomment">/// The list of backup policies.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>backup_policies: ::prost::alloc::vec::Vec&lt;BackupPolicy&gt;,
-    <span class="doccomment">/// A token identifying a page of results the server should return.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// UpdateBackupPolicyRequest for updating a backup policy.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateBackupPolicyRequest {
-    <span class="doccomment">/// Required. Field mask is used to specify the fields to be overwritten in the
-    /// Backup Policy resource by the update.
-    /// The fields specified in the update_mask are relative to the resource, not
-    /// the full request. A field will be overwritten if it is in the mask. If the
-    /// user does not provide a mask then all fields will be overwritten.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Required. The backup policy being updated
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>backup_policy: ::core::option::Option&lt;BackupPolicy&gt;,
-}
-<span class="doccomment">/// DeleteBackupPolicyRequest deletes a backup policy.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteBackupPolicyRequest {
-    <span class="doccomment">/// Required. The backup policy resource name, in the format
-    /// `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// Message for requesting list of Volumes
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5852,6 +5449,194 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>backup: ::core::option::Option&lt;Backup&gt;,
 }
+<span class="doccomment">/// Backup Policy.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BackupPolicy {
+    <span class="doccomment">/// Identifier. The resource name of the backup policy.
+    /// Format:
+    /// `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Number of daily backups to keep. Note that the minimum daily backup limit
+    /// is 2.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>daily_backup_limit: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Number of weekly backups to keep. Note that the sum of daily, weekly and
+    /// monthly backups should be greater than 1.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>weekly_backup_limit: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Number of monthly backups to keep. Note that the sum of daily, weekly and
+    /// monthly backups should be greater than 1.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>monthly_backup_limit: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Description of the backup policy.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// If enabled, make backups automatically according to the schedules.
+    /// This will be applied to all volumes that have this policy attached and
+    /// enforced on volume level. If not specified, default is true.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>enabled: ::core::option::Option&lt;bool&gt;,
+    <span class="doccomment">/// Output only. The total number of volumes assigned by this backup policy.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>assigned_volume_count: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Output only. The time when the backup policy was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Resource labels to represent user provided metadata.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. The backup policy state.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"backup_policy::State"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `BackupPolicy`.
+</span><span class="kw">pub mod </span>backup_policy {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// State not set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// BackupPolicy is being created.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// BackupPolicy is available for use.
+        </span>Ready = <span class="number">2</span>,
+        <span class="doccomment">/// BackupPolicy is being deleted.
+        </span>Deleting = <span class="number">3</span>,
+        <span class="doccomment">/// BackupPolicy is not valid and cannot be used.
+        </span>Error = <span class="number">4</span>,
+        <span class="doccomment">/// BackupPolicy is being updated.
+        </span>Updating = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+                State::Error =&gt; <span class="string">"ERROR"</span>,
+                State::Updating =&gt; <span class="string">"UPDATING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"UPDATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Updating),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// CreateBackupPolicyRequest creates a backupPolicy.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateBackupPolicyRequest {
+    <span class="doccomment">/// Required. The location to create the backup policies of, in the format
+    /// `projects/{project_id}/locations/{location}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. A backupPolicy resource
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>backup_policy: ::core::option::Option&lt;BackupPolicy&gt;,
+    <span class="doccomment">/// Required. The ID to use for the backup policy.
+    /// The ID must be unique within the specified location.
+    /// This value must start with a lowercase letter followed by up to 62
+    /// lowercase letters, numbers, or hyphens, and cannot end with a hyphen.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>backup_policy_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// GetBackupPolicyRequest gets the state of a backupPolicy.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetBackupPolicyRequest {
+    <span class="doccomment">/// Required. The backupPolicy resource name, in the format
+    /// `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// ListBackupPoliciesRequest for requesting multiple backup policies.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListBackupPoliciesRequest {
+    <span class="doccomment">/// Required. Parent value for ListBackupPoliciesRequest
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Requested page size. Server may return fewer items than requested.
+    /// If unspecified, the server will pick an appropriate default.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A token identifying a page of results the server should return.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Filtering results
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Hint for how to order the results
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// ListBackupPoliciesResponse contains all the backup policies requested.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListBackupPoliciesResponse {
+    <span class="doccomment">/// The list of backup policies.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>backup_policies: ::prost::alloc::vec::Vec&lt;BackupPolicy&gt;,
+    <span class="doccomment">/// A token identifying a page of results the server should return.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// UpdateBackupPolicyRequest for updating a backup policy.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateBackupPolicyRequest {
+    <span class="doccomment">/// Required. Field mask is used to specify the fields to be overwritten in the
+    /// Backup Policy resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. The backup policy being updated
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>backup_policy: ::core::option::Option&lt;BackupPolicy&gt;,
+}
+<span class="doccomment">/// DeleteBackupPolicyRequest deletes a backup policy.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteBackupPolicyRequest {
+    <span class="doccomment">/// Required. The backup policy resource name, in the format
+    /// `projects/{project_id}/locations/{location}/backupPolicies/{backup_policy_id}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// A NetApp BackupVault.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6876,6 +6661,221 @@
                 <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
                 <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
                 <span class="string">"UPDATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Updating),
+                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// GetStoragePoolRequest gets a Storage Pool.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetStoragePoolRequest {
+    <span class="doccomment">/// Required. Name of the storage pool
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// ListStoragePoolsRequest lists Storage Pools.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListStoragePoolsRequest {
+    <span class="doccomment">/// Required. Parent value
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of items to return.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. The next_page_token value to use if there are additional
+    /// results to retrieve for this list request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Sort results. Supported values are "name", "name desc" or ""
+    /// (unsorted).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. List filter.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// ListStoragePoolsResponse is the response to a ListStoragePoolsRequest.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListStoragePoolsResponse {
+    <span class="doccomment">/// The list of StoragePools
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>storage_pools: ::prost::alloc::vec::Vec&lt;StoragePool&gt;,
+    <span class="doccomment">/// A token identifying a page of results the server should return.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// CreateStoragePoolRequest creates a Storage Pool.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateStoragePoolRequest {
+    <span class="doccomment">/// Required. Value for parent.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Id of the requesting storage pool
+    /// If auto-generating Id server-side, remove this field and
+    /// id from the method_signature of Create RPC
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>storage_pool_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The required parameters to create a new storage pool.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>storage_pool: ::core::option::Option&lt;StoragePool&gt;,
+}
+<span class="doccomment">/// UpdateStoragePoolRequest updates a Storage Pool.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateStoragePoolRequest {
+    <span class="doccomment">/// Required. Field mask is used to specify the fields to be overwritten in the
+    /// StoragePool resource by the update.
+    /// The fields specified in the update_mask are relative to the resource, not
+    /// the full request. A field will be overwritten if it is in the mask. If the
+    /// user does not provide a mask then all fields will be overwritten.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+    <span class="doccomment">/// Required. The pool being updated
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>storage_pool: ::core::option::Option&lt;StoragePool&gt;,
+}
+<span class="doccomment">/// DeleteStoragePoolRequest deletes a Storage Pool.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteStoragePoolRequest {
+    <span class="doccomment">/// Required. Name of the storage pool
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// StoragePool is a container for volumes with a service level and capacity.
+/// Volumes can be created in a pool of sufficient available capacity.
+/// StoragePool capacity is what you are billed for.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StoragePool {
+    <span class="doccomment">/// Identifier. Name of the storage pool
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Service level of the storage pool
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ServiceLevel"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>service_level: i32,
+    <span class="doccomment">/// Required. Capacity in GIB of the pool
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>capacity_gib: i64,
+    <span class="doccomment">/// Output only. Allocated size of all volumes in GIB in the storage pool
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>volume_capacity_gib: i64,
+    <span class="doccomment">/// Output only. Volume count of the storage pool
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>volume_count: i32,
+    <span class="doccomment">/// Output only. State of the storage pool
+    </span><span class="attr">#[prost(enumeration = <span class="string">"storage_pool::State"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. State details of the storage pool
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>state_details: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Create time of the storage pool
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Description of the storage pool
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Labels as key value pairs
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Required. VPC Network name.
+    /// Format: projects/{project}/global/networks/{network}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>network: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Specifies the Active Directory to be used for creating a SMB
+    /// volume.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>active_directory: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Specifies the KMS config to be used for volume encryption.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>kms_config: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Flag indicating if the pool is NFS LDAP enabled or not.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>ldap_enabled: bool,
+    <span class="doccomment">/// Optional. This field is not implemented. The values provided in this field
+    /// are ignored.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>psa_range: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Specifies the current pool encryption key source.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"EncryptionType"</span>, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>encryption_type: i32,
+    <span class="doccomment">/// Deprecated. Used to allow SO pool to access AD or DNS server from other
+    /// regions.
+    </span><span class="attr">#[deprecated]
+    #[prost(bool, optional, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>global_access_allowed: ::core::option::Option&lt;bool&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StoragePool`.
+</span><span class="kw">pub mod </span>storage_pool {
+    <span class="doccomment">/// The Storage Pool States
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified Storage Pool State
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Storage Pool State is Ready
+        </span>Ready = <span class="number">1</span>,
+        <span class="doccomment">/// Storage Pool State is Creating
+        </span>Creating = <span class="number">2</span>,
+        <span class="doccomment">/// Storage Pool State is Deleting
+        </span>Deleting = <span class="number">3</span>,
+        <span class="doccomment">/// Storage Pool State is Updating
+        </span>Updating = <span class="number">4</span>,
+        <span class="doccomment">/// Storage Pool State is Restoring
+        </span>Restoring = <span class="number">5</span>,
+        <span class="doccomment">/// Storage Pool State is Disabled
+        </span>Disabled = <span class="number">6</span>,
+        <span class="doccomment">/// Storage Pool State is Error
+        </span>Error = <span class="number">7</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+                State::Updating =&gt; <span class="string">"UPDATING"</span>,
+                State::Restoring =&gt; <span class="string">"RESTORING"</span>,
+                State::Disabled =&gt; <span class="string">"DISABLED"</span>,
+                State::Error =&gt; <span class="string">"ERROR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="string">"UPDATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Updating),
+                <span class="string">"RESTORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Restoring),
                 <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
                 <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,

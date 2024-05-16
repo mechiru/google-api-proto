@@ -963,6 +963,80 @@
         </span>BytesValue(::prost::bytes::Bytes),
     }
 }
+<span class="doccomment">/// A declaration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Decl {
+    <span class="doccomment">/// The id of the declaration.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: i32,
+    <span class="doccomment">/// The name of the declaration.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The documentation string for the declaration.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>doc: ::prost::alloc::string::String,
+    <span class="doccomment">/// The kind of declaration.
+    </span><span class="attr">#[prost(oneof = <span class="string">"decl::Kind"</span>, tags = <span class="string">"4, 5"</span>)]
+    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;decl::Kind&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Decl`.
+</span><span class="kw">pub mod </span>decl {
+    <span class="doccomment">/// The kind of declaration.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Kind {
+        <span class="doccomment">/// An identifier declaration.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>Ident(<span class="kw">super</span>::IdentDecl),
+        <span class="doccomment">/// A function declaration.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Function(<span class="kw">super</span>::FunctionDecl),
+    }
+}
+<span class="doccomment">/// The declared type of a variable.
+///
+/// Extends runtime type values with extra information used for type checking
+/// and dispatching.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeclType {
+    <span class="doccomment">/// The expression id of the declared type, if applicable.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: i32,
+    <span class="doccomment">/// The type name, e.g. 'int', 'my.type.Type' or 'T'
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
+    <span class="doccomment">/// An ordered list of type parameters, e.g. `&lt;string, int&gt;`.
+    /// Only applies to a subset of types, e.g. `map`, `list`.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>type_params: ::prost::alloc::vec::Vec&lt;DeclType&gt;,
+}
+<span class="doccomment">/// An identifier declaration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IdentDecl {
+    <span class="doccomment">/// Optional type of the identifier.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;DeclType&gt;,
+    <span class="doccomment">/// Optional value of the identifier.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;Expr&gt;,
+}
+<span class="doccomment">/// A function declaration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FunctionDecl {
+    <span class="doccomment">/// The function arguments.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>args: ::prost::alloc::vec::Vec&lt;IdentDecl&gt;,
+    <span class="doccomment">/// Optional declared return type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>return_type: ::core::option::Option&lt;DeclType&gt;,
+    <span class="doccomment">/// If the first argument of the function is the receiver.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>receiver_function: bool,
+}
 <span class="doccomment">/// Represents a CEL value.
 ///
 /// This is similar to `google.protobuf.Value`, but can represent CEL's full
@@ -1191,79 +1265,5 @@
     <span class="doccomment">/// The expression id.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>id: i32,
-}
-<span class="doccomment">/// A declaration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Decl {
-    <span class="doccomment">/// The id of the declaration.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: i32,
-    <span class="doccomment">/// The name of the declaration.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The documentation string for the declaration.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>doc: ::prost::alloc::string::String,
-    <span class="doccomment">/// The kind of declaration.
-    </span><span class="attr">#[prost(oneof = <span class="string">"decl::Kind"</span>, tags = <span class="string">"4, 5"</span>)]
-    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;decl::Kind&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Decl`.
-</span><span class="kw">pub mod </span>decl {
-    <span class="doccomment">/// The kind of declaration.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Kind {
-        <span class="doccomment">/// An identifier declaration.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>Ident(<span class="kw">super</span>::IdentDecl),
-        <span class="doccomment">/// A function declaration.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>Function(<span class="kw">super</span>::FunctionDecl),
-    }
-}
-<span class="doccomment">/// The declared type of a variable.
-///
-/// Extends runtime type values with extra information used for type checking
-/// and dispatching.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeclType {
-    <span class="doccomment">/// The expression id of the declared type, if applicable.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: i32,
-    <span class="doccomment">/// The type name, e.g. 'int', 'my.type.Type' or 'T'
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
-    <span class="doccomment">/// An ordered list of type parameters, e.g. `&lt;string, int&gt;`.
-    /// Only applies to a subset of types, e.g. `map`, `list`.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>type_params: ::prost::alloc::vec::Vec&lt;DeclType&gt;,
-}
-<span class="doccomment">/// An identifier declaration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IdentDecl {
-    <span class="doccomment">/// Optional type of the identifier.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;DeclType&gt;,
-    <span class="doccomment">/// Optional value of the identifier.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;Expr&gt;,
-}
-<span class="doccomment">/// A function declaration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FunctionDecl {
-    <span class="doccomment">/// The function arguments.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>args: ::prost::alloc::vec::Vec&lt;IdentDecl&gt;,
-    <span class="doccomment">/// Optional declared return type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>return_type: ::core::option::Option&lt;DeclType&gt;,
-    <span class="doccomment">/// If the first argument of the function is the receiver.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>receiver_function: bool,
 }
 </code></pre></div></section></main></body></html>

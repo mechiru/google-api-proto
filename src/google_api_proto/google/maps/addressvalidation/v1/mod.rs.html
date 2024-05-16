@@ -1056,191 +1056,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>compound_code: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// The metadata for the address. `metadata` is not guaranteed to be fully
-/// populated for every address sent to the Address Validation API.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AddressMetadata {
-    <span class="doccomment">/// Indicates that this is the address of a business.
-    /// If unset, indicates that the value is unknown.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>business: ::core::option::Option&lt;bool&gt;,
-    <span class="doccomment">/// Indicates that the address of a PO box.
-    /// If unset, indicates that the value is unknown.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>po_box: ::core::option::Option&lt;bool&gt;,
-    <span class="doccomment">/// Indicates that this is the address of a residence.
-    /// If unset, indicates that the value is unknown.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>residential: ::core::option::Option&lt;bool&gt;,
-}
-<span class="doccomment">/// Details of the post-processed address. Post-processing includes
-/// correcting misspelled parts of the address, replacing incorrect parts, and
-/// inferring missing parts.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Address {
-    <span class="doccomment">/// The post-processed address, formatted as a single-line address following
-    /// the address formatting rules of the region where the address is located.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>formatted_address: ::prost::alloc::string::String,
-    <span class="doccomment">/// The post-processed address represented as a postal address.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>postal_address: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::PostalAddress,
-    &gt;,
-    <span class="doccomment">/// Unordered list. The individual address components of the formatted and
-    /// corrected address, along with validation information. This provides
-    /// information on the validation status of the individual components.
-    ///
-    /// Address components are not ordered in a particular way. Do not make any
-    /// assumptions on the ordering of the address components in the list.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>address_components: ::prost::alloc::vec::Vec&lt;AddressComponent&gt;,
-    <span class="doccomment">/// The types of components that were expected to be present in a correctly
-    /// formatted mailing address but were not found in the input AND could
-    /// not be inferred. Components of this type are not present in
-    /// `formatted_address`, `postal_address`, or `address_components`. An
-    /// example might be `\['street_number', 'route'\]` for an input like
-    /// "Boulder, Colorado, 80301, USA". The list of possible types can be found
-    /// [here](&lt;https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types&gt;).
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>missing_component_types: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// The types of the components that are present in the `address_components`
-    /// but could not be confirmed to be correct. This field is provided for the
-    /// sake of convenience: its contents are equivalent to iterating through the
-    /// `address_components` to find the types of all the components where the
-    /// [confirmation_level][google.maps.addressvalidation.v1.AddressComponent.confirmation_level]
-    /// is not
-    /// [CONFIRMED][google.maps.addressvalidation.v1.AddressComponent.ConfirmationLevel.CONFIRMED]
-    /// or the
-    /// [inferred][google.maps.addressvalidation.v1.AddressComponent.inferred]
-    /// flag is not set to `true`. The list of possible types can be found
-    /// [here](&lt;https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types&gt;).
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>unconfirmed_component_types: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Any tokens in the input that could not be resolved. This might be an
-    /// input that was not recognized as a valid part of an address (for example
-    /// in an input like "123235253253 Main St, San Francisco, CA, 94105", the
-    /// unresolved tokens may look like `\["123235253253"\]` since that does not
-    /// look like a valid street number.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>unresolved_tokens: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Represents an address component, such as a street, city, or state.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AddressComponent {
-    <span class="doccomment">/// The name for this component.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>component_name: ::core::option::Option&lt;ComponentName&gt;,
-    <span class="doccomment">/// The type of the address component. See
-    /// [Table 2: Additional types returned by the Places
-    /// service](&lt;https://developers.google.com/places/web-service/supported_types#table2&gt;)
-    /// for a list of possible types.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>component_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Indicates the level of certainty that we have that the component
-    /// is correct.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"address_component::ConfirmationLevel"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>confirmation_level: i32,
-    <span class="doccomment">/// Indicates that the component was not part of the input, but we
-    /// inferred it for the address location and believe it should be provided
-    /// for a complete address.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>inferred: bool,
-    <span class="doccomment">/// Indicates a correction to a misspelling in the component name.  The API
-    /// does not always flag changes from one spelling variant to another, such as
-    /// when changing "centre" to "center". It also does not always flag common
-    /// misspellings, such as when changing "Amphitheater Pkwy" to "Amphitheatre
-    /// Pkwy".
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>spell_corrected: bool,
-    <span class="doccomment">/// Indicates the name of the component was replaced with a completely
-    /// different one, for example a wrong postal code being replaced with one that
-    /// is correct for the address. This is not a cosmetic change, the input
-    /// component has been changed to a different one.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>replaced: bool,
-    <span class="doccomment">/// Indicates an address component that is not expected to be present in a
-    /// postal address for the given region. We have retained it only because it
-    /// was part of the input.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>unexpected: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `AddressComponent`.
-</span><span class="kw">pub mod </span>address_component {
-    <span class="doccomment">/// The different possible values for confirmation levels.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ConfirmationLevel {
-        <span class="doccomment">/// Default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// We were able to verify that this component exists and makes sense in the
-        /// context of the rest of the address.
-        </span>Confirmed = <span class="number">1</span>,
-        <span class="doccomment">/// This component could not be confirmed, but it is plausible that it
-        /// exists. For example, a street number within a known valid range of
-        /// numbers on a street where specific house numbers are not known.
-        </span>UnconfirmedButPlausible = <span class="number">2</span>,
-        <span class="doccomment">/// This component was not confirmed and is likely to be wrong. For
-        /// example, a neighborhood that does not fit the rest of the address.
-        </span>UnconfirmedAndSuspicious = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ConfirmationLevel {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ConfirmationLevel::Unspecified =&gt; <span class="string">"CONFIRMATION_LEVEL_UNSPECIFIED"</span>,
-                ConfirmationLevel::Confirmed =&gt; <span class="string">"CONFIRMED"</span>,
-                ConfirmationLevel::UnconfirmedButPlausible =&gt; <span class="string">"UNCONFIRMED_BUT_PLAUSIBLE"</span>,
-                ConfirmationLevel::UnconfirmedAndSuspicious =&gt; {
-                    <span class="string">"UNCONFIRMED_AND_SUSPICIOUS"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CONFIRMATION_LEVEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CONFIRMED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Confirmed),
-                <span class="string">"UNCONFIRMED_BUT_PLAUSIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnconfirmedButPlausible),
-                <span class="string">"UNCONFIRMED_AND_SUSPICIOUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnconfirmedAndSuspicious),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A wrapper for the name of the component.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComponentName {
-    <span class="doccomment">/// The name text. For example, "5th Avenue" for a street name or "1253" for a
-    /// street number.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-    <span class="doccomment">/// The BCP-47 language code. This will not be present if the component name is
-    /// not associated with a language, such as a street number.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// USPS representation of a US address.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1531,6 +1346,191 @@
     <span class="doccomment">/// Indicator that the request has been CASS processed.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"28"</span>)]
     </span><span class="kw">pub </span>cass_processed: bool,
+}
+<span class="doccomment">/// Details of the post-processed address. Post-processing includes
+/// correcting misspelled parts of the address, replacing incorrect parts, and
+/// inferring missing parts.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Address {
+    <span class="doccomment">/// The post-processed address, formatted as a single-line address following
+    /// the address formatting rules of the region where the address is located.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>formatted_address: ::prost::alloc::string::String,
+    <span class="doccomment">/// The post-processed address represented as a postal address.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>postal_address: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::PostalAddress,
+    &gt;,
+    <span class="doccomment">/// Unordered list. The individual address components of the formatted and
+    /// corrected address, along with validation information. This provides
+    /// information on the validation status of the individual components.
+    ///
+    /// Address components are not ordered in a particular way. Do not make any
+    /// assumptions on the ordering of the address components in the list.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>address_components: ::prost::alloc::vec::Vec&lt;AddressComponent&gt;,
+    <span class="doccomment">/// The types of components that were expected to be present in a correctly
+    /// formatted mailing address but were not found in the input AND could
+    /// not be inferred. Components of this type are not present in
+    /// `formatted_address`, `postal_address`, or `address_components`. An
+    /// example might be `\['street_number', 'route'\]` for an input like
+    /// "Boulder, Colorado, 80301, USA". The list of possible types can be found
+    /// [here](&lt;https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types&gt;).
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>missing_component_types: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// The types of the components that are present in the `address_components`
+    /// but could not be confirmed to be correct. This field is provided for the
+    /// sake of convenience: its contents are equivalent to iterating through the
+    /// `address_components` to find the types of all the components where the
+    /// [confirmation_level][google.maps.addressvalidation.v1.AddressComponent.confirmation_level]
+    /// is not
+    /// [CONFIRMED][google.maps.addressvalidation.v1.AddressComponent.ConfirmationLevel.CONFIRMED]
+    /// or the
+    /// [inferred][google.maps.addressvalidation.v1.AddressComponent.inferred]
+    /// flag is not set to `true`. The list of possible types can be found
+    /// [here](&lt;https://developers.google.com/maps/documentation/geocoding/requests-geocoding#Types&gt;).
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>unconfirmed_component_types: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Any tokens in the input that could not be resolved. This might be an
+    /// input that was not recognized as a valid part of an address (for example
+    /// in an input like "123235253253 Main St, San Francisco, CA, 94105", the
+    /// unresolved tokens may look like `\["123235253253"\]` since that does not
+    /// look like a valid street number.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>unresolved_tokens: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Represents an address component, such as a street, city, or state.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AddressComponent {
+    <span class="doccomment">/// The name for this component.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>component_name: ::core::option::Option&lt;ComponentName&gt;,
+    <span class="doccomment">/// The type of the address component. See
+    /// [Table 2: Additional types returned by the Places
+    /// service](&lt;https://developers.google.com/places/web-service/supported_types#table2&gt;)
+    /// for a list of possible types.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>component_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Indicates the level of certainty that we have that the component
+    /// is correct.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"address_component::ConfirmationLevel"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>confirmation_level: i32,
+    <span class="doccomment">/// Indicates that the component was not part of the input, but we
+    /// inferred it for the address location and believe it should be provided
+    /// for a complete address.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>inferred: bool,
+    <span class="doccomment">/// Indicates a correction to a misspelling in the component name.  The API
+    /// does not always flag changes from one spelling variant to another, such as
+    /// when changing "centre" to "center". It also does not always flag common
+    /// misspellings, such as when changing "Amphitheater Pkwy" to "Amphitheatre
+    /// Pkwy".
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>spell_corrected: bool,
+    <span class="doccomment">/// Indicates the name of the component was replaced with a completely
+    /// different one, for example a wrong postal code being replaced with one that
+    /// is correct for the address. This is not a cosmetic change, the input
+    /// component has been changed to a different one.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>replaced: bool,
+    <span class="doccomment">/// Indicates an address component that is not expected to be present in a
+    /// postal address for the given region. We have retained it only because it
+    /// was part of the input.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>unexpected: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `AddressComponent`.
+</span><span class="kw">pub mod </span>address_component {
+    <span class="doccomment">/// The different possible values for confirmation levels.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ConfirmationLevel {
+        <span class="doccomment">/// Default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// We were able to verify that this component exists and makes sense in the
+        /// context of the rest of the address.
+        </span>Confirmed = <span class="number">1</span>,
+        <span class="doccomment">/// This component could not be confirmed, but it is plausible that it
+        /// exists. For example, a street number within a known valid range of
+        /// numbers on a street where specific house numbers are not known.
+        </span>UnconfirmedButPlausible = <span class="number">2</span>,
+        <span class="doccomment">/// This component was not confirmed and is likely to be wrong. For
+        /// example, a neighborhood that does not fit the rest of the address.
+        </span>UnconfirmedAndSuspicious = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ConfirmationLevel {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ConfirmationLevel::Unspecified =&gt; <span class="string">"CONFIRMATION_LEVEL_UNSPECIFIED"</span>,
+                ConfirmationLevel::Confirmed =&gt; <span class="string">"CONFIRMED"</span>,
+                ConfirmationLevel::UnconfirmedButPlausible =&gt; <span class="string">"UNCONFIRMED_BUT_PLAUSIBLE"</span>,
+                ConfirmationLevel::UnconfirmedAndSuspicious =&gt; {
+                    <span class="string">"UNCONFIRMED_AND_SUSPICIOUS"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CONFIRMATION_LEVEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CONFIRMED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Confirmed),
+                <span class="string">"UNCONFIRMED_BUT_PLAUSIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnconfirmedButPlausible),
+                <span class="string">"UNCONFIRMED_AND_SUSPICIOUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnconfirmedAndSuspicious),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A wrapper for the name of the component.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComponentName {
+    <span class="doccomment">/// The name text. For example, "5th Avenue" for a street name or "1253" for a
+    /// street number.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+    <span class="doccomment">/// The BCP-47 language code. This will not be present if the component name is
+    /// not associated with a language, such as a street number.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The metadata for the address. `metadata` is not guaranteed to be fully
+/// populated for every address sent to the Address Validation API.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AddressMetadata {
+    <span class="doccomment">/// Indicates that this is the address of a business.
+    /// If unset, indicates that the value is unknown.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>business: ::core::option::Option&lt;bool&gt;,
+    <span class="doccomment">/// Indicates that the address of a PO box.
+    /// If unset, indicates that the value is unknown.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>po_box: ::core::option::Option&lt;bool&gt;,
+    <span class="doccomment">/// Indicates that this is the address of a residence.
+    /// If unset, indicates that the value is unknown.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>residential: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// The request for validating an address.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

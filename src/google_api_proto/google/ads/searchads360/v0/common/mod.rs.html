@@ -2619,6 +2619,270 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>audience: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// A YouTube asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>YoutubeVideoAsset {
+    <span class="doccomment">/// YouTube video id. This is the 11 character string value used in the
+    /// YouTube video URL.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>youtube_video_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// YouTube video title.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>youtube_video_title: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// An Image asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageAsset {
+    <span class="doccomment">/// File size of the image asset in bytes.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>file_size: ::core::option::Option&lt;i64&gt;,
+    <span class="doccomment">/// MIME type of the image asset.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"super::enums::mime_type_enum::MimeType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>mime_type: i32,
+    <span class="doccomment">/// Metadata for this image at its original size.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>full_size: ::core::option::Option&lt;ImageDimension&gt;,
+}
+<span class="doccomment">/// Metadata for an image at a certain size, either original or resized.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageDimension {
+    <span class="doccomment">/// Height of the image.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>height_pixels: ::core::option::Option&lt;i64&gt;,
+    <span class="doccomment">/// Width of the image.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>width_pixels: ::core::option::Option&lt;i64&gt;,
+    <span class="doccomment">/// A URL that returns the image with this height and width.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A Text asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextAsset {
+    <span class="doccomment">/// Text content of the text asset.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>text: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A unified callout asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UnifiedCalloutAsset {
+    <span class="doccomment">/// The callout text.
+    /// The length of this string should be between 1 and 25, inclusive.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>callout_text: ::prost::alloc::string::String,
+    <span class="doccomment">/// Start date of when this asset is effective and can begin serving, in
+    /// yyyy-MM-dd format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
+    <span class="doccomment">/// Last date of when this asset is effective and still serving, in yyyy-MM-dd
+    /// format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
+    <span class="doccomment">/// List of non-overlapping schedules specifying all time intervals for which
+    /// the asset may serve. There can be a maximum of 6 schedules per day, 42 in
+    /// total.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>ad_schedule_targets: ::prost::alloc::vec::Vec&lt;AdScheduleInfo&gt;,
+    <span class="doccomment">/// Whether to show the asset in search user's time zone. Applies to Microsoft
+    /// Ads.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>use_searcher_time_zone: bool,
+}
+<span class="doccomment">/// A unified sitelink asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UnifiedSitelinkAsset {
+    <span class="doccomment">/// URL display text for the sitelink.
+    /// The length of this string should be between 1 and 25, inclusive.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>link_text: ::prost::alloc::string::String,
+    <span class="doccomment">/// First line of the description for the sitelink.
+    /// If set, the length should be between 1 and 35, inclusive, and description2
+    /// must also be set.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description1: ::prost::alloc::string::String,
+    <span class="doccomment">/// Second line of the description for the sitelink.
+    /// If set, the length should be between 1 and 35, inclusive, and description1
+    /// must also be set.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description2: ::prost::alloc::string::String,
+    <span class="doccomment">/// Start date of when this asset is effective and can begin serving, in
+    /// yyyy-MM-dd format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
+    <span class="doccomment">/// Last date of when this asset is effective and still serving, in yyyy-MM-dd
+    /// format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
+    <span class="doccomment">/// List of non-overlapping schedules specifying all time intervals for which
+    /// the asset may serve. There can be a maximum of 6 schedules per day, 42 in
+    /// total.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>ad_schedule_targets: ::prost::alloc::vec::Vec&lt;AdScheduleInfo&gt;,
+    <span class="doccomment">/// ID used for tracking clicks for the sitelink asset. This is a Yahoo! Japan
+    /// only field.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>tracking_id: i64,
+    <span class="doccomment">/// Whether to show the sitelink asset in search user's time zone.
+    /// Applies to Microsoft Ads.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>use_searcher_time_zone: bool,
+    <span class="doccomment">/// Whether the preference is for the sitelink asset to be displayed on mobile
+    /// devices. Applies to Microsoft Ads.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>mobile_preferred: bool,
+}
+<span class="doccomment">/// A Unified Page Feed asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UnifiedPageFeedAsset {
+    <span class="doccomment">/// The webpage that advertisers want to target.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>page_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Labels used to group the page urls.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// An asset representing a mobile app.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MobileAppAsset {
+    <span class="doccomment">/// Required. A string that uniquely identifies a mobile application. It should
+    /// just contain the platform native id, like "com.android.ebay" for Android or
+    /// "12345689" for iOS.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>app_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The application store that distributes this specific app.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::mobile_app_vendor_enum::MobileAppVendor"</span>,
+        tag = <span class="string">"2"
+    </span>)]
+    </span><span class="kw">pub </span>app_store: i32,
+}
+<span class="doccomment">/// A unified call asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UnifiedCallAsset {
+    <span class="doccomment">/// Two-letter country code of the phone number. Examples: 'US', 'us'.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>country_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// The advertiser's raw phone number. Examples: '1234567890', '(123)456-7890'
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>phone_number: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Indicates whether this CallAsset should use its own call
+    /// conversion setting, follow the account level setting, or disable call
+    /// conversion.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::call_conversion_reporting_state_enum::CallConversionReportingState"</span>,
+        tag = <span class="string">"3"
+    </span>)]
+    </span><span class="kw">pub </span>call_conversion_reporting_state: i32,
+    <span class="doccomment">/// The conversion action to attribute a call conversion to. If not set, the
+    /// default conversion action is used. This field only has effect if
+    /// call_conversion_reporting_state is set to
+    /// USE_RESOURCE_LEVEL_CALL_CONVERSION_ACTION.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>call_conversion_action: ::prost::alloc::string::String,
+    <span class="doccomment">/// List of non-overlapping schedules specifying all time intervals for which
+    /// the asset may serve. There can be a maximum of 6 schedules per day, 42 in
+    /// total.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>ad_schedule_targets: ::prost::alloc::vec::Vec&lt;AdScheduleInfo&gt;,
+    <span class="doccomment">/// Whether the call only shows the phone number without a link to the website.
+    /// Applies to Microsoft Ads.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>call_only: bool,
+    <span class="doccomment">/// Whether the call should be enabled on call tracking.
+    /// Applies to Microsoft Ads.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>call_tracking_enabled: bool,
+    <span class="doccomment">/// Whether to show the call extension in search user's time zone.
+    /// Applies to Microsoft Ads.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>use_searcher_time_zone: bool,
+    <span class="doccomment">/// Start date of when this asset is effective and can begin serving, in
+    /// yyyy-MM-dd format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
+    <span class="doccomment">/// Last date of when this asset is effective and still serving, in yyyy-MM-dd
+    /// format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A call to action asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CallToActionAsset {
+    <span class="doccomment">/// Call to action.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::call_to_action_type_enum::CallToActionType"</span>,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>call_to_action: i32,
+}
+<span class="doccomment">/// A unified location asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UnifiedLocationAsset {
+    <span class="doccomment">/// Place IDs uniquely identify a place in the Google Places database and on
+    /// Google Maps.
+    /// This field is unique for a given customer ID and asset type. See
+    /// &lt;https://developers.google.com/places/web-service/place-id&gt; to learn more
+    /// about Place ID.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>place_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The list of business locations for the customer.
+    /// This will only be returned if the Location Asset is syncing from the
+    /// Business Profile account. It is possible to have multiple Business Profile
+    /// listings under the same account that point to the same Place ID.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>business_profile_locations: ::prost::alloc::vec::Vec&lt;BusinessProfileLocation&gt;,
+    <span class="doccomment">/// The type of location ownership.
+    /// If the type is BUSINESS_OWNER, it will be served as a location extension.
+    /// If the type is AFFILIATE, it will be served as an affiliate location.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::location_ownership_type_enum::LocationOwnershipType"</span>,
+        tag = <span class="string">"3"
+    </span>)]
+    </span><span class="kw">pub </span>location_ownership_type: i32,
+}
+<span class="doccomment">/// Business Profile location data synced from the linked Business Profile
+/// account.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BusinessProfileLocation {
+    <span class="doccomment">/// Advertiser specified label for the location on the Business Profile
+    /// account. This is synced from the Business Profile account.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Business Profile store code of this location. This is synced from the
+    /// Business Profile account.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>store_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Listing ID of this Business Profile location. This is synced from the
+    /// linked Business Profile account.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>listing_id: i64,
+}
+<span class="doccomment">/// Contains the usage information of the asset.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AssetUsage {
+    <span class="doccomment">/// Resource name of the asset.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>asset: ::prost::alloc::string::String,
+    <span class="doccomment">/// The served field type of the asset.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::served_asset_field_type_enum::ServedAssetFieldType"</span>,
+        tag = <span class="string">"2"
+    </span>)]
+    </span><span class="kw">pub </span>served_asset_field_type: i32,
+}
 <span class="doccomment">/// Segment only fields.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2895,385 +3159,23 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>interaction_on_this_asset: bool,
 }
-<span class="doccomment">/// Settings for the targeting-related features, at the campaign and ad group
-/// levels. For more details about the targeting setting, visit
-/// &lt;https://support.google.com/google-ads/answer/7365594&gt;
+<span class="doccomment">/// A mapping that can be used by custom parameter tags in a
+/// `tracking_url_template`, `final_urls`, or `mobile_final_urls`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TargetingSetting {
-    <span class="doccomment">/// The per-targeting-dimension setting to restrict the reach of your campaign
-    /// or ad group.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_restrictions: ::prost::alloc::vec::Vec&lt;TargetRestriction&gt;,
-}
-<span class="doccomment">/// The list of per-targeting-dimension targeting settings.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TargetRestriction {
-    <span class="doccomment">/// The targeting dimension that these settings apply to.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::targeting_dimension_enum::TargetingDimension"</span>,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>targeting_dimension: i32,
-    <span class="doccomment">/// Indicates whether to restrict your ads to show only for the criteria you
-    /// have selected for this targeting_dimension, or to target all values for
-    /// this targeting_dimension and show ads based on your targeting in other
-    /// TargetingDimensions. A value of `true` means that these criteria will only
-    /// apply bid modifiers, and not affect targeting. A value of `false` means
-    /// that these criteria will restrict targeting as well as applying bid
-    /// modifiers.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>bid_only: ::core::option::Option&lt;bool&gt;,
-}
-<span class="doccomment">/// A Search Ads 360 text ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360TextAdInfo {
-    <span class="doccomment">/// The headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The first line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second line of the ad's description.
+</span><span class="kw">pub struct </span>CustomParameter {
+    <span class="doccomment">/// The key matching the parameter tag name.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The displayed URL of the ad.
+    </span><span class="kw">pub </span>key: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The value to be substituted.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>display_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The displayed mobile URL of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>display_mobile_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
 }
-<span class="doccomment">/// A Search Ads 360 expanded text ad.
+<span class="doccomment">/// A rule specifying the maximum number of times an ad (or some set of ads) can
+/// be shown to a user over a particular time period.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ExpandedTextAdInfo {
-    <span class="doccomment">/// The headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>headline2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The third headline of the ad.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>headline3: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The first line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Text appended to path1 with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// An expanded dynamic search ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ExpandedDynamicSearchAdInfo {
-    <span class="doccomment">/// The first line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The second line of the ad's description.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// A Search Ads 360 product ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ProductAdInfo {}
-<span class="doccomment">/// A Search Ads 360 responsive search ad.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAds360ResponsiveSearchAdInfo {
-    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Text appended to path1 with a delimiter.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The tracking id of the ad.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// A YouTube asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>YoutubeVideoAsset {
-    <span class="doccomment">/// YouTube video id. This is the 11 character string value used in the
-    /// YouTube video URL.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>youtube_video_id: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// YouTube video title.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>youtube_video_title: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// An Image asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageAsset {
-    <span class="doccomment">/// File size of the image asset in bytes.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>file_size: ::core::option::Option&lt;i64&gt;,
-    <span class="doccomment">/// MIME type of the image asset.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"super::enums::mime_type_enum::MimeType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>mime_type: i32,
-    <span class="doccomment">/// Metadata for this image at its original size.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>full_size: ::core::option::Option&lt;ImageDimension&gt;,
-}
-<span class="doccomment">/// Metadata for an image at a certain size, either original or resized.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageDimension {
-    <span class="doccomment">/// Height of the image.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>height_pixels: ::core::option::Option&lt;i64&gt;,
-    <span class="doccomment">/// Width of the image.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>width_pixels: ::core::option::Option&lt;i64&gt;,
-    <span class="doccomment">/// A URL that returns the image with this height and width.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A Text asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextAsset {
-    <span class="doccomment">/// Text content of the text asset.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>text: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A unified callout asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UnifiedCalloutAsset {
-    <span class="doccomment">/// The callout text.
-    /// The length of this string should be between 1 and 25, inclusive.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>callout_text: ::prost::alloc::string::String,
-    <span class="doccomment">/// Start date of when this asset is effective and can begin serving, in
-    /// yyyy-MM-dd format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
-    <span class="doccomment">/// Last date of when this asset is effective and still serving, in yyyy-MM-dd
-    /// format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of non-overlapping schedules specifying all time intervals for which
-    /// the asset may serve. There can be a maximum of 6 schedules per day, 42 in
-    /// total.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>ad_schedule_targets: ::prost::alloc::vec::Vec&lt;AdScheduleInfo&gt;,
-    <span class="doccomment">/// Whether to show the asset in search user's time zone. Applies to Microsoft
-    /// Ads.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>use_searcher_time_zone: bool,
-}
-<span class="doccomment">/// A unified sitelink asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UnifiedSitelinkAsset {
-    <span class="doccomment">/// URL display text for the sitelink.
-    /// The length of this string should be between 1 and 25, inclusive.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>link_text: ::prost::alloc::string::String,
-    <span class="doccomment">/// First line of the description for the sitelink.
-    /// If set, the length should be between 1 and 35, inclusive, and description2
-    /// must also be set.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description1: ::prost::alloc::string::String,
-    <span class="doccomment">/// Second line of the description for the sitelink.
-    /// If set, the length should be between 1 and 35, inclusive, and description1
-    /// must also be set.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description2: ::prost::alloc::string::String,
-    <span class="doccomment">/// Start date of when this asset is effective and can begin serving, in
-    /// yyyy-MM-dd format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
-    <span class="doccomment">/// Last date of when this asset is effective and still serving, in yyyy-MM-dd
-    /// format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of non-overlapping schedules specifying all time intervals for which
-    /// the asset may serve. There can be a maximum of 6 schedules per day, 42 in
-    /// total.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>ad_schedule_targets: ::prost::alloc::vec::Vec&lt;AdScheduleInfo&gt;,
-    <span class="doccomment">/// ID used for tracking clicks for the sitelink asset. This is a Yahoo! Japan
-    /// only field.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>tracking_id: i64,
-    <span class="doccomment">/// Whether to show the sitelink asset in search user's time zone.
-    /// Applies to Microsoft Ads.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>use_searcher_time_zone: bool,
-    <span class="doccomment">/// Whether the preference is for the sitelink asset to be displayed on mobile
-    /// devices. Applies to Microsoft Ads.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>mobile_preferred: bool,
-}
-<span class="doccomment">/// A Unified Page Feed asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UnifiedPageFeedAsset {
-    <span class="doccomment">/// The webpage that advertisers want to target.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>page_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Labels used to group the page urls.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// An asset representing a mobile app.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MobileAppAsset {
-    <span class="doccomment">/// Required. A string that uniquely identifies a mobile application. It should
-    /// just contain the platform native id, like "com.android.ebay" for Android or
-    /// "12345689" for iOS.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>app_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The application store that distributes this specific app.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::mobile_app_vendor_enum::MobileAppVendor"</span>,
-        tag = <span class="string">"2"
-    </span>)]
-    </span><span class="kw">pub </span>app_store: i32,
-}
-<span class="doccomment">/// A unified call asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UnifiedCallAsset {
-    <span class="doccomment">/// Two-letter country code of the phone number. Examples: 'US', 'us'.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>country_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// The advertiser's raw phone number. Examples: '1234567890', '(123)456-7890'
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>phone_number: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Indicates whether this CallAsset should use its own call
-    /// conversion setting, follow the account level setting, or disable call
-    /// conversion.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::call_conversion_reporting_state_enum::CallConversionReportingState"</span>,
-        tag = <span class="string">"3"
-    </span>)]
-    </span><span class="kw">pub </span>call_conversion_reporting_state: i32,
-    <span class="doccomment">/// The conversion action to attribute a call conversion to. If not set, the
-    /// default conversion action is used. This field only has effect if
-    /// call_conversion_reporting_state is set to
-    /// USE_RESOURCE_LEVEL_CALL_CONVERSION_ACTION.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>call_conversion_action: ::prost::alloc::string::String,
-    <span class="doccomment">/// List of non-overlapping schedules specifying all time intervals for which
-    /// the asset may serve. There can be a maximum of 6 schedules per day, 42 in
-    /// total.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>ad_schedule_targets: ::prost::alloc::vec::Vec&lt;AdScheduleInfo&gt;,
-    <span class="doccomment">/// Whether the call only shows the phone number without a link to the website.
-    /// Applies to Microsoft Ads.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>call_only: bool,
-    <span class="doccomment">/// Whether the call should be enabled on call tracking.
-    /// Applies to Microsoft Ads.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>call_tracking_enabled: bool,
-    <span class="doccomment">/// Whether to show the call extension in search user's time zone.
-    /// Applies to Microsoft Ads.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>use_searcher_time_zone: bool,
-    <span class="doccomment">/// Start date of when this asset is effective and can begin serving, in
-    /// yyyy-MM-dd format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
-    <span class="doccomment">/// Last date of when this asset is effective and still serving, in yyyy-MM-dd
-    /// format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A call to action asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CallToActionAsset {
-    <span class="doccomment">/// Call to action.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::call_to_action_type_enum::CallToActionType"</span>,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>call_to_action: i32,
-}
-<span class="doccomment">/// A unified location asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UnifiedLocationAsset {
-    <span class="doccomment">/// Place IDs uniquely identify a place in the Google Places database and on
-    /// Google Maps.
-    /// This field is unique for a given customer ID and asset type. See
-    /// &lt;https://developers.google.com/places/web-service/place-id&gt; to learn more
-    /// about Place ID.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>place_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The list of business locations for the customer.
-    /// This will only be returned if the Location Asset is syncing from the
-    /// Business Profile account. It is possible to have multiple Business Profile
-    /// listings under the same account that point to the same Place ID.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>business_profile_locations: ::prost::alloc::vec::Vec&lt;BusinessProfileLocation&gt;,
-    <span class="doccomment">/// The type of location ownership.
-    /// If the type is BUSINESS_OWNER, it will be served as a location extension.
-    /// If the type is AFFILIATE, it will be served as an affiliate location.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::location_ownership_type_enum::LocationOwnershipType"</span>,
-        tag = <span class="string">"3"
-    </span>)]
-    </span><span class="kw">pub </span>location_ownership_type: i32,
-}
-<span class="doccomment">/// Business Profile location data synced from the linked Business Profile
-/// account.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BusinessProfileLocation {
-    <span class="doccomment">/// Advertiser specified label for the location on the Business Profile
-    /// account. This is synced from the Business Profile account.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Business Profile store code of this location. This is synced from the
-    /// Business Profile account.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>store_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Listing ID of this Business Profile location. This is synced from the
-    /// linked Business Profile account.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>listing_id: i64,
-}
-<span class="doccomment">/// Contains the usage information of the asset.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AssetUsage {
-    <span class="doccomment">/// Resource name of the asset.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>asset: ::prost::alloc::string::String,
-    <span class="doccomment">/// The served field type of the asset.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"super::enums::served_asset_field_type_enum::ServedAssetFieldType"</span>,
-        tag = <span class="string">"2"
-    </span>)]
-    </span><span class="kw">pub </span>served_asset_field_type: i32,
-}
+</span><span class="kw">pub struct </span>FrequencyCapEntry {}
 <span class="doccomment">/// An automated bidding strategy that raises bids for clicks
 /// that seem more likely to lead to a conversion and lowers
 /// them for clicks where they seem less likely.
@@ -3464,23 +3366,90 @@
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>enhanced_cpc_enabled: ::core::option::Option&lt;bool&gt;,
 }
-<span class="doccomment">/// A mapping that can be used by custom parameter tags in a
-/// `tracking_url_template`, `final_urls`, or `mobile_final_urls`.
+<span class="doccomment">/// A Search Ads 360 text ad.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomParameter {
-    <span class="doccomment">/// The key matching the parameter tag name.
+</span><span class="kw">pub struct </span>SearchAds360TextAdInfo {
+    <span class="doccomment">/// The headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The first line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second line of the ad's description.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>key: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The value to be substituted.
+    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The displayed URL of the ad.
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    </span><span class="kw">pub </span>display_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The displayed mobile URL of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>display_mobile_url: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
 }
-<span class="doccomment">/// A rule specifying the maximum number of times an ad (or some set of ads) can
-/// be shown to a user over a particular time period.
+<span class="doccomment">/// A Search Ads 360 expanded text ad.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FrequencyCapEntry {}
+</span><span class="kw">pub struct </span>SearchAds360ExpandedTextAdInfo {
+    <span class="doccomment">/// The headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>headline: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>headline2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The third headline of the ad.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>headline3: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The first line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Text appended to path1 with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
+}
+<span class="doccomment">/// An expanded dynamic search ad.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAds360ExpandedDynamicSearchAdInfo {
+    <span class="doccomment">/// The first line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>description1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The second line of the ad's description.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
+}
+<span class="doccomment">/// A Search Ads 360 product ad.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAds360ProductAdInfo {}
+<span class="doccomment">/// A Search Ads 360 responsive search ad.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAds360ResponsiveSearchAdInfo {
+    <span class="doccomment">/// Text appended to the auto-generated visible URL with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>path1: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Text appended to path1 with a delimiter.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>path2: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The tracking id of the ad.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>ad_tracking_id: ::core::option::Option&lt;i64&gt;,
+}
 <span class="doccomment">/// Settings for Real-Time Bidding, a feature only available for campaigns
 /// targeting the Ad Exchange network.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3489,6 +3458,37 @@
     <span class="doccomment">/// Whether the campaign is opted in to real-time bidding.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>opt_in: ::core::option::Option&lt;bool&gt;,
+}
+<span class="doccomment">/// Settings for the targeting-related features, at the campaign and ad group
+/// levels. For more details about the targeting setting, visit
+/// &lt;https://support.google.com/google-ads/answer/7365594&gt;
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TargetingSetting {
+    <span class="doccomment">/// The per-targeting-dimension setting to restrict the reach of your campaign
+    /// or ad group.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_restrictions: ::prost::alloc::vec::Vec&lt;TargetRestriction&gt;,
+}
+<span class="doccomment">/// The list of per-targeting-dimension targeting settings.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TargetRestriction {
+    <span class="doccomment">/// The targeting dimension that these settings apply to.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"super::enums::targeting_dimension_enum::TargetingDimension"</span>,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>targeting_dimension: i32,
+    <span class="doccomment">/// Indicates whether to restrict your ads to show only for the criteria you
+    /// have selected for this targeting_dimension, or to target all values for
+    /// this targeting_dimension and show ads based on your targeting in other
+    /// TargetingDimensions. A value of `true` means that these criteria will only
+    /// apply bid modifiers, and not affect targeting. A value of `false` means
+    /// that these criteria will restrict targeting as well as applying bid
+    /// modifiers.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>bid_only: ::core::option::Option&lt;bool&gt;,
 }
 <span class="doccomment">/// A type of label displaying text on a colored background.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

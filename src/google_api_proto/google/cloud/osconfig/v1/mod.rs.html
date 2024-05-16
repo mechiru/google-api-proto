@@ -5452,6 +5452,395 @@
         }
     }
 }
+<span class="doccomment">/// Get a report of the OS policy assignment for a VM instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetOsPolicyAssignmentReportRequest {
+    <span class="doccomment">/// Required. API resource name for OS policy assignment report.
+    ///
+    /// Format:
+    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
+    /// can be provided.
+    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// List the OS policy assignment reports for VM instances.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListOsPolicyAssignmentReportsRequest {
+    <span class="doccomment">/// Required. The parent resource name.
+    ///
+    /// Format:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
+    ///
+    /// For `{project}`, either `project-number` or `project-id` can be provided.
+    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
+    /// provided. If '-' is provided, the response will include
+    /// OSPolicyAssignmentReports for all instances in the project/location.
+    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
+    /// is provided, the response will include OSPolicyAssignmentReports for all
+    /// OSPolicyAssignments in the project/location.
+    /// Either {instance} or {assignment} must be `-`.
+    ///
+    /// For example:
+    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
+    ///   returns all reports for the instance
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
+    ///   returns all the reports for the given assignment across all instances.
+    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
+    ///   returns all the reports for all assignments across all instances.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of results to return.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by the
+    /// `OSPolicyAssignmentReport` API resource that is included in the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// A pagination token returned from a previous call to the
+    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
+    /// should continue from.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A response message for listing OS Policy assignment reports including the
+/// page of results and page token.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListOsPolicyAssignmentReportsResponse {
+    <span class="doccomment">/// List of OS policy assignment reports.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>os_policy_assignment_reports: ::prost::alloc::vec::Vec&lt;OsPolicyAssignmentReport&gt;,
+    <span class="doccomment">/// The pagination token to retrieve the next page of OS policy assignment
+    /// report objects.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A report of the OS policy assignment status for a given instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OsPolicyAssignmentReport {
+    <span class="doccomment">/// The `OSPolicyAssignmentReport` API resource name.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The Compute Engine VM instance name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>instance: ::prost::alloc::string::String,
+    <span class="doccomment">/// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
+    /// belongs to.
+    ///
+    /// Format:
+    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>os_policy_assignment: ::prost::alloc::string::String,
+    <span class="doccomment">/// Compliance data for each `OSPolicy` that is applied to the VM.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>os_policy_compliances: ::prost::alloc::vec::Vec&lt;
+        os_policy_assignment_report::OsPolicyCompliance,
+    &gt;,
+    <span class="doccomment">/// Timestamp for when the report was last generated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Unique identifier of the last attempted run to apply the OS policies
+    /// associated with this assignment on the VM.
+    ///
+    /// This ID is logged by the OS Config agent while applying the OS
+    /// policies associated with this assignment on the VM.
+    /// NOTE: If the service is unable to successfully connect to the agent for
+    /// this run, then this id will not be available in the agent logs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>last_run_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `OSPolicyAssignmentReport`.
+</span><span class="kw">pub mod </span>os_policy_assignment_report {
+    <span class="doccomment">/// Compliance data for an OS policy
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>OsPolicyCompliance {
+        <span class="doccomment">/// The OS policy id
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>os_policy_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The compliance state of the OS policy.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"os_policy_compliance::ComplianceState"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>compliance_state: i32,
+        <span class="doccomment">/// The reason for the OS policy to be in an unknown compliance state.
+        /// This field is always populated when `compliance_state` is `UNKNOWN`.
+        ///
+        /// If populated, the field can contain one of the following values:
+        ///
+        /// * `vm-not-running`: The VM was not running.
+        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
+        /// agent running on the VM does not support running OS policies.
+        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
+        /// * `resource-execution-errors`: The OS Config agent encountered errors
+        /// while executing one or more resources in the policy. See
+        /// `os_policy_resource_compliances` for details.
+        /// * `task-timeout`: The task sent to the agent to apply the policy timed
+        /// out.
+        /// * `unexpected-agent-state`: The OS Config agent did not report the final
+        /// status of the task that attempted to apply the policy. Instead, the agent
+        /// unexpectedly started working on a different task. This mostly happens
+        /// when the agent or VM unexpectedly restarts while applying OS policies.
+        /// * `internal-service-errors`: Internal service errors were encountered
+        /// while attempting to apply the policy.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>compliance_state_reason: ::prost::alloc::string::String,
+        <span class="doccomment">/// Compliance data for each resource within the policy that is applied to
+        /// the VM.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>os_policy_resource_compliances: ::prost::alloc::vec::Vec&lt;
+            os_policy_compliance::OsPolicyResourceCompliance,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `OSPolicyCompliance`.
+    </span><span class="kw">pub mod </span>os_policy_compliance {
+        <span class="doccomment">/// Compliance data for an OS policy resource.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>OsPolicyResourceCompliance {
+            <span class="doccomment">/// The ID of the OS policy resource.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>os_policy_resource_id: ::prost::alloc::string::String,
+            <span class="doccomment">/// Ordered list of configuration completed by the agent for the OS policy
+            /// resource.
+            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>config_steps: ::prost::alloc::vec::Vec&lt;
+                os_policy_resource_compliance::OsPolicyResourceConfigStep,
+            &gt;,
+            <span class="doccomment">/// The compliance state of the resource.
+            </span><span class="attr">#[prost(
+                enumeration = <span class="string">"os_policy_resource_compliance::ComplianceState"</span>,
+                tag = <span class="string">"3"
+            </span>)]
+            </span><span class="kw">pub </span>compliance_state: i32,
+            <span class="doccomment">/// A reason for the resource to be in the given compliance state.
+            /// This field is always populated when `compliance_state` is `UNKNOWN`.
+            ///
+            /// The following values are supported when `compliance_state == UNKNOWN`
+            ///
+            /// * `execution-errors`: Errors were encountered by the agent while
+            /// executing the resource and the compliance state couldn't be
+            /// determined.
+            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
+            /// agent because errors were encountered while executing prior resources
+            /// in the OS policy.
+            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
+            /// containing this resource failed and the compliance state couldn't be
+            /// determined.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+            </span><span class="kw">pub </span>compliance_state_reason: ::prost::alloc::string::String,
+            <span class="doccomment">/// Resource specific output.
+            </span><span class="attr">#[prost(oneof = <span class="string">"os_policy_resource_compliance::Output"</span>, tags = <span class="string">"5"</span>)]
+            </span><span class="kw">pub </span>output: ::core::option::Option&lt;os_policy_resource_compliance::Output&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `OSPolicyResourceCompliance`.
+        </span><span class="kw">pub mod </span>os_policy_resource_compliance {
+            <span class="doccomment">/// Step performed by the OS Config agent for configuring an
+            /// `OSPolicy` resource to its desired state.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>OsPolicyResourceConfigStep {
+                <span class="doccomment">/// Configuration step type.
+                </span><span class="attr">#[prost(enumeration = <span class="string">"os_policy_resource_config_step::Type"</span>, tag = <span class="string">"1"</span>)]
+                </span><span class="kw">pub </span>r#type: i32,
+                <span class="doccomment">/// An error message recorded during the execution of this step.
+                /// Only populated if errors were encountered during this step execution.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
+            }
+            <span class="doccomment">/// Nested message and enum types in `OSPolicyResourceConfigStep`.
+            </span><span class="kw">pub mod </span>os_policy_resource_config_step {
+                <span class="doccomment">/// Supported configuration step types
+                </span><span class="attr">#[derive(
+                    Clone,
+                    Copy,
+                    Debug,
+                    PartialEq,
+                    Eq,
+                    Hash,
+                    PartialOrd,
+                    Ord,
+                    ::prost::Enumeration
+                )]
+                #[repr(i32)]
+                </span><span class="kw">pub enum </span>Type {
+                    <span class="doccomment">/// Default value. This value is unused.
+                    </span>Unspecified = <span class="number">0</span>,
+                    <span class="doccomment">/// Checks for resource conflicts such as schema errors.
+                    </span>Validation = <span class="number">1</span>,
+                    <span class="doccomment">/// Checks the current status of the desired state for a resource.
+                    </span>DesiredStateCheck = <span class="number">2</span>,
+                    <span class="doccomment">/// Enforces the desired state for a resource that is not in desired
+                    /// state.
+                    </span>DesiredStateEnforcement = <span class="number">3</span>,
+                    <span class="doccomment">/// Re-checks the status of the desired state. This check is done
+                    /// for a resource after the enforcement of all OS policies.
+                    ///
+                    /// This step is used to determine the final desired state status for
+                    /// the resource. It accounts for any resources that might have drifted
+                    /// from their desired state due to side effects from executing other
+                    /// resources.
+                    </span>DesiredStateCheckPostEnforcement = <span class="number">4</span>,
+                }
+                <span class="kw">impl </span>Type {
+                    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                    ///
+                    /// The values are not transformed in any way and thus are considered stable
+                    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                        <span class="kw">match </span><span class="self">self </span>{
+                            Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                            Type::Validation =&gt; <span class="string">"VALIDATION"</span>,
+                            Type::DesiredStateCheck =&gt; <span class="string">"DESIRED_STATE_CHECK"</span>,
+                            Type::DesiredStateEnforcement =&gt; <span class="string">"DESIRED_STATE_ENFORCEMENT"</span>,
+                            Type::DesiredStateCheckPostEnforcement =&gt; {
+                                <span class="string">"DESIRED_STATE_CHECK_POST_ENFORCEMENT"
+                            </span>}
+                        }
+                    }
+                    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                        <span class="kw">match </span>value {
+                            <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                            <span class="string">"VALIDATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Validation),
+                            <span class="string">"DESIRED_STATE_CHECK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DesiredStateCheck),
+                            <span class="string">"DESIRED_STATE_ENFORCEMENT" </span>=&gt; {
+                                <span class="prelude-val">Some</span>(<span class="self">Self</span>::DesiredStateEnforcement)
+                            }
+                            <span class="string">"DESIRED_STATE_CHECK_POST_ENFORCEMENT" </span>=&gt; {
+                                <span class="prelude-val">Some</span>(<span class="self">Self</span>::DesiredStateCheckPostEnforcement)
+                            }
+                            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                        }
+                    }
+                }
+            }
+            <span class="doccomment">/// ExecResource specific output.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>ExecResourceOutput {
+                <span class="doccomment">/// Output from enforcement phase output file (if run).
+                /// Output size is limited to 100K bytes.
+                </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>enforcement_output: ::prost::bytes::Bytes,
+            }
+            <span class="doccomment">/// Possible compliance states for a resource.
+            </span><span class="attr">#[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            </span><span class="kw">pub enum </span>ComplianceState {
+                <span class="doccomment">/// The resource is in an unknown compliance state.
+                ///
+                /// To get more details about why the policy is in this state, review
+                /// the output of the `compliance_state_reason` field.
+                </span>Unknown = <span class="number">0</span>,
+                <span class="doccomment">/// Resource is compliant.
+                </span>Compliant = <span class="number">1</span>,
+                <span class="doccomment">/// Resource is non-compliant.
+                </span>NonCompliant = <span class="number">2</span>,
+            }
+            <span class="kw">impl </span>ComplianceState {
+                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                    <span class="kw">match </span><span class="self">self </span>{
+                        ComplianceState::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                        ComplianceState::Compliant =&gt; <span class="string">"COMPLIANT"</span>,
+                        ComplianceState::NonCompliant =&gt; <span class="string">"NON_COMPLIANT"</span>,
+                    }
+                }
+                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                    <span class="kw">match </span>value {
+                        <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                        <span class="string">"COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Compliant),
+                        <span class="string">"NON_COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonCompliant),
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                    }
+                }
+            }
+            <span class="doccomment">/// Resource specific output.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            </span><span class="kw">pub enum </span>Output {
+                <span class="doccomment">/// ExecResource specific output.
+                </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+                </span>ExecResourceOutput(ExecResourceOutput),
+            }
+        }
+        <span class="doccomment">/// Possible compliance states for an os policy.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>ComplianceState {
+            <span class="doccomment">/// The policy is in an unknown compliance state.
+            ///
+            /// Refer to the field `compliance_state_reason` to learn the exact reason
+            /// for the policy to be in this compliance state.
+            </span>Unknown = <span class="number">0</span>,
+            <span class="doccomment">/// Policy is compliant.
+            ///
+            /// The policy is compliant if all the underlying resources are also
+            /// compliant.
+            </span>Compliant = <span class="number">1</span>,
+            <span class="doccomment">/// Policy is non-compliant.
+            ///
+            /// The policy is non-compliant if one or more underlying resources are
+            /// non-compliant.
+            </span>NonCompliant = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>ComplianceState {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    ComplianceState::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                    ComplianceState::Compliant =&gt; <span class="string">"COMPLIANT"</span>,
+                    ComplianceState::NonCompliant =&gt; <span class="string">"NON_COMPLIANT"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                    <span class="string">"COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Compliant),
+                    <span class="string">"NON_COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonCompliant),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+}
 <span class="doccomment">/// Message encapsulating a value that can be either absolute ("fixed") or
 /// relative ("percent") to a value.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -7286,395 +7675,6 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-    }
-}
-<span class="doccomment">/// Get a report of the OS policy assignment for a VM instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetOsPolicyAssignmentReportRequest {
-    <span class="doccomment">/// Required. API resource name for OS policy assignment report.
-    ///
-    /// Format:
-    /// `/projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/report`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance_id}`, either Compute Engine `instance-id` or `instance-name`
-    /// can be provided.
-    /// For `{assignment_id}`, the OSPolicyAssignment id must be provided.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// List the OS policy assignment reports for VM instances.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListOsPolicyAssignmentReportsRequest {
-    <span class="doccomment">/// Required. The parent resource name.
-    ///
-    /// Format:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/{assignment}/reports`
-    ///
-    /// For `{project}`, either `project-number` or `project-id` can be provided.
-    /// For `{instance}`, either `instance-name`, `instance-id`, or `-` can be
-    /// provided. If '-' is provided, the response will include
-    /// OSPolicyAssignmentReports for all instances in the project/location.
-    /// For `{assignment}`, either `assignment-id` or `-` can be provided. If '-'
-    /// is provided, the response will include OSPolicyAssignmentReports for all
-    /// OSPolicyAssignments in the project/location.
-    /// Either {instance} or {assignment} must be `-`.
-    ///
-    /// For example:
-    /// `projects/{project}/locations/{location}/instances/{instance}/osPolicyAssignments/-/reports`
-    ///   returns all reports for the instance
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/{assignment-id}/reports`
-    ///   returns all the reports for the given assignment across all instances.
-    /// `projects/{project}/locations/{location}/instances/-/osPolicyAssignments/-/reports`
-    ///   returns all the reports for all assignments across all instances.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of results to return.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by the
-    /// `OSPolicyAssignmentReport` API resource that is included in the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// A pagination token returned from a previous call to the
-    /// `ListOSPolicyAssignmentReports` method that indicates where this listing
-    /// should continue from.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A response message for listing OS Policy assignment reports including the
-/// page of results and page token.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListOsPolicyAssignmentReportsResponse {
-    <span class="doccomment">/// List of OS policy assignment reports.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>os_policy_assignment_reports: ::prost::alloc::vec::Vec&lt;OsPolicyAssignmentReport&gt;,
-    <span class="doccomment">/// The pagination token to retrieve the next page of OS policy assignment
-    /// report objects.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A report of the OS policy assignment status for a given instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OsPolicyAssignmentReport {
-    <span class="doccomment">/// The `OSPolicyAssignmentReport` API resource name.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/instances/{instance_id}/osPolicyAssignments/{os_policy_assignment_id}/report`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The Compute Engine VM instance name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>instance: ::prost::alloc::string::String,
-    <span class="doccomment">/// Reference to the `OSPolicyAssignment` API resource that the `OSPolicy`
-    /// belongs to.
-    ///
-    /// Format:
-    /// `projects/{project_number}/locations/{location}/osPolicyAssignments/{os_policy_assignment_id@revision_id}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>os_policy_assignment: ::prost::alloc::string::String,
-    <span class="doccomment">/// Compliance data for each `OSPolicy` that is applied to the VM.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>os_policy_compliances: ::prost::alloc::vec::Vec&lt;
-        os_policy_assignment_report::OsPolicyCompliance,
-    &gt;,
-    <span class="doccomment">/// Timestamp for when the report was last generated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Unique identifier of the last attempted run to apply the OS policies
-    /// associated with this assignment on the VM.
-    ///
-    /// This ID is logged by the OS Config agent while applying the OS
-    /// policies associated with this assignment on the VM.
-    /// NOTE: If the service is unable to successfully connect to the agent for
-    /// this run, then this id will not be available in the agent logs.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>last_run_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `OSPolicyAssignmentReport`.
-</span><span class="kw">pub mod </span>os_policy_assignment_report {
-    <span class="doccomment">/// Compliance data for an OS policy
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>OsPolicyCompliance {
-        <span class="doccomment">/// The OS policy id
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>os_policy_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The compliance state of the OS policy.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"os_policy_compliance::ComplianceState"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>compliance_state: i32,
-        <span class="doccomment">/// The reason for the OS policy to be in an unknown compliance state.
-        /// This field is always populated when `compliance_state` is `UNKNOWN`.
-        ///
-        /// If populated, the field can contain one of the following values:
-        ///
-        /// * `vm-not-running`: The VM was not running.
-        /// * `os-policies-not-supported-by-agent`: The version of the OS Config
-        /// agent running on the VM does not support running OS policies.
-        /// * `no-agent-detected`: The OS Config agent is not detected for the VM.
-        /// * `resource-execution-errors`: The OS Config agent encountered errors
-        /// while executing one or more resources in the policy. See
-        /// `os_policy_resource_compliances` for details.
-        /// * `task-timeout`: The task sent to the agent to apply the policy timed
-        /// out.
-        /// * `unexpected-agent-state`: The OS Config agent did not report the final
-        /// status of the task that attempted to apply the policy. Instead, the agent
-        /// unexpectedly started working on a different task. This mostly happens
-        /// when the agent or VM unexpectedly restarts while applying OS policies.
-        /// * `internal-service-errors`: Internal service errors were encountered
-        /// while attempting to apply the policy.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>compliance_state_reason: ::prost::alloc::string::String,
-        <span class="doccomment">/// Compliance data for each resource within the policy that is applied to
-        /// the VM.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>os_policy_resource_compliances: ::prost::alloc::vec::Vec&lt;
-            os_policy_compliance::OsPolicyResourceCompliance,
-        &gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `OSPolicyCompliance`.
-    </span><span class="kw">pub mod </span>os_policy_compliance {
-        <span class="doccomment">/// Compliance data for an OS policy resource.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>OsPolicyResourceCompliance {
-            <span class="doccomment">/// The ID of the OS policy resource.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>os_policy_resource_id: ::prost::alloc::string::String,
-            <span class="doccomment">/// Ordered list of configuration completed by the agent for the OS policy
-            /// resource.
-            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>config_steps: ::prost::alloc::vec::Vec&lt;
-                os_policy_resource_compliance::OsPolicyResourceConfigStep,
-            &gt;,
-            <span class="doccomment">/// The compliance state of the resource.
-            </span><span class="attr">#[prost(
-                enumeration = <span class="string">"os_policy_resource_compliance::ComplianceState"</span>,
-                tag = <span class="string">"3"
-            </span>)]
-            </span><span class="kw">pub </span>compliance_state: i32,
-            <span class="doccomment">/// A reason for the resource to be in the given compliance state.
-            /// This field is always populated when `compliance_state` is `UNKNOWN`.
-            ///
-            /// The following values are supported when `compliance_state == UNKNOWN`
-            ///
-            /// * `execution-errors`: Errors were encountered by the agent while
-            /// executing the resource and the compliance state couldn't be
-            /// determined.
-            /// * `execution-skipped-by-agent`: Resource execution was skipped by the
-            /// agent because errors were encountered while executing prior resources
-            /// in the OS policy.
-            /// * `os-policy-execution-attempt-failed`: The execution of the OS policy
-            /// containing this resource failed and the compliance state couldn't be
-            /// determined.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-            </span><span class="kw">pub </span>compliance_state_reason: ::prost::alloc::string::String,
-            <span class="doccomment">/// Resource specific output.
-            </span><span class="attr">#[prost(oneof = <span class="string">"os_policy_resource_compliance::Output"</span>, tags = <span class="string">"5"</span>)]
-            </span><span class="kw">pub </span>output: ::core::option::Option&lt;os_policy_resource_compliance::Output&gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `OSPolicyResourceCompliance`.
-        </span><span class="kw">pub mod </span>os_policy_resource_compliance {
-            <span class="doccomment">/// Step performed by the OS Config agent for configuring an
-            /// `OSPolicy` resource to its desired state.
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>OsPolicyResourceConfigStep {
-                <span class="doccomment">/// Configuration step type.
-                </span><span class="attr">#[prost(enumeration = <span class="string">"os_policy_resource_config_step::Type"</span>, tag = <span class="string">"1"</span>)]
-                </span><span class="kw">pub </span>r#type: i32,
-                <span class="doccomment">/// An error message recorded during the execution of this step.
-                /// Only populated if errors were encountered during this step execution.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
-            }
-            <span class="doccomment">/// Nested message and enum types in `OSPolicyResourceConfigStep`.
-            </span><span class="kw">pub mod </span>os_policy_resource_config_step {
-                <span class="doccomment">/// Supported configuration step types
-                </span><span class="attr">#[derive(
-                    Clone,
-                    Copy,
-                    Debug,
-                    PartialEq,
-                    Eq,
-                    Hash,
-                    PartialOrd,
-                    Ord,
-                    ::prost::Enumeration
-                )]
-                #[repr(i32)]
-                </span><span class="kw">pub enum </span>Type {
-                    <span class="doccomment">/// Default value. This value is unused.
-                    </span>Unspecified = <span class="number">0</span>,
-                    <span class="doccomment">/// Checks for resource conflicts such as schema errors.
-                    </span>Validation = <span class="number">1</span>,
-                    <span class="doccomment">/// Checks the current status of the desired state for a resource.
-                    </span>DesiredStateCheck = <span class="number">2</span>,
-                    <span class="doccomment">/// Enforces the desired state for a resource that is not in desired
-                    /// state.
-                    </span>DesiredStateEnforcement = <span class="number">3</span>,
-                    <span class="doccomment">/// Re-checks the status of the desired state. This check is done
-                    /// for a resource after the enforcement of all OS policies.
-                    ///
-                    /// This step is used to determine the final desired state status for
-                    /// the resource. It accounts for any resources that might have drifted
-                    /// from their desired state due to side effects from executing other
-                    /// resources.
-                    </span>DesiredStateCheckPostEnforcement = <span class="number">4</span>,
-                }
-                <span class="kw">impl </span>Type {
-                    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                    ///
-                    /// The values are not transformed in any way and thus are considered stable
-                    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                        <span class="kw">match </span><span class="self">self </span>{
-                            Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                            Type::Validation =&gt; <span class="string">"VALIDATION"</span>,
-                            Type::DesiredStateCheck =&gt; <span class="string">"DESIRED_STATE_CHECK"</span>,
-                            Type::DesiredStateEnforcement =&gt; <span class="string">"DESIRED_STATE_ENFORCEMENT"</span>,
-                            Type::DesiredStateCheckPostEnforcement =&gt; {
-                                <span class="string">"DESIRED_STATE_CHECK_POST_ENFORCEMENT"
-                            </span>}
-                        }
-                    }
-                    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                        <span class="kw">match </span>value {
-                            <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                            <span class="string">"VALIDATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Validation),
-                            <span class="string">"DESIRED_STATE_CHECK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DesiredStateCheck),
-                            <span class="string">"DESIRED_STATE_ENFORCEMENT" </span>=&gt; {
-                                <span class="prelude-val">Some</span>(<span class="self">Self</span>::DesiredStateEnforcement)
-                            }
-                            <span class="string">"DESIRED_STATE_CHECK_POST_ENFORCEMENT" </span>=&gt; {
-                                <span class="prelude-val">Some</span>(<span class="self">Self</span>::DesiredStateCheckPostEnforcement)
-                            }
-                            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                        }
-                    }
-                }
-            }
-            <span class="doccomment">/// ExecResource specific output.
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>ExecResourceOutput {
-                <span class="doccomment">/// Output from enforcement phase output file (if run).
-                /// Output size is limited to 100K bytes.
-                </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>enforcement_output: ::prost::bytes::Bytes,
-            }
-            <span class="doccomment">/// Possible compliance states for a resource.
-            </span><span class="attr">#[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            </span><span class="kw">pub enum </span>ComplianceState {
-                <span class="doccomment">/// The resource is in an unknown compliance state.
-                ///
-                /// To get more details about why the policy is in this state, review
-                /// the output of the `compliance_state_reason` field.
-                </span>Unknown = <span class="number">0</span>,
-                <span class="doccomment">/// Resource is compliant.
-                </span>Compliant = <span class="number">1</span>,
-                <span class="doccomment">/// Resource is non-compliant.
-                </span>NonCompliant = <span class="number">2</span>,
-            }
-            <span class="kw">impl </span>ComplianceState {
-                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        ComplianceState::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                        ComplianceState::Compliant =&gt; <span class="string">"COMPLIANT"</span>,
-                        ComplianceState::NonCompliant =&gt; <span class="string">"NON_COMPLIANT"</span>,
-                    }
-                }
-                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                    <span class="kw">match </span>value {
-                        <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                        <span class="string">"COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Compliant),
-                        <span class="string">"NON_COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonCompliant),
-                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                    }
-                }
-            }
-            <span class="doccomment">/// Resource specific output.
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            </span><span class="kw">pub enum </span>Output {
-                <span class="doccomment">/// ExecResource specific output.
-                </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-                </span>ExecResourceOutput(ExecResourceOutput),
-            }
-        }
-        <span class="doccomment">/// Possible compliance states for an os policy.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>ComplianceState {
-            <span class="doccomment">/// The policy is in an unknown compliance state.
-            ///
-            /// Refer to the field `compliance_state_reason` to learn the exact reason
-            /// for the policy to be in this compliance state.
-            </span>Unknown = <span class="number">0</span>,
-            <span class="doccomment">/// Policy is compliant.
-            ///
-            /// The policy is compliant if all the underlying resources are also
-            /// compliant.
-            </span>Compliant = <span class="number">1</span>,
-            <span class="doccomment">/// Policy is non-compliant.
-            ///
-            /// The policy is non-compliant if one or more underlying resources are
-            /// non-compliant.
-            </span>NonCompliant = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>ComplianceState {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    ComplianceState::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                    ComplianceState::Compliant =&gt; <span class="string">"COMPLIANT"</span>,
-                    ComplianceState::NonCompliant =&gt; <span class="string">"NON_COMPLIANT"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                    <span class="string">"COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Compliant),
-                    <span class="string">"NON_COMPLIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonCompliant),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
     }
 }
 <span class="doccomment">/// An OS policy defines the desired state configuration for a VM.
