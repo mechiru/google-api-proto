@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Justification"],"mod":["review_justification"],"struct":["BusinessAvailabilityAttributesJustification","ReviewJustification"]};

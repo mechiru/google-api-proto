@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["BusinessStatus"],"mod":["opening_hours"],"struct":["AccessibilityOptions","AddressComponent","Attribution","OpeningHours","ParkingOptions","PaymentOptions","PlusCode","SubDestination"]};
+window.SIDEBAR_ITEMS = {"enum":["BusinessStatus"],"mod":["opening_hours"],"struct":["AccessibilityOptions","AddressComponent","AreaSummary","Attribution","GenerativeSummary","OpeningHours","ParkingOptions","PaymentOptions","PlusCode","SubDestination"]};
