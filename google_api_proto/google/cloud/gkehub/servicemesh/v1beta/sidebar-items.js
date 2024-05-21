@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["membership_spec","membership_state"],"struct":["MembershipSpec","MembershipState","StatusDetails"]};
