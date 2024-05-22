@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["customer_license","customer_license_service_client","license_notification","license_notification_service_client","user_license_service_client"],"struct":["CustomerLicense","CustomerLicenseGetRequest","LicenseNotification","LicenseNotificationList","LicenseNotificationListRequest","UserLicense","UserLicenseGetRequest"]};
