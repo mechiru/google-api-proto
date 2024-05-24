@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Kind"],"mod":["aggregate","bytes","int64"],"struct":["Aggregate","Bytes","Int64"]};
+window.SIDEBAR_ITEMS = {"enum":["Kind"],"mod":["aggregate","bytes","int64","string"],"struct":["Aggregate","Bytes","Int64","String"]};

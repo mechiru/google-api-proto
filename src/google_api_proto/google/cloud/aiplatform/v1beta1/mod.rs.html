@@ -41279,6 +41279,15 @@
 <a href="#41277" id="41277">41277</a>
 <a href="#41278" id="41278">41278</a>
 <a href="#41279" id="41279">41279</a>
+<a href="#41280" id="41280">41280</a>
+<a href="#41281" id="41281">41281</a>
+<a href="#41282" id="41282">41282</a>
+<a href="#41283" id="41283">41283</a>
+<a href="#41284" id="41284">41284</a>
+<a href="#41285" id="41285">41285</a>
+<a href="#41286" id="41286">41286</a>
+<a href="#41287" id="41287">41287</a>
+<a href="#41288" id="41288">41288</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -47096,6 +47105,15 @@
     /// This is a preview feature.
     </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
     </span><span class="kw">pub </span>response_mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The `Schema` object allows the definition of input and output
+    /// data types. These types can be objects, but also primitives and arrays.
+    /// Represents a select subset of an [OpenAPI 3.0 schema
+    /// object](&lt;https://spec.openapis.org/oas/v3.0.3#schema&gt;).
+    /// If set, a compatible response_mime_type must also be set.
+    /// Compatible mimetypes:
+    /// `application/json`: Schema for JSON response.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>response_schema: ::core::option::Option&lt;Schema&gt;,
 }
 <span class="doccomment">/// Safety settings.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
