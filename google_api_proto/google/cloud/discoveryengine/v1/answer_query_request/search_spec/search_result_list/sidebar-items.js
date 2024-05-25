@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["search_result"],"struct":["SearchResult"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["answer_generation_spec","query_understanding_spec","search_spec"],"struct":["AnswerGenerationSpec","QueryUnderstandingSpec","RelatedQuestionsSpec","SafetySpec","SearchSpec"]};
