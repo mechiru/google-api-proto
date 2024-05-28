@@ -632,6 +632,8 @@
 <a href="#630" id="630">630</a>
 <a href="#631" id="631">631</a>
 <a href="#632" id="632">632</a>
+<a href="#633" id="633">633</a>
+<a href="#634" id="634">634</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-actions-sdk-v2"</span>,
@@ -1201,6 +1203,8 @@
     )
 )]
 </span><span class="kw">pub mod </span>maps;
+<span class="attr">#[cfg(any(feature = <span class="string">"google-marketingplatform-admin-v1alpha"</span>))]
+</span><span class="kw">pub mod </span>marketingplatform;
 <span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-monitoring-dashboard-v1"</span>,
