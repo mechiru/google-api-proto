@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Query"]};
+window.SIDEBAR_ITEMS = {"mod":["query"],"struct":["Query"]};

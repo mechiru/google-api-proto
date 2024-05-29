@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["MetadataStoreState"]};
+window.SIDEBAR_ITEMS = {"struct":["DataplexConfig","MetadataStoreState"]};
