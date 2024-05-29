@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["CgroupMode"]};
+window.SIDEBAR_ITEMS = {"enum":["CgroupMode"],"struct":["HugepagesConfig"]};

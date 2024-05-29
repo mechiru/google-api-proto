@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Action"],"struct":["BoostAction","FilterAction","RedirectAction","SynonymsAction"]};
