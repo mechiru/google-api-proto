@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Event"],"struct":["Activated","ActivationFailed","Approved","Denied","Ended","Expired","ExternallyModified","Requested","Revoked","Scheduled"]};

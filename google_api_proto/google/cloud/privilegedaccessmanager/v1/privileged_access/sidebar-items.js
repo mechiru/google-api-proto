@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AccessType"],"mod":["gcp_iam_access"],"struct":["GcpIamAccess"]};

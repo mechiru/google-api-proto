@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["JustificationType"],"struct":["NotMandatory","Unstructured"]};
