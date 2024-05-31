@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["CouponValueType","OfferType","ProductApplicability","RedemptionChannel","StoreApplicability"],"mod":["promotion_status","promotions_service_client"],"struct":["Attributes","GetPromotionRequest","InsertPromotionRequest","ListPromotionsRequest","ListPromotionsResponse","Promotion","PromotionStatus"]};

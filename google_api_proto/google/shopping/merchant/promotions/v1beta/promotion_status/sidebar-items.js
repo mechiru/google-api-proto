@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["destination_status","item_level_issue"],"struct":["DestinationStatus","ItemLevelIssue"]};

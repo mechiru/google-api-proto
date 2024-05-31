@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ItemCondition","ReturnMethod"],"mod":["policy","restocking_fee","return_shipping_fee"],"struct":["Policy","RestockingFee","ReturnShippingFee"]};

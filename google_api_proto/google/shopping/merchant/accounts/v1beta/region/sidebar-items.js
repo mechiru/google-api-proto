@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["postal_code_area"],"struct":["GeoTargetArea","PostalCodeArea"]};

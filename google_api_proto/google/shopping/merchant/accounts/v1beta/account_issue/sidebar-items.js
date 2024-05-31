@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Severity"],"mod":["impacted_destination"],"struct":["ImpactedDestination"]};

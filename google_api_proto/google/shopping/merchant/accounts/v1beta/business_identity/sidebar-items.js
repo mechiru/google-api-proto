@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["PromotionsConsent"],"mod":["identity_attribute"],"struct":["IdentityAttribute"]};

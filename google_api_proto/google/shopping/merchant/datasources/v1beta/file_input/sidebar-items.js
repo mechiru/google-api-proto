@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["FileInputType"],"mod":["fetch_settings"],"struct":["FetchSettings"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["ShipmentType"],"mod":["loyalty_program","store_config"],"struct":["LoyaltyProgram","StoreConfig"]};
