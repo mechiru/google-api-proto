@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["PersistenceMode"],"mod":["aof_config","rdb_config"],"struct":["AofConfig","RdbConfig"]};
