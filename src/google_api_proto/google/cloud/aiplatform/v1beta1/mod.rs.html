@@ -42026,6 +42026,60 @@
 <a href="#42024" id="42024">42024</a>
 <a href="#42025" id="42025">42025</a>
 <a href="#42026" id="42026">42026</a>
+<a href="#42027" id="42027">42027</a>
+<a href="#42028" id="42028">42028</a>
+<a href="#42029" id="42029">42029</a>
+<a href="#42030" id="42030">42030</a>
+<a href="#42031" id="42031">42031</a>
+<a href="#42032" id="42032">42032</a>
+<a href="#42033" id="42033">42033</a>
+<a href="#42034" id="42034">42034</a>
+<a href="#42035" id="42035">42035</a>
+<a href="#42036" id="42036">42036</a>
+<a href="#42037" id="42037">42037</a>
+<a href="#42038" id="42038">42038</a>
+<a href="#42039" id="42039">42039</a>
+<a href="#42040" id="42040">42040</a>
+<a href="#42041" id="42041">42041</a>
+<a href="#42042" id="42042">42042</a>
+<a href="#42043" id="42043">42043</a>
+<a href="#42044" id="42044">42044</a>
+<a href="#42045" id="42045">42045</a>
+<a href="#42046" id="42046">42046</a>
+<a href="#42047" id="42047">42047</a>
+<a href="#42048" id="42048">42048</a>
+<a href="#42049" id="42049">42049</a>
+<a href="#42050" id="42050">42050</a>
+<a href="#42051" id="42051">42051</a>
+<a href="#42052" id="42052">42052</a>
+<a href="#42053" id="42053">42053</a>
+<a href="#42054" id="42054">42054</a>
+<a href="#42055" id="42055">42055</a>
+<a href="#42056" id="42056">42056</a>
+<a href="#42057" id="42057">42057</a>
+<a href="#42058" id="42058">42058</a>
+<a href="#42059" id="42059">42059</a>
+<a href="#42060" id="42060">42060</a>
+<a href="#42061" id="42061">42061</a>
+<a href="#42062" id="42062">42062</a>
+<a href="#42063" id="42063">42063</a>
+<a href="#42064" id="42064">42064</a>
+<a href="#42065" id="42065">42065</a>
+<a href="#42066" id="42066">42066</a>
+<a href="#42067" id="42067">42067</a>
+<a href="#42068" id="42068">42068</a>
+<a href="#42069" id="42069">42069</a>
+<a href="#42070" id="42070">42070</a>
+<a href="#42071" id="42071">42071</a>
+<a href="#42072" id="42072">42072</a>
+<a href="#42073" id="42073">42073</a>
+<a href="#42074" id="42074">42074</a>
+<a href="#42075" id="42075">42075</a>
+<a href="#42076" id="42076">42076</a>
+<a href="#42077" id="42077">42077</a>
+<a href="#42078" id="42078">42078</a>
+<a href="#42079" id="42079">42079</a>
+<a href="#42080" id="42080">42080</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -65540,6 +65594,50 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Config for the embedding model to use for RAG.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RagEmbeddingModelConfig {
+    <span class="doccomment">/// The model config to use.
+    </span><span class="attr">#[prost(oneof = <span class="string">"rag_embedding_model_config::ModelConfig"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model_config: ::core::option::Option&lt;rag_embedding_model_config::ModelConfig&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RagEmbeddingModelConfig`.
+</span><span class="kw">pub mod </span>rag_embedding_model_config {
+    <span class="doccomment">/// Config representing a model hosted on Vertex Prediction Endpoint.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>VertexPredictionEndpoint {
+        <span class="doccomment">/// Required. The endpoint resource name.
+        /// Format:
+        /// `projects/{project}/locations/{location}/publishers/{publisher}/models/{model}`
+        /// or
+        /// `projects/{project}/locations/{location}/endpoints/{endpoint}`
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>endpoint: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only. The resource name of the model that is deployed on the
+        /// endpoint. Present only when the endpoint is not a publisher model.
+        /// Pattern:
+        /// `projects/{project}/locations/{location}/models/{model}`
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only. Version ID of the model that is deployed on the endpoint.
+        /// Present only when the endpoint is not a publisher model.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>model_version_id: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The model config to use.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>ModelConfig {
+        <span class="doccomment">/// The Vertex AI Prediction Endpoint that either refers to a publisher model
+        /// or an endpoint that is hosting a 1P fine-tuned text embedding model.
+        /// Endpoints hosting non-1P fine-tuned text embedding models are
+        /// currently not supported.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>VertexPredictionEndpoint(VertexPredictionEndpoint),
+    }
+}
 <span class="doccomment">/// A RagCorpus is a RagFile container and a project can have multiple
 /// RagCorpora.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -65556,6 +65654,9 @@
     <span class="doccomment">/// Optional. The description of the RagCorpus.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Immutable. The embedding model config of the RagCorpus.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>rag_embedding_model_config: ::core::option::Option&lt;RagEmbeddingModelConfig&gt;,
     <span class="doccomment">/// Output only. Timestamp when this RagCorpus was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
@@ -65685,6 +65786,13 @@
     <span class="doccomment">/// Specifies the size and overlap of chunks after importing RagFiles.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>rag_file_chunking_config: ::core::option::Option&lt;RagFileChunkingConfig&gt;,
+    <span class="doccomment">/// Optional. The max number of queries per minute that this job is allowed to
+    /// make to the embedding model specified on the corpus. This value is specific
+    /// to this job and not shared across other import jobs. Consult the Quotas
+    /// page on the project to set an appropriate value here.
+    /// If unspecified, a default value of 1,000 QPM would be used.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>max_embedding_requests_per_min: i32,
     <span class="attr">#[prost(oneof = <span class="string">"import_rag_files_config::ImportSource"</span>, tags = <span class="string">"2, 3"</span>)]
     </span><span class="kw">pub </span>import_source: ::core::option::Option&lt;import_rag_files_config::ImportSource&gt;,
 }
