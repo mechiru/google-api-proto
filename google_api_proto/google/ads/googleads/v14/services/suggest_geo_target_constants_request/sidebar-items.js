@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Query"],"struct":["GeoTargets","LocationNames"]};

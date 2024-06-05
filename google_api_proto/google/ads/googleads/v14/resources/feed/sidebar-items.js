@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["SystemFeedGenerationData"],"mod":["places_location_feed_data"],"struct":["AffiliateLocationFeedData","PlacesLocationFeedData"]};

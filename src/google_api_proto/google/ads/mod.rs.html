@@ -29,22 +29,12 @@
 <a href="#27" id="27">27</a>
 <a href="#28" id="28">28</a>
 <a href="#29" id="29">29</a>
-<a href="#30" id="30">30</a>
-<a href="#31" id="31">31</a>
-<a href="#32" id="32">32</a>
-<a href="#33" id="33">33</a>
-<a href="#34" id="34">34</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-ads-admanager-v1"</span>))]
 </span><span class="kw">pub mod </span>admanager;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-ads-admob-v1"</span>))]
 </span><span class="kw">pub mod </span>admob;
 <span class="attr">#[cfg(
     any(
-        feature = <span class="string">"google-ads-googleads-v14-common"</span>,
-        feature = <span class="string">"google-ads-googleads-v14-enums"</span>,
-        feature = <span class="string">"google-ads-googleads-v14-errors"</span>,
-        feature = <span class="string">"google-ads-googleads-v14-resources"</span>,
-        feature = <span class="string">"google-ads-googleads-v14-services"</span>,
         feature = <span class="string">"google-ads-googleads-v15-common"</span>,
         feature = <span class="string">"google-ads-googleads-v15-enums"</span>,
         feature = <span class="string">"google-ads-googleads-v15-errors"</span>,

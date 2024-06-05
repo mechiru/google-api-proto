@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["Dimension"],"struct":["ProductBiddingCategory","ProductBrand","ProductChannel","ProductCondition","ProductCustomAttribute","ProductItemId","ProductType"]};

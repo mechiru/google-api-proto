@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"enum":["AssetSetSource"],"struct":["HotelPropertyData","MerchantCenterFeed"]};
