@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["event","postback_mapping"],"struct":["CoarseGrainedConversionValueMappings","ConversionValueMapping","Event","FineGrainedConversionValueMappings","PostbackMapping"]};

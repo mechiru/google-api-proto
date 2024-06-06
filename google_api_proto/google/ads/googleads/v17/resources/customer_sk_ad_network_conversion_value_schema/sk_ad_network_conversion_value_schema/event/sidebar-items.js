@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["EventRate","RevenueRate"],"struct":["EventOccurrenceRange","RevenueRange"]};

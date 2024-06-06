@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["bidding_info"],"struct":["AdGroupInfo","BiddingInfo","SeedInfo"]};

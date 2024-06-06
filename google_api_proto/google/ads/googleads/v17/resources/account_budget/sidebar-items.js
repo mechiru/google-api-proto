@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["AdjustedSpendingLimit","ApprovedEndTime","ApprovedSpendingLimit","ProposedEndTime","ProposedSpendingLimit"],"mod":["pending_account_budget_proposal"],"struct":["PendingAccountBudgetProposal"]};

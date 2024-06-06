@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Dimension"],"mod":["webpage_condition"],"struct":["ProductBrand","ProductCategory","ProductChannel","ProductCondition","ProductCustomAttribute","ProductItemId","ProductType","Webpage","WebpageCondition"]};
