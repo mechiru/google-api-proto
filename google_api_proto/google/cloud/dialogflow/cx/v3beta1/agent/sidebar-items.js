@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["git_integration_settings"],"struct":["AnswerFeedbackSettings","GenAppBuilderSettings","GitIntegrationSettings","PersonalizationSettings"]};
+window.SIDEBAR_ITEMS = {"enum":["SessionEntryResource"],"mod":["git_integration_settings"],"struct":["AnswerFeedbackSettings","GenAppBuilderSettings","GitIntegrationSettings","PersonalizationSettings"]};

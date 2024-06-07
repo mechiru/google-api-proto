@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["AttributeType","DynamicFacetableOption","ExactSearchableOption","IndexableOption","RetrievableOption","SearchableOption"]};
+window.SIDEBAR_ITEMS = {"enum":["AttributeType","DynamicFacetableOption","ExactSearchableOption","IndexableOption","RetrievableOption","SearchableOption"],"mod":["facet_config"],"struct":["FacetConfig"]};

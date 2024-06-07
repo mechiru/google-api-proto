@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Action"],"struct":["BoostAction","DoNotAssociateAction","FilterAction","IgnoreAction","OnewaySynonymsAction","RedirectAction","ReplacementAction","TwowaySynonymsAction"]};
+window.SIDEBAR_ITEMS = {"enum":["Action"],"mod":["force_return_facet_action"],"struct":["BoostAction","DoNotAssociateAction","FilterAction","ForceReturnFacetAction","IgnoreAction","OnewaySynonymsAction","RedirectAction","RemoveFacetAction","ReplacementAction","TwowaySynonymsAction"]};

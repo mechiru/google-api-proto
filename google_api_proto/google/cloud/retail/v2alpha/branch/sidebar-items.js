@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["product_count_statistic"],"struct":["ProductCountStatistic","QualityMetric"]};

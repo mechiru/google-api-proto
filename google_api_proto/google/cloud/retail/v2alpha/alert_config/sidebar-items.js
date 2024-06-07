@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["alert_policy"],"struct":["AlertPolicy"]};

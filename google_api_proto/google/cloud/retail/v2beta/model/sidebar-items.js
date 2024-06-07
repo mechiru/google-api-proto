@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["DataState","PeriodicTuningState","ServingState","TrainingState"],"struct":["ServingConfigList"]};
+window.SIDEBAR_ITEMS = {"enum":["ContextProductsType","DataState","PeriodicTuningState","ServingState","TrainingState"],"mod":["model_features_config"],"struct":["FrequentlyBoughtTogetherFeaturesConfig","ModelFeaturesConfig","ServingConfigList"]};

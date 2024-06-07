@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["step"],"struct":["Step"]};
+window.SIDEBAR_ITEMS = {"mod":["step"],"struct":["Instruction","Step"]};
