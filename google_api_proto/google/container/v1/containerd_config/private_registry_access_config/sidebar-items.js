@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["certificate_authority_domain_config"],"struct":["CertificateAuthorityDomainConfig"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["private_registry_access_config"],"struct":["PrivateRegistryAccessConfig"]};
