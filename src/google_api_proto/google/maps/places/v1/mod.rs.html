@@ -2426,40 +2426,6 @@
         }
     }
 }
-<span class="doccomment">/// Experimental: See
-/// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-/// for more details.
-///
-/// Reference that the generative content is related to.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>References {
-    <span class="doccomment">/// Reviews that serve as references.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reviews: ::prost::alloc::vec::Vec&lt;Review&gt;,
-    <span class="doccomment">/// The list of resource names of the referenced places. This name can be used
-    /// in other APIs that accept Place resource names.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>places: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// A block of content that can be served individually.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContentBlock {
-    <span class="doccomment">/// The topic of the content, for example "overview" or "restaurant".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Content related to the topic.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>content: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText&gt;,
-    <span class="doccomment">/// Experimental: See
-    /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-    /// for more details.
-    ///
-    /// References that are related to this block of content.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>references: ::core::option::Option&lt;References&gt;,
-}
 <span class="doccomment">/// Information about the EV Charge Station hosted in Place.
 /// Terminology follows
 /// &lt;https://afdc.energy.gov/fuels/electricity_infrastructure.html&gt; One port
@@ -2585,6 +2551,55 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
+}
+<span class="doccomment">/// Circle with a LatLng as center and radius.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Circle {
+    <span class="doccomment">/// Required. Center latitude and longitude.
+    ///
+    /// The range of latitude must be within \[-90.0, 90.0\]. The range of the
+    /// longitude must be within \[-180.0, 180.0\].
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>center: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LatLng&gt;,
+    <span class="doccomment">/// Required. Radius measured in meters. The radius must be within [0.0,
+    /// 50000.0].
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>radius: f64,
+}
+<span class="doccomment">/// Experimental: See
+/// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+/// for more details.
+///
+/// Reference that the generative content is related to.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>References {
+    <span class="doccomment">/// Reviews that serve as references.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reviews: ::prost::alloc::vec::Vec&lt;Review&gt;,
+    <span class="doccomment">/// The list of resource names of the referenced places. This name can be used
+    /// in other APIs that accept Place resource names.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>places: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A block of content that can be served individually.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContentBlock {
+    <span class="doccomment">/// The topic of the content, for example "overview" or "restaurant".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Content related to the topic.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>content: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LocalizedText&gt;,
+    <span class="doccomment">/// Experimental: See
+    /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+    /// for more details.
+    ///
+    /// References that are related to this block of content.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>references: ::core::option::Option&lt;References&gt;,
 }
 <span class="doccomment">/// The most recent information about fuel options in a gas station. This
 /// information is updated regularly.
@@ -3408,21 +3423,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// Circle with a LatLng as center and radius.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Circle {
-    <span class="doccomment">/// Required. Center latitude and longitude.
-    ///
-    /// The range of latitude must be within \[-90.0, 90.0\]. The range of the
-    /// longitude must be within \[-180.0, 180.0\].
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>center: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::LatLng&gt;,
-    <span class="doccomment">/// Required. Radius measured in meters. The radius must be within [0.0,
-    /// 50000.0].
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>radius: f64,
 }
 <span class="doccomment">/// Request proto for Search Nearby.
 ///

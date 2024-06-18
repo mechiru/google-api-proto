@@ -1270,82 +1270,22 @@
         }
     }
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextSentiment {
+</span><span class="kw">pub struct </span>AutoMlVideoClassification {
     <span class="doccomment">/// The input parameters of this TrainingJob.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextSentimentInputs&gt;,
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoClassificationInputs&gt;,
 }
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextSentimentInputs {
-    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value
-    /// means a more positive sentiment. The range of sentiments that will be used
-    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
-    /// in the range must be represented in the dataset before a model can be
-    /// created.
-    /// Only the Annotations with this sentimentMax will be used for training.
-    /// sentimentMax value must be between 1 and 10 (inclusive).
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sentiment_max: i32,
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Classification Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlImageClassification {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlImageClassificationInputs&gt;,
-    <span class="doccomment">/// The metadata information.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;AutoMlImageClassificationMetadata&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlImageClassificationInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_image_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
+</span><span class="kw">pub struct </span>AutoMlVideoClassificationInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>model_type: i32,
-    <span class="doccomment">/// The ID of the `base` model. If it is specified, the new model will be
-    /// trained based on the `base` model. Otherwise, the new model will be
-    /// trained from scratch. The `base` model must be in the same
-    /// Project and Location as the new Model to train, and have the same
-    /// modelType.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The training budget of creating this model, expressed in milli node
-    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
-    /// metadata.costMilliNodeHours will be equal or less than this value.
-    /// If further model training ceases to provide any improvements, it will
-    /// stop without using the full budget and the metadata.successfulStopReason
-    /// will be `model-converged`.
-    /// Note, node_hour  = actual_hour * number_of_nodes_involved.
-    /// For modelType `cloud`(default), the budget must be between 8,000
-    /// and 800,000 milli node hours, inclusive. The default value is 192,000
-    /// which represents one day in wall time, considering 8 nodes are used.
-    /// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,
-    /// `mobile-tf-high-accuracy-1`, the training budget must be between
-    /// 1,000 and 100,000 milli node hours, inclusive.
-    /// The default value is 24,000 which represents one day in wall time on a
-    /// single node that is used.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>budget_milli_node_hours: i64,
-    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.
-    /// When false the early stopping feature is enabled, which means that
-    /// AutoML Image Classification might stop training before the entire
-    /// training budget has been used.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>disable_early_stopping: bool,
-    <span class="doccomment">/// If false, a single-label (multi-class) Model will be trained (i.e.
-    /// assuming that for each image just up to one annotation may be
-    /// applicable). If true, a multi-label Model will be trained (i.e.
-    /// assuming that for each image multiple annotations may be applicable).
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>multi_label: bool,
 }
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationInputs`.
-</span><span class="kw">pub mod </span>auto_ml_image_classification_inputs {
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
+</span><span class="kw">pub mod </span>auto_ml_video_classification_inputs {
     <span class="attr">#[derive(
         Clone,
         Copy,
@@ -1361,26 +1301,17 @@
     </span><span class="kw">pub enum </span>ModelType {
         <span class="doccomment">/// Should not be set.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A Model best tailored to be used within Google Cloud, and which cannot
-        /// be exported.
-        /// Default.
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
+        /// be exported. Default.
         </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// or Core ML model and used on a mobile or edge device afterwards.
-        /// Expected to have low latency, but may have lower prediction
-        /// quality than other mobile models.
-        </span>MobileTfLowLatency1 = <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// or Core ML model and used on a mobile or edge device with afterwards.
-        </span>MobileTfVersatile1 = <span class="number">3</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
-        /// or Core ML model and used on a mobile or edge device afterwards.
-        /// Expected to have a higher latency, but should also have a higher
-        /// prediction quality than other mobile models.
-        </span>MobileTfHighAccuracy1 = <span class="number">4</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        </span>MobileVersatile1 = <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) to a Jetson device
+        /// afterwards.
+        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
     }
     <span class="kw">impl </span>ModelType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -1391,9 +1322,8 @@
             <span class="kw">match </span><span class="self">self </span>{
                 ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
                 ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileTfLowLatency1 =&gt; <span class="string">"MOBILE_TF_LOW_LATENCY_1"</span>,
-                ModelType::MobileTfVersatile1 =&gt; <span class="string">"MOBILE_TF_VERSATILE_1"</span>,
-                ModelType::MobileTfHighAccuracy1 =&gt; <span class="string">"MOBILE_TF_HIGH_ACCURACY_1"</span>,
+                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
+                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -1401,244 +1331,8 @@
             <span class="kw">match </span>value {
                 <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_TF_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfLowLatency1),
-                <span class="string">"MOBILE_TF_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfVersatile1),
-                <span class="string">"MOBILE_TF_HIGH_ACCURACY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfHighAccuracy1),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlImageClassificationMetadata {
-    <span class="doccomment">/// The actual training cost of creating this model, expressed in
-    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
-    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cost_milli_node_hours: i64,
-    <span class="doccomment">/// For successful job completions, this is the reason why the job has
-    /// finished.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"auto_ml_image_classification_metadata::SuccessfulStopReason"</span>,
-        tag = <span class="string">"2"
-    </span>)]
-    </span><span class="kw">pub </span>successful_stop_reason: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationMetadata`.
-</span><span class="kw">pub mod </span>auto_ml_image_classification_metadata {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SuccessfulStopReason {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.
-        </span>BudgetReached = <span class="number">1</span>,
-        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it
-        /// already has converged.
-        </span>ModelConverged = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>SuccessfulStopReason {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SuccessfulStopReason::Unspecified =&gt; <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED"</span>,
-                SuccessfulStopReason::BudgetReached =&gt; <span class="string">"BUDGET_REACHED"</span>,
-                SuccessfulStopReason::ModelConverged =&gt; <span class="string">"MODEL_CONVERGED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BUDGET_REACHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BudgetReached),
-                <span class="string">"MODEL_CONVERGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ModelConverged),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlImageObjectDetection {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlImageObjectDetectionInputs&gt;,
-    <span class="doccomment">/// The metadata information
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;AutoMlImageObjectDetectionMetadata&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlImageObjectDetectionInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_image_object_detection_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model_type: i32,
-    <span class="doccomment">/// The training budget of creating this model, expressed in milli node
-    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
-    /// metadata.costMilliNodeHours will be equal or less than this value.
-    /// If further model training ceases to provide any improvements, it will
-    /// stop without using the full budget and the metadata.successfulStopReason
-    /// will be `model-converged`.
-    /// Note, node_hour  = actual_hour * number_of_nodes_involved.
-    /// For modelType `cloud`(default), the budget must be between 20,000
-    /// and 900,000 milli node hours, inclusive. The default value is 216,000
-    /// which represents one day in wall time, considering 9 nodes are used.
-    /// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,
-    /// `mobile-tf-high-accuracy-1`
-    /// the training budget must be between 1,000 and 100,000 milli node hours,
-    /// inclusive. The default value is 24,000 which represents one day in
-    /// wall time on a single node that is used.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>budget_milli_node_hours: i64,
-    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.
-    /// When false the early stopping feature is enabled, which means that AutoML
-    /// Image Object Detection might stop training before the entire training
-    /// budget has been used.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>disable_early_stopping: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionInputs`.
-</span><span class="kw">pub mod </span>auto_ml_image_object_detection_inputs {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ModelType {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
-        /// be exported. Expected to have a higher latency, but should also have a
-        /// higher prediction quality than other cloud models.
-        </span>CloudHighAccuracy1 = <span class="number">1</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
-        /// be exported. Expected to have a low latency, but may have lower
-        /// prediction quality than other cloud models.
-        </span>CloudLowLatency1 = <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google
-        /// Cloud can also be exported (see ModelService.ExportModel) and
-        /// used on a mobile or edge device with TensorFlow afterwards.
-        /// Expected to have low latency, but may have lower prediction
-        /// quality than other mobile models.
-        </span>MobileTfLowLatency1 = <span class="number">3</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google
-        /// Cloud can also be exported (see ModelService.ExportModel) and
-        /// used on a mobile or edge device with TensorFlow afterwards.
-        </span>MobileTfVersatile1 = <span class="number">4</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google
-        /// Cloud, can also be exported (see ModelService.ExportModel) and
-        /// used on a mobile or edge device with TensorFlow afterwards.
-        /// Expected to have a higher latency, but should also have a higher
-        /// prediction quality than other mobile models.
-        </span>MobileTfHighAccuracy1 = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>ModelType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
-                ModelType::CloudHighAccuracy1 =&gt; <span class="string">"CLOUD_HIGH_ACCURACY_1"</span>,
-                ModelType::CloudLowLatency1 =&gt; <span class="string">"CLOUD_LOW_LATENCY_1"</span>,
-                ModelType::MobileTfLowLatency1 =&gt; <span class="string">"MOBILE_TF_LOW_LATENCY_1"</span>,
-                ModelType::MobileTfVersatile1 =&gt; <span class="string">"MOBILE_TF_VERSATILE_1"</span>,
-                ModelType::MobileTfHighAccuracy1 =&gt; <span class="string">"MOBILE_TF_HIGH_ACCURACY_1"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLOUD_HIGH_ACCURACY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudHighAccuracy1),
-                <span class="string">"CLOUD_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudLowLatency1),
-                <span class="string">"MOBILE_TF_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfLowLatency1),
-                <span class="string">"MOBILE_TF_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfVersatile1),
-                <span class="string">"MOBILE_TF_HIGH_ACCURACY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfHighAccuracy1),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlImageObjectDetectionMetadata {
-    <span class="doccomment">/// The actual training cost of creating this model, expressed in
-    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
-    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cost_milli_node_hours: i64,
-    <span class="doccomment">/// For successful job completions, this is the reason why the job has
-    /// finished.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"auto_ml_image_object_detection_metadata::SuccessfulStopReason"</span>,
-        tag = <span class="string">"2"
-    </span>)]
-    </span><span class="kw">pub </span>successful_stop_reason: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionMetadata`.
-</span><span class="kw">pub mod </span>auto_ml_image_object_detection_metadata {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SuccessfulStopReason {
-        <span class="doccomment">/// Should not be set.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.
-        </span>BudgetReached = <span class="number">1</span>,
-        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it
-        /// already has converged.
-        </span>ModelConverged = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>SuccessfulStopReason {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SuccessfulStopReason::Unspecified =&gt; <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED"</span>,
-                SuccessfulStopReason::BudgetReached =&gt; <span class="string">"BUDGET_REACHED"</span>,
-                SuccessfulStopReason::ModelConverged =&gt; <span class="string">"MODEL_CONVERGED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BUDGET_REACHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BudgetReached),
-                <span class="string">"MODEL_CONVERGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ModelConverged),
+                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
+                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -1973,6 +1667,116 @@
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>train_cost_milli_node_hours: i64,
 }
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Action Recognition
+/// Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoActionRecognition {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoActionRecognitionInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlVideoActionRecognitionInputs {
+    <span class="attr">#[prost(
+        enumeration = <span class="string">"auto_ml_video_action_recognition_inputs::ModelType"</span>,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>model_type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.
+</span><span class="kw">pub mod </span>auto_ml_video_action_recognition_inputs {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ModelType {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot
+        /// be exported. Default.
+        </span>Cloud = <span class="number">1</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
+        </span>MobileVersatile1 = <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) to a Jetson device
+        /// afterwards.
+        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
+        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
+        /// TensorFlow Lite model and used on a Coral device afterwards.
+        </span>MobileCoralVersatile1 = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>ModelType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
+                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
+                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
+                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
+                ModelType::MobileCoralVersatile1 =&gt; <span class="string">"MOBILE_CORAL_VERSATILE_1"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
+                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
+                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
+                <span class="string">"MOBILE_CORAL_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralVersatile1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextExtraction {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextExtractionInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextExtractionInputs {}
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Sentiment Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextSentiment {
+    <span class="doccomment">/// The input parameters of this TrainingJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextSentimentInputs&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlTextSentimentInputs {
+    <span class="doccomment">/// A sentiment is expressed as an integer ordinal, where higher value
+    /// means a more positive sentiment. The range of sentiments that will be used
+    /// is between 0 and sentimentMax (inclusive on both ends), and all the values
+    /// in the range must be represented in the dataset before a model can be
+    /// created.
+    /// Only the Annotations with this sentimentMax will be used for training.
+    /// sentimentMax value must be between 1 and 10 (inclusive).
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sentiment_max: i32,
+}
 <span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video ObjectTracking Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2055,22 +1859,48 @@
         }
     }
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Classification Model.
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Object Detection Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoClassification {
+</span><span class="kw">pub struct </span>AutoMlImageObjectDetection {
     <span class="doccomment">/// The input parameters of this TrainingJob.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoClassificationInputs&gt;,
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlImageObjectDetectionInputs&gt;,
+    <span class="doccomment">/// The metadata information
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;AutoMlImageObjectDetectionMetadata&gt;,
 }
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoClassificationInputs {
-    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_video_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
+</span><span class="kw">pub struct </span>AutoMlImageObjectDetectionInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_image_object_detection_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>model_type: i32,
+    <span class="doccomment">/// The training budget of creating this model, expressed in milli node
+    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
+    /// metadata.costMilliNodeHours will be equal or less than this value.
+    /// If further model training ceases to provide any improvements, it will
+    /// stop without using the full budget and the metadata.successfulStopReason
+    /// will be `model-converged`.
+    /// Note, node_hour  = actual_hour * number_of_nodes_involved.
+    /// For modelType `cloud`(default), the budget must be between 20,000
+    /// and 900,000 milli node hours, inclusive. The default value is 216,000
+    /// which represents one day in wall time, considering 9 nodes are used.
+    /// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,
+    /// `mobile-tf-high-accuracy-1`
+    /// the training budget must be between 1,000 and 100,000 milli node hours,
+    /// inclusive. The default value is 24,000 which represents one day in
+    /// wall time on a single node that is used.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>budget_milli_node_hours: i64,
+    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.
+    /// When false the early stopping feature is enabled, which means that AutoML
+    /// Image Object Detection might stop training before the entire training
+    /// budget has been used.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>disable_early_stopping: bool,
 }
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoClassificationInputs`.
-</span><span class="kw">pub mod </span>auto_ml_video_classification_inputs {
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionInputs`.
+</span><span class="kw">pub mod </span>auto_ml_image_object_detection_inputs {
     <span class="attr">#[derive(
         Clone,
         Copy,
@@ -2087,16 +1917,29 @@
         <span class="doccomment">/// Should not be set.
         </span>Unspecified = <span class="number">0</span>,
         <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
-        /// be exported. Default.
-        </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        </span>MobileVersatile1 = <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) to a Jetson device
-        /// afterwards.
-        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
+        /// be exported. Expected to have a higher latency, but should also have a
+        /// higher prediction quality than other cloud models.
+        </span>CloudHighAccuracy1 = <span class="number">1</span>,
+        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which cannot
+        /// be exported. Expected to have a low latency, but may have lower
+        /// prediction quality than other cloud models.
+        </span>CloudLowLatency1 = <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google
+        /// Cloud can also be exported (see ModelService.ExportModel) and
+        /// used on a mobile or edge device with TensorFlow afterwards.
+        /// Expected to have low latency, but may have lower prediction
+        /// quality than other mobile models.
+        </span>MobileTfLowLatency1 = <span class="number">3</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google
+        /// Cloud can also be exported (see ModelService.ExportModel) and
+        /// used on a mobile or edge device with TensorFlow afterwards.
+        </span>MobileTfVersatile1 = <span class="number">4</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) and
+        /// used on a mobile or edge device with TensorFlow afterwards.
+        /// Expected to have a higher latency, but should also have a higher
+        /// prediction quality than other mobile models.
+        </span>MobileTfHighAccuracy1 = <span class="number">5</span>,
     }
     <span class="kw">impl </span>ModelType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -2106,18 +1949,84 @@
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
                 ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
-                ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
-                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
+                ModelType::CloudHighAccuracy1 =&gt; <span class="string">"CLOUD_HIGH_ACCURACY_1"</span>,
+                ModelType::CloudLowLatency1 =&gt; <span class="string">"CLOUD_LOW_LATENCY_1"</span>,
+                ModelType::MobileTfLowLatency1 =&gt; <span class="string">"MOBILE_TF_LOW_LATENCY_1"</span>,
+                ModelType::MobileTfVersatile1 =&gt; <span class="string">"MOBILE_TF_VERSATILE_1"</span>,
+                ModelType::MobileTfHighAccuracy1 =&gt; <span class="string">"MOBILE_TF_HIGH_ACCURACY_1"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
                 <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
-                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
+                <span class="string">"CLOUD_HIGH_ACCURACY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudHighAccuracy1),
+                <span class="string">"CLOUD_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudLowLatency1),
+                <span class="string">"MOBILE_TF_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfLowLatency1),
+                <span class="string">"MOBILE_TF_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfVersatile1),
+                <span class="string">"MOBILE_TF_HIGH_ACCURACY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfHighAccuracy1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlImageObjectDetectionMetadata {
+    <span class="doccomment">/// The actual training cost of creating this model, expressed in
+    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
+    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cost_milli_node_hours: i64,
+    <span class="doccomment">/// For successful job completions, this is the reason why the job has
+    /// finished.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"auto_ml_image_object_detection_metadata::SuccessfulStopReason"</span>,
+        tag = <span class="string">"2"
+    </span>)]
+    </span><span class="kw">pub </span>successful_stop_reason: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageObjectDetectionMetadata`.
+</span><span class="kw">pub mod </span>auto_ml_image_object_detection_metadata {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SuccessfulStopReason {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.
+        </span>BudgetReached = <span class="number">1</span>,
+        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it
+        /// already has converged.
+        </span>ModelConverged = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>SuccessfulStopReason {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SuccessfulStopReason::Unspecified =&gt; <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED"</span>,
+                SuccessfulStopReason::BudgetReached =&gt; <span class="string">"BUDGET_REACHED"</span>,
+                SuccessfulStopReason::ModelConverged =&gt; <span class="string">"MODEL_CONVERGED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BUDGET_REACHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BudgetReached),
+                <span class="string">"MODEL_CONVERGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ModelConverged),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -2137,37 +2046,61 @@
     <span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>multi_label: bool,
 }
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Text Extraction Model.
+<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Image Classification Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextExtraction {
+</span><span class="kw">pub struct </span>AutoMlImageClassification {
     <span class="doccomment">/// The input parameters of this TrainingJob.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlTextExtractionInputs&gt;,
+    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlImageClassificationInputs&gt;,
+    <span class="doccomment">/// The metadata information.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>metadata: ::core::option::Option&lt;AutoMlImageClassificationMetadata&gt;,
 }
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlTextExtractionInputs {}
-<span class="doccomment">/// A TrainingJob that trains and uploads an AutoML Video Action Recognition
-/// Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoActionRecognition {
-    <span class="doccomment">/// The input parameters of this TrainingJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>inputs: ::core::option::Option&lt;AutoMlVideoActionRecognitionInputs&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoMlVideoActionRecognitionInputs {
-    <span class="attr">#[prost(
-        enumeration = <span class="string">"auto_ml_video_action_recognition_inputs::ModelType"</span>,
-        tag = <span class="string">"1"
-    </span>)]
+</span><span class="kw">pub struct </span>AutoMlImageClassificationInputs {
+    <span class="attr">#[prost(enumeration = <span class="string">"auto_ml_image_classification_inputs::ModelType"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>model_type: i32,
+    <span class="doccomment">/// The ID of the `base` model. If it is specified, the new model will be
+    /// trained based on the `base` model. Otherwise, the new model will be
+    /// trained from scratch. The `base` model must be in the same
+    /// Project and Location as the new Model to train, and have the same
+    /// modelType.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The training budget of creating this model, expressed in milli node
+    /// hours i.e. 1,000 value in this field means 1 node hour. The actual
+    /// metadata.costMilliNodeHours will be equal or less than this value.
+    /// If further model training ceases to provide any improvements, it will
+    /// stop without using the full budget and the metadata.successfulStopReason
+    /// will be `model-converged`.
+    /// Note, node_hour  = actual_hour * number_of_nodes_involved.
+    /// For modelType `cloud`(default), the budget must be between 8,000
+    /// and 800,000 milli node hours, inclusive. The default value is 192,000
+    /// which represents one day in wall time, considering 8 nodes are used.
+    /// For model types `mobile-tf-low-latency-1`, `mobile-tf-versatile-1`,
+    /// `mobile-tf-high-accuracy-1`, the training budget must be between
+    /// 1,000 and 100,000 milli node hours, inclusive.
+    /// The default value is 24,000 which represents one day in wall time on a
+    /// single node that is used.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>budget_milli_node_hours: i64,
+    <span class="doccomment">/// Use the entire training budget. This disables the early stopping feature.
+    /// When false the early stopping feature is enabled, which means that
+    /// AutoML Image Classification might stop training before the entire
+    /// training budget has been used.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>disable_early_stopping: bool,
+    <span class="doccomment">/// If false, a single-label (multi-class) Model will be trained (i.e.
+    /// assuming that for each image just up to one annotation may be
+    /// applicable). If true, a multi-label Model will be trained (i.e.
+    /// assuming that for each image multiple annotations may be applicable).
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>multi_label: bool,
 }
-<span class="doccomment">/// Nested message and enum types in `AutoMlVideoActionRecognitionInputs`.
-</span><span class="kw">pub mod </span>auto_ml_video_action_recognition_inputs {
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationInputs`.
+</span><span class="kw">pub mod </span>auto_ml_image_classification_inputs {
     <span class="attr">#[derive(
         Clone,
         Copy,
@@ -2183,21 +2116,26 @@
     </span><span class="kw">pub enum </span>ModelType {
         <span class="doccomment">/// Should not be set.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A model best tailored to be used within Google Cloud, and which c annot
-        /// be exported. Default.
+        <span class="doccomment">/// A Model best tailored to be used within Google Cloud, and which cannot
+        /// be exported.
+        /// Default.
         </span>Cloud = <span class="number">1</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a mobile or edge device afterwards.
-        </span>MobileVersatile1 = <span class="number">2</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) to a Jetson device
-        /// afterwards.
-        </span>MobileJetsonVersatile1 = <span class="number">3</span>,
-        <span class="doccomment">/// A model that, in addition to being available within Google Cloud, can
-        /// also be exported (see ModelService.ExportModel) as a TensorFlow or
-        /// TensorFlow Lite model and used on a Coral device afterwards.
-        </span>MobileCoralVersatile1 = <span class="number">4</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// or Core ML model and used on a mobile or edge device afterwards.
+        /// Expected to have low latency, but may have lower prediction
+        /// quality than other mobile models.
+        </span>MobileTfLowLatency1 = <span class="number">2</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// or Core ML model and used on a mobile or edge device with afterwards.
+        </span>MobileTfVersatile1 = <span class="number">3</span>,
+        <span class="doccomment">/// A model that, in addition to being available within Google
+        /// Cloud, can also be exported (see ModelService.ExportModel) as TensorFlow
+        /// or Core ML model and used on a mobile or edge device afterwards.
+        /// Expected to have a higher latency, but should also have a higher
+        /// prediction quality than other mobile models.
+        </span>MobileTfHighAccuracy1 = <span class="number">4</span>,
     }
     <span class="kw">impl </span>ModelType {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -2208,9 +2146,9 @@
             <span class="kw">match </span><span class="self">self </span>{
                 ModelType::Unspecified =&gt; <span class="string">"MODEL_TYPE_UNSPECIFIED"</span>,
                 ModelType::Cloud =&gt; <span class="string">"CLOUD"</span>,
-                ModelType::MobileVersatile1 =&gt; <span class="string">"MOBILE_VERSATILE_1"</span>,
-                ModelType::MobileJetsonVersatile1 =&gt; <span class="string">"MOBILE_JETSON_VERSATILE_1"</span>,
-                ModelType::MobileCoralVersatile1 =&gt; <span class="string">"MOBILE_CORAL_VERSATILE_1"</span>,
+                ModelType::MobileTfLowLatency1 =&gt; <span class="string">"MOBILE_TF_LOW_LATENCY_1"</span>,
+                ModelType::MobileTfVersatile1 =&gt; <span class="string">"MOBILE_TF_VERSATILE_1"</span>,
+                ModelType::MobileTfHighAccuracy1 =&gt; <span class="string">"MOBILE_TF_HIGH_ACCURACY_1"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -2218,9 +2156,71 @@
             <span class="kw">match </span>value {
                 <span class="string">"MODEL_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"CLOUD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cloud),
-                <span class="string">"MOBILE_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileVersatile1),
-                <span class="string">"MOBILE_JETSON_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileJetsonVersatile1),
-                <span class="string">"MOBILE_CORAL_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileCoralVersatile1),
+                <span class="string">"MOBILE_TF_LOW_LATENCY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfLowLatency1),
+                <span class="string">"MOBILE_TF_VERSATILE_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfVersatile1),
+                <span class="string">"MOBILE_TF_HIGH_ACCURACY_1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MobileTfHighAccuracy1),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoMlImageClassificationMetadata {
+    <span class="doccomment">/// The actual training cost of creating this model, expressed in
+    /// milli node hours, i.e. 1,000 value in this field means 1 node hour.
+    /// Guaranteed to not exceed inputs.budgetMilliNodeHours.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cost_milli_node_hours: i64,
+    <span class="doccomment">/// For successful job completions, this is the reason why the job has
+    /// finished.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"auto_ml_image_classification_metadata::SuccessfulStopReason"</span>,
+        tag = <span class="string">"2"
+    </span>)]
+    </span><span class="kw">pub </span>successful_stop_reason: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoMlImageClassificationMetadata`.
+</span><span class="kw">pub mod </span>auto_ml_image_classification_metadata {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SuccessfulStopReason {
+        <span class="doccomment">/// Should not be set.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The inputs.budgetMilliNodeHours had been reached.
+        </span>BudgetReached = <span class="number">1</span>,
+        <span class="doccomment">/// Further training of the Model ceased to increase its quality, since it
+        /// already has converged.
+        </span>ModelConverged = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>SuccessfulStopReason {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SuccessfulStopReason::Unspecified =&gt; <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED"</span>,
+                SuccessfulStopReason::BudgetReached =&gt; <span class="string">"BUDGET_REACHED"</span>,
+                SuccessfulStopReason::ModelConverged =&gt; <span class="string">"MODEL_CONVERGED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SUCCESSFUL_STOP_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BUDGET_REACHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BudgetReached),
+                <span class="string">"MODEL_CONVERGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ModelConverged),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }

@@ -2144,6 +2144,39 @@
         </span><span class="kw">pub </span>value: ::core::option::Option&lt;<span class="kw">super</span>::Value&gt;,
     }
 }
+<span class="doccomment">/// Values of intermediate expressions produced when evaluating expression.
+/// Deprecated, use `EvalState` instead.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Explain {
+    <span class="doccomment">/// All of the observed values.
+    ///
+    /// The field value_index is an index in the values list.
+    /// Separating values from steps is needed to remove redundant values.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;Value&gt;,
+    <span class="doccomment">/// List of steps.
+    ///
+    /// Repeated evaluations of the same expression generate new ExprStep
+    /// instances. The order of such ExprStep instances matches the order of
+    /// elements returned by Comprehension.iter_range.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>expr_steps: ::prost::alloc::vec::Vec&lt;explain::ExprStep&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Explain`.
+</span><span class="kw">pub mod </span>explain {
+    <span class="doccomment">/// ID and value index of one step.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ExprStep {
+        <span class="doccomment">/// ID of corresponding Expr node.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>id: i64,
+        <span class="doccomment">/// Index of the value in the values list.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value_index: i32,
+    }
+}
 <span class="doccomment">/// The state of an evaluation.
 ///
 /// Can represent an inital, partial, or completed state of evaluation.
@@ -2256,38 +2289,5 @@
     <span class="doccomment">/// The ids of the expressions with unknown values.
     </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>exprs: ::prost::alloc::vec::Vec&lt;i64&gt;,
-}
-<span class="doccomment">/// Values of intermediate expressions produced when evaluating expression.
-/// Deprecated, use `EvalState` instead.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Explain {
-    <span class="doccomment">/// All of the observed values.
-    ///
-    /// The field value_index is an index in the values list.
-    /// Separating values from steps is needed to remove redundant values.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;Value&gt;,
-    <span class="doccomment">/// List of steps.
-    ///
-    /// Repeated evaluations of the same expression generate new ExprStep
-    /// instances. The order of such ExprStep instances matches the order of
-    /// elements returned by Comprehension.iter_range.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>expr_steps: ::prost::alloc::vec::Vec&lt;explain::ExprStep&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Explain`.
-</span><span class="kw">pub mod </span>explain {
-    <span class="doccomment">/// ID and value index of one step.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ExprStep {
-        <span class="doccomment">/// ID of corresponding Expr node.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>id: i64,
-        <span class="doccomment">/// Index of the value in the values list.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value_index: i32,
-    }
 }
 </code></pre></div></section></main></body></html>

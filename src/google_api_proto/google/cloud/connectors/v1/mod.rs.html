@@ -3169,6 +3169,205 @@
         }
     }
 }
+<span class="doccomment">/// Provider indicates the owner who provides the connectors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Provider {
+    <span class="doccomment">/// Output only. Resource name of the Provider.
+    /// Format: projects/{project}/locations/{location}/providers/{provider}
+    /// Only global location is supported for Provider resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Created time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Updated time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Resource labels to represent user-provided metadata.
+    /// Refer to cloud documentation on labels for more details.
+    /// &lt;https://cloud.google.com/compute/docs/labeling-resources&gt;
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. Link to documentation page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>documentation_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Link to external page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>external_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Description of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Cloud storage location of icons etc consumed by UI.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>web_assets_location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Display name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Flag to mark the version indicating the launch stage.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"LaunchStage"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>launch_stage: i32,
+}
+<span class="doccomment">/// Request message for Connectors.GetProvider.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetProviderRequest {
+    <span class="doccomment">/// Required. Resource name of the form:
+    /// `projects/*/locations/*/providers/*`
+    /// Only global location is supported for Provider resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for Connectors.ListProviders.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListProvidersRequest {
+    <span class="doccomment">/// Required. Parent resource of the API, of the form:
+    /// `projects/*/locations/*`
+    /// Only global location is supported for Provider resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Page size.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for Connectors.ListProviders.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListProvidersResponse {
+    <span class="doccomment">/// A list of providers.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>providers: ::prost::alloc::vec::Vec&lt;Provider&gt;,
+    <span class="doccomment">/// Next page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Connectors indicates a specific connector type, e.x. Salesforce, SAP etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Connector {
+    <span class="doccomment">/// Output only. Resource name of the Connector.
+    /// Format:
+    /// projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}
+    /// Only global location is supported for Connector resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Created time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Updated time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Resource labels to represent user-provided metadata.
+    /// Refer to cloud documentation on labels for more details.
+    /// &lt;https://cloud.google.com/compute/docs/labeling-resources&gt;
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. Link to documentation page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>documentation_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Link to external page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>external_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Description of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Cloud storage location of icons etc consumed by UI.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>web_assets_location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Display name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Flag to mark the version indicating the launch stage.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"LaunchStage"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>launch_stage: i32,
+}
+<span class="doccomment">/// Request message for Connectors.GetConnector.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetConnectorRequest {
+    <span class="doccomment">/// Required. Resource name of the form:
+    /// `projects/*/locations/*/providers/*/connectors/*`
+    /// Only global location is supported for Connector resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for Connectors.ListConnectors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListConnectorsRequest {
+    <span class="doccomment">/// Required. Parent resource of the connectors, of the form:
+    /// `projects/*/locations/*/providers/*`
+    /// Only global location is supported for Connector resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Page size.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for Connectors.ListConnectors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListConnectorsResponse {
+    <span class="doccomment">/// A list of connectors.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>connectors: ::prost::alloc::vec::Vec&lt;Connector&gt;,
+    <span class="doccomment">/// Next page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Locations that could not be reached.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Define the Connectors target endpoint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DestinationConfig {
+    <span class="doccomment">/// The key is the destination identifier that is supported by the Connector.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The destinations for the key.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;Destination&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Destination {
+    <span class="doccomment">/// The port is the target port number that is accepted by the destination.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>port: i32,
+    <span class="attr">#[prost(oneof = <span class="string">"destination::Destination"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;destination::Destination&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Destination`.
+</span><span class="kw">pub mod </span>destination {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Destination {
+        <span class="doccomment">/// PSC service attachments.
+        /// Format: projects/*/regions/*/serviceAttachments/*
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>ServiceAttachment(::prost::alloc::string::String),
+        <span class="doccomment">/// For publicly routable host.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>Host(::prost::alloc::string::String),
+    }
+}
 <span class="doccomment">/// Request for \[GetGlobalSettingsRequest\].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3780,40 +3979,6 @@
             <span class="string">"CONNECTOR_VERSION_VIEW_FULL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Full),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
-    }
-}
-<span class="doccomment">/// Define the Connectors target endpoint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DestinationConfig {
-    <span class="doccomment">/// The key is the destination identifier that is supported by the Connector.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The destinations for the key.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;Destination&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Destination {
-    <span class="doccomment">/// The port is the target port number that is accepted by the destination.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>port: i32,
-    <span class="attr">#[prost(oneof = <span class="string">"destination::Destination"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>destination: ::core::option::Option&lt;destination::Destination&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Destination`.
-</span><span class="kw">pub mod </span>destination {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Destination {
-        <span class="doccomment">/// PSC service attachments.
-        /// Format: projects/*/regions/*/serviceAttachments/*
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>ServiceAttachment(::prost::alloc::string::String),
-        <span class="doccomment">/// For publicly routable host.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>Host(::prost::alloc::string::String),
     }
 }
 <span class="doccomment">/// Connection represents an instance of connector.
@@ -4605,88 +4770,6 @@
         }
     }
 }
-<span class="doccomment">/// Provider indicates the owner who provides the connectors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Provider {
-    <span class="doccomment">/// Output only. Resource name of the Provider.
-    /// Format: projects/{project}/locations/{location}/providers/{provider}
-    /// Only global location is supported for Provider resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Created time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Updated time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Resource labels to represent user-provided metadata.
-    /// Refer to cloud documentation on labels for more details.
-    /// &lt;https://cloud.google.com/compute/docs/labeling-resources&gt;
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. Link to documentation page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>documentation_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Link to external page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>external_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Description of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Cloud storage location of icons etc consumed by UI.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>web_assets_location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Display name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Flag to mark the version indicating the launch stage.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"LaunchStage"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>launch_stage: i32,
-}
-<span class="doccomment">/// Request message for Connectors.GetProvider.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetProviderRequest {
-    <span class="doccomment">/// Required. Resource name of the form:
-    /// `projects/*/locations/*/providers/*`
-    /// Only global location is supported for Provider resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for Connectors.ListProviders.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListProvidersRequest {
-    <span class="doccomment">/// Required. Parent resource of the API, of the form:
-    /// `projects/*/locations/*`
-    /// Only global location is supported for Provider resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Page size.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for Connectors.ListProviders.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListProvidersResponse {
-    <span class="doccomment">/// A list of providers.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>providers: ::prost::alloc::vec::Vec&lt;Provider&gt;,
-    <span class="doccomment">/// Next page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
 <span class="doccomment">/// Request message for Connectors.GetRuntimeConfig.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4802,89 +4885,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// Connectors indicates a specific connector type, e.x. Salesforce, SAP etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Connector {
-    <span class="doccomment">/// Output only. Resource name of the Connector.
-    /// Format:
-    /// projects/{project}/locations/{location}/providers/{provider}/connectors/{connector}
-    /// Only global location is supported for Connector resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Created time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Updated time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Resource labels to represent user-provided metadata.
-    /// Refer to cloud documentation on labels for more details.
-    /// &lt;https://cloud.google.com/compute/docs/labeling-resources&gt;
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. Link to documentation page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>documentation_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Link to external page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>external_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Description of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Cloud storage location of icons etc consumed by UI.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>web_assets_location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Display name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Flag to mark the version indicating the launch stage.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"LaunchStage"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>launch_stage: i32,
-}
-<span class="doccomment">/// Request message for Connectors.GetConnector.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetConnectorRequest {
-    <span class="doccomment">/// Required. Resource name of the form:
-    /// `projects/*/locations/*/providers/*/connectors/*`
-    /// Only global location is supported for Connector resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request message for Connectors.ListConnectors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListConnectorsRequest {
-    <span class="doccomment">/// Required. Parent resource of the connectors, of the form:
-    /// `projects/*/locations/*/providers/*`
-    /// Only global location is supported for Connector resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Page size.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response message for Connectors.ListConnectors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListConnectorsResponse {
-    <span class="doccomment">/// A list of connectors.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>connectors: ::prost::alloc::vec::Vec&lt;Connector&gt;,
-    <span class="doccomment">/// Next page token.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Locations that could not be reached.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>connectors_client {

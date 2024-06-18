@@ -1177,6 +1177,191 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>google_support: bool,
 }
+<span class="doccomment">/// Represents a file attached to a support case.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Attachment {
+    <span class="doccomment">/// Output only. The resource name of the attachment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The time at which the attachment was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The user who uploaded the attachment. Note, the name and email
+    /// will be obfuscated if the attachment was uploaded by Google support.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>creator: ::core::option::Option&lt;Actor&gt;,
+    <span class="doccomment">/// The filename of the attachment (e.g. `"graph.jpg"`).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filename: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The MIME type of the attachment (e.g. text/plain).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The size of the attachment in bytes.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>size_bytes: i64,
+}
+<span class="doccomment">/// The request message for the ListAttachments endpoint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListAttachmentsRequest {
+    <span class="doccomment">/// Required. The resource name of Case object for which attachments should be
+    /// listed.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of attachments fetched with each request. If not
+    /// provided, the default is 10. The maximum page size that will be returned is
+    /// 100.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A token identifying the page of results to return. If unspecified, the
+    /// first page is retrieved.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The response message for the ListAttachments endpoint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListAttachmentsResponse {
+    <span class="doccomment">/// The list of attachments associated with the given case.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>attachments: ::prost::alloc::vec::Vec&lt;Attachment&gt;,
+    <span class="doccomment">/// A token to retrieve the next page of results. This should be set in the
+    /// `page_token` field of subsequent `cases.attachments.list` requests. If
+    /// unspecified, there are no more results to retrieve.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>case_attachment_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// A service to manage file attachment for Google Cloud support cases.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>CaseAttachmentServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; CaseAttachmentServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; CaseAttachmentServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            CaseAttachmentServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Retrieve all attachments associated with a support case.
+        </span><span class="kw">pub async fn </span>list_attachments(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListAttachmentsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListAttachmentsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.support.v2.CaseAttachmentService/ListAttachments"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.support.v2.CaseAttachmentService"</span>,
+                        <span class="string">"ListAttachments"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A comment associated with a support case.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Comment {
+    <span class="doccomment">/// Output only. The resource name for the comment.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The time when this comment was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The user or Google Support agent created this comment.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>creator: ::core::option::Option&lt;Actor&gt;,
+    <span class="doccomment">/// The full comment body. Maximum of 12800 characters. This can contain rich
+    /// text syntax.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. DEPRECATED. An automatically generated plain text version of
+    /// body with all rich text syntax stripped.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>plain_text_body: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// A support case.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1374,254 +1559,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// An escalation of a support case.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Escalation {
-    <span class="doccomment">/// Required. The reason why the Case is being escalated.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"escalation::Reason"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>reason: i32,
-    <span class="doccomment">/// Required. A free text description to accompany the `reason` field above.
-    /// Provides additional context on why the case is being escalated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>justification: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `Escalation`.
-</span><span class="kw">pub mod </span>escalation {
-    <span class="doccomment">/// An enum detailing the possible reasons a case may be escalated.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Reason {
-        <span class="doccomment">/// The escalation reason is in an unknown state or has not been specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The case is taking too long to resolve.
-        </span>ResolutionTime = <span class="number">1</span>,
-        <span class="doccomment">/// The support agent does not have the expertise required to successfully
-        /// resolve the issue.
-        </span>TechnicalExpertise = <span class="number">2</span>,
-        <span class="doccomment">/// The issue is having a significant business impact.
-        </span>BusinessImpact = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Reason {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
-                Reason::ResolutionTime =&gt; <span class="string">"RESOLUTION_TIME"</span>,
-                Reason::TechnicalExpertise =&gt; <span class="string">"TECHNICAL_EXPERTISE"</span>,
-                Reason::BusinessImpact =&gt; <span class="string">"BUSINESS_IMPACT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOLUTION_TIME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResolutionTime),
-                <span class="string">"TECHNICAL_EXPERTISE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TechnicalExpertise),
-                <span class="string">"BUSINESS_IMPACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BusinessImpact),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Represents a file attached to a support case.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Attachment {
-    <span class="doccomment">/// Output only. The resource name of the attachment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The time at which the attachment was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The user who uploaded the attachment. Note, the name and email
-    /// will be obfuscated if the attachment was uploaded by Google support.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>creator: ::core::option::Option&lt;Actor&gt;,
-    <span class="doccomment">/// The filename of the attachment (e.g. `"graph.jpg"`).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filename: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The MIME type of the attachment (e.g. text/plain).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The size of the attachment in bytes.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>size_bytes: i64,
-}
-<span class="doccomment">/// The request message for the ListAttachments endpoint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListAttachmentsRequest {
-    <span class="doccomment">/// Required. The resource name of Case object for which attachments should be
-    /// listed.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of attachments fetched with each request. If not
-    /// provided, the default is 10. The maximum page size that will be returned is
-    /// 100.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A token identifying the page of results to return. If unspecified, the
-    /// first page is retrieved.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The response message for the ListAttachments endpoint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListAttachmentsResponse {
-    <span class="doccomment">/// The list of attachments associated with the given case.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>attachments: ::prost::alloc::vec::Vec&lt;Attachment&gt;,
-    <span class="doccomment">/// A token to retrieve the next page of results. This should be set in the
-    /// `page_token` field of subsequent `cases.attachments.list` requests. If
-    /// unspecified, there are no more results to retrieve.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>case_attachment_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// A service to manage file attachment for Google Cloud support cases.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>CaseAttachmentServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; CaseAttachmentServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; CaseAttachmentServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            CaseAttachmentServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Retrieve all attachments associated with a support case.
-        </span><span class="kw">pub async fn </span>list_attachments(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListAttachmentsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListAttachmentsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.support.v2.CaseAttachmentService/ListAttachments"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.support.v2.CaseAttachmentService"</span>,
-                        <span class="string">"ListAttachments"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// A comment associated with a support case.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Comment {
-    <span class="doccomment">/// Output only. The resource name for the comment.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The time when this comment was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The user or Google Support agent created this comment.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>creator: ::core::option::Option&lt;Actor&gt;,
-    <span class="doccomment">/// The full comment body. Maximum of 12800 characters. This can contain rich
-    /// text syntax.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. DEPRECATED. An automatically generated plain text version of
-    /// body with all rich text syntax stripped.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>plain_text_body: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// The request message for the ListComments endpoint.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1797,6 +1734,69 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
+    }
+}
+<span class="doccomment">/// An escalation of a support case.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Escalation {
+    <span class="doccomment">/// Required. The reason why the Case is being escalated.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"escalation::Reason"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>reason: i32,
+    <span class="doccomment">/// Required. A free text description to accompany the `reason` field above.
+    /// Provides additional context on why the case is being escalated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>justification: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `Escalation`.
+</span><span class="kw">pub mod </span>escalation {
+    <span class="doccomment">/// An enum detailing the possible reasons a case may be escalated.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Reason {
+        <span class="doccomment">/// The escalation reason is in an unknown state or has not been specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The case is taking too long to resolve.
+        </span>ResolutionTime = <span class="number">1</span>,
+        <span class="doccomment">/// The support agent does not have the expertise required to successfully
+        /// resolve the issue.
+        </span>TechnicalExpertise = <span class="number">2</span>,
+        <span class="doccomment">/// The issue is having a significant business impact.
+        </span>BusinessImpact = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Reason {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
+                Reason::ResolutionTime =&gt; <span class="string">"RESOLUTION_TIME"</span>,
+                Reason::TechnicalExpertise =&gt; <span class="string">"TECHNICAL_EXPERTISE"</span>,
+                Reason::BusinessImpact =&gt; <span class="string">"BUSINESS_IMPACT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOLUTION_TIME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResolutionTime),
+                <span class="string">"TECHNICAL_EXPERTISE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TechnicalExpertise),
+                <span class="string">"BUSINESS_IMPACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BusinessImpact),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
     }
 }
 <span class="doccomment">/// The request message for the GetCase endpoint.
