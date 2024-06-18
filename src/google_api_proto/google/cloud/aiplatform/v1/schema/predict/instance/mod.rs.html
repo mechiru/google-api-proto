@@ -202,71 +202,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Prediction input format for Text Extraction.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextExtractionPredictionInstance {
-    <span class="doccomment">/// The text snippet to make the predictions on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
-    /// below.
-    /// - text/plain
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// This field is only used for batch prediction. If a key is provided, the
-    /// batch prediction result will by mapped to this key. If omitted, then the
-    /// batch prediction result will contain the entire input instance. Vertex AI
-    /// will not check if keys in the request are duplicates, so it is up to the
-    /// caller to ensure the keys are unique.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Image Object Detection.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageObjectDetectionPredictionInstance {
-    <span class="doccomment">/// The image bytes or Cloud Storage URI to make the prediction on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed
-    /// MIME types are supported.
-    /// - image/jpeg
-    /// - image/gif
-    /// - image/png
-    /// - image/webp
-    /// - image/bmp
-    /// - image/tiff
-    /// - image/vnd.microsoft.icon
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Video Object Tracking.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VideoObjectTrackingPredictionInstance {
-    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
-    /// prediction.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the content of the video. Only the following are
-    /// supported: video/mp4 video/avi video/quicktime
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The beginning, inclusive, of the video's time segment on which to perform
-    /// the prediction. Expressed as a number of seconds as measured from the
-    /// start of the video, with "s" appended at the end. Fractions are allowed,
-    /// up to a microsecond precision.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>time_segment_start: ::prost::alloc::string::String,
-    <span class="doccomment">/// The end, exclusive, of the video's time segment on which to perform
-    /// the prediction. Expressed as a number of seconds as measured from the
-    /// start of the video, with "s" appended at the end. Fractions are allowed,
-    /// up to a microsecond precision, and "inf" or "Infinity" is allowed, which
-    /// means the end of the video.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
-}
 <span class="doccomment">/// Prediction input format for Video Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -312,29 +247,22 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Prediction input format for Text Sentiment.
+<span class="doccomment">/// Prediction input format for Image Object Detection.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextSentimentPredictionInstance {
-    <span class="doccomment">/// The text snippet to make the predictions on.
+</span><span class="kw">pub struct </span>ImageObjectDetectionPredictionInstance {
+    <span class="doccomment">/// The image bytes or Cloud Storage URI to make the prediction on.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
-    /// below.
-    /// - text/plain
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Text Classification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextClassificationPredictionInstance {
-    <span class="doccomment">/// The text snippet to make the predictions on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
-    /// below.
-    /// - text/plain
+    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed
+    /// MIME types are supported.
+    /// - image/jpeg
+    /// - image/gif
+    /// - image/png
+    /// - image/webp
+    /// - image/bmp
+    /// - image/tiff
+    /// - image/vnd.microsoft.icon
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
 }
@@ -349,6 +277,78 @@
     /// MIME types are supported.
     /// - image/jpeg
     /// - image/png
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Video Object Tracking.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VideoObjectTrackingPredictionInstance {
+    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
+    /// prediction.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the content of the video. Only the following are
+    /// supported: video/mp4 video/avi video/quicktime
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The beginning, inclusive, of the video's time segment on which to perform
+    /// the prediction. Expressed as a number of seconds as measured from the
+    /// start of the video, with "s" appended at the end. Fractions are allowed,
+    /// up to a microsecond precision.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>time_segment_start: ::prost::alloc::string::String,
+    <span class="doccomment">/// The end, exclusive, of the video's time segment on which to perform
+    /// the prediction. Expressed as a number of seconds as measured from the
+    /// start of the video, with "s" appended at the end. Fractions are allowed,
+    /// up to a microsecond precision, and "inf" or "Infinity" is allowed, which
+    /// means the end of the video.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Text Extraction.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextExtractionPredictionInstance {
+    <span class="doccomment">/// The text snippet to make the predictions on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
+    /// below.
+    /// - text/plain
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// This field is only used for batch prediction. If a key is provided, the
+    /// batch prediction result will by mapped to this key. If omitted, then the
+    /// batch prediction result will contain the entire input instance. Vertex AI
+    /// will not check if keys in the request are duplicates, so it is up to the
+    /// caller to ensure the keys are unique.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Text Classification.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextClassificationPredictionInstance {
+    <span class="doccomment">/// The text snippet to make the predictions on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
+    /// below.
+    /// - text/plain
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Text Sentiment.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextSentimentPredictionInstance {
+    <span class="doccomment">/// The text snippet to make the predictions on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
+    /// below.
+    /// - text/plain
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
 }
