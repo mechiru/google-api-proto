@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DataGovernanceType","DeterminismLevel","Language","RoutineType","SecurityMode"],"mod":["argument"],"struct":["Argument","RemoteFunctionOptions"]};

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["analyticshub","biglake","connection","dataexchange","datapolicies","datatransfer","logging","migration","reservation","storage"]};
+window.SIDEBAR_ITEMS = {"mod":["analyticshub","biglake","connection","dataexchange","datapolicies","datatransfer","logging","migration","reservation","storage","v2"]};
