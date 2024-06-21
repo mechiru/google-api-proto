@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Amperes","NetworkUplinkType","PowerReceptacleType","Voltage"]};
