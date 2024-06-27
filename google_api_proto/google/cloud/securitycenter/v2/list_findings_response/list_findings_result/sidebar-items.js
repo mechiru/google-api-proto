@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["Resource"]};
+window.SIDEBAR_ITEMS = {"mod":["resource"],"struct":["Resource"]};
