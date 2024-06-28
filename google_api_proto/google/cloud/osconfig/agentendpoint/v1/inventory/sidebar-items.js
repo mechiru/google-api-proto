@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["software_package","windows_update_package"],"struct":["OsInfo","SoftwarePackage","VersionedPackage","WindowsApplication","WindowsQuickFixEngineeringPackage","WindowsUpdatePackage","ZypperPatch"]};
+window.SIDEBAR_ITEMS = {"mod":["software_package","versioned_package","windows_update_package"],"struct":["OsInfo","SoftwarePackage","VersionedPackage","WindowsApplication","WindowsQuickFixEngineeringPackage","WindowsUpdatePackage","ZypperPatch"]};
