@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["PredictionResources"]};
+window.SIDEBAR_ITEMS = {"enum":["PredictionResources"],"struct":["DeployMetadata"]};
