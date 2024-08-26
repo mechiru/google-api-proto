@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"mod":["gateway_service_client"]};

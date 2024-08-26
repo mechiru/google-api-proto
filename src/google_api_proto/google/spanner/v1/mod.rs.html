@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/spanner/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/spanner/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3257,7 +3257,282 @@
 <a href="#3257" id="3257">3257</a>
 <a href="#3258" id="3258">3258</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Node information for nodes appearing in a [QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes].
+</span><span class="doccomment">/// The response for [Commit][google.spanner.v1.Spanner.Commit].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CommitResponse {
+    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>commit_timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The statistics about this Commit. Not returned by default.
+    /// For more information, see
+    /// [CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats].
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>commit_stats: ::core::option::Option&lt;commit_response::CommitStats&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CommitResponse`.
+</span><span class="kw">pub mod </span>commit_response {
+    <span class="doccomment">/// Additional statistics about a commit.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CommitStats {
+        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the
+        /// `mutation_count` value can help you maximize the number of mutations
+        /// in a transaction and minimize the number of API round trips. You can
+        /// also monitor this value to prevent transactions from exceeding the system
+        /// [limit](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).
+        /// If the number of mutations exceeds the limit, the server returns
+        /// [INVALID_ARGUMENT](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>mutation_count: i64,
+    }
+}
+<span class="doccomment">/// KeyRange represents a range of rows in a table or index.
+///
+/// A range has a start key and an end key. These keys can be open or
+/// closed, indicating if the range includes rows with that key.
+///
+/// Keys are represented by lists, where the ith value in the list
+/// corresponds to the ith component of the table or index primary key.
+/// Individual values are encoded as described
+/// [here][google.spanner.v1.TypeCode].
+///
+/// For example, consider the following table definition:
+///
+///      CREATE TABLE UserEvents (
+///        UserName STRING(MAX),
+///        EventDate STRING(10)
+///      ) PRIMARY KEY(UserName, EventDate);
+///
+/// The following keys name rows in this table:
+///
+///      \["Bob", "2014-09-23"\]
+///      \["Alfred", "2015-06-12"\]
+///
+/// Since the `UserEvents` table's `PRIMARY KEY` clause names two
+/// columns, each `UserEvents` key has two elements; the first is the
+/// `UserName`, and the second is the `EventDate`.
+///
+/// Key ranges with multiple components are interpreted
+/// lexicographically by component using the table or index key's declared
+/// sort order. For example, the following range returns all events for
+/// user `"Bob"` that occurred in the year 2015:
+///
+///      "start_closed": \["Bob", "2015-01-01"\]
+///      "end_closed": \["Bob", "2015-12-31"\]
+///
+/// Start and end keys can omit trailing key components. This affects the
+/// inclusion and exclusion of rows that exactly match the provided key
+/// components: if the key is closed, then rows that exactly match the
+/// provided components are included; if the key is open, then rows
+/// that exactly match are not included.
+///
+/// For example, the following range includes all events for `"Bob"` that
+/// occurred during and after the year 2000:
+///
+///      "start_closed": \["Bob", "2000-01-01"\]
+///      "end_closed": \["Bob"\]
+///
+/// The next example retrieves all events for `"Bob"`:
+///
+///      "start_closed": \["Bob"\]
+///      "end_closed": \["Bob"\]
+///
+/// To retrieve events before the year 2000:
+///
+///      "start_closed": \["Bob"\]
+///      "end_open": \["Bob", "2000-01-01"\]
+///
+/// The following range includes all rows in the table:
+///
+///      "start_closed": \[\]
+///      "end_closed": \[\]
+///
+/// This range returns all users whose `UserName` begins with any
+/// character from A to C:
+///
+///      "start_closed": \["A"\]
+///      "end_open": \["D"\]
+///
+/// This range returns all users whose `UserName` begins with B:
+///
+///      "start_closed": \["B"\]
+///      "end_open": \["C"\]
+///
+/// Key ranges honor column sort order. For example, suppose a table is
+/// defined as follows:
+///
+///      CREATE TABLE DescendingSortedTable {
+///        Key INT64,
+///        ...
+///      ) PRIMARY KEY(Key DESC);
+///
+/// The following range retrieves all rows with key values between 1
+/// and 100 inclusive:
+///
+///      "start_closed": \["100"\]
+///      "end_closed": \["1"\]
+///
+/// Note that 100 is passed as the start, and 1 is passed as the end,
+/// because `Key` is a descending column in the schema.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KeyRange {
+    <span class="doccomment">/// The start key must be provided. It can be either closed or open.
+    </span><span class="attr">#[prost(oneof = <span class="string">"key_range::StartKeyType"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>start_key_type: ::core::option::Option&lt;key_range::StartKeyType&gt;,
+    <span class="doccomment">/// The end key must be provided. It can be either closed or open.
+    </span><span class="attr">#[prost(oneof = <span class="string">"key_range::EndKeyType"</span>, tags = <span class="string">"3, 4"</span>)]
+    </span><span class="kw">pub </span>end_key_type: ::core::option::Option&lt;key_range::EndKeyType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `KeyRange`.
+</span><span class="kw">pub mod </span>key_range {
+    <span class="doccomment">/// The start key must be provided. It can be either closed or open.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>StartKeyType {
+        <span class="doccomment">/// If the start is closed, then the range includes all rows whose
+        /// first `len(start_closed)` key columns exactly match `start_closed`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>StartClosed(::prost_types::ListValue),
+        <span class="doccomment">/// If the start is open, then the range excludes rows whose first
+        /// `len(start_open)` key columns exactly match `start_open`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>StartOpen(::prost_types::ListValue),
+    }
+    <span class="doccomment">/// The end key must be provided. It can be either closed or open.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>EndKeyType {
+        <span class="doccomment">/// If the end is closed, then the range includes all rows whose
+        /// first `len(end_closed)` key columns exactly match `end_closed`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>EndClosed(::prost_types::ListValue),
+        <span class="doccomment">/// If the end is open, then the range excludes rows whose first
+        /// `len(end_open)` key columns exactly match `end_open`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>EndOpen(::prost_types::ListValue),
+    }
+}
+<span class="doccomment">/// `KeySet` defines a collection of Cloud Spanner keys and/or key ranges. All
+/// the keys are expected to be in the same table or index. The keys need
+/// not be sorted in any particular way.
+///
+/// If the same key is specified multiple times in the set (for example
+/// if two ranges, two keys, or a key and a range overlap), Cloud Spanner
+/// behaves as if the key were only specified once.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KeySet {
+    <span class="doccomment">/// A list of specific keys. Entries in `keys` should have exactly as
+    /// many elements as there are columns in the primary or index key
+    /// with which this `KeySet` is used.  Individual key values are
+    /// encoded as described [here][google.spanner.v1.TypeCode].
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>keys: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
+    <span class="doccomment">/// A list of key ranges. See [KeyRange][google.spanner.v1.KeyRange] for more information about
+    /// key range specifications.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>ranges: ::prost::alloc::vec::Vec&lt;KeyRange&gt;,
+    <span class="doccomment">/// For convenience `all` can be set to `true` to indicate that this
+    /// `KeySet` matches all keys in the table or index. Note that any keys
+    /// specified in `keys` or `ranges` are only yielded once.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>all: bool,
+}
+<span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be
+/// applied to a Cloud Spanner database by sending them in a
+/// [Commit][google.spanner.v1.Spanner.Commit] call.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Mutation {
+    <span class="doccomment">/// Required. The operation to perform.
+    </span><span class="attr">#[prost(oneof = <span class="string">"mutation::Operation"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
+    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;mutation::Operation&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Mutation`.
+</span><span class="kw">pub mod </span>mutation {
+    <span class="doccomment">/// Arguments to [insert][google.spanner.v1.Mutation.insert], [update][google.spanner.v1.Mutation.update], [insert_or_update][google.spanner.v1.Mutation.insert_or_update], and
+    /// [replace][google.spanner.v1.Mutation.replace] operations.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Write {
+        <span class="doccomment">/// Required. The table whose rows will be written.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
+        <span class="doccomment">/// The names of the columns in [table][google.spanner.v1.Mutation.Write.table] to be written.
+        ///
+        /// The list of columns must contain enough columns to allow
+        /// Cloud Spanner to derive values for all primary key columns in the
+        /// row(s) to be modified.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// The values to be written. `values` can contain more than one
+        /// list of values. If it does, then multiple rows are written, one
+        /// for each entry in `values`. Each list in `values` must have
+        /// exactly as many entries as there are entries in [columns][google.spanner.v1.Mutation.Write.columns]
+        /// above. Sending multiple lists is equivalent to sending multiple
+        /// `Mutation`s, each containing one `values` entry and repeating
+        /// [table][google.spanner.v1.Mutation.Write.table] and [columns][google.spanner.v1.Mutation.Write.columns]. Individual values in each list are
+        /// encoded as described [here][google.spanner.v1.TypeCode].
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
+    }
+    <span class="doccomment">/// Arguments to [delete][google.spanner.v1.Mutation.delete] operations.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Delete {
+        <span class="doccomment">/// Required. The table whose rows will be deleted.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. The primary keys of the rows within [table][google.spanner.v1.Mutation.Delete.table] to delete.  The
+        /// primary keys must be specified in the order in which they appear in the
+        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
+        /// statement used to create the table).
+        /// Delete is idempotent. The transaction will succeed even if some or all
+        /// rows do not exist.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>key_set: ::core::option::Option&lt;<span class="kw">super</span>::KeySet&gt;,
+    }
+    <span class="doccomment">/// Required. The operation to perform.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Operation {
+        <span class="doccomment">/// Insert new rows in a table. If any of the rows already exist,
+        /// the write or transaction fails with error `ALREADY_EXISTS`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Insert(Write),
+        <span class="doccomment">/// Update existing rows in a table. If any of the rows does not
+        /// already exist, the transaction fails with error `NOT_FOUND`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Update(Write),
+        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, then
+        /// its column values are overwritten with the ones provided. Any
+        /// column values not explicitly written are preserved.
+        ///
+        /// When using [insert_or_update][google.spanner.v1.Mutation.insert_or_update], just as when using [insert][google.spanner.v1.Mutation.insert], all `NOT
+        /// NULL` columns in the table must be given a value. This holds true
+        /// even when the row already exists and will therefore actually be updated.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>InsertOrUpdate(Write),
+        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, it is
+        /// deleted, and the column values provided are inserted
+        /// instead. Unlike [insert_or_update][google.spanner.v1.Mutation.insert_or_update], this means any values not
+        /// explicitly written become `NULL`.
+        ///
+        /// In an interleaved table, if you create the child table with the
+        /// `ON DELETE CASCADE` annotation, then replacing a parent row
+        /// also deletes the child rows. Otherwise, you must delete the
+        /// child rows before you replace the parent row.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>Replace(Write),
+        <span class="doccomment">/// Delete rows from a table. Succeeds whether or not the named
+        /// rows were present.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>Delete(Delete),
+    }
+}
+<span class="doccomment">/// Node information for nodes appearing in a [QueryPlan.plan_nodes][google.spanner.v1.QueryPlan.plan_nodes].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PlanNode {
@@ -3402,240 +3677,6 @@
     /// `plan_nodes`.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>plan_nodes: ::prost::alloc::vec::Vec&lt;PlanNode&gt;,
-}
-<span class="doccomment">/// `Type` indicates the type of a Cloud Spanner value, as might be stored in a
-/// table cell or returned from an SQL query.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Type {
-    <span class="doccomment">/// Required. The [TypeCode][google.spanner.v1.TypeCode] for this type.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TypeCode"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>code: i32,
-    <span class="doccomment">/// If [code][google.spanner.v1.Type.code] == [ARRAY][google.spanner.v1.TypeCode.ARRAY], then `array_element_type`
-    /// is the type of the array elements.
-    </span><span class="attr">#[prost(message, optional, boxed, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>array_element_type: ::core::option::Option&lt;::prost::alloc::boxed::Box&lt;Type&gt;&gt;,
-    <span class="doccomment">/// If [code][google.spanner.v1.Type.code] == [STRUCT][google.spanner.v1.TypeCode.STRUCT], then `struct_type`
-    /// provides type information for the struct's fields.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>struct_type: ::core::option::Option&lt;StructType&gt;,
-    <span class="doccomment">/// The [TypeAnnotationCode][google.spanner.v1.TypeAnnotationCode] that disambiguates SQL type that Spanner will
-    /// use to represent values of this type during query processing. This is
-    /// necessary for some type codes because a single [TypeCode][google.spanner.v1.TypeCode] can be mapped
-    /// to different SQL types depending on the SQL dialect. [type_annotation][google.spanner.v1.Type.type_annotation]
-    /// typically is not needed to process the content of a value (it doesn't
-    /// affect serialization) and clients can ignore it on the read path.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TypeAnnotationCode"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>type_annotation: i32,
-    <span class="doccomment">/// If [code][google.spanner.v1.Type.code] ==
-    /// [PROTO][google.spanner.v1.TypeCode.PROTO] or
-    /// [code][google.spanner.v1.Type.code] ==
-    /// [ENUM][google.spanner.v1.TypeCode.ENUM], then `proto_type_fqn` is the fully
-    /// qualified name of the proto type representing the proto/enum definition.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>proto_type_fqn: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// `StructType` defines the fields of a [STRUCT][google.spanner.v1.TypeCode.STRUCT] type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StructType {
-    <span class="doccomment">/// The list of fields that make up this struct. Order is
-    /// significant, because values of this struct type are represented as
-    /// lists, where the order of field values matches the order of
-    /// fields in the [StructType][google.spanner.v1.StructType]. In turn, the order of fields
-    /// matches the order of columns in a read request, or the order of
-    /// fields in the `SELECT` clause of a query.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>fields: ::prost::alloc::vec::Vec&lt;struct_type::Field&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StructType`.
-</span><span class="kw">pub mod </span>struct_type {
-    <span class="doccomment">/// Message representing a single field of a struct.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Field {
-        <span class="doccomment">/// The name of the field. For reads, this is the column name. For
-        /// SQL queries, it is the column alias (e.g., `"Word"` in the
-        /// query `"SELECT 'hello' AS Word"`), or the column name (e.g.,
-        /// `"ColName"` in the query `"SELECT ColName FROM Table"`). Some
-        /// columns might have an empty name (e.g., `"SELECT
-        /// UPPER(ColName)"`). Note that a query result can contain
-        /// multiple fields with the same name.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The type of the field.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;<span class="kw">super</span>::Type&gt;,
-    }
-}
-<span class="doccomment">/// `TypeCode` is used as part of [Type][google.spanner.v1.Type] to
-/// indicate the type of a Cloud Spanner value.
-///
-/// Each legal value of a type can be encoded to or decoded from a JSON
-/// value, using the encodings described below. All Cloud Spanner values can
-/// be `null`, regardless of type; `null`s are always encoded as a JSON
-/// `null`.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TypeCode {
-    <span class="doccomment">/// Not specified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Encoded as JSON `true` or `false`.
-    </span>Bool = <span class="number">1</span>,
-    <span class="doccomment">/// Encoded as `string`, in decimal format.
-    </span>Int64 = <span class="number">2</span>,
-    <span class="doccomment">/// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
-    /// `"-Infinity"`.
-    </span>Float64 = <span class="number">3</span>,
-    <span class="doccomment">/// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
-    /// `"-Infinity"`.
-    </span>Float32 = <span class="number">15</span>,
-    <span class="doccomment">/// Encoded as `string` in RFC 3339 timestamp format. The time zone
-    /// must be present, and must be `"Z"`.
-    ///
-    /// If the schema has the column option
-    /// `allow_commit_timestamp=true`, the placeholder string
-    /// `"spanner.commit_timestamp()"` can be used to instruct the system
-    /// to insert the commit timestamp associated with the transaction
-    /// commit.
-    </span>Timestamp = <span class="number">4</span>,
-    <span class="doccomment">/// Encoded as `string` in RFC 3339 date format.
-    </span>Date = <span class="number">5</span>,
-    <span class="doccomment">/// Encoded as `string`.
-    </span>String = <span class="number">6</span>,
-    <span class="doccomment">/// Encoded as a base64-encoded `string`, as described in RFC 4648,
-    /// section 4.
-    </span>Bytes = <span class="number">7</span>,
-    <span class="doccomment">/// Encoded as `list`, where the list elements are represented
-    /// according to
-    /// [array_element_type][google.spanner.v1.Type.array_element_type].
-    </span>Array = <span class="number">8</span>,
-    <span class="doccomment">/// Encoded as `list`, where list element `i` is represented according
-    /// to \[struct_type.fields[i\]][google.spanner.v1.StructType.fields].
-    </span>Struct = <span class="number">9</span>,
-    <span class="doccomment">/// Encoded as `string`, in decimal format or scientific notation format.
-    /// &lt;br&gt;Decimal format:
-    /// &lt;br&gt;`\[+-\]Digits\[.[Digits]\]` or
-    /// &lt;br&gt;`[+-][Digits].Digits`
-    ///
-    /// Scientific notation:
-    /// &lt;br&gt;`\[+-\]Digits\[.[Digits\]][ExponentIndicator\[+-\]Digits]` or
-    /// &lt;br&gt;`[+-][Digits].Digits\[ExponentIndicator[+-\]Digits]`
-    /// &lt;br&gt;(ExponentIndicator is `"e"` or `"E"`)
-    </span>Numeric = <span class="number">10</span>,
-    <span class="doccomment">/// Encoded as a JSON-formatted `string` as described in RFC 7159. The
-    /// following rules are applied when parsing JSON input:
-    ///
-    /// - Whitespace characters are not preserved.
-    /// - If a JSON object has duplicate keys, only the first key is preserved.
-    /// - Members of a JSON object are not guaranteed to have their order
-    ///    preserved.
-    /// - JSON array elements will have their order preserved.
-    </span>Json = <span class="number">11</span>,
-    <span class="doccomment">/// Encoded as a base64-encoded `string`, as described in RFC 4648,
-    /// section 4.
-    </span>Proto = <span class="number">13</span>,
-    <span class="doccomment">/// Encoded as `string`, in decimal format.
-    </span>Enum = <span class="number">14</span>,
-}
-<span class="kw">impl </span>TypeCode {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TypeCode::Unspecified =&gt; <span class="string">"TYPE_CODE_UNSPECIFIED"</span>,
-            TypeCode::Bool =&gt; <span class="string">"BOOL"</span>,
-            TypeCode::Int64 =&gt; <span class="string">"INT64"</span>,
-            TypeCode::Float64 =&gt; <span class="string">"FLOAT64"</span>,
-            TypeCode::Float32 =&gt; <span class="string">"FLOAT32"</span>,
-            TypeCode::Timestamp =&gt; <span class="string">"TIMESTAMP"</span>,
-            TypeCode::Date =&gt; <span class="string">"DATE"</span>,
-            TypeCode::String =&gt; <span class="string">"STRING"</span>,
-            TypeCode::Bytes =&gt; <span class="string">"BYTES"</span>,
-            TypeCode::Array =&gt; <span class="string">"ARRAY"</span>,
-            TypeCode::Struct =&gt; <span class="string">"STRUCT"</span>,
-            TypeCode::Numeric =&gt; <span class="string">"NUMERIC"</span>,
-            TypeCode::Json =&gt; <span class="string">"JSON"</span>,
-            TypeCode::Proto =&gt; <span class="string">"PROTO"</span>,
-            TypeCode::Enum =&gt; <span class="string">"ENUM"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TYPE_CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"BOOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bool),
-            <span class="string">"INT64" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Int64),
-            <span class="string">"FLOAT64" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Float64),
-            <span class="string">"FLOAT32" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Float32),
-            <span class="string">"TIMESTAMP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Timestamp),
-            <span class="string">"DATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Date),
-            <span class="string">"STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::String),
-            <span class="string">"BYTES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bytes),
-            <span class="string">"ARRAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Array),
-            <span class="string">"STRUCT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Struct),
-            <span class="string">"NUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Numeric),
-            <span class="string">"JSON" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Json),
-            <span class="string">"PROTO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Proto),
-            <span class="string">"ENUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enum),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// `TypeAnnotationCode` is used as a part of [Type][google.spanner.v1.Type] to
-/// disambiguate SQL types that should be used for a given Cloud Spanner value.
-/// Disambiguation is needed because the same Cloud Spanner type can be mapped to
-/// different SQL types depending on SQL dialect. TypeAnnotationCode doesn't
-/// affect the way value is serialized.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TypeAnnotationCode {
-    <span class="doccomment">/// Not specified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// PostgreSQL compatible NUMERIC type. This annotation needs to be applied to
-    /// [Type][google.spanner.v1.Type] instances having [NUMERIC][google.spanner.v1.TypeCode.NUMERIC]
-    /// type code to specify that values of this type should be treated as
-    /// PostgreSQL NUMERIC values. Currently this annotation is always needed for
-    /// [NUMERIC][google.spanner.v1.TypeCode.NUMERIC] when a client interacts with PostgreSQL-enabled
-    /// Spanner databases.
-    </span>PgNumeric = <span class="number">2</span>,
-    <span class="doccomment">/// PostgreSQL compatible JSONB type. This annotation needs to be applied to
-    /// [Type][google.spanner.v1.Type] instances having [JSON][google.spanner.v1.TypeCode.JSON]
-    /// type code to specify that values of this type should be treated as
-    /// PostgreSQL JSONB values. Currently this annotation is always needed for
-    /// [JSON][google.spanner.v1.TypeCode.JSON] when a client interacts with PostgreSQL-enabled
-    /// Spanner databases.
-    </span>PgJsonb = <span class="number">3</span>,
-    <span class="doccomment">/// PostgreSQL compatible OID type. This annotation can be used by a client
-    /// interacting with PostgreSQL-enabled Spanner database to specify that a
-    /// value should be treated using the semantics of the OID type.
-    </span>PgOid = <span class="number">4</span>,
-}
-<span class="kw">impl </span>TypeAnnotationCode {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TypeAnnotationCode::Unspecified =&gt; <span class="string">"TYPE_ANNOTATION_CODE_UNSPECIFIED"</span>,
-            TypeAnnotationCode::PgNumeric =&gt; <span class="string">"PG_NUMERIC"</span>,
-            TypeAnnotationCode::PgJsonb =&gt; <span class="string">"PG_JSONB"</span>,
-            TypeAnnotationCode::PgOid =&gt; <span class="string">"PG_OID"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TYPE_ANNOTATION_CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"PG_NUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgNumeric),
-            <span class="string">"PG_JSONB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgJsonb),
-            <span class="string">"PG_OID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgOid),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
 }
 <span class="doccomment">/// Transactions:
 ///
@@ -3962,7 +4003,7 @@
 /// operations that are idempotent, such as deleting old rows from a very large
 /// table.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TransactionOptions {
     <span class="doccomment">/// When `exclude_txn_from_change_streams` is set to `true`:
     ///   * Mutations from this transaction will not be recorded in change streams
@@ -3989,7 +4030,7 @@
     <span class="doccomment">/// Message type to initiate a read-write transaction. Currently this
     /// transaction type has no options.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ReadWrite {
         <span class="doccomment">/// Read lock mode for the transaction.
         </span><span class="attr">#[prost(enumeration = <span class="string">"read_write::ReadLockMode"</span>, tag = <span class="string">"1"</span>)]
@@ -4052,11 +4093,11 @@
     }
     <span class="doccomment">/// Message type to initiate a Partitioned DML transaction.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>PartitionedDml {}
     <span class="doccomment">/// Message type to initiate a read-only transaction.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ReadOnly {
         <span class="doccomment">/// If true, the Cloud Spanner-selected read timestamp is included in
         /// the [Transaction][google.spanner.v1.Transaction] message that describes
@@ -4071,7 +4112,7 @@
     </span><span class="kw">pub mod </span>read_only {
         <span class="doccomment">/// How to choose the timestamp for the read-only transaction.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>TimestampBound {
             <span class="doccomment">/// Read at a timestamp where all previously committed transactions
             /// are visible.
@@ -4135,7 +4176,7 @@
     }
     <span class="doccomment">/// Required. The type of transaction.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Mode {
         <span class="doccomment">/// Transaction may write.
         ///
@@ -4218,6 +4259,240 @@
         /// which is a [Transaction][google.spanner.v1.Transaction].
         </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
         </span>Begin(<span class="kw">super</span>::TransactionOptions),
+    }
+}
+<span class="doccomment">/// `Type` indicates the type of a Cloud Spanner value, as might be stored in a
+/// table cell or returned from an SQL query.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Type {
+    <span class="doccomment">/// Required. The [TypeCode][google.spanner.v1.TypeCode] for this type.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TypeCode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>code: i32,
+    <span class="doccomment">/// If [code][google.spanner.v1.Type.code] == [ARRAY][google.spanner.v1.TypeCode.ARRAY], then `array_element_type`
+    /// is the type of the array elements.
+    </span><span class="attr">#[prost(message, optional, boxed, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>array_element_type: ::core::option::Option&lt;::prost::alloc::boxed::Box&lt;Type&gt;&gt;,
+    <span class="doccomment">/// If [code][google.spanner.v1.Type.code] == [STRUCT][google.spanner.v1.TypeCode.STRUCT], then `struct_type`
+    /// provides type information for the struct's fields.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>struct_type: ::core::option::Option&lt;StructType&gt;,
+    <span class="doccomment">/// The [TypeAnnotationCode][google.spanner.v1.TypeAnnotationCode] that disambiguates SQL type that Spanner will
+    /// use to represent values of this type during query processing. This is
+    /// necessary for some type codes because a single [TypeCode][google.spanner.v1.TypeCode] can be mapped
+    /// to different SQL types depending on the SQL dialect. [type_annotation][google.spanner.v1.Type.type_annotation]
+    /// typically is not needed to process the content of a value (it doesn't
+    /// affect serialization) and clients can ignore it on the read path.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TypeAnnotationCode"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>type_annotation: i32,
+    <span class="doccomment">/// If [code][google.spanner.v1.Type.code] ==
+    /// [PROTO][google.spanner.v1.TypeCode.PROTO] or
+    /// [code][google.spanner.v1.Type.code] ==
+    /// [ENUM][google.spanner.v1.TypeCode.ENUM], then `proto_type_fqn` is the fully
+    /// qualified name of the proto type representing the proto/enum definition.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>proto_type_fqn: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// `StructType` defines the fields of a [STRUCT][google.spanner.v1.TypeCode.STRUCT] type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StructType {
+    <span class="doccomment">/// The list of fields that make up this struct. Order is
+    /// significant, because values of this struct type are represented as
+    /// lists, where the order of field values matches the order of
+    /// fields in the [StructType][google.spanner.v1.StructType]. In turn, the order of fields
+    /// matches the order of columns in a read request, or the order of
+    /// fields in the `SELECT` clause of a query.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>fields: ::prost::alloc::vec::Vec&lt;struct_type::Field&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StructType`.
+</span><span class="kw">pub mod </span>struct_type {
+    <span class="doccomment">/// Message representing a single field of a struct.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Field {
+        <span class="doccomment">/// The name of the field. For reads, this is the column name. For
+        /// SQL queries, it is the column alias (e.g., `"Word"` in the
+        /// query `"SELECT 'hello' AS Word"`), or the column name (e.g.,
+        /// `"ColName"` in the query `"SELECT ColName FROM Table"`). Some
+        /// columns might have an empty name (e.g., `"SELECT
+        /// UPPER(ColName)"`). Note that a query result can contain
+        /// multiple fields with the same name.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The type of the field.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;<span class="kw">super</span>::Type&gt;,
+    }
+}
+<span class="doccomment">/// `TypeCode` is used as part of [Type][google.spanner.v1.Type] to
+/// indicate the type of a Cloud Spanner value.
+///
+/// Each legal value of a type can be encoded to or decoded from a JSON
+/// value, using the encodings described below. All Cloud Spanner values can
+/// be `null`, regardless of type; `null`s are always encoded as a JSON
+/// `null`.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TypeCode {
+    <span class="doccomment">/// Not specified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Encoded as JSON `true` or `false`.
+    </span>Bool = <span class="number">1</span>,
+    <span class="doccomment">/// Encoded as `string`, in decimal format.
+    </span>Int64 = <span class="number">2</span>,
+    <span class="doccomment">/// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
+    /// `"-Infinity"`.
+    </span>Float64 = <span class="number">3</span>,
+    <span class="doccomment">/// Encoded as `number`, or the strings `"NaN"`, `"Infinity"`, or
+    /// `"-Infinity"`.
+    </span>Float32 = <span class="number">15</span>,
+    <span class="doccomment">/// Encoded as `string` in RFC 3339 timestamp format. The time zone
+    /// must be present, and must be `"Z"`.
+    ///
+    /// If the schema has the column option
+    /// `allow_commit_timestamp=true`, the placeholder string
+    /// `"spanner.commit_timestamp()"` can be used to instruct the system
+    /// to insert the commit timestamp associated with the transaction
+    /// commit.
+    </span>Timestamp = <span class="number">4</span>,
+    <span class="doccomment">/// Encoded as `string` in RFC 3339 date format.
+    </span>Date = <span class="number">5</span>,
+    <span class="doccomment">/// Encoded as `string`.
+    </span>String = <span class="number">6</span>,
+    <span class="doccomment">/// Encoded as a base64-encoded `string`, as described in RFC 4648,
+    /// section 4.
+    </span>Bytes = <span class="number">7</span>,
+    <span class="doccomment">/// Encoded as `list`, where the list elements are represented
+    /// according to
+    /// [array_element_type][google.spanner.v1.Type.array_element_type].
+    </span>Array = <span class="number">8</span>,
+    <span class="doccomment">/// Encoded as `list`, where list element `i` is represented according
+    /// to \[struct_type.fields[i\]][google.spanner.v1.StructType.fields].
+    </span>Struct = <span class="number">9</span>,
+    <span class="doccomment">/// Encoded as `string`, in decimal format or scientific notation format.
+    /// &lt;br&gt;Decimal format:
+    /// &lt;br&gt;`\[+-\]Digits\[.[Digits]\]` or
+    /// &lt;br&gt;`[+-][Digits].Digits`
+    ///
+    /// Scientific notation:
+    /// &lt;br&gt;`\[+-\]Digits\[.[Digits\]][ExponentIndicator\[+-\]Digits]` or
+    /// &lt;br&gt;`[+-][Digits].Digits\[ExponentIndicator[+-\]Digits]`
+    /// &lt;br&gt;(ExponentIndicator is `"e"` or `"E"`)
+    </span>Numeric = <span class="number">10</span>,
+    <span class="doccomment">/// Encoded as a JSON-formatted `string` as described in RFC 7159. The
+    /// following rules are applied when parsing JSON input:
+    ///
+    /// - Whitespace characters are not preserved.
+    /// - If a JSON object has duplicate keys, only the first key is preserved.
+    /// - Members of a JSON object are not guaranteed to have their order
+    ///    preserved.
+    /// - JSON array elements will have their order preserved.
+    </span>Json = <span class="number">11</span>,
+    <span class="doccomment">/// Encoded as a base64-encoded `string`, as described in RFC 4648,
+    /// section 4.
+    </span>Proto = <span class="number">13</span>,
+    <span class="doccomment">/// Encoded as `string`, in decimal format.
+    </span>Enum = <span class="number">14</span>,
+}
+<span class="kw">impl </span>TypeCode {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TypeCode::Unspecified =&gt; <span class="string">"TYPE_CODE_UNSPECIFIED"</span>,
+            TypeCode::Bool =&gt; <span class="string">"BOOL"</span>,
+            TypeCode::Int64 =&gt; <span class="string">"INT64"</span>,
+            TypeCode::Float64 =&gt; <span class="string">"FLOAT64"</span>,
+            TypeCode::Float32 =&gt; <span class="string">"FLOAT32"</span>,
+            TypeCode::Timestamp =&gt; <span class="string">"TIMESTAMP"</span>,
+            TypeCode::Date =&gt; <span class="string">"DATE"</span>,
+            TypeCode::String =&gt; <span class="string">"STRING"</span>,
+            TypeCode::Bytes =&gt; <span class="string">"BYTES"</span>,
+            TypeCode::Array =&gt; <span class="string">"ARRAY"</span>,
+            TypeCode::Struct =&gt; <span class="string">"STRUCT"</span>,
+            TypeCode::Numeric =&gt; <span class="string">"NUMERIC"</span>,
+            TypeCode::Json =&gt; <span class="string">"JSON"</span>,
+            TypeCode::Proto =&gt; <span class="string">"PROTO"</span>,
+            TypeCode::Enum =&gt; <span class="string">"ENUM"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TYPE_CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"BOOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bool),
+            <span class="string">"INT64" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Int64),
+            <span class="string">"FLOAT64" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Float64),
+            <span class="string">"FLOAT32" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Float32),
+            <span class="string">"TIMESTAMP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Timestamp),
+            <span class="string">"DATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Date),
+            <span class="string">"STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::String),
+            <span class="string">"BYTES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bytes),
+            <span class="string">"ARRAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Array),
+            <span class="string">"STRUCT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Struct),
+            <span class="string">"NUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Numeric),
+            <span class="string">"JSON" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Json),
+            <span class="string">"PROTO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Proto),
+            <span class="string">"ENUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enum),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// `TypeAnnotationCode` is used as a part of [Type][google.spanner.v1.Type] to
+/// disambiguate SQL types that should be used for a given Cloud Spanner value.
+/// Disambiguation is needed because the same Cloud Spanner type can be mapped to
+/// different SQL types depending on SQL dialect. TypeAnnotationCode doesn't
+/// affect the way value is serialized.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TypeAnnotationCode {
+    <span class="doccomment">/// Not specified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// PostgreSQL compatible NUMERIC type. This annotation needs to be applied to
+    /// [Type][google.spanner.v1.Type] instances having [NUMERIC][google.spanner.v1.TypeCode.NUMERIC]
+    /// type code to specify that values of this type should be treated as
+    /// PostgreSQL NUMERIC values. Currently this annotation is always needed for
+    /// [NUMERIC][google.spanner.v1.TypeCode.NUMERIC] when a client interacts with PostgreSQL-enabled
+    /// Spanner databases.
+    </span>PgNumeric = <span class="number">2</span>,
+    <span class="doccomment">/// PostgreSQL compatible JSONB type. This annotation needs to be applied to
+    /// [Type][google.spanner.v1.Type] instances having [JSON][google.spanner.v1.TypeCode.JSON]
+    /// type code to specify that values of this type should be treated as
+    /// PostgreSQL JSONB values. Currently this annotation is always needed for
+    /// [JSON][google.spanner.v1.TypeCode.JSON] when a client interacts with PostgreSQL-enabled
+    /// Spanner databases.
+    </span>PgJsonb = <span class="number">3</span>,
+    <span class="doccomment">/// PostgreSQL compatible OID type. This annotation can be used by a client
+    /// interacting with PostgreSQL-enabled Spanner database to specify that a
+    /// value should be treated using the semantics of the OID type.
+    </span>PgOid = <span class="number">4</span>,
+}
+<span class="kw">impl </span>TypeAnnotationCode {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TypeAnnotationCode::Unspecified =&gt; <span class="string">"TYPE_ANNOTATION_CODE_UNSPECIFIED"</span>,
+            TypeAnnotationCode::PgNumeric =&gt; <span class="string">"PG_NUMERIC"</span>,
+            TypeAnnotationCode::PgJsonb =&gt; <span class="string">"PG_JSONB"</span>,
+            TypeAnnotationCode::PgOid =&gt; <span class="string">"PG_OID"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TYPE_ANNOTATION_CODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"PG_NUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgNumeric),
+            <span class="string">"PG_JSONB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgJsonb),
+            <span class="string">"PG_OID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PgOid),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
     }
 }
 <span class="doccomment">/// Results from [Read][google.spanner.v1.Spanner.Read] or
@@ -4410,7 +4685,7 @@
 </span><span class="kw">pub mod </span>result_set_stats {
     <span class="doccomment">/// The number of rows modified by the DML statement.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>RowCount {
         <span class="doccomment">/// Standard DML returns an exact count of rows that were modified.
         </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
@@ -4419,281 +4694,6 @@
         /// returns a lower bound of the rows modified.
         </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
         </span>RowCountLowerBound(i64),
-    }
-}
-<span class="doccomment">/// The response for [Commit][google.spanner.v1.Spanner.Commit].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CommitResponse {
-    <span class="doccomment">/// The Cloud Spanner timestamp at which the transaction committed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>commit_timestamp: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The statistics about this Commit. Not returned by default.
-    /// For more information, see
-    /// [CommitRequest.return_commit_stats][google.spanner.v1.CommitRequest.return_commit_stats].
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>commit_stats: ::core::option::Option&lt;commit_response::CommitStats&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CommitResponse`.
-</span><span class="kw">pub mod </span>commit_response {
-    <span class="doccomment">/// Additional statistics about a commit.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>CommitStats {
-        <span class="doccomment">/// The total number of mutations for the transaction. Knowing the
-        /// `mutation_count` value can help you maximize the number of mutations
-        /// in a transaction and minimize the number of API round trips. You can
-        /// also monitor this value to prevent transactions from exceeding the system
-        /// [limit](&lt;https://cloud.google.com/spanner/quotas#limits_for_creating_reading_updating_and_deleting_data&gt;).
-        /// If the number of mutations exceeds the limit, the server returns
-        /// [INVALID_ARGUMENT](&lt;https://cloud.google.com/spanner/docs/reference/rest/v1/Code#ENUM_VALUES.INVALID_ARGUMENT&gt;).
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>mutation_count: i64,
-    }
-}
-<span class="doccomment">/// KeyRange represents a range of rows in a table or index.
-///
-/// A range has a start key and an end key. These keys can be open or
-/// closed, indicating if the range includes rows with that key.
-///
-/// Keys are represented by lists, where the ith value in the list
-/// corresponds to the ith component of the table or index primary key.
-/// Individual values are encoded as described
-/// [here][google.spanner.v1.TypeCode].
-///
-/// For example, consider the following table definition:
-///
-///      CREATE TABLE UserEvents (
-///        UserName STRING(MAX),
-///        EventDate STRING(10)
-///      ) PRIMARY KEY(UserName, EventDate);
-///
-/// The following keys name rows in this table:
-///
-///      \["Bob", "2014-09-23"\]
-///      \["Alfred", "2015-06-12"\]
-///
-/// Since the `UserEvents` table's `PRIMARY KEY` clause names two
-/// columns, each `UserEvents` key has two elements; the first is the
-/// `UserName`, and the second is the `EventDate`.
-///
-/// Key ranges with multiple components are interpreted
-/// lexicographically by component using the table or index key's declared
-/// sort order. For example, the following range returns all events for
-/// user `"Bob"` that occurred in the year 2015:
-///
-///      "start_closed": \["Bob", "2015-01-01"\]
-///      "end_closed": \["Bob", "2015-12-31"\]
-///
-/// Start and end keys can omit trailing key components. This affects the
-/// inclusion and exclusion of rows that exactly match the provided key
-/// components: if the key is closed, then rows that exactly match the
-/// provided components are included; if the key is open, then rows
-/// that exactly match are not included.
-///
-/// For example, the following range includes all events for `"Bob"` that
-/// occurred during and after the year 2000:
-///
-///      "start_closed": \["Bob", "2000-01-01"\]
-///      "end_closed": \["Bob"\]
-///
-/// The next example retrieves all events for `"Bob"`:
-///
-///      "start_closed": \["Bob"\]
-///      "end_closed": \["Bob"\]
-///
-/// To retrieve events before the year 2000:
-///
-///      "start_closed": \["Bob"\]
-///      "end_open": \["Bob", "2000-01-01"\]
-///
-/// The following range includes all rows in the table:
-///
-///      "start_closed": \[\]
-///      "end_closed": \[\]
-///
-/// This range returns all users whose `UserName` begins with any
-/// character from A to C:
-///
-///      "start_closed": \["A"\]
-///      "end_open": \["D"\]
-///
-/// This range returns all users whose `UserName` begins with B:
-///
-///      "start_closed": \["B"\]
-///      "end_open": \["C"\]
-///
-/// Key ranges honor column sort order. For example, suppose a table is
-/// defined as follows:
-///
-///      CREATE TABLE DescendingSortedTable {
-///        Key INT64,
-///        ...
-///      ) PRIMARY KEY(Key DESC);
-///
-/// The following range retrieves all rows with key values between 1
-/// and 100 inclusive:
-///
-///      "start_closed": \["100"\]
-///      "end_closed": \["1"\]
-///
-/// Note that 100 is passed as the start, and 1 is passed as the end,
-/// because `Key` is a descending column in the schema.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KeyRange {
-    <span class="doccomment">/// The start key must be provided. It can be either closed or open.
-    </span><span class="attr">#[prost(oneof = <span class="string">"key_range::StartKeyType"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>start_key_type: ::core::option::Option&lt;key_range::StartKeyType&gt;,
-    <span class="doccomment">/// The end key must be provided. It can be either closed or open.
-    </span><span class="attr">#[prost(oneof = <span class="string">"key_range::EndKeyType"</span>, tags = <span class="string">"3, 4"</span>)]
-    </span><span class="kw">pub </span>end_key_type: ::core::option::Option&lt;key_range::EndKeyType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `KeyRange`.
-</span><span class="kw">pub mod </span>key_range {
-    <span class="doccomment">/// The start key must be provided. It can be either closed or open.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>StartKeyType {
-        <span class="doccomment">/// If the start is closed, then the range includes all rows whose
-        /// first `len(start_closed)` key columns exactly match `start_closed`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>StartClosed(::prost_types::ListValue),
-        <span class="doccomment">/// If the start is open, then the range excludes rows whose first
-        /// `len(start_open)` key columns exactly match `start_open`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>StartOpen(::prost_types::ListValue),
-    }
-    <span class="doccomment">/// The end key must be provided. It can be either closed or open.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>EndKeyType {
-        <span class="doccomment">/// If the end is closed, then the range includes all rows whose
-        /// first `len(end_closed)` key columns exactly match `end_closed`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>EndClosed(::prost_types::ListValue),
-        <span class="doccomment">/// If the end is open, then the range excludes rows whose first
-        /// `len(end_open)` key columns exactly match `end_open`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>EndOpen(::prost_types::ListValue),
-    }
-}
-<span class="doccomment">/// `KeySet` defines a collection of Cloud Spanner keys and/or key ranges. All
-/// the keys are expected to be in the same table or index. The keys need
-/// not be sorted in any particular way.
-///
-/// If the same key is specified multiple times in the set (for example
-/// if two ranges, two keys, or a key and a range overlap), Cloud Spanner
-/// behaves as if the key were only specified once.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KeySet {
-    <span class="doccomment">/// A list of specific keys. Entries in `keys` should have exactly as
-    /// many elements as there are columns in the primary or index key
-    /// with which this `KeySet` is used.  Individual key values are
-    /// encoded as described [here][google.spanner.v1.TypeCode].
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>keys: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
-    <span class="doccomment">/// A list of key ranges. See [KeyRange][google.spanner.v1.KeyRange] for more information about
-    /// key range specifications.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>ranges: ::prost::alloc::vec::Vec&lt;KeyRange&gt;,
-    <span class="doccomment">/// For convenience `all` can be set to `true` to indicate that this
-    /// `KeySet` matches all keys in the table or index. Note that any keys
-    /// specified in `keys` or `ranges` are only yielded once.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>all: bool,
-}
-<span class="doccomment">/// A modification to one or more Cloud Spanner rows.  Mutations can be
-/// applied to a Cloud Spanner database by sending them in a
-/// [Commit][google.spanner.v1.Spanner.Commit] call.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Mutation {
-    <span class="doccomment">/// Required. The operation to perform.
-    </span><span class="attr">#[prost(oneof = <span class="string">"mutation::Operation"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
-    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;mutation::Operation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Mutation`.
-</span><span class="kw">pub mod </span>mutation {
-    <span class="doccomment">/// Arguments to [insert][google.spanner.v1.Mutation.insert], [update][google.spanner.v1.Mutation.update], [insert_or_update][google.spanner.v1.Mutation.insert_or_update], and
-    /// [replace][google.spanner.v1.Mutation.replace] operations.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Write {
-        <span class="doccomment">/// Required. The table whose rows will be written.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
-        <span class="doccomment">/// The names of the columns in [table][google.spanner.v1.Mutation.Write.table] to be written.
-        ///
-        /// The list of columns must contain enough columns to allow
-        /// Cloud Spanner to derive values for all primary key columns in the
-        /// row(s) to be modified.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>columns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// The values to be written. `values` can contain more than one
-        /// list of values. If it does, then multiple rows are written, one
-        /// for each entry in `values`. Each list in `values` must have
-        /// exactly as many entries as there are entries in [columns][google.spanner.v1.Mutation.Write.columns]
-        /// above. Sending multiple lists is equivalent to sending multiple
-        /// `Mutation`s, each containing one `values` entry and repeating
-        /// [table][google.spanner.v1.Mutation.Write.table] and [columns][google.spanner.v1.Mutation.Write.columns]. Individual values in each list are
-        /// encoded as described [here][google.spanner.v1.TypeCode].
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
-    }
-    <span class="doccomment">/// Arguments to [delete][google.spanner.v1.Mutation.delete] operations.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Delete {
-        <span class="doccomment">/// Required. The table whose rows will be deleted.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>table: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. The primary keys of the rows within [table][google.spanner.v1.Mutation.Delete.table] to delete.  The
-        /// primary keys must be specified in the order in which they appear in the
-        /// `PRIMARY KEY()` clause of the table's equivalent DDL statement (the DDL
-        /// statement used to create the table).
-        /// Delete is idempotent. The transaction will succeed even if some or all
-        /// rows do not exist.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>key_set: ::core::option::Option&lt;<span class="kw">super</span>::KeySet&gt;,
-    }
-    <span class="doccomment">/// Required. The operation to perform.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Operation {
-        <span class="doccomment">/// Insert new rows in a table. If any of the rows already exist,
-        /// the write or transaction fails with error `ALREADY_EXISTS`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Insert(Write),
-        <span class="doccomment">/// Update existing rows in a table. If any of the rows does not
-        /// already exist, the transaction fails with error `NOT_FOUND`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Update(Write),
-        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, then
-        /// its column values are overwritten with the ones provided. Any
-        /// column values not explicitly written are preserved.
-        ///
-        /// When using [insert_or_update][google.spanner.v1.Mutation.insert_or_update], just as when using [insert][google.spanner.v1.Mutation.insert], all `NOT
-        /// NULL` columns in the table must be given a value. This holds true
-        /// even when the row already exists and will therefore actually be updated.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>InsertOrUpdate(Write),
-        <span class="doccomment">/// Like [insert][google.spanner.v1.Mutation.insert], except that if the row already exists, it is
-        /// deleted, and the column values provided are inserted
-        /// instead. Unlike [insert_or_update][google.spanner.v1.Mutation.insert_or_update], this means any values not
-        /// explicitly written become `NULL`.
-        ///
-        /// In an interleaved table, if you create the child table with the
-        /// `ON DELETE CASCADE` annotation, then replacing a parent row
-        /// also deletes the child rows. Otherwise, you must delete the
-        /// child rows before you replace the parent row.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>Replace(Write),
-        <span class="doccomment">/// Delete rows from a table. Succeeds whether or not the named
-        /// rows were present.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>Delete(Delete),
     }
 }
 <span class="doccomment">/// The request for [CreateSession][google.spanner.v1.Spanner.CreateSession].
@@ -5400,7 +5400,7 @@
 <span class="doccomment">/// Options for a PartitionQueryRequest and
 /// PartitionReadRequest.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PartitionOptions {
     <span class="doccomment">/// **Note:** This hint is currently ignored by PartitionQuery and
     /// PartitionRead requests.

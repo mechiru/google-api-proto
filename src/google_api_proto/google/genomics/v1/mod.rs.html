@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/genomics/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/genomics/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -5355,6 +5355,1359 @@
         }
     }
 }
+<span class="doccomment">/// A 0-based half-open genomic coordinate range for search requests.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Range {
+    <span class="doccomment">/// The reference sequence name, for example `chr1`,
+    /// `1`, or `chrX`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reference_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The start position of the range on the reference, 0-based inclusive.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>start: i64,
+    <span class="doccomment">/// The end position of the range on the reference, 0-based exclusive.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>end: i64,
+}
+<span class="doccomment">/// An annotation set is a logical grouping of annotations that share consistent
+/// type information and provenance. Examples of annotation sets include 'all
+/// genes from refseq', and 'all variant annotations from ClinVar'.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AnnotationSet {
+    <span class="doccomment">/// The server-generated annotation set ID, unique across all annotation sets.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The dataset to which this annotation set belongs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the reference set that defines the coordinate space for this
+    /// set's annotations.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>reference_set_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The display name for this annotation set.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The source URI describing the file from which this annotation set was
+    /// generated, if any.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>source_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of annotations contained within this set.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// A map of additional read alignment information. This must be of the form
+    /// map&lt;string, string\[\]&gt; (string key mapping to a list of string values).
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>info: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost_types::ListValue,
+    &gt;,
+}
+<span class="doccomment">/// An annotation describes a region of reference genome. The value of an
+/// annotation may be one of several canonical types, supplemented by arbitrary
+/// info tags. An annotation is not inherently associated with a specific
+/// sample or individual (though a client could choose to use annotations in
+/// this way). Example canonical annotation types are `GENE` and
+/// `VARIANT`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Annotation {
+    <span class="doccomment">/// The server-generated annotation ID, unique across all annotations.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The annotation set to which this annotation belongs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The display name of this annotation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the Google Genomics reference associated with this range.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>reference_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The display name corresponding to the reference specified by
+    /// `referenceId`, for example `chr1`, `1`, or `chrX`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>reference_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The start position of the range on the reference, 0-based inclusive.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>start: i64,
+    <span class="doccomment">/// The end position of the range on the reference, 0-based exclusive.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>end: i64,
+    <span class="doccomment">/// Whether this range refers to the reverse strand, as opposed to the forward
+    /// strand. Note that regardless of this field, the start/end position of the
+    /// range always refer to the forward strand.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>reverse_strand: bool,
+    <span class="doccomment">/// The data type for this annotation. Must match the containing annotation
+    /// set's type.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// A map of additional read alignment information. This must be of the form
+    /// map&lt;string, string\[\]&gt; (string key mapping to a list of string values).
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>info: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost_types::ListValue,
+    &gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"annotation::Value"</span>, tags = <span class="string">"10, 11"</span>)]
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;annotation::Value&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Annotation`.
+</span><span class="kw">pub mod </span>annotation {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Value {
+        <span class="doccomment">/// A variant annotation, which describes the effect of a variant on the
+        /// genome, the coding sequence, and/or higher level consequences at the
+        /// organism level e.g. pathogenicity. This field is only set for annotations
+        /// of type `VARIANT`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
+        </span>Variant(<span class="kw">super</span>::VariantAnnotation),
+        <span class="doccomment">/// A transcript value represents the assertion that a particular region of
+        /// the reference genome may be transcribed as RNA. An alternative splicing
+        /// pattern would be represented as a separate transcript object. This field
+        /// is only set for annotations of type `TRANSCRIPT`.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
+        </span>Transcript(<span class="kw">super</span>::Transcript),
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VariantAnnotation {
+    <span class="doccomment">/// Type has been adapted from ClinVar's list of variant types.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"variant_annotation::Type"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Effect of the variant on the coding sequence.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"variant_annotation::Effect"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>effect: i32,
+    <span class="doccomment">/// The alternate allele for this variant. If multiple alternate alleles
+    /// exist at this location, create a separate variant for each one, as they
+    /// may represent distinct conditions.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>alternate_bases: ::prost::alloc::string::String,
+    <span class="doccomment">/// Google annotation ID of the gene affected by this variant. This should
+    /// be provided when the variant is created.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>gene_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Google annotation IDs of the transcripts affected by this variant. These
+    /// should be provided when the variant is created.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>transcript_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The set of conditions associated with this variant.
+    /// A condition describes the way a variant influences human health.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>conditions: ::prost::alloc::vec::Vec&lt;variant_annotation::ClinicalCondition&gt;,
+    <span class="doccomment">/// Describes the clinical significance of a variant.
+    /// It is adapted from the ClinVar controlled vocabulary for clinical
+    /// significance described at:
+    /// &lt;http://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/&gt;
+    </span><span class="attr">#[prost(enumeration = <span class="string">"variant_annotation::ClinicalSignificance"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>clinical_significance: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `VariantAnnotation`.
+</span><span class="kw">pub mod </span>variant_annotation {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ClinicalCondition {
+        <span class="doccomment">/// A set of names for the condition.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// The set of external IDs for this condition.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>external_ids: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::ExternalId&gt;,
+        <span class="doccomment">/// The MedGen concept id associated with this gene.
+        /// Search for these IDs at &lt;http://www.ncbi.nlm.nih.gov/medgen/&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>concept_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The OMIM id for this condition.
+        /// Search for these IDs at &lt;http://omim.org/&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>omim_id: ::prost::alloc::string::String,
+    }
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// `TYPE_OTHER` should be used when no other Type will suffice.
+        /// Further explanation of the variant type may be included in the
+        /// [info][google.genomics.v1.Annotation.info] field.
+        </span>Other = <span class="number">1</span>,
+        <span class="doccomment">/// `INSERTION` indicates an insertion.
+        </span>Insertion = <span class="number">2</span>,
+        <span class="doccomment">/// `DELETION` indicates a deletion.
+        </span>Deletion = <span class="number">3</span>,
+        <span class="doccomment">/// `SUBSTITUTION` indicates a block substitution of
+        /// two or more nucleotides.
+        </span>Substitution = <span class="number">4</span>,
+        <span class="doccomment">/// `SNP` indicates a single nucleotide polymorphism.
+        </span>Snp = <span class="number">5</span>,
+        <span class="doccomment">/// `STRUCTURAL` indicates a large structural variant,
+        /// including chromosomal fusions, inversions, etc.
+        </span>Structural = <span class="number">6</span>,
+        <span class="doccomment">/// `CNV` indicates a variation in copy number.
+        </span>Cnv = <span class="number">7</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Other =&gt; <span class="string">"TYPE_OTHER"</span>,
+                Type::Insertion =&gt; <span class="string">"INSERTION"</span>,
+                Type::Deletion =&gt; <span class="string">"DELETION"</span>,
+                Type::Substitution =&gt; <span class="string">"SUBSTITUTION"</span>,
+                Type::Snp =&gt; <span class="string">"SNP"</span>,
+                Type::Structural =&gt; <span class="string">"STRUCTURAL"</span>,
+                Type::Cnv =&gt; <span class="string">"CNV"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"TYPE_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
+                <span class="string">"INSERTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Insertion),
+                <span class="string">"DELETION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deletion),
+                <span class="string">"SUBSTITUTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Substitution),
+                <span class="string">"SNP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Snp),
+                <span class="string">"STRUCTURAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Structural),
+                <span class="string">"CNV" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cnv),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Effect {
+        Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// `EFFECT_OTHER` should be used when no other Effect
+        /// will suffice.
+        </span>Other = <span class="number">1</span>,
+        <span class="doccomment">/// `FRAMESHIFT` indicates a mutation in which the insertion or
+        /// deletion of nucleotides resulted in a frameshift change.
+        </span>Frameshift = <span class="number">2</span>,
+        <span class="doccomment">/// `FRAME_PRESERVING_INDEL` indicates a mutation in which a
+        /// multiple of three nucleotides has been inserted or deleted, resulting
+        /// in no change to the reading frame of the coding sequence.
+        </span>FramePreservingIndel = <span class="number">3</span>,
+        <span class="doccomment">/// `SYNONYMOUS_SNP` indicates a single nucleotide polymorphism
+        /// mutation that results in no amino acid change.
+        </span>SynonymousSnp = <span class="number">4</span>,
+        <span class="doccomment">/// `NONSYNONYMOUS_SNP` indicates a single nucleotide
+        /// polymorphism mutation that results in an amino acid change.
+        </span>NonsynonymousSnp = <span class="number">5</span>,
+        <span class="doccomment">/// `STOP_GAIN` indicates a mutation that leads to the creation
+        /// of a stop codon at the variant site. Frameshift mutations creating
+        /// downstream stop codons do not count as `STOP_GAIN`.
+        </span>StopGain = <span class="number">6</span>,
+        <span class="doccomment">/// `STOP_LOSS` indicates a mutation that eliminates a
+        /// stop codon at the variant site.
+        </span>StopLoss = <span class="number">7</span>,
+        <span class="doccomment">/// `SPLICE_SITE_DISRUPTION` indicates that this variant is
+        /// found in a splice site for the associated transcript, and alters the
+        /// normal splicing pattern.
+        </span>SpliceSiteDisruption = <span class="number">8</span>,
+    }
+    <span class="kw">impl </span>Effect {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Effect::Unspecified =&gt; <span class="string">"EFFECT_UNSPECIFIED"</span>,
+                Effect::Other =&gt; <span class="string">"EFFECT_OTHER"</span>,
+                Effect::Frameshift =&gt; <span class="string">"FRAMESHIFT"</span>,
+                Effect::FramePreservingIndel =&gt; <span class="string">"FRAME_PRESERVING_INDEL"</span>,
+                Effect::SynonymousSnp =&gt; <span class="string">"SYNONYMOUS_SNP"</span>,
+                Effect::NonsynonymousSnp =&gt; <span class="string">"NONSYNONYMOUS_SNP"</span>,
+                Effect::StopGain =&gt; <span class="string">"STOP_GAIN"</span>,
+                Effect::StopLoss =&gt; <span class="string">"STOP_LOSS"</span>,
+                Effect::SpliceSiteDisruption =&gt; <span class="string">"SPLICE_SITE_DISRUPTION"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EFFECT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"EFFECT_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
+                <span class="string">"FRAMESHIFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Frameshift),
+                <span class="string">"FRAME_PRESERVING_INDEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FramePreservingIndel),
+                <span class="string">"SYNONYMOUS_SNP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SynonymousSnp),
+                <span class="string">"NONSYNONYMOUS_SNP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonsynonymousSnp),
+                <span class="string">"STOP_GAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StopGain),
+                <span class="string">"STOP_LOSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StopLoss),
+                <span class="string">"SPLICE_SITE_DISRUPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SpliceSiteDisruption),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ClinicalSignificance {
+        Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// `OTHER` should be used when no other clinical significance
+        /// value will suffice.
+        </span>Other = <span class="number">1</span>,
+        Uncertain = <span class="number">2</span>,
+        Benign = <span class="number">3</span>,
+        LikelyBenign = <span class="number">4</span>,
+        LikelyPathogenic = <span class="number">5</span>,
+        Pathogenic = <span class="number">6</span>,
+        DrugResponse = <span class="number">7</span>,
+        Histocompatibility = <span class="number">8</span>,
+        ConfersSensitivity = <span class="number">9</span>,
+        RiskFactor = <span class="number">10</span>,
+        Association = <span class="number">11</span>,
+        Protective = <span class="number">12</span>,
+        <span class="doccomment">/// `MULTIPLE_REPORTED` should be used when multiple clinical
+        /// signficances are reported for a variant. The original clinical
+        /// significance values may be provided in the `info` field.
+        </span>MultipleReported = <span class="number">13</span>,
+    }
+    <span class="kw">impl </span>ClinicalSignificance {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ClinicalSignificance::Unspecified =&gt; <span class="string">"CLINICAL_SIGNIFICANCE_UNSPECIFIED"</span>,
+                ClinicalSignificance::Other =&gt; <span class="string">"CLINICAL_SIGNIFICANCE_OTHER"</span>,
+                ClinicalSignificance::Uncertain =&gt; <span class="string">"UNCERTAIN"</span>,
+                ClinicalSignificance::Benign =&gt; <span class="string">"BENIGN"</span>,
+                ClinicalSignificance::LikelyBenign =&gt; <span class="string">"LIKELY_BENIGN"</span>,
+                ClinicalSignificance::LikelyPathogenic =&gt; <span class="string">"LIKELY_PATHOGENIC"</span>,
+                ClinicalSignificance::Pathogenic =&gt; <span class="string">"PATHOGENIC"</span>,
+                ClinicalSignificance::DrugResponse =&gt; <span class="string">"DRUG_RESPONSE"</span>,
+                ClinicalSignificance::Histocompatibility =&gt; <span class="string">"HISTOCOMPATIBILITY"</span>,
+                ClinicalSignificance::ConfersSensitivity =&gt; <span class="string">"CONFERS_SENSITIVITY"</span>,
+                ClinicalSignificance::RiskFactor =&gt; <span class="string">"RISK_FACTOR"</span>,
+                ClinicalSignificance::Association =&gt; <span class="string">"ASSOCIATION"</span>,
+                ClinicalSignificance::Protective =&gt; <span class="string">"PROTECTIVE"</span>,
+                ClinicalSignificance::MultipleReported =&gt; <span class="string">"MULTIPLE_REPORTED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CLINICAL_SIGNIFICANCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CLINICAL_SIGNIFICANCE_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
+                <span class="string">"UNCERTAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uncertain),
+                <span class="string">"BENIGN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Benign),
+                <span class="string">"LIKELY_BENIGN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LikelyBenign),
+                <span class="string">"LIKELY_PATHOGENIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LikelyPathogenic),
+                <span class="string">"PATHOGENIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pathogenic),
+                <span class="string">"DRUG_RESPONSE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DrugResponse),
+                <span class="string">"HISTOCOMPATIBILITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Histocompatibility),
+                <span class="string">"CONFERS_SENSITIVITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConfersSensitivity),
+                <span class="string">"RISK_FACTOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RiskFactor),
+                <span class="string">"ASSOCIATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Association),
+                <span class="string">"PROTECTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Protective),
+                <span class="string">"MULTIPLE_REPORTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MultipleReported),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A transcript represents the assertion that a particular region of the
+/// reference genome may be transcribed as RNA.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Transcript {
+    <span class="doccomment">/// The annotation ID of the gene from which this transcript is transcribed.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gene_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The &lt;a href="&lt;http://en.wikipedia.org/wiki/Exon"&gt;exons&lt;/a&gt;&gt; that compose
+    /// this transcript. This field should be unset for genomes where transcript
+    /// splicing does not occur, for example prokaryotes.
+    ///
+    /// Introns are regions of the transcript that are not included in the
+    /// spliced RNA product. Though not explicitly modeled here, intron ranges can
+    /// be deduced; all regions of this transcript that are not exons are introns.
+    ///
+    /// Exonic sequences do not necessarily code for a translational product
+    /// (amino acids). Only the regions of exons bounded by the
+    /// [codingSequence][google.genomics.v1.Transcript.coding_sequence] correspond
+    /// to coding DNA sequence.
+    ///
+    /// Exons are ordered by start position and may not overlap.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>exons: ::prost::alloc::vec::Vec&lt;transcript::Exon&gt;,
+    <span class="doccomment">/// The range of the coding sequence for this transcript, if any. To determine
+    /// the exact ranges of coding sequence, intersect this range with those of the
+    /// [exons][google.genomics.v1.Transcript.exons], if any. If there are any
+    /// [exons][google.genomics.v1.Transcript.exons], the
+    /// [codingSequence][google.genomics.v1.Transcript.coding_sequence] must start
+    /// and end within them.
+    ///
+    /// Note that in some cases, the reference genome will not exactly match the
+    /// observed mRNA transcript e.g. due to variance in the source genome from
+    /// reference. In these cases,
+    /// [exon.frame][google.genomics.v1.Transcript.Exon.frame] will not necessarily
+    /// match the expected reference reading frame and coding exon reference bases
+    /// cannot necessarily be concatenated to produce the original transcript mRNA.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>coding_sequence: ::core::option::Option&lt;transcript::CodingSequence&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Transcript`.
+</span><span class="kw">pub mod </span>transcript {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Exon {
+        <span class="doccomment">/// The start position of the exon on this annotation's reference sequence,
+        /// 0-based inclusive. Note that this is relative to the reference start, and
+        /// **not** the containing annotation start.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>start: i64,
+        <span class="doccomment">/// The end position of the exon on this annotation's reference sequence,
+        /// 0-based exclusive. Note that this is relative to the reference start, and
+        /// *not* the containing annotation start.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>end: i64,
+        <span class="doccomment">/// The frame of this exon. Contains a value of 0, 1, or 2, which indicates
+        /// the offset of the first coding base of the exon within the reading frame
+        /// of the coding DNA sequence, if any. This field is dependent on the
+        /// strandedness of this annotation (see
+        /// [Annotation.reverse_strand][google.genomics.v1.Annotation.reverse_strand]).
+        /// For forward stranded annotations, this offset is relative to the
+        /// [exon.start][google.genomics.v1.Transcript.Exon.start]. For reverse
+        /// strand annotations, this offset is relative to the
+        /// [exon.end][google.genomics.v1.Transcript.Exon.end] `- 1`.
+        ///
+        /// Unset if this exon does not intersect the coding sequence. Upon creation
+        /// of a transcript, the frame must be populated for all or none of the
+        /// coding exons.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>frame: ::core::option::Option&lt;i32&gt;,
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>CodingSequence {
+        <span class="doccomment">/// The start of the coding sequence on this annotation's reference sequence,
+        /// 0-based inclusive. Note that this position is relative to the reference
+        /// start, and *not* the containing annotation start.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>start: i64,
+        <span class="doccomment">/// The end of the coding sequence on this annotation's reference sequence,
+        /// 0-based exclusive. Note that this position is relative to the reference
+        /// start, and *not* the containing annotation start.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>end: i64,
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExternalId {
+    <span class="doccomment">/// The name of the source of this data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>source_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The id used by the source of this data.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateAnnotationSetRequest {
+    <span class="doccomment">/// The annotation set to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_set: ::core::option::Option&lt;AnnotationSet&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetAnnotationSetRequest {
+    <span class="doccomment">/// The ID of the annotation set to be retrieved.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateAnnotationSetRequest {
+    <span class="doccomment">/// The ID of the annotation set to be updated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The new annotation set.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>annotation_set: ::core::option::Option&lt;AnnotationSet&gt;,
+    <span class="doccomment">/// An optional mask specifying which fields to update. Mutable fields are
+    /// [name][google.genomics.v1.AnnotationSet.name],
+    /// [source_uri][google.genomics.v1.AnnotationSet.source_uri], and
+    /// [info][google.genomics.v1.AnnotationSet.info]. If unspecified, all
+    /// mutable fields will be updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteAnnotationSetRequest {
+    <span class="doccomment">/// The ID of the annotation set to be deleted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAnnotationSetsRequest {
+    <span class="doccomment">/// Required. The dataset IDs to search within. Caller must have `READ` access
+    /// to these datasets.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dataset_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// If specified, only annotation sets associated with the given reference set
+    /// are returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reference_set_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Only return annotations sets for which a substring of the name matches this
+    /// string (case insensitive).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, only annotation sets that have any of these types are
+    /// returned.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>types: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 128. The maximum value is 1024.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAnnotationSetsResponse {
+    <span class="doccomment">/// The matching annotation sets.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_sets: ::prost::alloc::vec::Vec&lt;AnnotationSet&gt;,
+    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateAnnotationRequest {
+    <span class="doccomment">/// The annotation to be created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation: ::core::option::Option&lt;Annotation&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchCreateAnnotationsRequest {
+    <span class="doccomment">/// The annotations to be created. At most 4096 can be specified in a single
+    /// request.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::vec::Vec&lt;Annotation&gt;,
+    <span class="doccomment">/// A unique request ID which enables the server to detect duplicated requests.
+    /// If provided, duplicated requests will result in the same response; if not
+    /// provided, duplicated requests may result in duplicated data. For a given
+    /// annotation set, callers should not reuse `request_id`s when writing
+    /// different batches of annotations - behavior in this case is undefined.
+    /// A common approach is to use a UUID. For batch jobs where worker crashes are
+    /// a possibility, consider using some unique variant of a worker or run ID.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchCreateAnnotationsResponse {
+    <span class="doccomment">/// The resulting per-annotation entries, ordered consistently with the
+    /// original request.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>entries: ::prost::alloc::vec::Vec&lt;batch_create_annotations_response::Entry&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `BatchCreateAnnotationsResponse`.
+</span><span class="kw">pub mod </span>batch_create_annotations_response {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Entry {
+        <span class="doccomment">/// The creation status.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
+        <span class="doccomment">/// The created annotation, if creation was successful.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>annotation: ::core::option::Option&lt;<span class="kw">super</span>::Annotation&gt;,
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetAnnotationRequest {
+    <span class="doccomment">/// The ID of the annotation to be retrieved.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateAnnotationRequest {
+    <span class="doccomment">/// The ID of the annotation to be updated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The new annotation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>annotation: ::core::option::Option&lt;Annotation&gt;,
+    <span class="doccomment">/// An optional mask specifying which fields to update. Mutable fields are
+    /// [name][google.genomics.v1.Annotation.name],
+    /// [variant][google.genomics.v1.Annotation.variant],
+    /// [transcript][google.genomics.v1.Annotation.transcript], and
+    /// [info][google.genomics.v1.Annotation.info]. If unspecified, all mutable
+    /// fields will be updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteAnnotationRequest {
+    <span class="doccomment">/// The ID of the annotation to be deleted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_id: ::prost::alloc::string::String,
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAnnotationsRequest {
+    <span class="doccomment">/// Required. The annotation sets to search within. The caller must have
+    /// `READ` access to these annotation sets.
+    /// All queried annotation sets must have the same type.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotation_set_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The start position of the range on the reference, 0-based inclusive. If
+    /// specified,
+    /// [referenceId][google.genomics.v1.SearchAnnotationsRequest.reference_id] or
+    /// [referenceName][google.genomics.v1.SearchAnnotationsRequest.reference_name]
+    /// must be specified. Defaults to 0.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>start: i64,
+    <span class="doccomment">/// The end position of the range on the reference, 0-based exclusive. If
+    /// [referenceId][google.genomics.v1.SearchAnnotationsRequest.reference_id] or
+    /// [referenceName][google.genomics.v1.SearchAnnotationsRequest.reference_name]
+    /// must be specified, Defaults to the length of the reference.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>end: i64,
+    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
+    /// To get the next page of results, set this parameter to the value of
+    /// `nextPageToken` from the previous response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of results to return in a single page. If unspecified,
+    /// defaults to 256. The maximum value is 2048.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Required. `reference_id` or `reference_name` must be set.
+    </span><span class="attr">#[prost(oneof = <span class="string">"search_annotations_request::Reference"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>reference: ::core::option::Option&lt;search_annotations_request::Reference&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SearchAnnotationsRequest`.
+</span><span class="kw">pub mod </span>search_annotations_request {
+    <span class="doccomment">/// Required. `reference_id` or `reference_name` must be set.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Reference {
+        <span class="doccomment">/// The ID of the reference to query.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>ReferenceId(::prost::alloc::string::String),
+        <span class="doccomment">/// The name of the reference to query, within the reference set associated
+        /// with this query.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span>ReferenceName(::prost::alloc::string::String),
+    }
+}
+<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchAnnotationsResponse {
+    <span class="doccomment">/// The matching annotations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>annotations: ::prost::alloc::vec::Vec&lt;Annotation&gt;,
+    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
+    /// Provide this value in a subsequent request to return the next page of
+    /// results. This field will be empty if there aren't any additional results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// When an [Annotation][google.genomics.v1.Annotation] or
+/// [AnnotationSet][google.genomics.v1.AnnotationSet] is created, if `type` is
+/// not specified it will be set to `GENERIC`.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>AnnotationType {
+    Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// A `GENERIC` annotation type should be used when no other annotation
+    /// type will suffice. This represents an untyped annotation of the reference
+    /// genome.
+    </span>Generic = <span class="number">1</span>,
+    <span class="doccomment">/// A `VARIANT` annotation type.
+    </span>Variant = <span class="number">2</span>,
+    <span class="doccomment">/// A `GENE` annotation type represents the existence of a gene at the
+    /// associated reference coordinates. The start coordinate is typically the
+    /// gene's transcription start site and the end is typically the end of the
+    /// gene's last exon.
+    </span>Gene = <span class="number">3</span>,
+    <span class="doccomment">/// A `TRANSCRIPT` annotation type represents the assertion that a
+    /// particular region of the reference genome may be transcribed as RNA.
+    </span>Transcript = <span class="number">4</span>,
+}
+<span class="kw">impl </span>AnnotationType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            AnnotationType::Unspecified =&gt; <span class="string">"ANNOTATION_TYPE_UNSPECIFIED"</span>,
+            AnnotationType::Generic =&gt; <span class="string">"GENERIC"</span>,
+            AnnotationType::Variant =&gt; <span class="string">"VARIANT"</span>,
+            AnnotationType::Gene =&gt; <span class="string">"GENE"</span>,
+            AnnotationType::Transcript =&gt; <span class="string">"TRANSCRIPT"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"ANNOTATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"GENERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Generic),
+            <span class="string">"VARIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Variant),
+            <span class="string">"GENE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gene),
+            <span class="string">"TRANSCRIPT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Transcript),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>annotation_service_v1_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// This service provides storage and positional retrieval of genomic
+    /// reference annotations, including variant annotations.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>AnnotationServiceV1Client&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; AnnotationServiceV1Client&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; AnnotationServiceV1Client&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            AnnotationServiceV1Client::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Creates a new annotation set. Caller must have WRITE permission for the
+        /// associated dataset.
+        ///
+        /// The following fields are required:
+        ///
+        ///   * [datasetId][google.genomics.v1.AnnotationSet.dataset_id]
+        ///   * [referenceSetId][google.genomics.v1.AnnotationSet.reference_set_id]
+        ///
+        /// All other fields may be optionally specified, unless documented as being
+        /// server-generated (for example, the `id` field).
+        </span><span class="kw">pub async fn </span>create_annotation_set(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateAnnotationSetRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::AnnotationSet&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/CreateAnnotationSet"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"CreateAnnotationSet"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets an annotation set. Caller must have READ permission for
+        /// the associated dataset.
+        </span><span class="kw">pub async fn </span>get_annotation_set(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAnnotationSetRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::AnnotationSet&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/GetAnnotationSet"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"GetAnnotationSet"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates an annotation set. The update must respect all mutability
+        /// restrictions and other invariants described on the annotation set resource.
+        /// Caller must have WRITE permission for the associated dataset.
+        </span><span class="kw">pub async fn </span>update_annotation_set(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateAnnotationSetRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::AnnotationSet&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/UpdateAnnotationSet"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"UpdateAnnotationSet"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes an annotation set. Caller must have WRITE permission
+        /// for the associated annotation set.
+        </span><span class="kw">pub async fn </span>delete_annotation_set(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteAnnotationSetRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/DeleteAnnotationSet"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"DeleteAnnotationSet"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Searches for annotation sets that match the given criteria. Annotation sets
+        /// are returned in an unspecified order. This order is consistent, such that
+        /// two queries for the same content (regardless of page size) yield annotation
+        /// sets in the same order across their respective streams of paginated
+        /// responses. Caller must have READ permission for the queried datasets.
+        </span><span class="kw">pub async fn </span>search_annotation_sets(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SearchAnnotationSetsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::SearchAnnotationSetsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/SearchAnnotationSets"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"SearchAnnotationSets"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates a new annotation. Caller must have WRITE permission
+        /// for the associated annotation set.
+        ///
+        /// The following fields are required:
+        ///
+        /// * [annotationSetId][google.genomics.v1.Annotation.annotation_set_id]
+        /// * [referenceName][google.genomics.v1.Annotation.reference_name] or
+        ///   [referenceId][google.genomics.v1.Annotation.reference_id]
+        ///
+        /// ### Transcripts
+        ///
+        /// For annotations of type TRANSCRIPT, the following fields of
+        /// [transcript][google.genomics.v1.Annotation.transcript] must be provided:
+        ///
+        /// * [exons.start][google.genomics.v1.Transcript.Exon.start]
+        /// * [exons.end][google.genomics.v1.Transcript.Exon.end]
+        ///
+        /// All other fields may be optionally specified, unless documented as being
+        /// server-generated (for example, the `id` field). The annotated
+        /// range must be no longer than 100Mbp (mega base pairs). See the
+        /// [Annotation resource][google.genomics.v1.Annotation]
+        /// for additional restrictions on each field.
+        </span><span class="kw">pub async fn </span>create_annotation(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateAnnotationRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Annotation&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/CreateAnnotation"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"CreateAnnotation"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates one or more new annotations atomically. All annotations must
+        /// belong to the same annotation set. Caller must have WRITE
+        /// permission for this annotation set. For optimal performance, batch
+        /// positionally adjacent annotations together.
+        ///
+        /// If the request has a systemic issue, such as an attempt to write to
+        /// an inaccessible annotation set, the entire RPC will fail accordingly. For
+        /// lesser data issues, when possible an error will be isolated to the
+        /// corresponding batch entry in the response; the remaining well formed
+        /// annotations will be created normally.
+        ///
+        /// For details on the requirements for each individual annotation resource,
+        /// see
+        /// [CreateAnnotation][google.genomics.v1.AnnotationServiceV1.CreateAnnotation].
+        </span><span class="kw">pub async fn </span>batch_create_annotations(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchCreateAnnotationsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::BatchCreateAnnotationsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/BatchCreateAnnotations"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"BatchCreateAnnotations"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets an annotation. Caller must have READ permission
+        /// for the associated annotation set.
+        </span><span class="kw">pub async fn </span>get_annotation(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAnnotationRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Annotation&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/GetAnnotation"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"GetAnnotation"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates an annotation. Caller must have
+        /// WRITE permission for the associated dataset.
+        </span><span class="kw">pub async fn </span>update_annotation(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateAnnotationRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Annotation&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/UpdateAnnotation"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"UpdateAnnotation"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes an annotation. Caller must have WRITE permission for
+        /// the associated annotation set.
+        </span><span class="kw">pub async fn </span>delete_annotation(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteAnnotationRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/DeleteAnnotation"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"DeleteAnnotation"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Searches for annotations that match the given criteria. Results are
+        /// ordered by genomic coordinate (by reference sequence, then position).
+        /// Annotations with equivalent genomic coordinates are returned in an
+        /// unspecified order. This order is consistent, such that two queries for the
+        /// same content (regardless of page size) yield annotations in the same order
+        /// across their respective streams of paginated responses. Caller must have
+        /// READ permission for the queried annotation sets.
+        </span><span class="kw">pub async fn </span>search_annotations(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SearchAnnotationsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::SearchAnnotationsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.genomics.v1.AnnotationServiceV1/SearchAnnotations"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
+                        <span class="string">"SearchAnnotations"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// A read group is all the data that's processed the same way by the sequencer.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ReadGroup {
+    <span class="doccomment">/// The server-generated read group ID, unique for all read groups.
+    /// Note: This is different than the @RG ID field in the SAM spec. For that
+    /// value, see [name][google.genomics.v1.ReadGroup.name].
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The dataset to which this read group belongs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The read group name. This corresponds to the @RG ID field in the SAM spec.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A free-form text description of this read group.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// A client-supplied sample identifier for the reads in this read group.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>sample_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The experiment used to generate this read group.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>experiment: ::core::option::Option&lt;read_group::Experiment&gt;,
+    <span class="doccomment">/// The predicted insert size of this read group. The insert size is the length
+    /// the sequenced DNA fragment from end-to-end, not including the adapters.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>predicted_insert_size: i32,
+    <span class="doccomment">/// The programs used to generate this read group. Programs are always
+    /// identical for all read groups within a read group set. For this reason,
+    /// only the first read group in a returned set will have this field
+    /// populated.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>programs: ::prost::alloc::vec::Vec&lt;read_group::Program&gt;,
+    <span class="doccomment">/// The reference set the reads in this read group are aligned to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>reference_set_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// A map of additional read group information. This must be of the form
+    /// map&lt;string, string\[\]&gt; (string key mapping to a list of string values).
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>info: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost_types::ListValue,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ReadGroup`.
+</span><span class="kw">pub mod </span>read_group {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Experiment {
+        <span class="doccomment">/// A client-supplied library identifier; a library is a collection of DNA
+        /// fragments which have been prepared for sequencing from a sample. This
+        /// field is important for quality control as error or bias can be introduced
+        /// during sample preparation.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>library_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The platform unit used as part of this experiment, for example
+        /// flowcell-barcode.lane for Illumina or slide for SOLiD. Corresponds to the
+        /// @RG PU field in the SAM spec.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>platform_unit: ::prost::alloc::string::String,
+        <span class="doccomment">/// The sequencing center used as part of this experiment.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>sequencing_center: ::prost::alloc::string::String,
+        <span class="doccomment">/// The instrument model used as part of this experiment. This maps to
+        /// sequencing technology in the SAM spec.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>instrument_model: ::prost::alloc::string::String,
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Program {
+        <span class="doccomment">/// The command line used to run this program.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>command_line: ::prost::alloc::string::String,
+        <span class="doccomment">/// The user specified locally unique ID of the program. Used along with
+        /// `prevProgramId` to define an ordering between programs.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The display name of the program. This is typically the colloquial name of
+        /// the tool used, for example 'bwa' or 'picard'.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+        <span class="doccomment">/// The ID of the program run before this one.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>prev_program_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// The version of the program run.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    }
+}
+<span class="doccomment">/// Metadata describing an [Operation][google.longrunning.Operation].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OperationMetadata {
+    <span class="doccomment">/// The Google Cloud Project in which the job is scoped.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The time at which the job was submitted to the Genomics service.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time at which the job began to run.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time at which the job stopped running.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The original request that started the operation. Note that this will be in
+    /// current version of the API. If the operation was started with v1beta2 API
+    /// and a GetOperation is performed on v1 API, a v1 request will be returned.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>request: ::core::option::Option&lt;::prost_types::Any&gt;,
+    <span class="doccomment">/// Optional event messages that were generated during the job's execution.
+    /// This also contains any warnings that were generated during import
+    /// or export.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>events: ::prost::alloc::vec::Vec&lt;OperationEvent&gt;,
+    <span class="doccomment">/// This field is deprecated. Use `labels` instead. Optionally provided by the
+    /// caller when submitting the request that creates the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>client_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Runtime metadata on this Operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>runtime_metadata: ::core::option::Option&lt;::prost_types::Any&gt;,
+    <span class="doccomment">/// Optionally provided by the caller when submitting the request that creates
+    /// the operation.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// An event that occurred during an [Operation][google.longrunning.Operation].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OperationEvent {
+    <span class="doccomment">/// Optional time of when event started.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional time of when event finished. An event can have a start time and no
+    /// finish time. If an event has a finish time, there must be a start time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Required description of event.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// An abstraction for referring to a genomic position, in relation to some
 /// already known reference. For now, represents a genomic position as a
 /// reference name, a base number on that reference (0-based), and a
@@ -5571,112 +6924,6 @@
         ::prost::alloc::string::String,
         ::prost_types::ListValue,
     &gt;,
-}
-<span class="doccomment">/// A 0-based half-open genomic coordinate range for search requests.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Range {
-    <span class="doccomment">/// The reference sequence name, for example `chr1`,
-    /// `1`, or `chrX`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reference_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The start position of the range on the reference, 0-based inclusive.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>start: i64,
-    <span class="doccomment">/// The end position of the range on the reference, 0-based exclusive.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>end: i64,
-}
-<span class="doccomment">/// A read group is all the data that's processed the same way by the sequencer.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ReadGroup {
-    <span class="doccomment">/// The server-generated read group ID, unique for all read groups.
-    /// Note: This is different than the @RG ID field in the SAM spec. For that
-    /// value, see [name][google.genomics.v1.ReadGroup.name].
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The dataset to which this read group belongs.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The read group name. This corresponds to the @RG ID field in the SAM spec.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A free-form text description of this read group.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// A client-supplied sample identifier for the reads in this read group.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>sample_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The experiment used to generate this read group.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>experiment: ::core::option::Option&lt;read_group::Experiment&gt;,
-    <span class="doccomment">/// The predicted insert size of this read group. The insert size is the length
-    /// the sequenced DNA fragment from end-to-end, not including the adapters.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>predicted_insert_size: i32,
-    <span class="doccomment">/// The programs used to generate this read group. Programs are always
-    /// identical for all read groups within a read group set. For this reason,
-    /// only the first read group in a returned set will have this field
-    /// populated.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>programs: ::prost::alloc::vec::Vec&lt;read_group::Program&gt;,
-    <span class="doccomment">/// The reference set the reads in this read group are aligned to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>reference_set_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// A map of additional read group information. This must be of the form
-    /// map&lt;string, string\[\]&gt; (string key mapping to a list of string values).
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>info: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost_types::ListValue,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ReadGroup`.
-</span><span class="kw">pub mod </span>read_group {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Experiment {
-        <span class="doccomment">/// A client-supplied library identifier; a library is a collection of DNA
-        /// fragments which have been prepared for sequencing from a sample. This
-        /// field is important for quality control as error or bias can be introduced
-        /// during sample preparation.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>library_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The platform unit used as part of this experiment, for example
-        /// flowcell-barcode.lane for Illumina or slide for SOLiD. Corresponds to the
-        /// @RG PU field in the SAM spec.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>platform_unit: ::prost::alloc::string::String,
-        <span class="doccomment">/// The sequencing center used as part of this experiment.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>sequencing_center: ::prost::alloc::string::String,
-        <span class="doccomment">/// The instrument model used as part of this experiment. This maps to
-        /// sequencing technology in the SAM spec.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>instrument_model: ::prost::alloc::string::String,
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Program {
-        <span class="doccomment">/// The command line used to run this program.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>command_line: ::prost::alloc::string::String,
-        <span class="doccomment">/// The user specified locally unique ID of the program. Used along with
-        /// `prevProgramId` to define an ordering between programs.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The display name of the program. This is typically the colloquial name of
-        /// the tool used, for example 'bwa' or 'picard'.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-        <span class="doccomment">/// The ID of the program run before this one.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>prev_program_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The version of the program run.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    }
 }
 <span class="doccomment">/// A read group set is a logical collection of read groups, which are
 /// collections of reads produced by a sequencer. A read group set typically
@@ -6587,1197 +7834,6 @@
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(<span class="string">"google.genomics.v1.ReadServiceV1"</span>, <span class="string">"SearchReads"</span>),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// An annotation set is a logical grouping of annotations that share consistent
-/// type information and provenance. Examples of annotation sets include 'all
-/// genes from refseq', and 'all variant annotations from ClinVar'.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AnnotationSet {
-    <span class="doccomment">/// The server-generated annotation set ID, unique across all annotation sets.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The dataset to which this annotation set belongs.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>dataset_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the reference set that defines the coordinate space for this
-    /// set's annotations.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>reference_set_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The display name for this annotation set.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The source URI describing the file from which this annotation set was
-    /// generated, if any.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>source_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of annotations contained within this set.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// A map of additional read alignment information. This must be of the form
-    /// map&lt;string, string\[\]&gt; (string key mapping to a list of string values).
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>info: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost_types::ListValue,
-    &gt;,
-}
-<span class="doccomment">/// An annotation describes a region of reference genome. The value of an
-/// annotation may be one of several canonical types, supplemented by arbitrary
-/// info tags. An annotation is not inherently associated with a specific
-/// sample or individual (though a client could choose to use annotations in
-/// this way). Example canonical annotation types are `GENE` and
-/// `VARIANT`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Annotation {
-    <span class="doccomment">/// The server-generated annotation ID, unique across all annotations.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The annotation set to which this annotation belongs.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The display name of this annotation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the Google Genomics reference associated with this range.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>reference_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The display name corresponding to the reference specified by
-    /// `referenceId`, for example `chr1`, `1`, or `chrX`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>reference_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The start position of the range on the reference, 0-based inclusive.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>start: i64,
-    <span class="doccomment">/// The end position of the range on the reference, 0-based exclusive.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>end: i64,
-    <span class="doccomment">/// Whether this range refers to the reverse strand, as opposed to the forward
-    /// strand. Note that regardless of this field, the start/end position of the
-    /// range always refer to the forward strand.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>reverse_strand: bool,
-    <span class="doccomment">/// The data type for this annotation. Must match the containing annotation
-    /// set's type.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// A map of additional read alignment information. This must be of the form
-    /// map&lt;string, string\[\]&gt; (string key mapping to a list of string values).
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>info: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost_types::ListValue,
-    &gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"annotation::Value"</span>, tags = <span class="string">"10, 11"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;annotation::Value&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Annotation`.
-</span><span class="kw">pub mod </span>annotation {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Value {
-        <span class="doccomment">/// A variant annotation, which describes the effect of a variant on the
-        /// genome, the coding sequence, and/or higher level consequences at the
-        /// organism level e.g. pathogenicity. This field is only set for annotations
-        /// of type `VARIANT`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
-        </span>Variant(<span class="kw">super</span>::VariantAnnotation),
-        <span class="doccomment">/// A transcript value represents the assertion that a particular region of
-        /// the reference genome may be transcribed as RNA. An alternative splicing
-        /// pattern would be represented as a separate transcript object. This field
-        /// is only set for annotations of type `TRANSCRIPT`.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
-        </span>Transcript(<span class="kw">super</span>::Transcript),
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VariantAnnotation {
-    <span class="doccomment">/// Type has been adapted from ClinVar's list of variant types.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"variant_annotation::Type"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Effect of the variant on the coding sequence.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"variant_annotation::Effect"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>effect: i32,
-    <span class="doccomment">/// The alternate allele for this variant. If multiple alternate alleles
-    /// exist at this location, create a separate variant for each one, as they
-    /// may represent distinct conditions.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>alternate_bases: ::prost::alloc::string::String,
-    <span class="doccomment">/// Google annotation ID of the gene affected by this variant. This should
-    /// be provided when the variant is created.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>gene_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Google annotation IDs of the transcripts affected by this variant. These
-    /// should be provided when the variant is created.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>transcript_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The set of conditions associated with this variant.
-    /// A condition describes the way a variant influences human health.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>conditions: ::prost::alloc::vec::Vec&lt;variant_annotation::ClinicalCondition&gt;,
-    <span class="doccomment">/// Describes the clinical significance of a variant.
-    /// It is adapted from the ClinVar controlled vocabulary for clinical
-    /// significance described at:
-    /// &lt;http://www.ncbi.nlm.nih.gov/clinvar/docs/clinsig/&gt;
-    </span><span class="attr">#[prost(enumeration = <span class="string">"variant_annotation::ClinicalSignificance"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>clinical_significance: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `VariantAnnotation`.
-</span><span class="kw">pub mod </span>variant_annotation {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ClinicalCondition {
-        <span class="doccomment">/// A set of names for the condition.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// The set of external IDs for this condition.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>external_ids: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::ExternalId&gt;,
-        <span class="doccomment">/// The MedGen concept id associated with this gene.
-        /// Search for these IDs at &lt;http://www.ncbi.nlm.nih.gov/medgen/&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>concept_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// The OMIM id for this condition.
-        /// Search for these IDs at &lt;http://omim.org/&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>omim_id: ::prost::alloc::string::String,
-    }
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// `TYPE_OTHER` should be used when no other Type will suffice.
-        /// Further explanation of the variant type may be included in the
-        /// [info][google.genomics.v1.Annotation.info] field.
-        </span>Other = <span class="number">1</span>,
-        <span class="doccomment">/// `INSERTION` indicates an insertion.
-        </span>Insertion = <span class="number">2</span>,
-        <span class="doccomment">/// `DELETION` indicates a deletion.
-        </span>Deletion = <span class="number">3</span>,
-        <span class="doccomment">/// `SUBSTITUTION` indicates a block substitution of
-        /// two or more nucleotides.
-        </span>Substitution = <span class="number">4</span>,
-        <span class="doccomment">/// `SNP` indicates a single nucleotide polymorphism.
-        </span>Snp = <span class="number">5</span>,
-        <span class="doccomment">/// `STRUCTURAL` indicates a large structural variant,
-        /// including chromosomal fusions, inversions, etc.
-        </span>Structural = <span class="number">6</span>,
-        <span class="doccomment">/// `CNV` indicates a variation in copy number.
-        </span>Cnv = <span class="number">7</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Other =&gt; <span class="string">"TYPE_OTHER"</span>,
-                Type::Insertion =&gt; <span class="string">"INSERTION"</span>,
-                Type::Deletion =&gt; <span class="string">"DELETION"</span>,
-                Type::Substitution =&gt; <span class="string">"SUBSTITUTION"</span>,
-                Type::Snp =&gt; <span class="string">"SNP"</span>,
-                Type::Structural =&gt; <span class="string">"STRUCTURAL"</span>,
-                Type::Cnv =&gt; <span class="string">"CNV"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"TYPE_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
-                <span class="string">"INSERTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Insertion),
-                <span class="string">"DELETION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deletion),
-                <span class="string">"SUBSTITUTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Substitution),
-                <span class="string">"SNP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Snp),
-                <span class="string">"STRUCTURAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Structural),
-                <span class="string">"CNV" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cnv),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Effect {
-        Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// `EFFECT_OTHER` should be used when no other Effect
-        /// will suffice.
-        </span>Other = <span class="number">1</span>,
-        <span class="doccomment">/// `FRAMESHIFT` indicates a mutation in which the insertion or
-        /// deletion of nucleotides resulted in a frameshift change.
-        </span>Frameshift = <span class="number">2</span>,
-        <span class="doccomment">/// `FRAME_PRESERVING_INDEL` indicates a mutation in which a
-        /// multiple of three nucleotides has been inserted or deleted, resulting
-        /// in no change to the reading frame of the coding sequence.
-        </span>FramePreservingIndel = <span class="number">3</span>,
-        <span class="doccomment">/// `SYNONYMOUS_SNP` indicates a single nucleotide polymorphism
-        /// mutation that results in no amino acid change.
-        </span>SynonymousSnp = <span class="number">4</span>,
-        <span class="doccomment">/// `NONSYNONYMOUS_SNP` indicates a single nucleotide
-        /// polymorphism mutation that results in an amino acid change.
-        </span>NonsynonymousSnp = <span class="number">5</span>,
-        <span class="doccomment">/// `STOP_GAIN` indicates a mutation that leads to the creation
-        /// of a stop codon at the variant site. Frameshift mutations creating
-        /// downstream stop codons do not count as `STOP_GAIN`.
-        </span>StopGain = <span class="number">6</span>,
-        <span class="doccomment">/// `STOP_LOSS` indicates a mutation that eliminates a
-        /// stop codon at the variant site.
-        </span>StopLoss = <span class="number">7</span>,
-        <span class="doccomment">/// `SPLICE_SITE_DISRUPTION` indicates that this variant is
-        /// found in a splice site for the associated transcript, and alters the
-        /// normal splicing pattern.
-        </span>SpliceSiteDisruption = <span class="number">8</span>,
-    }
-    <span class="kw">impl </span>Effect {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Effect::Unspecified =&gt; <span class="string">"EFFECT_UNSPECIFIED"</span>,
-                Effect::Other =&gt; <span class="string">"EFFECT_OTHER"</span>,
-                Effect::Frameshift =&gt; <span class="string">"FRAMESHIFT"</span>,
-                Effect::FramePreservingIndel =&gt; <span class="string">"FRAME_PRESERVING_INDEL"</span>,
-                Effect::SynonymousSnp =&gt; <span class="string">"SYNONYMOUS_SNP"</span>,
-                Effect::NonsynonymousSnp =&gt; <span class="string">"NONSYNONYMOUS_SNP"</span>,
-                Effect::StopGain =&gt; <span class="string">"STOP_GAIN"</span>,
-                Effect::StopLoss =&gt; <span class="string">"STOP_LOSS"</span>,
-                Effect::SpliceSiteDisruption =&gt; <span class="string">"SPLICE_SITE_DISRUPTION"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EFFECT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"EFFECT_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
-                <span class="string">"FRAMESHIFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Frameshift),
-                <span class="string">"FRAME_PRESERVING_INDEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FramePreservingIndel),
-                <span class="string">"SYNONYMOUS_SNP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SynonymousSnp),
-                <span class="string">"NONSYNONYMOUS_SNP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonsynonymousSnp),
-                <span class="string">"STOP_GAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StopGain),
-                <span class="string">"STOP_LOSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StopLoss),
-                <span class="string">"SPLICE_SITE_DISRUPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SpliceSiteDisruption),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ClinicalSignificance {
-        Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// `OTHER` should be used when no other clinical significance
-        /// value will suffice.
-        </span>Other = <span class="number">1</span>,
-        Uncertain = <span class="number">2</span>,
-        Benign = <span class="number">3</span>,
-        LikelyBenign = <span class="number">4</span>,
-        LikelyPathogenic = <span class="number">5</span>,
-        Pathogenic = <span class="number">6</span>,
-        DrugResponse = <span class="number">7</span>,
-        Histocompatibility = <span class="number">8</span>,
-        ConfersSensitivity = <span class="number">9</span>,
-        RiskFactor = <span class="number">10</span>,
-        Association = <span class="number">11</span>,
-        Protective = <span class="number">12</span>,
-        <span class="doccomment">/// `MULTIPLE_REPORTED` should be used when multiple clinical
-        /// signficances are reported for a variant. The original clinical
-        /// significance values may be provided in the `info` field.
-        </span>MultipleReported = <span class="number">13</span>,
-    }
-    <span class="kw">impl </span>ClinicalSignificance {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ClinicalSignificance::Unspecified =&gt; <span class="string">"CLINICAL_SIGNIFICANCE_UNSPECIFIED"</span>,
-                ClinicalSignificance::Other =&gt; <span class="string">"CLINICAL_SIGNIFICANCE_OTHER"</span>,
-                ClinicalSignificance::Uncertain =&gt; <span class="string">"UNCERTAIN"</span>,
-                ClinicalSignificance::Benign =&gt; <span class="string">"BENIGN"</span>,
-                ClinicalSignificance::LikelyBenign =&gt; <span class="string">"LIKELY_BENIGN"</span>,
-                ClinicalSignificance::LikelyPathogenic =&gt; <span class="string">"LIKELY_PATHOGENIC"</span>,
-                ClinicalSignificance::Pathogenic =&gt; <span class="string">"PATHOGENIC"</span>,
-                ClinicalSignificance::DrugResponse =&gt; <span class="string">"DRUG_RESPONSE"</span>,
-                ClinicalSignificance::Histocompatibility =&gt; <span class="string">"HISTOCOMPATIBILITY"</span>,
-                ClinicalSignificance::ConfersSensitivity =&gt; <span class="string">"CONFERS_SENSITIVITY"</span>,
-                ClinicalSignificance::RiskFactor =&gt; <span class="string">"RISK_FACTOR"</span>,
-                ClinicalSignificance::Association =&gt; <span class="string">"ASSOCIATION"</span>,
-                ClinicalSignificance::Protective =&gt; <span class="string">"PROTECTIVE"</span>,
-                ClinicalSignificance::MultipleReported =&gt; <span class="string">"MULTIPLE_REPORTED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CLINICAL_SIGNIFICANCE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CLINICAL_SIGNIFICANCE_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
-                <span class="string">"UNCERTAIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uncertain),
-                <span class="string">"BENIGN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Benign),
-                <span class="string">"LIKELY_BENIGN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LikelyBenign),
-                <span class="string">"LIKELY_PATHOGENIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LikelyPathogenic),
-                <span class="string">"PATHOGENIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pathogenic),
-                <span class="string">"DRUG_RESPONSE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DrugResponse),
-                <span class="string">"HISTOCOMPATIBILITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Histocompatibility),
-                <span class="string">"CONFERS_SENSITIVITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConfersSensitivity),
-                <span class="string">"RISK_FACTOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RiskFactor),
-                <span class="string">"ASSOCIATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Association),
-                <span class="string">"PROTECTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Protective),
-                <span class="string">"MULTIPLE_REPORTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MultipleReported),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A transcript represents the assertion that a particular region of the
-/// reference genome may be transcribed as RNA.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Transcript {
-    <span class="doccomment">/// The annotation ID of the gene from which this transcript is transcribed.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gene_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The &lt;a href="&lt;http://en.wikipedia.org/wiki/Exon"&gt;exons&lt;/a&gt;&gt; that compose
-    /// this transcript. This field should be unset for genomes where transcript
-    /// splicing does not occur, for example prokaryotes.
-    ///
-    /// Introns are regions of the transcript that are not included in the
-    /// spliced RNA product. Though not explicitly modeled here, intron ranges can
-    /// be deduced; all regions of this transcript that are not exons are introns.
-    ///
-    /// Exonic sequences do not necessarily code for a translational product
-    /// (amino acids). Only the regions of exons bounded by the
-    /// [codingSequence][google.genomics.v1.Transcript.coding_sequence] correspond
-    /// to coding DNA sequence.
-    ///
-    /// Exons are ordered by start position and may not overlap.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>exons: ::prost::alloc::vec::Vec&lt;transcript::Exon&gt;,
-    <span class="doccomment">/// The range of the coding sequence for this transcript, if any. To determine
-    /// the exact ranges of coding sequence, intersect this range with those of the
-    /// [exons][google.genomics.v1.Transcript.exons], if any. If there are any
-    /// [exons][google.genomics.v1.Transcript.exons], the
-    /// [codingSequence][google.genomics.v1.Transcript.coding_sequence] must start
-    /// and end within them.
-    ///
-    /// Note that in some cases, the reference genome will not exactly match the
-    /// observed mRNA transcript e.g. due to variance in the source genome from
-    /// reference. In these cases,
-    /// [exon.frame][google.genomics.v1.Transcript.Exon.frame] will not necessarily
-    /// match the expected reference reading frame and coding exon reference bases
-    /// cannot necessarily be concatenated to produce the original transcript mRNA.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>coding_sequence: ::core::option::Option&lt;transcript::CodingSequence&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Transcript`.
-</span><span class="kw">pub mod </span>transcript {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Exon {
-        <span class="doccomment">/// The start position of the exon on this annotation's reference sequence,
-        /// 0-based inclusive. Note that this is relative to the reference start, and
-        /// **not** the containing annotation start.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>start: i64,
-        <span class="doccomment">/// The end position of the exon on this annotation's reference sequence,
-        /// 0-based exclusive. Note that this is relative to the reference start, and
-        /// *not* the containing annotation start.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>end: i64,
-        <span class="doccomment">/// The frame of this exon. Contains a value of 0, 1, or 2, which indicates
-        /// the offset of the first coding base of the exon within the reading frame
-        /// of the coding DNA sequence, if any. This field is dependent on the
-        /// strandedness of this annotation (see
-        /// [Annotation.reverse_strand][google.genomics.v1.Annotation.reverse_strand]).
-        /// For forward stranded annotations, this offset is relative to the
-        /// [exon.start][google.genomics.v1.Transcript.Exon.start]. For reverse
-        /// strand annotations, this offset is relative to the
-        /// [exon.end][google.genomics.v1.Transcript.Exon.end] `- 1`.
-        ///
-        /// Unset if this exon does not intersect the coding sequence. Upon creation
-        /// of a transcript, the frame must be populated for all or none of the
-        /// coding exons.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>frame: ::core::option::Option&lt;i32&gt;,
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>CodingSequence {
-        <span class="doccomment">/// The start of the coding sequence on this annotation's reference sequence,
-        /// 0-based inclusive. Note that this position is relative to the reference
-        /// start, and *not* the containing annotation start.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>start: i64,
-        <span class="doccomment">/// The end of the coding sequence on this annotation's reference sequence,
-        /// 0-based exclusive. Note that this position is relative to the reference
-        /// start, and *not* the containing annotation start.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>end: i64,
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExternalId {
-    <span class="doccomment">/// The name of the source of this data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>source_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The id used by the source of this data.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateAnnotationSetRequest {
-    <span class="doccomment">/// The annotation set to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_set: ::core::option::Option&lt;AnnotationSet&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetAnnotationSetRequest {
-    <span class="doccomment">/// The ID of the annotation set to be retrieved.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateAnnotationSetRequest {
-    <span class="doccomment">/// The ID of the annotation set to be updated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The new annotation set.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>annotation_set: ::core::option::Option&lt;AnnotationSet&gt;,
-    <span class="doccomment">/// An optional mask specifying which fields to update. Mutable fields are
-    /// [name][google.genomics.v1.AnnotationSet.name],
-    /// [source_uri][google.genomics.v1.AnnotationSet.source_uri], and
-    /// [info][google.genomics.v1.AnnotationSet.info]. If unspecified, all
-    /// mutable fields will be updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteAnnotationSetRequest {
-    <span class="doccomment">/// The ID of the annotation set to be deleted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_set_id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAnnotationSetsRequest {
-    <span class="doccomment">/// Required. The dataset IDs to search within. Caller must have `READ` access
-    /// to these datasets.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dataset_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// If specified, only annotation sets associated with the given reference set
-    /// are returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reference_set_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Only return annotations sets for which a substring of the name matches this
-    /// string (case insensitive).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, only annotation sets that have any of these types are
-    /// returned.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"AnnotationType"</span>, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>types: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 128. The maximum value is 1024.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAnnotationSetsResponse {
-    <span class="doccomment">/// The matching annotation sets.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_sets: ::prost::alloc::vec::Vec&lt;AnnotationSet&gt;,
-    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateAnnotationRequest {
-    <span class="doccomment">/// The annotation to be created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation: ::core::option::Option&lt;Annotation&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchCreateAnnotationsRequest {
-    <span class="doccomment">/// The annotations to be created. At most 4096 can be specified in a single
-    /// request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::vec::Vec&lt;Annotation&gt;,
-    <span class="doccomment">/// A unique request ID which enables the server to detect duplicated requests.
-    /// If provided, duplicated requests will result in the same response; if not
-    /// provided, duplicated requests may result in duplicated data. For a given
-    /// annotation set, callers should not reuse `request_id`s when writing
-    /// different batches of annotations - behavior in this case is undefined.
-    /// A common approach is to use a UUID. For batch jobs where worker crashes are
-    /// a possibility, consider using some unique variant of a worker or run ID.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchCreateAnnotationsResponse {
-    <span class="doccomment">/// The resulting per-annotation entries, ordered consistently with the
-    /// original request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>entries: ::prost::alloc::vec::Vec&lt;batch_create_annotations_response::Entry&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `BatchCreateAnnotationsResponse`.
-</span><span class="kw">pub mod </span>batch_create_annotations_response {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Entry {
-        <span class="doccomment">/// The creation status.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>status: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
-        <span class="doccomment">/// The created annotation, if creation was successful.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>annotation: ::core::option::Option&lt;<span class="kw">super</span>::Annotation&gt;,
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetAnnotationRequest {
-    <span class="doccomment">/// The ID of the annotation to be retrieved.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateAnnotationRequest {
-    <span class="doccomment">/// The ID of the annotation to be updated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The new annotation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>annotation: ::core::option::Option&lt;Annotation&gt;,
-    <span class="doccomment">/// An optional mask specifying which fields to update. Mutable fields are
-    /// [name][google.genomics.v1.Annotation.name],
-    /// [variant][google.genomics.v1.Annotation.variant],
-    /// [transcript][google.genomics.v1.Annotation.transcript], and
-    /// [info][google.genomics.v1.Annotation.info]. If unspecified, all mutable
-    /// fields will be updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeleteAnnotationRequest {
-    <span class="doccomment">/// The ID of the annotation to be deleted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_id: ::prost::alloc::string::String,
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAnnotationsRequest {
-    <span class="doccomment">/// Required. The annotation sets to search within. The caller must have
-    /// `READ` access to these annotation sets.
-    /// All queried annotation sets must have the same type.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotation_set_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The start position of the range on the reference, 0-based inclusive. If
-    /// specified,
-    /// [referenceId][google.genomics.v1.SearchAnnotationsRequest.reference_id] or
-    /// [referenceName][google.genomics.v1.SearchAnnotationsRequest.reference_name]
-    /// must be specified. Defaults to 0.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>start: i64,
-    <span class="doccomment">/// The end position of the range on the reference, 0-based exclusive. If
-    /// [referenceId][google.genomics.v1.SearchAnnotationsRequest.reference_id] or
-    /// [referenceName][google.genomics.v1.SearchAnnotationsRequest.reference_name]
-    /// must be specified, Defaults to the length of the reference.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>end: i64,
-    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
-    /// To get the next page of results, set this parameter to the value of
-    /// `nextPageToken` from the previous response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of results to return in a single page. If unspecified,
-    /// defaults to 256. The maximum value is 2048.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Required. `reference_id` or `reference_name` must be set.
-    </span><span class="attr">#[prost(oneof = <span class="string">"search_annotations_request::Reference"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>reference: ::core::option::Option&lt;search_annotations_request::Reference&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SearchAnnotationsRequest`.
-</span><span class="kw">pub mod </span>search_annotations_request {
-    <span class="doccomment">/// Required. `reference_id` or `reference_name` must be set.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Reference {
-        <span class="doccomment">/// The ID of the reference to query.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>ReferenceId(::prost::alloc::string::String),
-        <span class="doccomment">/// The name of the reference to query, within the reference set associated
-        /// with this query.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span>ReferenceName(::prost::alloc::string::String),
-    }
-}
-<span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchAnnotationsResponse {
-    <span class="doccomment">/// The matching annotations.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>annotations: ::prost::alloc::vec::Vec&lt;Annotation&gt;,
-    <span class="doccomment">/// The continuation token, which is used to page through large result sets.
-    /// Provide this value in a subsequent request to return the next page of
-    /// results. This field will be empty if there aren't any additional results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// When an [Annotation][google.genomics.v1.Annotation] or
-/// [AnnotationSet][google.genomics.v1.AnnotationSet] is created, if `type` is
-/// not specified it will be set to `GENERIC`.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>AnnotationType {
-    Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// A `GENERIC` annotation type should be used when no other annotation
-    /// type will suffice. This represents an untyped annotation of the reference
-    /// genome.
-    </span>Generic = <span class="number">1</span>,
-    <span class="doccomment">/// A `VARIANT` annotation type.
-    </span>Variant = <span class="number">2</span>,
-    <span class="doccomment">/// A `GENE` annotation type represents the existence of a gene at the
-    /// associated reference coordinates. The start coordinate is typically the
-    /// gene's transcription start site and the end is typically the end of the
-    /// gene's last exon.
-    </span>Gene = <span class="number">3</span>,
-    <span class="doccomment">/// A `TRANSCRIPT` annotation type represents the assertion that a
-    /// particular region of the reference genome may be transcribed as RNA.
-    </span>Transcript = <span class="number">4</span>,
-}
-<span class="kw">impl </span>AnnotationType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            AnnotationType::Unspecified =&gt; <span class="string">"ANNOTATION_TYPE_UNSPECIFIED"</span>,
-            AnnotationType::Generic =&gt; <span class="string">"GENERIC"</span>,
-            AnnotationType::Variant =&gt; <span class="string">"VARIANT"</span>,
-            AnnotationType::Gene =&gt; <span class="string">"GENE"</span>,
-            AnnotationType::Transcript =&gt; <span class="string">"TRANSCRIPT"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"ANNOTATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"GENERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Generic),
-            <span class="string">"VARIANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Variant),
-            <span class="string">"GENE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Gene),
-            <span class="string">"TRANSCRIPT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Transcript),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>annotation_service_v1_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// This service provides storage and positional retrieval of genomic
-    /// reference annotations, including variant annotations.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>AnnotationServiceV1Client&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; AnnotationServiceV1Client&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; AnnotationServiceV1Client&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            AnnotationServiceV1Client::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Creates a new annotation set. Caller must have WRITE permission for the
-        /// associated dataset.
-        ///
-        /// The following fields are required:
-        ///
-        ///   * [datasetId][google.genomics.v1.AnnotationSet.dataset_id]
-        ///   * [referenceSetId][google.genomics.v1.AnnotationSet.reference_set_id]
-        ///
-        /// All other fields may be optionally specified, unless documented as being
-        /// server-generated (for example, the `id` field).
-        </span><span class="kw">pub async fn </span>create_annotation_set(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateAnnotationSetRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::AnnotationSet&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/CreateAnnotationSet"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"CreateAnnotationSet"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets an annotation set. Caller must have READ permission for
-        /// the associated dataset.
-        </span><span class="kw">pub async fn </span>get_annotation_set(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAnnotationSetRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::AnnotationSet&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/GetAnnotationSet"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"GetAnnotationSet"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates an annotation set. The update must respect all mutability
-        /// restrictions and other invariants described on the annotation set resource.
-        /// Caller must have WRITE permission for the associated dataset.
-        </span><span class="kw">pub async fn </span>update_annotation_set(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateAnnotationSetRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::AnnotationSet&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/UpdateAnnotationSet"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"UpdateAnnotationSet"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes an annotation set. Caller must have WRITE permission
-        /// for the associated annotation set.
-        </span><span class="kw">pub async fn </span>delete_annotation_set(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteAnnotationSetRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/DeleteAnnotationSet"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"DeleteAnnotationSet"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Searches for annotation sets that match the given criteria. Annotation sets
-        /// are returned in an unspecified order. This order is consistent, such that
-        /// two queries for the same content (regardless of page size) yield annotation
-        /// sets in the same order across their respective streams of paginated
-        /// responses. Caller must have READ permission for the queried datasets.
-        </span><span class="kw">pub async fn </span>search_annotation_sets(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SearchAnnotationSetsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::SearchAnnotationSetsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/SearchAnnotationSets"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"SearchAnnotationSets"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Creates a new annotation. Caller must have WRITE permission
-        /// for the associated annotation set.
-        ///
-        /// The following fields are required:
-        ///
-        /// * [annotationSetId][google.genomics.v1.Annotation.annotation_set_id]
-        /// * [referenceName][google.genomics.v1.Annotation.reference_name] or
-        ///   [referenceId][google.genomics.v1.Annotation.reference_id]
-        ///
-        /// ### Transcripts
-        ///
-        /// For annotations of type TRANSCRIPT, the following fields of
-        /// [transcript][google.genomics.v1.Annotation.transcript] must be provided:
-        ///
-        /// * [exons.start][google.genomics.v1.Transcript.Exon.start]
-        /// * [exons.end][google.genomics.v1.Transcript.Exon.end]
-        ///
-        /// All other fields may be optionally specified, unless documented as being
-        /// server-generated (for example, the `id` field). The annotated
-        /// range must be no longer than 100Mbp (mega base pairs). See the
-        /// [Annotation resource][google.genomics.v1.Annotation]
-        /// for additional restrictions on each field.
-        </span><span class="kw">pub async fn </span>create_annotation(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateAnnotationRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Annotation&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/CreateAnnotation"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"CreateAnnotation"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Creates one or more new annotations atomically. All annotations must
-        /// belong to the same annotation set. Caller must have WRITE
-        /// permission for this annotation set. For optimal performance, batch
-        /// positionally adjacent annotations together.
-        ///
-        /// If the request has a systemic issue, such as an attempt to write to
-        /// an inaccessible annotation set, the entire RPC will fail accordingly. For
-        /// lesser data issues, when possible an error will be isolated to the
-        /// corresponding batch entry in the response; the remaining well formed
-        /// annotations will be created normally.
-        ///
-        /// For details on the requirements for each individual annotation resource,
-        /// see
-        /// [CreateAnnotation][google.genomics.v1.AnnotationServiceV1.CreateAnnotation].
-        </span><span class="kw">pub async fn </span>batch_create_annotations(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchCreateAnnotationsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::BatchCreateAnnotationsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/BatchCreateAnnotations"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"BatchCreateAnnotations"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets an annotation. Caller must have READ permission
-        /// for the associated annotation set.
-        </span><span class="kw">pub async fn </span>get_annotation(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetAnnotationRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Annotation&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/GetAnnotation"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"GetAnnotation"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates an annotation. Caller must have
-        /// WRITE permission for the associated dataset.
-        </span><span class="kw">pub async fn </span>update_annotation(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateAnnotationRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Annotation&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/UpdateAnnotation"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"UpdateAnnotation"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Deletes an annotation. Caller must have WRITE permission for
-        /// the associated annotation set.
-        </span><span class="kw">pub async fn </span>delete_annotation(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteAnnotationRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/DeleteAnnotation"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"DeleteAnnotation"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Searches for annotations that match the given criteria. Results are
-        /// ordered by genomic coordinate (by reference sequence, then position).
-        /// Annotations with equivalent genomic coordinates are returned in an
-        /// unspecified order. This order is consistent, such that two queries for the
-        /// same content (regardless of page size) yield annotations in the same order
-        /// across their respective streams of paginated responses. Caller must have
-        /// READ permission for the queried annotation sets.
-        </span><span class="kw">pub async fn </span>search_annotations(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::SearchAnnotationsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::SearchAnnotationsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.genomics.v1.AnnotationServiceV1/SearchAnnotations"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.genomics.v1.AnnotationServiceV1"</span>,
-                        <span class="string">"SearchAnnotations"</span>,
-                    ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
@@ -9457,62 +9513,6 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
-}
-<span class="doccomment">/// Metadata describing an [Operation][google.longrunning.Operation].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationMetadata {
-    <span class="doccomment">/// The Google Cloud Project in which the job is scoped.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The time at which the job was submitted to the Genomics service.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time at which the job began to run.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time at which the job stopped running.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The original request that started the operation. Note that this will be in
-    /// current version of the API. If the operation was started with v1beta2 API
-    /// and a GetOperation is performed on v1 API, a v1 request will be returned.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>request: ::core::option::Option&lt;::prost_types::Any&gt;,
-    <span class="doccomment">/// Optional event messages that were generated during the job's execution.
-    /// This also contains any warnings that were generated during import
-    /// or export.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>events: ::prost::alloc::vec::Vec&lt;OperationEvent&gt;,
-    <span class="doccomment">/// This field is deprecated. Use `labels` instead. Optionally provided by the
-    /// caller when submitting the request that creates the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>client_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Runtime metadata on this Operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>runtime_metadata: ::core::option::Option&lt;::prost_types::Any&gt;,
-    <span class="doccomment">/// Optionally provided by the caller when submitting the request that creates
-    /// the operation.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// An event that occurred during an [Operation][google.longrunning.Operation].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationEvent {
-    <span class="doccomment">/// Optional time of when event started.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional time of when event finished. An event can have a start time and no
-    /// finish time. If an event has a finish time, there must be a start time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Required description of event.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A Dataset is a collection of genomic data.
 ///

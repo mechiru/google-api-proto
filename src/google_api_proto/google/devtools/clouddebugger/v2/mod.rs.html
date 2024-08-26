@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/devtools/clouddebugger/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/devtools/clouddebugger/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1786,6 +1786,303 @@
         ::prost::alloc::string::String,
     &gt;,
 }
+<span class="doccomment">/// Request to register a debuggee.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RegisterDebuggeeRequest {
+    <span class="doccomment">/// Required. Debuggee information to register.
+    /// The fields `project`, `uniquifier`, `description` and `agent_version`
+    /// of the debuggee must be set.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>debuggee: ::core::option::Option&lt;Debuggee&gt;,
+}
+<span class="doccomment">/// Response for registering a debuggee.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RegisterDebuggeeResponse {
+    <span class="doccomment">/// Debuggee resource.
+    /// The field `id` is guaranteed to be set (in addition to the echoed fields).
+    /// If the field `is_disabled` is set to `true`, the agent should disable
+    /// itself by removing all breakpoints and detaching from the application.
+    /// It should however continue to poll `RegisterDebuggee` until reenabled.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>debuggee: ::core::option::Option&lt;Debuggee&gt;,
+}
+<span class="doccomment">/// Request to list active breakpoints.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListActiveBreakpointsRequest {
+    <span class="doccomment">/// Required. Identifies the debuggee.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>debuggee_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// A token that, if specified, blocks the method call until the list
+    /// of active breakpoints has changed, or a server-selected timeout has
+    /// expired. The value should be set from the `next_wait_token` field in
+    /// the last response. The initial value should be set to `"init"`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>wait_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set to `true` (recommended), returns `google.rpc.Code.OK` status and
+    /// sets the `wait_expired` response field to `true` when the server-selected
+    /// timeout has expired.
+    ///
+    /// If set to `false` (deprecated), returns `google.rpc.Code.ABORTED` status
+    /// when the server-selected timeout has expired.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>success_on_timeout: bool,
+}
+<span class="doccomment">/// Response for listing active breakpoints.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListActiveBreakpointsResponse {
+    <span class="doccomment">/// List of all active breakpoints.
+    /// The fields `id` and `location` are guaranteed to be set on each breakpoint.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>breakpoints: ::prost::alloc::vec::Vec&lt;Breakpoint&gt;,
+    <span class="doccomment">/// A token that can be used in the next method call to block until
+    /// the list of breakpoints changes.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_wait_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set to `true`, indicates that there is no change to the
+    /// list of active breakpoints and the server-selected timeout has expired.
+    /// The `breakpoints` field would be empty and should be ignored.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>wait_expired: bool,
+}
+<span class="doccomment">/// Request to update an active breakpoint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateActiveBreakpointRequest {
+    <span class="doccomment">/// Required. Identifies the debuggee being debugged.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>debuggee_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Updated breakpoint information.
+    /// The field `id` must be set.
+    /// The agent must echo all Breakpoint specification fields in the update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>breakpoint: ::core::option::Option&lt;Breakpoint&gt;,
+}
+<span class="doccomment">/// Response for updating an active breakpoint.
+/// The message is defined to allow future extensions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateActiveBreakpointResponse {}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>controller2_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The Controller service provides the API for orchestrating a collection of
+    /// debugger agents to perform debugging tasks. These agents are each attached
+    /// to a process of an application which may include one or more replicas.
+    ///
+    /// The debugger agents register with the Controller to identify the application
+    /// being debugged, the Debuggee. All agents that register with the same data,
+    /// represent the same Debuggee, and are assigned the same `debuggee_id`.
+    ///
+    /// The debugger agents call the Controller to retrieve  the list of active
+    /// Breakpoints. Agents with the same `debuggee_id` get the same breakpoints
+    /// list. An agent that can fulfill the breakpoint request updates the
+    /// Controller with the breakpoint result. The controller selects the first
+    /// result received and discards the rest of the results.
+    /// Agents that poll again for active breakpoints will no longer have
+    /// the completed breakpoint in the list and should remove that breakpoint from
+    /// their attached process.
+    ///
+    /// The Controller service does not provide a way to retrieve the results of
+    /// a completed breakpoint. This functionality is available using the Debugger
+    /// service.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>Controller2Client&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; Controller2Client&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; Controller2Client&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            Controller2Client::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Registers the debuggee with the controller service.
+        ///
+        /// All agents attached to the same application must call this method with
+        /// exactly the same request content to get back the same stable `debuggee_id`.
+        /// Agents should call this method again whenever `google.rpc.Code.NOT_FOUND`
+        /// is returned from any controller method.
+        ///
+        /// This protocol allows the controller service to disable debuggees, recover
+        /// from data loss, or change the `debuggee_id` format. Agents must handle
+        /// `debuggee_id` value changing upon re-registration.
+        </span><span class="kw">pub async fn </span>register_debuggee(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::RegisterDebuggeeRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::RegisterDebuggeeResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.clouddebugger.v2.Controller2/RegisterDebuggee"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.clouddebugger.v2.Controller2"</span>,
+                        <span class="string">"RegisterDebuggee"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns the list of all active breakpoints for the debuggee.
+        ///
+        /// The breakpoint specification (`location`, `condition`, and `expressions`
+        /// fields) is semantically immutable, although the field values may
+        /// change. For example, an agent may update the location line number
+        /// to reflect the actual line where the breakpoint was set, but this
+        /// doesn't change the breakpoint semantics.
+        ///
+        /// This means that an agent does not need to check if a breakpoint has changed
+        /// when it encounters the same breakpoint on a successive call.
+        /// Moreover, an agent should remember the breakpoints that are completed
+        /// until the controller removes them from the active list to avoid
+        /// setting those breakpoints again.
+        </span><span class="kw">pub async fn </span>list_active_breakpoints(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListActiveBreakpointsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListActiveBreakpointsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.clouddebugger.v2.Controller2/ListActiveBreakpoints"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.clouddebugger.v2.Controller2"</span>,
+                        <span class="string">"ListActiveBreakpoints"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates the breakpoint state or mutable fields.
+        /// The entire Breakpoint message must be sent back to the controller service.
+        ///
+        /// Updates to active breakpoint fields are only allowed if the new value
+        /// does not change the breakpoint specification. Updates to the `location`,
+        /// `condition` and `expressions` fields should not alter the breakpoint
+        /// semantics. These may only make changes such as canonicalizing a value
+        /// or snapping the location to the correct line of code.
+        </span><span class="kw">pub async fn </span>update_active_breakpoint(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateActiveBreakpointRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::UpdateActiveBreakpointResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.clouddebugger.v2.Controller2/UpdateActiveBreakpoint"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.clouddebugger.v2.Controller2"</span>,
+                        <span class="string">"UpdateActiveBreakpoint"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// Request to set a breakpoint
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1890,7 +2187,7 @@
     <span class="doccomment">/// Wrapper message for `Breakpoint.Action`. Defines a filter on the action
     /// field of breakpoints.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>BreakpointActionValue {
         <span class="doccomment">/// Only breakpoints with the specified action will pass the filter.
         </span><span class="attr">#[prost(enumeration = <span class="string">"super::breakpoint::Action"</span>, tag = <span class="string">"1"</span>)]
@@ -2173,303 +2470,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.devtools.clouddebugger.v2.Debugger2"</span>,
                         <span class="string">"ListDebuggees"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request to register a debuggee.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RegisterDebuggeeRequest {
-    <span class="doccomment">/// Required. Debuggee information to register.
-    /// The fields `project`, `uniquifier`, `description` and `agent_version`
-    /// of the debuggee must be set.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>debuggee: ::core::option::Option&lt;Debuggee&gt;,
-}
-<span class="doccomment">/// Response for registering a debuggee.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RegisterDebuggeeResponse {
-    <span class="doccomment">/// Debuggee resource.
-    /// The field `id` is guaranteed to be set (in addition to the echoed fields).
-    /// If the field `is_disabled` is set to `true`, the agent should disable
-    /// itself by removing all breakpoints and detaching from the application.
-    /// It should however continue to poll `RegisterDebuggee` until reenabled.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>debuggee: ::core::option::Option&lt;Debuggee&gt;,
-}
-<span class="doccomment">/// Request to list active breakpoints.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListActiveBreakpointsRequest {
-    <span class="doccomment">/// Required. Identifies the debuggee.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>debuggee_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// A token that, if specified, blocks the method call until the list
-    /// of active breakpoints has changed, or a server-selected timeout has
-    /// expired. The value should be set from the `next_wait_token` field in
-    /// the last response. The initial value should be set to `"init"`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>wait_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set to `true` (recommended), returns `google.rpc.Code.OK` status and
-    /// sets the `wait_expired` response field to `true` when the server-selected
-    /// timeout has expired.
-    ///
-    /// If set to `false` (deprecated), returns `google.rpc.Code.ABORTED` status
-    /// when the server-selected timeout has expired.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>success_on_timeout: bool,
-}
-<span class="doccomment">/// Response for listing active breakpoints.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListActiveBreakpointsResponse {
-    <span class="doccomment">/// List of all active breakpoints.
-    /// The fields `id` and `location` are guaranteed to be set on each breakpoint.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>breakpoints: ::prost::alloc::vec::Vec&lt;Breakpoint&gt;,
-    <span class="doccomment">/// A token that can be used in the next method call to block until
-    /// the list of breakpoints changes.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_wait_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set to `true`, indicates that there is no change to the
-    /// list of active breakpoints and the server-selected timeout has expired.
-    /// The `breakpoints` field would be empty and should be ignored.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>wait_expired: bool,
-}
-<span class="doccomment">/// Request to update an active breakpoint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateActiveBreakpointRequest {
-    <span class="doccomment">/// Required. Identifies the debuggee being debugged.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>debuggee_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Updated breakpoint information.
-    /// The field `id` must be set.
-    /// The agent must echo all Breakpoint specification fields in the update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>breakpoint: ::core::option::Option&lt;Breakpoint&gt;,
-}
-<span class="doccomment">/// Response for updating an active breakpoint.
-/// The message is defined to allow future extensions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateActiveBreakpointResponse {}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>controller2_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The Controller service provides the API for orchestrating a collection of
-    /// debugger agents to perform debugging tasks. These agents are each attached
-    /// to a process of an application which may include one or more replicas.
-    ///
-    /// The debugger agents register with the Controller to identify the application
-    /// being debugged, the Debuggee. All agents that register with the same data,
-    /// represent the same Debuggee, and are assigned the same `debuggee_id`.
-    ///
-    /// The debugger agents call the Controller to retrieve  the list of active
-    /// Breakpoints. Agents with the same `debuggee_id` get the same breakpoints
-    /// list. An agent that can fulfill the breakpoint request updates the
-    /// Controller with the breakpoint result. The controller selects the first
-    /// result received and discards the rest of the results.
-    /// Agents that poll again for active breakpoints will no longer have
-    /// the completed breakpoint in the list and should remove that breakpoint from
-    /// their attached process.
-    ///
-    /// The Controller service does not provide a way to retrieve the results of
-    /// a completed breakpoint. This functionality is available using the Debugger
-    /// service.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>Controller2Client&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; Controller2Client&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; Controller2Client&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            Controller2Client::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Registers the debuggee with the controller service.
-        ///
-        /// All agents attached to the same application must call this method with
-        /// exactly the same request content to get back the same stable `debuggee_id`.
-        /// Agents should call this method again whenever `google.rpc.Code.NOT_FOUND`
-        /// is returned from any controller method.
-        ///
-        /// This protocol allows the controller service to disable debuggees, recover
-        /// from data loss, or change the `debuggee_id` format. Agents must handle
-        /// `debuggee_id` value changing upon re-registration.
-        </span><span class="kw">pub async fn </span>register_debuggee(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::RegisterDebuggeeRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::RegisterDebuggeeResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.clouddebugger.v2.Controller2/RegisterDebuggee"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.clouddebugger.v2.Controller2"</span>,
-                        <span class="string">"RegisterDebuggee"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Returns the list of all active breakpoints for the debuggee.
-        ///
-        /// The breakpoint specification (`location`, `condition`, and `expressions`
-        /// fields) is semantically immutable, although the field values may
-        /// change. For example, an agent may update the location line number
-        /// to reflect the actual line where the breakpoint was set, but this
-        /// doesn't change the breakpoint semantics.
-        ///
-        /// This means that an agent does not need to check if a breakpoint has changed
-        /// when it encounters the same breakpoint on a successive call.
-        /// Moreover, an agent should remember the breakpoints that are completed
-        /// until the controller removes them from the active list to avoid
-        /// setting those breakpoints again.
-        </span><span class="kw">pub async fn </span>list_active_breakpoints(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListActiveBreakpointsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListActiveBreakpointsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.clouddebugger.v2.Controller2/ListActiveBreakpoints"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.clouddebugger.v2.Controller2"</span>,
-                        <span class="string">"ListActiveBreakpoints"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Updates the breakpoint state or mutable fields.
-        /// The entire Breakpoint message must be sent back to the controller service.
-        ///
-        /// Updates to active breakpoint fields are only allowed if the new value
-        /// does not change the breakpoint specification. Updates to the `location`,
-        /// `condition` and `expressions` fields should not alter the breakpoint
-        /// semantics. These may only make changes such as canonicalizing a value
-        /// or snapping the location to the correct line of code.
-        </span><span class="kw">pub async fn </span>update_active_breakpoint(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateActiveBreakpointRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::UpdateActiveBreakpointResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.clouddebugger.v2.Controller2/UpdateActiveBreakpoint"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.clouddebugger.v2.Controller2"</span>,
-                        <span class="string">"UpdateActiveBreakpoint"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

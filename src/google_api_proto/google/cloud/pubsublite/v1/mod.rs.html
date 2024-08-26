@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/pubsublite/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/pubsublite/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2804,7 +2804,7 @@
 }
 <span class="doccomment">/// A cursor that describes the position of a message within a topic partition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Cursor {
     <span class="doccomment">/// The offset of a message within a topic partition. Must be greater than or
     /// equal 0.
@@ -2871,7 +2871,7 @@
 </span><span class="kw">pub mod </span>topic {
     <span class="doccomment">/// The settings for a topic's partitions.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>PartitionConfig {
         <span class="doccomment">/// The number of partitions in the topic. Must be at least 1.
         ///
@@ -2889,7 +2889,7 @@
     </span><span class="kw">pub mod </span>partition_config {
         <span class="doccomment">/// The throughput capacity configuration for each partition.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Capacity {
             <span class="doccomment">/// Publish throughput capacity per partition in MiB/s.
             /// Must be &gt;= 4 and &lt;= 16.
@@ -2902,7 +2902,7 @@
         }
         <span class="doccomment">/// The throughput dimension of this topic.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Dimension {
             <span class="doccomment">/// DEPRECATED: Use capacity instead which can express a superset of
             /// configurations.
@@ -2921,7 +2921,7 @@
     }
     <span class="doccomment">/// The settings for a topic's message retention.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>RetentionConfig {
         <span class="doccomment">/// The provisioned storage, in bytes, per partition. If the number of bytes
         /// stored in any of the topic's partitions grows beyond this value, older
@@ -2972,7 +2972,7 @@
 </span><span class="kw">pub mod </span>subscription {
     <span class="doccomment">/// The settings for a subscription's message delivery.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DeliveryConfig {
         <span class="doccomment">/// The DeliveryRequirement for this subscription.
         </span><span class="attr">#[prost(enumeration = <span class="string">"delivery_config::DeliveryRequirement"</span>, tag = <span class="string">"3"</span>)]
@@ -3136,7 +3136,7 @@
 <span class="doccomment">/// A target publish or event time. Can be used for seeking to or retrieving the
 /// corresponding cursor.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TimeTarget {
     <span class="doccomment">/// The type of message time to query.
     </span><span class="attr">#[prost(oneof = <span class="string">"time_target::Time"</span>, tags = <span class="string">"1, 2"</span>)]
@@ -3146,7 +3146,7 @@
 </span><span class="kw">pub mod </span>time_target {
     <span class="doccomment">/// The type of message time to query.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Time {
         <span class="doccomment">/// Request the cursor of the first message with publish time greater than or
         /// equal to `publish_time`. All messages thereafter are guaranteed to have
@@ -3160,269 +3160,6 @@
         /// filtered by the client, if necessary.
         </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
         </span>EventTime(::prost_types::Timestamp),
-    }
-}
-<span class="doccomment">/// Compute statistics about a range of messages in a given topic and partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeMessageStatsRequest {
-    <span class="doccomment">/// Required. The topic for which we should compute message stats.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The partition for which we should compute message stats.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition: i64,
-    <span class="doccomment">/// The inclusive start of the range.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_cursor: ::core::option::Option&lt;Cursor&gt;,
-    <span class="doccomment">/// The exclusive end of the range. The range is empty if end_cursor &lt;=
-    /// start_cursor. Specifying a start_cursor before the first message and an
-    /// end_cursor after the last message will retrieve all messages.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>end_cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Response containing stats for messages in the requested topic and partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeMessageStatsResponse {
-    <span class="doccomment">/// The count of messages.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message_count: i64,
-    <span class="doccomment">/// The number of quota bytes accounted to these messages.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>message_bytes: i64,
-    <span class="doccomment">/// The minimum publish timestamp across these messages. Note that publish
-    /// timestamps within a partition are not guaranteed to be non-decreasing. The
-    /// timestamp will be unset if there are no messages.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>minimum_publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The minimum event timestamp across these messages. For the purposes of this
-    /// computation, if a message does not have an event time, we use the publish
-    /// time. The timestamp will be unset if there are no messages.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>minimum_event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Compute the current head cursor for a partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeHeadCursorRequest {
-    <span class="doccomment">/// Required. The topic for which we should compute the head cursor.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The partition for which we should compute the head cursor.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition: i64,
-}
-<span class="doccomment">/// Response containing the head cursor for the requested topic and partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeHeadCursorResponse {
-    <span class="doccomment">/// The head cursor.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>head_cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
-/// partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeTimeCursorRequest {
-    <span class="doccomment">/// Required. The topic for which we should compute the cursor.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The partition for which we should compute the cursor.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partition: i64,
-    <span class="doccomment">/// Required. The target publish or event time. Specifying a future time will
-    /// return an unset cursor.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>target: ::core::option::Option&lt;TimeTarget&gt;,
-}
-<span class="doccomment">/// Response containing the cursor corresponding to a publish or event time in a
-/// topic partition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputeTimeCursorResponse {
-    <span class="doccomment">/// If present, the cursor references the first message with time greater than
-    /// or equal to the specified target time. If such a message cannot be found,
-    /// the cursor will be unset (i.e. `cursor` is not present).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>topic_stats_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// This service allows users to get stats about messages in their topic.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>TopicStatsServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; TopicStatsServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; TopicStatsServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            TopicStatsServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Compute statistics about a range of messages in a given topic and
-        /// partition.
-        </span><span class="kw">pub async fn </span>compute_message_stats(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeMessageStatsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ComputeMessageStatsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeMessageStats"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
-                        <span class="string">"ComputeMessageStats"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Compute the head cursor for the partition.
-        /// The head cursor's offset is guaranteed to be less than or equal to all
-        /// messages which have not yet been acknowledged as published, and
-        /// greater than the offset of any message whose publish has already
-        /// been acknowledged. It is zero if there have never been messages in the
-        /// partition.
-        </span><span class="kw">pub async fn </span>compute_head_cursor(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeHeadCursorRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ComputeHeadCursorResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeHeadCursor"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
-                        <span class="string">"ComputeHeadCursor"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
-        /// partition.
-        </span><span class="kw">pub async fn </span>compute_time_cursor(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeTimeCursorRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ComputeTimeCursorResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
-                        <span class="string">"ComputeTimeCursor"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
     }
 }
 <span class="doccomment">/// The first request that must be sent on a newly-opened stream.
@@ -3449,7 +3186,7 @@
 }
 <span class="doccomment">/// Response to an InitialPublishRequest.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InitialPublishResponse {}
 <span class="doccomment">/// Request to publish messages to the topic.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3495,7 +3232,7 @@
 </span><span class="kw">pub mod </span>message_publish_response {
     <span class="doccomment">/// Cursors for a subrange of published messages.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>CursorRange {
         <span class="doccomment">/// The cursor of the message at the start index. The cursors for remaining
         /// messages up to the end index (exclusive) are sequential.
@@ -3687,12 +3424,12 @@
 }
 <span class="doccomment">/// Response to an InitialCommitCursorRequest.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InitialCommitCursorResponse {}
 <span class="doccomment">/// Streaming request to update the committed cursor. Subsequent
 /// SequencedCommitCursorRequests override outstanding ones.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SequencedCommitCursorRequest {
     <span class="doccomment">/// The new value for the committed cursor.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -3700,7 +3437,7 @@
 }
 <span class="doccomment">/// Response to a SequencedCommitCursorRequest.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SequencedCommitCursorResponse {
     <span class="doccomment">/// The number of outstanding SequencedCommitCursorRequests acknowledged by
     /// this response. Note that SequencedCommitCursorRequests are acknowledged in
@@ -3732,7 +3469,7 @@
 }
 <span class="doccomment">/// Response to a StreamingCommitCursorRequest.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StreamingCommitCursorResponse {
     <span class="doccomment">/// The type of request this is.
     </span><span class="attr">#[prost(oneof = <span class="string">"streaming_commit_cursor_response::Request"</span>, tags = <span class="string">"1, 2"</span>)]
@@ -3742,7 +3479,7 @@
 </span><span class="kw">pub mod </span>streaming_commit_cursor_response {
     <span class="doccomment">/// The type of request this is.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Request {
         <span class="doccomment">/// Initial response on the stream.
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -3769,7 +3506,7 @@
 }
 <span class="doccomment">/// Response for CommitCursor.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CommitCursorResponse {}
 <span class="doccomment">/// Request for ListPartitionCursors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3795,7 +3532,7 @@
 }
 <span class="doccomment">/// A pair of a Cursor and the partition it is for.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PartitionCursor {
     <span class="doccomment">/// The partition this is for.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
@@ -3992,262 +3729,103 @@
         </span>}
     }
 }
-<span class="doccomment">/// The first request that must be sent on a newly-opened stream. The client must
-/// wait for the response before sending subsequent requests on the stream.
+<span class="doccomment">/// Compute statistics about a range of messages in a given topic and partition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InitialSubscribeRequest {
-    <span class="doccomment">/// The subscription from which to receive messages.
+</span><span class="kw">pub struct </span>ComputeMessageStatsRequest {
+    <span class="doccomment">/// Required. The topic for which we should compute message stats.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>subscription: ::prost::alloc::string::String,
-    <span class="doccomment">/// The partition from which to receive messages. Partitions are zero indexed,
-    /// so `partition` must be in the range [0, topic.num_partitions).
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The partition for which we should compute message stats.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>partition: i64,
-    <span class="doccomment">/// Optional. Initial target location within the message backlog. If not set,
-    /// messages will be delivered from the commit cursor for the given
-    /// subscription and partition.
+    <span class="doccomment">/// The inclusive start of the range.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_cursor: ::core::option::Option&lt;Cursor&gt;,
+    <span class="doccomment">/// The exclusive end of the range. The range is empty if end_cursor &lt;=
+    /// start_cursor. Specifying a start_cursor before the first message and an
+    /// end_cursor after the last message will retrieve all messages.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>initial_location: ::core::option::Option&lt;SeekRequest&gt;,
+    </span><span class="kw">pub </span>end_cursor: ::core::option::Option&lt;Cursor&gt;,
 }
-<span class="doccomment">/// Response to an InitialSubscribeRequest.
+<span class="doccomment">/// Response containing stats for messages in the requested topic and partition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InitialSubscribeResponse {
-    <span class="doccomment">/// The cursor from which the subscriber will start receiving messages once
-    /// flow control tokens become available.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Request to update the stream's delivery cursor based on the given target.
-/// Resets the server available tokens to 0. SeekRequests past head result in
-/// stream breakage.
-///
-/// SeekRequests may not be sent while another SeekRequest is outstanding (i.e.,
-/// has not received a SeekResponse) on the same stream.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SeekRequest {
-    <span class="doccomment">/// The target to seek to. Must be set.
-    </span><span class="attr">#[prost(oneof = <span class="string">"seek_request::Target"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>target: ::core::option::Option&lt;seek_request::Target&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SeekRequest`.
-</span><span class="kw">pub mod </span>seek_request {
-    <span class="doccomment">/// A special target in the partition that takes no other parameters.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>NamedTarget {
-        <span class="doccomment">/// Default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A target corresponding to the most recently published message in the
-        /// partition.
-        </span>Head = <span class="number">1</span>,
-        <span class="doccomment">/// A target corresponding to the committed cursor for the given subscription
-        /// and topic partition.
-        </span>CommittedCursor = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>NamedTarget {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                NamedTarget::Unspecified =&gt; <span class="string">"NAMED_TARGET_UNSPECIFIED"</span>,
-                NamedTarget::Head =&gt; <span class="string">"HEAD"</span>,
-                NamedTarget::CommittedCursor =&gt; <span class="string">"COMMITTED_CURSOR"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"NAMED_TARGET_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"HEAD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Head),
-                <span class="string">"COMMITTED_CURSOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CommittedCursor),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The target to seek to. Must be set.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Target {
-        <span class="doccomment">/// A named target.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"NamedTarget"</span>, tag = <span class="string">"1"</span>)]
-        </span>NamedTarget(i32),
-        <span class="doccomment">/// A target corresponding to the cursor, pointing to anywhere in the
-        /// topic partition.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Cursor(<span class="kw">super</span>::Cursor),
-    }
-}
-<span class="doccomment">/// Response to a SeekRequest.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SeekResponse {
-    <span class="doccomment">/// The new delivery cursor for the current stream.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
-}
-<span class="doccomment">/// Request to grant tokens to the server, requesting delivery of messages when
-/// they become available.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FlowControlRequest {
-    <span class="doccomment">/// The number of message tokens to grant. Must be greater than or equal to 0.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeMessageStatsResponse {
+    <span class="doccomment">/// The count of messages.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>allowed_messages: i64,
-    <span class="doccomment">/// The number of byte tokens to grant. Must be greater than or equal to 0.
+    </span><span class="kw">pub </span>message_count: i64,
+    <span class="doccomment">/// The number of quota bytes accounted to these messages.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>allowed_bytes: i64,
+    </span><span class="kw">pub </span>message_bytes: i64,
+    <span class="doccomment">/// The minimum publish timestamp across these messages. Note that publish
+    /// timestamps within a partition are not guaranteed to be non-decreasing. The
+    /// timestamp will be unset if there are no messages.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>minimum_publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The minimum event timestamp across these messages. For the purposes of this
+    /// computation, if a message does not have an event time, we use the publish
+    /// time. The timestamp will be unset if there are no messages.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>minimum_event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
-<span class="doccomment">/// A request sent from the client to the server on a stream.
+<span class="doccomment">/// Compute the current head cursor for a partition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubscribeRequest {
-    <span class="doccomment">/// The type of request this is.
-    </span><span class="attr">#[prost(oneof = <span class="string">"subscribe_request::Request"</span>, tags = <span class="string">"1, 2, 3"</span>)]
-    </span><span class="kw">pub </span>request: ::core::option::Option&lt;subscribe_request::Request&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SubscribeRequest`.
-</span><span class="kw">pub mod </span>subscribe_request {
-    <span class="doccomment">/// The type of request this is.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Request {
-        <span class="doccomment">/// Initial request on the stream.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Initial(<span class="kw">super</span>::InitialSubscribeRequest),
-        <span class="doccomment">/// Request to update the stream's delivery cursor.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Seek(<span class="kw">super</span>::SeekRequest),
-        <span class="doccomment">/// Request to grant tokens to the server,
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>FlowControl(<span class="kw">super</span>::FlowControlRequest),
-    }
-}
-<span class="doccomment">/// Response containing a list of messages. Upon delivering a MessageResponse to
-/// the client, the server:
-/// *  Updates the stream's delivery cursor to one greater than the cursor of the
-///     last message in the list.
-/// *  Subtracts the total number of bytes and messages from the tokens available
-///     to the server.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MessageResponse {
-    <span class="doccomment">/// Messages from the topic partition.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>messages: ::prost::alloc::vec::Vec&lt;SequencedMessage&gt;,
-}
-<span class="doccomment">/// Response to SubscribeRequest.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SubscribeResponse {
-    <span class="doccomment">/// The type of response this is.
-    </span><span class="attr">#[prost(oneof = <span class="string">"subscribe_response::Response"</span>, tags = <span class="string">"1, 2, 3"</span>)]
-    </span><span class="kw">pub </span>response: ::core::option::Option&lt;subscribe_response::Response&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SubscribeResponse`.
-</span><span class="kw">pub mod </span>subscribe_response {
-    <span class="doccomment">/// The type of response this is.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Response {
-        <span class="doccomment">/// Initial response on the stream.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Initial(<span class="kw">super</span>::InitialSubscribeResponse),
-        <span class="doccomment">/// Response to a Seek operation.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Seek(<span class="kw">super</span>::SeekResponse),
-        <span class="doccomment">/// Response containing messages from the topic partition.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>Messages(<span class="kw">super</span>::MessageResponse),
-    }
-}
-<span class="doccomment">/// The first request that must be sent on a newly-opened stream. The client must
-/// wait for the response before sending subsequent requests on the stream.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InitialPartitionAssignmentRequest {
-    <span class="doccomment">/// The subscription name. Structured like:
-    /// projects/&lt;project number&gt;/locations/&lt;zone name&gt;/subscriptions/&lt;subscription
-    /// id&gt;
+</span><span class="kw">pub struct </span>ComputeHeadCursorRequest {
+    <span class="doccomment">/// Required. The topic for which we should compute the head cursor.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>subscription: ::prost::alloc::string::String,
-    <span class="doccomment">/// An opaque, unique client identifier. This field must be exactly 16 bytes
-    /// long and is interpreted as an unsigned 128 bit integer. Other size values
-    /// will be rejected and the stream will be failed with a non-retryable error.
-    ///
-    /// This field is large enough to fit a uuid from standard uuid algorithms like
-    /// uuid1 or uuid4, which should be used to generate this number. The same
-    /// identifier should be reused following disconnections with retryable stream
-    /// errors.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>client_id: ::prost::bytes::Bytes,
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The partition for which we should compute the head cursor.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition: i64,
 }
-<span class="doccomment">/// PartitionAssignments should not race with acknowledgements. There
-/// should be exactly one unacknowledged PartitionAssignment at a time. If not,
-/// the client must break the stream.
+<span class="doccomment">/// Response containing the head cursor for the requested topic and partition.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeHeadCursorResponse {
+    <span class="doccomment">/// The head cursor.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>head_cursor: ::core::option::Option&lt;Cursor&gt;,
+}
+<span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
+/// partition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PartitionAssignment {
-    <span class="doccomment">/// The list of partition numbers this subscriber is assigned to.
-    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>partitions: ::prost::alloc::vec::Vec&lt;i64&gt;,
+</span><span class="kw">pub struct </span>ComputeTimeCursorRequest {
+    <span class="doccomment">/// Required. The topic for which we should compute the cursor.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The partition for which we should compute the cursor.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition: i64,
+    <span class="doccomment">/// Required. The target publish or event time. Specifying a future time will
+    /// return an unset cursor.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>target: ::core::option::Option&lt;TimeTarget&gt;,
 }
-<span class="doccomment">/// Acknowledge receipt and handling of the previous assignment.
-/// If not sent within a short period after receiving the assignment,
-/// partitions may remain unassigned for a period of time until the
-/// client is known to be inactive, after which time the server will break the
-/// stream.
+<span class="doccomment">/// Response containing the cursor corresponding to a publish or event time in a
+/// topic partition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PartitionAssignmentAck {}
-<span class="doccomment">/// A request on the PartitionAssignment stream.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PartitionAssignmentRequest {
-    <span class="doccomment">/// The type of request this is.
-    </span><span class="attr">#[prost(oneof = <span class="string">"partition_assignment_request::Request"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>request: ::core::option::Option&lt;partition_assignment_request::Request&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PartitionAssignmentRequest`.
-</span><span class="kw">pub mod </span>partition_assignment_request {
-    <span class="doccomment">/// The type of request this is.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Request {
-        <span class="doccomment">/// Initial request on the stream.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Initial(<span class="kw">super</span>::InitialPartitionAssignmentRequest),
-        <span class="doccomment">/// Acknowledgement of a partition assignment.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Ack(<span class="kw">super</span>::PartitionAssignmentAck),
-    }
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputeTimeCursorResponse {
+    <span class="doccomment">/// If present, the cursor references the first message with time greater than
+    /// or equal to the specified target time. If such a message cannot be found,
+    /// the cursor will be unset (i.e. `cursor` is not present).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
 }
 <span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>subscriber_service_client {
+</span><span class="kw">pub mod </span>topic_stats_service_client {
     <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
     </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
     <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The service that a subscriber client application uses to receive messages
-    /// from subscriptions.
+    <span class="doccomment">/// This service allows users to get stats about messages in their topic.
     </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>SubscriberServiceClient&lt;T&gt; {
+    </span><span class="kw">pub struct </span>TopicStatsServiceClient&lt;T&gt; {
         inner: tonic::client::Grpc&lt;T&gt;,
     }
-    <span class="kw">impl</span>&lt;T&gt; SubscriberServiceClient&lt;T&gt;
+    <span class="kw">impl</span>&lt;T&gt; TopicStatsServiceClient&lt;T&gt;
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
@@ -4265,7 +3843,7 @@
         <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
             inner: T,
             interceptor: F,
-        ) -&gt; SubscriberServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        ) -&gt; TopicStatsServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
         <span class="kw">where
             </span>F: tonic::service::Interceptor,
             T::ResponseBody: Default,
@@ -4279,7 +3857,7 @@
                 http::Request&lt;tonic::body::BoxBody&gt;,
             &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
         {
-            SubscriberServiceClient::new(InterceptedService::new(inner, interceptor))
+            TopicStatsServiceClient::new(InterceptedService::new(inner, interceptor))
         }
         <span class="doccomment">/// Compress requests with the given encoding.
         ///
@@ -4312,12 +3890,13 @@
             <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
             <span class="self">self
         </span>}
-        <span class="doccomment">/// Establishes a stream with the server for receiving messages.
-        </span><span class="kw">pub async fn </span>subscribe(
+        <span class="doccomment">/// Compute statistics about a range of messages in a given topic and
+        /// partition.
+        </span><span class="kw">pub async fn </span>compute_message_stats(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;Message = <span class="kw">super</span>::SubscribeRequest&gt;,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeMessageStatsRequest&gt;,
         ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::SubscribeResponse&gt;&gt;,
+            tonic::Response&lt;<span class="kw">super</span>::ComputeMessageStatsResponse&gt;,
             tonic::Status,
         &gt; {
             <span class="self">self</span>.inner
@@ -4331,112 +3910,29 @@
                 })<span class="question-mark">?</span>;
             <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
             <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.SubscriberService/Subscribe"</span>,
+                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeMessageStats"</span>,
             );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.SubscriberService"</span>,
-                        <span class="string">"Subscribe"</span>,
+                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
+                        <span class="string">"ComputeMessageStats"</span>,
                     ),
                 );
-            <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>partition_assignment_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The service that a subscriber client application uses to determine which
-    /// partitions it should connect to.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>PartitionAssignmentServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; PartitionAssignmentServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; PartitionAssignmentServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            PartitionAssignmentServiceClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Assign partitions for this client to handle for the specified subscription.
-        ///
-        /// The client must send an InitialPartitionAssignmentRequest first.
-        /// The server will then send at most one unacknowledged PartitionAssignment
-        /// outstanding on the stream at a time.
-        /// The client should send a PartitionAssignmentAck after updating the
-        /// partitions it is connected to to reflect the new assignment.
-        </span><span class="kw">pub async fn </span>assign_partitions(
+        <span class="doccomment">/// Compute the head cursor for the partition.
+        /// The head cursor's offset is guaranteed to be less than or equal to all
+        /// messages which have not yet been acknowledged as published, and
+        /// greater than the offset of any message whose publish has already
+        /// been acknowledged. It is zero if there have never been messages in the
+        /// partition.
+        </span><span class="kw">pub async fn </span>compute_head_cursor(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;
-                Message = <span class="kw">super</span>::PartitionAssignmentRequest,
-            &gt;,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeHeadCursorRequest&gt;,
         ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::PartitionAssignment&gt;&gt;,
+            tonic::Response&lt;<span class="kw">super</span>::ComputeHeadCursorResponse&gt;,
             tonic::Status,
         &gt; {
             <span class="self">self</span>.inner
@@ -4450,17 +3946,49 @@
                 })<span class="question-mark">?</span>;
             <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
             <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.pubsublite.v1.PartitionAssignmentService/AssignPartitions"</span>,
+                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeHeadCursor"</span>,
             );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(
-                        <span class="string">"google.cloud.pubsublite.v1.PartitionAssignmentService"</span>,
-                        <span class="string">"AssignPartitions"</span>,
+                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
+                        <span class="string">"ComputeHeadCursor"</span>,
                     ),
                 );
-            <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Compute the corresponding cursor for a publish or event time in a topic
+        /// partition.
+        </span><span class="kw">pub async fn </span>compute_time_cursor(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ComputeTimeCursorRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ComputeTimeCursorResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.pubsublite.v1.TopicStatsService/ComputeTimeCursor"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.pubsublite.v1.TopicStatsService"</span>,
+                        <span class="string">"ComputeTimeCursor"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
 }
@@ -4501,7 +4029,7 @@
 }
 <span class="doccomment">/// Response for GetTopicPartitions.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TopicPartitions {
     <span class="doccomment">/// The number of partitions in the topic.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
@@ -4738,7 +4266,7 @@
     }
     <span class="doccomment">/// The target to seek to. Must be set.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Target {
         <span class="doccomment">/// Seek to a named position with respect to the message backlog.
         </span><span class="attr">#[prost(enumeration = <span class="string">"NamedTarget"</span>, tag = <span class="string">"2"</span>)]
@@ -4752,7 +4280,7 @@
 }
 <span class="doccomment">/// Response for SeekSubscription long running operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SeekSubscriptionResponse {}
 <span class="doccomment">/// Metadata for long running operations.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5541,6 +5069,478 @@
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// The first request that must be sent on a newly-opened stream. The client must
+/// wait for the response before sending subsequent requests on the stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InitialSubscribeRequest {
+    <span class="doccomment">/// The subscription from which to receive messages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>subscription: ::prost::alloc::string::String,
+    <span class="doccomment">/// The partition from which to receive messages. Partitions are zero indexed,
+    /// so `partition` must be in the range [0, topic.num_partitions).
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partition: i64,
+    <span class="doccomment">/// Optional. Initial target location within the message backlog. If not set,
+    /// messages will be delivered from the commit cursor for the given
+    /// subscription and partition.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>initial_location: ::core::option::Option&lt;SeekRequest&gt;,
+}
+<span class="doccomment">/// Response to an InitialSubscribeRequest.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InitialSubscribeResponse {
+    <span class="doccomment">/// The cursor from which the subscriber will start receiving messages once
+    /// flow control tokens become available.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
+}
+<span class="doccomment">/// Request to update the stream's delivery cursor based on the given target.
+/// Resets the server available tokens to 0. SeekRequests past head result in
+/// stream breakage.
+///
+/// SeekRequests may not be sent while another SeekRequest is outstanding (i.e.,
+/// has not received a SeekResponse) on the same stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SeekRequest {
+    <span class="doccomment">/// The target to seek to. Must be set.
+    </span><span class="attr">#[prost(oneof = <span class="string">"seek_request::Target"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>target: ::core::option::Option&lt;seek_request::Target&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SeekRequest`.
+</span><span class="kw">pub mod </span>seek_request {
+    <span class="doccomment">/// A special target in the partition that takes no other parameters.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>NamedTarget {
+        <span class="doccomment">/// Default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A target corresponding to the most recently published message in the
+        /// partition.
+        </span>Head = <span class="number">1</span>,
+        <span class="doccomment">/// A target corresponding to the committed cursor for the given subscription
+        /// and topic partition.
+        </span>CommittedCursor = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>NamedTarget {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                NamedTarget::Unspecified =&gt; <span class="string">"NAMED_TARGET_UNSPECIFIED"</span>,
+                NamedTarget::Head =&gt; <span class="string">"HEAD"</span>,
+                NamedTarget::CommittedCursor =&gt; <span class="string">"COMMITTED_CURSOR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"NAMED_TARGET_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"HEAD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Head),
+                <span class="string">"COMMITTED_CURSOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CommittedCursor),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The target to seek to. Must be set.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Target {
+        <span class="doccomment">/// A named target.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"NamedTarget"</span>, tag = <span class="string">"1"</span>)]
+        </span>NamedTarget(i32),
+        <span class="doccomment">/// A target corresponding to the cursor, pointing to anywhere in the
+        /// topic partition.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Cursor(<span class="kw">super</span>::Cursor),
+    }
+}
+<span class="doccomment">/// Response to a SeekRequest.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SeekResponse {
+    <span class="doccomment">/// The new delivery cursor for the current stream.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>cursor: ::core::option::Option&lt;Cursor&gt;,
+}
+<span class="doccomment">/// Request to grant tokens to the server, requesting delivery of messages when
+/// they become available.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FlowControlRequest {
+    <span class="doccomment">/// The number of message tokens to grant. Must be greater than or equal to 0.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>allowed_messages: i64,
+    <span class="doccomment">/// The number of byte tokens to grant. Must be greater than or equal to 0.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>allowed_bytes: i64,
+}
+<span class="doccomment">/// A request sent from the client to the server on a stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubscribeRequest {
+    <span class="doccomment">/// The type of request this is.
+    </span><span class="attr">#[prost(oneof = <span class="string">"subscribe_request::Request"</span>, tags = <span class="string">"1, 2, 3"</span>)]
+    </span><span class="kw">pub </span>request: ::core::option::Option&lt;subscribe_request::Request&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SubscribeRequest`.
+</span><span class="kw">pub mod </span>subscribe_request {
+    <span class="doccomment">/// The type of request this is.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Request {
+        <span class="doccomment">/// Initial request on the stream.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Initial(<span class="kw">super</span>::InitialSubscribeRequest),
+        <span class="doccomment">/// Request to update the stream's delivery cursor.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Seek(<span class="kw">super</span>::SeekRequest),
+        <span class="doccomment">/// Request to grant tokens to the server,
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>FlowControl(<span class="kw">super</span>::FlowControlRequest),
+    }
+}
+<span class="doccomment">/// Response containing a list of messages. Upon delivering a MessageResponse to
+/// the client, the server:
+/// *  Updates the stream's delivery cursor to one greater than the cursor of the
+///     last message in the list.
+/// *  Subtracts the total number of bytes and messages from the tokens available
+///     to the server.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MessageResponse {
+    <span class="doccomment">/// Messages from the topic partition.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>messages: ::prost::alloc::vec::Vec&lt;SequencedMessage&gt;,
+}
+<span class="doccomment">/// Response to SubscribeRequest.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SubscribeResponse {
+    <span class="doccomment">/// The type of response this is.
+    </span><span class="attr">#[prost(oneof = <span class="string">"subscribe_response::Response"</span>, tags = <span class="string">"1, 2, 3"</span>)]
+    </span><span class="kw">pub </span>response: ::core::option::Option&lt;subscribe_response::Response&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SubscribeResponse`.
+</span><span class="kw">pub mod </span>subscribe_response {
+    <span class="doccomment">/// The type of response this is.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Response {
+        <span class="doccomment">/// Initial response on the stream.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Initial(<span class="kw">super</span>::InitialSubscribeResponse),
+        <span class="doccomment">/// Response to a Seek operation.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Seek(<span class="kw">super</span>::SeekResponse),
+        <span class="doccomment">/// Response containing messages from the topic partition.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>Messages(<span class="kw">super</span>::MessageResponse),
+    }
+}
+<span class="doccomment">/// The first request that must be sent on a newly-opened stream. The client must
+/// wait for the response before sending subsequent requests on the stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InitialPartitionAssignmentRequest {
+    <span class="doccomment">/// The subscription name. Structured like:
+    /// projects/&lt;project number&gt;/locations/&lt;zone name&gt;/subscriptions/&lt;subscription
+    /// id&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>subscription: ::prost::alloc::string::String,
+    <span class="doccomment">/// An opaque, unique client identifier. This field must be exactly 16 bytes
+    /// long and is interpreted as an unsigned 128 bit integer. Other size values
+    /// will be rejected and the stream will be failed with a non-retryable error.
+    ///
+    /// This field is large enough to fit a uuid from standard uuid algorithms like
+    /// uuid1 or uuid4, which should be used to generate this number. The same
+    /// identifier should be reused following disconnections with retryable stream
+    /// errors.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>client_id: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// PartitionAssignments should not race with acknowledgements. There
+/// should be exactly one unacknowledged PartitionAssignment at a time. If not,
+/// the client must break the stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PartitionAssignment {
+    <span class="doccomment">/// The list of partition numbers this subscriber is assigned to.
+    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>partitions: ::prost::alloc::vec::Vec&lt;i64&gt;,
+}
+<span class="doccomment">/// Acknowledge receipt and handling of the previous assignment.
+/// If not sent within a short period after receiving the assignment,
+/// partitions may remain unassigned for a period of time until the
+/// client is known to be inactive, after which time the server will break the
+/// stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PartitionAssignmentAck {}
+<span class="doccomment">/// A request on the PartitionAssignment stream.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PartitionAssignmentRequest {
+    <span class="doccomment">/// The type of request this is.
+    </span><span class="attr">#[prost(oneof = <span class="string">"partition_assignment_request::Request"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>request: ::core::option::Option&lt;partition_assignment_request::Request&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PartitionAssignmentRequest`.
+</span><span class="kw">pub mod </span>partition_assignment_request {
+    <span class="doccomment">/// The type of request this is.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Request {
+        <span class="doccomment">/// Initial request on the stream.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Initial(<span class="kw">super</span>::InitialPartitionAssignmentRequest),
+        <span class="doccomment">/// Acknowledgement of a partition assignment.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Ack(<span class="kw">super</span>::PartitionAssignmentAck),
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>subscriber_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The service that a subscriber client application uses to receive messages
+    /// from subscriptions.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>SubscriberServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; SubscriberServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; SubscriberServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            SubscriberServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Establishes a stream with the server for receiving messages.
+        </span><span class="kw">pub async fn </span>subscribe(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;Message = <span class="kw">super</span>::SubscribeRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::SubscribeResponse&gt;&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.pubsublite.v1.SubscriberService/Subscribe"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.pubsublite.v1.SubscriberService"</span>,
+                        <span class="string">"Subscribe"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>partition_assignment_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The service that a subscriber client application uses to determine which
+    /// partitions it should connect to.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>PartitionAssignmentServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; PartitionAssignmentServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; PartitionAssignmentServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            PartitionAssignmentServiceClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Assign partitions for this client to handle for the specified subscription.
+        ///
+        /// The client must send an InitialPartitionAssignmentRequest first.
+        /// The server will then send at most one unacknowledged PartitionAssignment
+        /// outstanding on the stream at a time.
+        /// The client should send a PartitionAssignmentAck after updating the
+        /// partitions it is connected to to reflect the new assignment.
+        </span><span class="kw">pub async fn </span>assign_partitions(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;
+                Message = <span class="kw">super</span>::PartitionAssignmentRequest,
+            &gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::PartitionAssignment&gt;&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.pubsublite.v1.PartitionAssignmentService/AssignPartitions"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.pubsublite.v1.PartitionAssignmentService"</span>,
+                        <span class="string">"AssignPartitions"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
         </span>}
     }
 }

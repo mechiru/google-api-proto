@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["structured_extracted_filter"],"struct":["StructuredExtractedFilter"]};

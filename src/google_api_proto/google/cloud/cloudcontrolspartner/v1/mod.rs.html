@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/cloudcontrolspartner/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/cloudcontrolspartner/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1666,451 +1666,7 @@
 <a href="#1666" id="1666">1666</a>
 <a href="#1667" id="1667">1667</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Details of resource Violation
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Violation {
-    <span class="doccomment">/// Identifier. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Description for the Violation.
-    /// e.g. OrgPolicy gcp.resourceLocations has non compliant value.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time of the event which triggered the Violation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>begin_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The last time when the Violation record was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Time of the event which fixed the Violation.
-    /// If the violation is ACTIVE this will be empty.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>resolve_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Category under which this violation is mapped.
-    /// e.g. Location, Service Usage, Access, Encryption, etc.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. State of the violation
-    </span><span class="attr">#[prost(enumeration = <span class="string">"violation::State"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. Immutable. Name of the OrgPolicy which was modified with
-    /// non-compliant change and resulted this violation. Format:
-    ///   `projects/{project_number}/policies/{constraint_name}`
-    ///   `folders/{folder_id}/policies/{constraint_name}`
-    ///   `organizations/{organization_id}/policies/{constraint_name}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>non_compliant_org_policy: ::prost::alloc::string::String,
-    <span class="doccomment">/// The folder_id of the violation
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>folder_id: i64,
-    <span class="doccomment">/// Output only. Compliance violation remediation
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>remediation: ::core::option::Option&lt;violation::Remediation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Violation`.
-</span><span class="kw">pub mod </span>violation {
-    <span class="doccomment">/// Represents remediation guidance to resolve compliance violation for
-    /// AssuredWorkload
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Remediation {
-        <span class="doccomment">/// Required. Remediation instructions to resolve violations
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>instructions: ::core::option::Option&lt;remediation::Instructions&gt;,
-        <span class="doccomment">/// Values that can resolve the violation
-        /// For example: for list org policy violations, this will either be the list
-        /// of allowed or denied values
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>compliant_values: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Output only. Remediation type based on the type of org policy values
-        /// violated
-        </span><span class="attr">#[prost(enumeration = <span class="string">"remediation::RemediationType"</span>, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>remediation_type: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Remediation`.
-    </span><span class="kw">pub mod </span>remediation {
-        <span class="doccomment">/// Instructions to remediate violation
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>Instructions {
-            <span class="doccomment">/// Remediation instructions to resolve violation via gcloud cli
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>gcloud_instructions: ::core::option::Option&lt;instructions::Gcloud&gt;,
-            <span class="doccomment">/// Remediation instructions to resolve violation via cloud console
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>console_instructions: ::core::option::Option&lt;instructions::Console&gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `Instructions`.
-        </span><span class="kw">pub mod </span>instructions {
-            <span class="doccomment">/// Remediation instructions to resolve violation via gcloud cli
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>Gcloud {
-                <span class="doccomment">/// Gcloud command to resolve violation
-                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-                </span><span class="kw">pub </span>gcloud_commands: ::prost::alloc::vec::Vec&lt;
-                    ::prost::alloc::string::String,
-                &gt;,
-                <span class="doccomment">/// Steps to resolve violation via gcloud cli
-                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-                <span class="doccomment">/// Additional urls for more information about steps
-                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-                </span><span class="kw">pub </span>additional_links: ::prost::alloc::vec::Vec&lt;
-                    ::prost::alloc::string::String,
-                &gt;,
-            }
-            <span class="doccomment">/// Remediation instructions to resolve violation via cloud console
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>Console {
-                <span class="doccomment">/// Link to console page where violations can be resolved
-                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-                </span><span class="kw">pub </span>console_uris: ::prost::alloc::vec::Vec&lt;
-                    ::prost::alloc::string::String,
-                &gt;,
-                <span class="doccomment">/// Steps to resolve violation via cloud console
-                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-                <span class="doccomment">/// Additional urls for more information about steps
-                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-                </span><span class="kw">pub </span>additional_links: ::prost::alloc::vec::Vec&lt;
-                    ::prost::alloc::string::String,
-                &gt;,
-            }
-        }
-        <span class="doccomment">/// Classifying remediation into various types based on the kind of
-        /// violation. For example, violations caused due to changes in boolean org
-        /// policy requires different remediation instructions compared to violation
-        /// caused due to changes in allowed values of list org policy.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>RemediationType {
-            <span class="doccomment">/// Unspecified remediation type
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Remediation type for boolean org policy
-            </span>RemediationBooleanOrgPolicyViolation = <span class="number">1</span>,
-            <span class="doccomment">/// Remediation type for list org policy which have allowed values in the
-            /// monitoring rule
-            </span>RemediationListAllowedValuesOrgPolicyViolation = <span class="number">2</span>,
-            <span class="doccomment">/// Remediation type for list org policy which have denied values in the
-            /// monitoring rule
-            </span>RemediationListDeniedValuesOrgPolicyViolation = <span class="number">3</span>,
-            <span class="doccomment">/// Remediation type for gcp.restrictCmekCryptoKeyProjects
-            </span>RemediationRestrictCmekCryptoKeyProjectsOrgPolicyViolation = <span class="number">4</span>,
-            <span class="doccomment">/// Remediation type for resource violation.
-            </span>RemediationResourceViolation = <span class="number">5</span>,
-        }
-        <span class="kw">impl </span>RemediationType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    RemediationType::Unspecified =&gt; <span class="string">"REMEDIATION_TYPE_UNSPECIFIED"</span>,
-                    RemediationType::RemediationBooleanOrgPolicyViolation =&gt; {
-                        <span class="string">"REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
-                    </span>}
-                    RemediationType::RemediationListAllowedValuesOrgPolicyViolation =&gt; {
-                        <span class="string">"REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
-                    </span>}
-                    RemediationType::RemediationListDeniedValuesOrgPolicyViolation =&gt; {
-                        <span class="string">"REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
-                    </span>}
-                    RemediationType::RemediationRestrictCmekCryptoKeyProjectsOrgPolicyViolation =&gt; {
-                        <span class="string">"REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
-                    </span>}
-                    RemediationType::RemediationResourceViolation =&gt; {
-                        <span class="string">"REMEDIATION_RESOURCE_VIOLATION"
-                    </span>}
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"REMEDIATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationBooleanOrgPolicyViolation)
-                    }
-                    <span class="string">"REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationListAllowedValuesOrgPolicyViolation)
-                    }
-                    <span class="string">"REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationListDeniedValuesOrgPolicyViolation)
-                    }
-                    <span class="string">"REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(
-                            <span class="self">Self</span>::RemediationRestrictCmekCryptoKeyProjectsOrgPolicyViolation,
-                        )
-                    }
-                    <span class="string">"REMEDIATION_RESOURCE_VIOLATION" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationResourceViolation)
-                    }
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Violation State Values
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified state.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Violation is resolved.
-        </span>Resolved = <span class="number">1</span>,
-        <span class="doccomment">/// Violation is Unresolved
-        </span>Unresolved = <span class="number">2</span>,
-        <span class="doccomment">/// Violation is Exception
-        </span>Exception = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Resolved =&gt; <span class="string">"RESOLVED"</span>,
-                State::Unresolved =&gt; <span class="string">"UNRESOLVED"</span>,
-                State::Exception =&gt; <span class="string">"EXCEPTION"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOLVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Resolved),
-                <span class="string">"UNRESOLVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unresolved),
-                <span class="string">"EXCEPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exception),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Message for requesting list of Violations
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListViolationsRequest {
-    <span class="doccomment">/// Required. Parent resource
-    /// Format
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of customers row to return. The service may
-    /// return fewer than this value. If unspecified, at most 10 customers will be
-    /// returned.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A page token, received from a previous `ListViolations` call.
-    /// Provide this to retrieve the subsequent page.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Filtering results
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Hint for how to order the results
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Specifies the interval for retrieving violations.
-    /// if unspecified, all violations will be returned.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>interval: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Interval&gt;,
-}
-<span class="doccomment">/// Response message for list customer violation requests
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListViolationsResponse {
-    <span class="doccomment">/// List of violation
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>violations: ::prost::alloc::vec::Vec&lt;Violation&gt;,
-    <span class="doccomment">/// A token that can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Workloads that could not be reached due to permission errors or any other
-    /// error. Ref: &lt;https://google.aip.dev/217&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Message for getting a Violation
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetViolationRequest {
-    <span class="doccomment">/// Required. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>cloud_controls_partner_monitoring_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Service describing handlers for resources
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>CloudControlsPartnerMonitoringClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; CloudControlsPartnerMonitoringClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; CloudControlsPartnerMonitoringClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            CloudControlsPartnerMonitoringClient::new(
-                InterceptedService::new(inner, interceptor),
-            )
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Lists Violations for a workload
-        /// Callers may also choose to read across multiple Customers or for a single
-        /// customer as per
-        /// [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash
-        /// character) as a wildcard character instead of {customer} &amp; {workload}.
-        /// Format:
-        /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
-        </span><span class="kw">pub async fn </span>list_violations(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListViolationsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListViolationsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring/ListViolations"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring"</span>,
-                        <span class="string">"ListViolations"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Gets details of a single Violation.
-        </span><span class="kw">pub async fn </span>get_violation(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetViolationRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Violation&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring/GetViolation"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring"</span>,
-                        <span class="string">"GetViolation"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Details about the Access request.
+</span><span class="doccomment">/// Details about the Access request.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AccessApprovalRequest {
@@ -2264,6 +1820,88 @@
             }
         }
     }
+}
+<span class="doccomment">/// The permissions granted to the partner for a workload
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PartnerPermissions {
+    <span class="doccomment">/// Identifier. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The partner permissions granted for the workload
+    </span><span class="attr">#[prost(enumeration = <span class="string">"partner_permissions::Permission"</span>, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>partner_permissions: ::prost::alloc::vec::Vec&lt;i32&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PartnerPermissions`.
+</span><span class="kw">pub mod </span>partner_permissions {
+    <span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Permission {
+        <span class="doccomment">/// Unspecified partner permission
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Permission for Access Transparency and emergency logs
+        </span>AccessTransparencyAndEmergencyAccessLogs = <span class="number">1</span>,
+        <span class="doccomment">/// Permission for Assured Workloads monitoring violations
+        </span>AssuredWorkloadsMonitoring = <span class="number">2</span>,
+        <span class="doccomment">/// Permission for Access Approval requests
+        </span>AccessApprovalRequests = <span class="number">3</span>,
+        <span class="doccomment">/// Permission for External Key Manager connection status
+        </span>AssuredWorkloadsEkmConnectionStatus = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>Permission {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Permission::Unspecified =&gt; <span class="string">"PERMISSION_UNSPECIFIED"</span>,
+                Permission::AccessTransparencyAndEmergencyAccessLogs =&gt; {
+                    <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS"
+                </span>}
+                Permission::AssuredWorkloadsMonitoring =&gt; <span class="string">"ASSURED_WORKLOADS_MONITORING"</span>,
+                Permission::AccessApprovalRequests =&gt; <span class="string">"ACCESS_APPROVAL_REQUESTS"</span>,
+                Permission::AssuredWorkloadsEkmConnectionStatus =&gt; {
+                    <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PERMISSION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessTransparencyAndEmergencyAccessLogs)
+                }
+                <span class="string">"ASSURED_WORKLOADS_MONITORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsMonitoring),
+                <span class="string">"ACCESS_APPROVAL_REQUESTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessApprovalRequests),
+                <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsEkmConnectionStatus)
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Request for getting the partner permissions granted for a workload
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetPartnerPermissionsRequest {
+    <span class="doccomment">/// Required. Name of the resource to get in the format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Enum for possible completion states.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -2478,7 +2116,7 @@
 }
 <span class="doccomment">/// Container for workload onboarding information.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WorkloadOnboardingStep {
     <span class="doccomment">/// The onboarding step.
     </span><span class="attr">#[prost(enumeration = <span class="string">"workload_onboarding_step::Step"</span>, tag = <span class="string">"1"</span>)]
@@ -2618,7 +2256,7 @@
 }
 <span class="doccomment">/// Container for customer onboarding information
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CustomerOnboardingStep {
     <span class="doccomment">/// The onboarding step
     </span><span class="attr">#[prost(enumeration = <span class="string">"customer_onboarding_step::Step"</span>, tag = <span class="string">"1"</span>)]
@@ -2780,88 +2418,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// The permissions granted to the partner for a workload
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PartnerPermissions {
-    <span class="doccomment">/// Identifier. Format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The partner permissions granted for the workload
-    </span><span class="attr">#[prost(enumeration = <span class="string">"partner_permissions::Permission"</span>, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>partner_permissions: ::prost::alloc::vec::Vec&lt;i32&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PartnerPermissions`.
-</span><span class="kw">pub mod </span>partner_permissions {
-    <span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Permission {
-        <span class="doccomment">/// Unspecified partner permission
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Permission for Access Transparency and emergency logs
-        </span>AccessTransparencyAndEmergencyAccessLogs = <span class="number">1</span>,
-        <span class="doccomment">/// Permission for Assured Workloads monitoring violations
-        </span>AssuredWorkloadsMonitoring = <span class="number">2</span>,
-        <span class="doccomment">/// Permission for Access Approval requests
-        </span>AccessApprovalRequests = <span class="number">3</span>,
-        <span class="doccomment">/// Permission for External Key Manager connection status
-        </span>AssuredWorkloadsEkmConnectionStatus = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>Permission {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Permission::Unspecified =&gt; <span class="string">"PERMISSION_UNSPECIFIED"</span>,
-                Permission::AccessTransparencyAndEmergencyAccessLogs =&gt; {
-                    <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS"
-                </span>}
-                Permission::AssuredWorkloadsMonitoring =&gt; <span class="string">"ASSURED_WORKLOADS_MONITORING"</span>,
-                Permission::AccessApprovalRequests =&gt; <span class="string">"ACCESS_APPROVAL_REQUESTS"</span>,
-                Permission::AssuredWorkloadsEkmConnectionStatus =&gt; {
-                    <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PERMISSION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ACCESS_TRANSPARENCY_AND_EMERGENCY_ACCESS_LOGS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessTransparencyAndEmergencyAccessLogs)
-                }
-                <span class="string">"ASSURED_WORKLOADS_MONITORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsMonitoring),
-                <span class="string">"ACCESS_APPROVAL_REQUESTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessApprovalRequests),
-                <span class="string">"ASSURED_WORKLOADS_EKM_CONNECTION_STATUS" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AssuredWorkloadsEkmConnectionStatus)
-                }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request for getting the partner permissions granted for a workload
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetPartnerPermissionsRequest {
-    <span class="doccomment">/// Required. Name of the resource to get in the format:
-    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/partnerPermissions`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Message describing Partner resource
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3326,6 +2882,450 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerCore"</span>,
                         <span class="string">"GetPartner"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Details of resource Violation
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Violation {
+    <span class="doccomment">/// Identifier. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Description for the Violation.
+    /// e.g. OrgPolicy gcp.resourceLocations has non compliant value.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time of the event which triggered the Violation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>begin_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The last time when the Violation record was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Time of the event which fixed the Violation.
+    /// If the violation is ACTIVE this will be empty.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>resolve_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Category under which this violation is mapped.
+    /// e.g. Location, Service Usage, Access, Encryption, etc.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. State of the violation
+    </span><span class="attr">#[prost(enumeration = <span class="string">"violation::State"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. Immutable. Name of the OrgPolicy which was modified with
+    /// non-compliant change and resulted this violation. Format:
+    ///   `projects/{project_number}/policies/{constraint_name}`
+    ///   `folders/{folder_id}/policies/{constraint_name}`
+    ///   `organizations/{organization_id}/policies/{constraint_name}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>non_compliant_org_policy: ::prost::alloc::string::String,
+    <span class="doccomment">/// The folder_id of the violation
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>folder_id: i64,
+    <span class="doccomment">/// Output only. Compliance violation remediation
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>remediation: ::core::option::Option&lt;violation::Remediation&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Violation`.
+</span><span class="kw">pub mod </span>violation {
+    <span class="doccomment">/// Represents remediation guidance to resolve compliance violation for
+    /// AssuredWorkload
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Remediation {
+        <span class="doccomment">/// Required. Remediation instructions to resolve violations
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>instructions: ::core::option::Option&lt;remediation::Instructions&gt;,
+        <span class="doccomment">/// Values that can resolve the violation
+        /// For example: for list org policy violations, this will either be the list
+        /// of allowed or denied values
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>compliant_values: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+        <span class="doccomment">/// Output only. Remediation type based on the type of org policy values
+        /// violated
+        </span><span class="attr">#[prost(enumeration = <span class="string">"remediation::RemediationType"</span>, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>remediation_type: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Remediation`.
+    </span><span class="kw">pub mod </span>remediation {
+        <span class="doccomment">/// Instructions to remediate violation
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Instructions {
+            <span class="doccomment">/// Remediation instructions to resolve violation via gcloud cli
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>gcloud_instructions: ::core::option::Option&lt;instructions::Gcloud&gt;,
+            <span class="doccomment">/// Remediation instructions to resolve violation via cloud console
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>console_instructions: ::core::option::Option&lt;instructions::Console&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `Instructions`.
+        </span><span class="kw">pub mod </span>instructions {
+            <span class="doccomment">/// Remediation instructions to resolve violation via gcloud cli
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>Gcloud {
+                <span class="doccomment">/// Gcloud command to resolve violation
+                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+                </span><span class="kw">pub </span>gcloud_commands: ::prost::alloc::vec::Vec&lt;
+                    ::prost::alloc::string::String,
+                &gt;,
+                <span class="doccomment">/// Steps to resolve violation via gcloud cli
+                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+                <span class="doccomment">/// Additional urls for more information about steps
+                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+                </span><span class="kw">pub </span>additional_links: ::prost::alloc::vec::Vec&lt;
+                    ::prost::alloc::string::String,
+                &gt;,
+            }
+            <span class="doccomment">/// Remediation instructions to resolve violation via cloud console
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>Console {
+                <span class="doccomment">/// Link to console page where violations can be resolved
+                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+                </span><span class="kw">pub </span>console_uris: ::prost::alloc::vec::Vec&lt;
+                    ::prost::alloc::string::String,
+                &gt;,
+                <span class="doccomment">/// Steps to resolve violation via cloud console
+                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>steps: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+                <span class="doccomment">/// Additional urls for more information about steps
+                </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+                </span><span class="kw">pub </span>additional_links: ::prost::alloc::vec::Vec&lt;
+                    ::prost::alloc::string::String,
+                &gt;,
+            }
+        }
+        <span class="doccomment">/// Classifying remediation into various types based on the kind of
+        /// violation. For example, violations caused due to changes in boolean org
+        /// policy requires different remediation instructions compared to violation
+        /// caused due to changes in allowed values of list org policy.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>RemediationType {
+            <span class="doccomment">/// Unspecified remediation type
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Remediation type for boolean org policy
+            </span>RemediationBooleanOrgPolicyViolation = <span class="number">1</span>,
+            <span class="doccomment">/// Remediation type for list org policy which have allowed values in the
+            /// monitoring rule
+            </span>RemediationListAllowedValuesOrgPolicyViolation = <span class="number">2</span>,
+            <span class="doccomment">/// Remediation type for list org policy which have denied values in the
+            /// monitoring rule
+            </span>RemediationListDeniedValuesOrgPolicyViolation = <span class="number">3</span>,
+            <span class="doccomment">/// Remediation type for gcp.restrictCmekCryptoKeyProjects
+            </span>RemediationRestrictCmekCryptoKeyProjectsOrgPolicyViolation = <span class="number">4</span>,
+            <span class="doccomment">/// Remediation type for resource violation.
+            </span>RemediationResourceViolation = <span class="number">5</span>,
+        }
+        <span class="kw">impl </span>RemediationType {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    RemediationType::Unspecified =&gt; <span class="string">"REMEDIATION_TYPE_UNSPECIFIED"</span>,
+                    RemediationType::RemediationBooleanOrgPolicyViolation =&gt; {
+                        <span class="string">"REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION"
+                    </span>}
+                    RemediationType::RemediationListAllowedValuesOrgPolicyViolation =&gt; {
+                        <span class="string">"REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION"
+                    </span>}
+                    RemediationType::RemediationListDeniedValuesOrgPolicyViolation =&gt; {
+                        <span class="string">"REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION"
+                    </span>}
+                    RemediationType::RemediationRestrictCmekCryptoKeyProjectsOrgPolicyViolation =&gt; {
+                        <span class="string">"REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION"
+                    </span>}
+                    RemediationType::RemediationResourceViolation =&gt; {
+                        <span class="string">"REMEDIATION_RESOURCE_VIOLATION"
+                    </span>}
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"REMEDIATION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"REMEDIATION_BOOLEAN_ORG_POLICY_VIOLATION" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationBooleanOrgPolicyViolation)
+                    }
+                    <span class="string">"REMEDIATION_LIST_ALLOWED_VALUES_ORG_POLICY_VIOLATION" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationListAllowedValuesOrgPolicyViolation)
+                    }
+                    <span class="string">"REMEDIATION_LIST_DENIED_VALUES_ORG_POLICY_VIOLATION" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationListDeniedValuesOrgPolicyViolation)
+                    }
+                    <span class="string">"REMEDIATION_RESTRICT_CMEK_CRYPTO_KEY_PROJECTS_ORG_POLICY_VIOLATION" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(
+                            <span class="self">Self</span>::RemediationRestrictCmekCryptoKeyProjectsOrgPolicyViolation,
+                        )
+                    }
+                    <span class="string">"REMEDIATION_RESOURCE_VIOLATION" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::RemediationResourceViolation)
+                    }
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Violation State Values
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified state.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Violation is resolved.
+        </span>Resolved = <span class="number">1</span>,
+        <span class="doccomment">/// Violation is Unresolved
+        </span>Unresolved = <span class="number">2</span>,
+        <span class="doccomment">/// Violation is Exception
+        </span>Exception = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Resolved =&gt; <span class="string">"RESOLVED"</span>,
+                State::Unresolved =&gt; <span class="string">"UNRESOLVED"</span>,
+                State::Exception =&gt; <span class="string">"EXCEPTION"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOLVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Resolved),
+                <span class="string">"UNRESOLVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unresolved),
+                <span class="string">"EXCEPTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exception),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Message for requesting list of Violations
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListViolationsRequest {
+    <span class="doccomment">/// Required. Parent resource
+    /// Format
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of customers row to return. The service may
+    /// return fewer than this value. If unspecified, at most 10 customers will be
+    /// returned.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A page token, received from a previous `ListViolations` call.
+    /// Provide this to retrieve the subsequent page.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Filtering results
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Hint for how to order the results
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>order_by: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Specifies the interval for retrieving violations.
+    /// if unspecified, all violations will be returned.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>interval: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Interval&gt;,
+}
+<span class="doccomment">/// Response message for list customer violation requests
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListViolationsResponse {
+    <span class="doccomment">/// List of violation
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>violations: ::prost::alloc::vec::Vec&lt;Violation&gt;,
+    <span class="doccomment">/// A token that can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Workloads that could not be reached due to permission errors or any other
+    /// error. Ref: &lt;https://google.aip.dev/217&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>unreachable: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Message for getting a Violation
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetViolationRequest {
+    <span class="doccomment">/// Required. Format:
+    /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}/violations/{violation}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>cloud_controls_partner_monitoring_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Service describing handlers for resources
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>CloudControlsPartnerMonitoringClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; CloudControlsPartnerMonitoringClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; CloudControlsPartnerMonitoringClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            CloudControlsPartnerMonitoringClient::new(
+                InterceptedService::new(inner, interceptor),
+            )
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Lists Violations for a workload
+        /// Callers may also choose to read across multiple Customers or for a single
+        /// customer as per
+        /// [AIP-159](https://google.aip.dev/159) by using '-' (the hyphen or dash
+        /// character) as a wildcard character instead of {customer} &amp; {workload}.
+        /// Format:
+        /// `organizations/{organization}/locations/{location}/customers/{customer}/workloads/{workload}`
+        </span><span class="kw">pub async fn </span>list_violations(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListViolationsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListViolationsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring/ListViolations"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring"</span>,
+                        <span class="string">"ListViolations"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Gets details of a single Violation.
+        </span><span class="kw">pub async fn </span>get_violation(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetViolationRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::Violation&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring/GetViolation"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.cloudcontrolspartner.v1.CloudControlsPartnerMonitoring"</span>,
+                        <span class="string">"GetViolation"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

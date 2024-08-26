@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/actions/sdk/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/actions/sdk/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2574,133 +2574,7 @@
 )]
 </span><span class="kw">pub mod </span>interactionmodel;
 <span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DataFiles {
-    <span class="doccomment">/// Multiple data files.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>data_files: ::prost::alloc::vec::Vec&lt;DataFile&gt;,
-}
-<span class="doccomment">/// Represents a single file which contains unstructured data. Examples include
-/// image files, audio files, and cloud function source code.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DataFile {
-    <span class="doccomment">/// Relative path of the data file from the project root in the SDK file
-    /// structure.
-    /// Allowed file paths:
-    ///      - Images: `resources/images/{multiple
-    ///      directories}?/{ImageName}.{extension}`
-    ///      - Audio: `resources/audio/{multiple
-    ///      directories}?/{AudioFileName}.{extension}`
-    ///      - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
-    /// Allowed extensions:
-    ///      - Images: `png`, `jpg`, `jpeg`
-    ///      - Audio: `mp3`, `mpeg`
-    ///      - Inline Cloud Functions: `zip`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The content type of this asset. Example: `text/html`. The content
-    /// type must comply with the specification
-    /// (&lt;http://www.w3.org/Protocols/rfc1341/4_Content-Type.html&gt;).
-    /// Cloud functions must be in zip format and the content type should
-    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
-    /// indicates that the zip is for a cloud function.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Content of the data file. Examples would be raw bytes of images, audio
-    /// files, or cloud function zip format.
-    /// There is 10 MB strict limit on the payload size.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>payload: ::prost::bytes::Bytes,
-}
-<span class="doccomment">/// Contains a set of requirements that the client surface must support to invoke
-/// Actions in your project.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SurfaceRequirements {
-    <span class="doccomment">/// The minimum set of capabilities needed to invoke the Actions in your
-    /// project. If the surface is missing any of these, the Action will not be
-    /// triggered.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>minimum_requirements: ::prost::alloc::vec::Vec&lt;CapabilityRequirement&gt;,
-}
-<span class="doccomment">/// Represents a requirement about the availability of a given capability.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CapabilityRequirement {
-    <span class="doccomment">/// The type of capability.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"capability_requirement::SurfaceCapability"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>capability: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `CapabilityRequirement`.
-</span><span class="kw">pub mod </span>capability_requirement {
-    <span class="doccomment">/// Possible set of surface capabilities.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SurfaceCapability {
-        <span class="doccomment">/// Unknown / Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Surface supports audio output.
-        </span>AudioOutput = <span class="number">1</span>,
-        <span class="doccomment">/// Surface supports screen/visual output.
-        </span>ScreenOutput = <span class="number">2</span>,
-        <span class="doccomment">/// Surface supports media response audio.
-        </span>MediaResponseAudio = <span class="number">3</span>,
-        <span class="doccomment">/// Surface supports web browsers.
-        </span>WebBrowser = <span class="number">4</span>,
-        <span class="doccomment">/// Surface supports account linking.
-        </span>AccountLinking = <span class="number">7</span>,
-        <span class="doccomment">/// Surface supports Interactive Canvas.
-        </span>InteractiveCanvas = <span class="number">8</span>,
-        <span class="doccomment">/// Surface supports home storage.
-        </span>HomeStorage = <span class="number">9</span>,
-    }
-    <span class="kw">impl </span>SurfaceCapability {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SurfaceCapability::Unspecified =&gt; <span class="string">"SURFACE_CAPABILITY_UNSPECIFIED"</span>,
-                SurfaceCapability::AudioOutput =&gt; <span class="string">"AUDIO_OUTPUT"</span>,
-                SurfaceCapability::ScreenOutput =&gt; <span class="string">"SCREEN_OUTPUT"</span>,
-                SurfaceCapability::MediaResponseAudio =&gt; <span class="string">"MEDIA_RESPONSE_AUDIO"</span>,
-                SurfaceCapability::WebBrowser =&gt; <span class="string">"WEB_BROWSER"</span>,
-                SurfaceCapability::AccountLinking =&gt; <span class="string">"ACCOUNT_LINKING"</span>,
-                SurfaceCapability::InteractiveCanvas =&gt; <span class="string">"INTERACTIVE_CANVAS"</span>,
-                SurfaceCapability::HomeStorage =&gt; <span class="string">"HOME_STORAGE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SURFACE_CAPABILITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"AUDIO_OUTPUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AudioOutput),
-                <span class="string">"SCREEN_OUTPUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScreenOutput),
-                <span class="string">"MEDIA_RESPONSE_AUDIO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MediaResponseAudio),
-                <span class="string">"WEB_BROWSER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::WebBrowser),
-                <span class="string">"ACCOUNT_LINKING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccountLinking),
-                <span class="string">"INTERACTIVE_CANVAS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InteractiveCanvas),
-                <span class="string">"HOME_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HomeStorage),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// AccountLinking allows Google to guide the user to sign-in to the App's web
+</span><span class="doccomment">/// AccountLinking allows Google to guide the user to sign-in to the App's web
 /// services.
 ///
 /// For Google Sign In and OAuth + Google Sign In linking types, Google generates
@@ -3036,6 +2910,91 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
     </span><span class="kw">pub </span>theme_customization: ::core::option::Option&lt;ThemeCustomization&gt;,
 }
+<span class="doccomment">/// Contains a set of requirements that the client surface must support to invoke
+/// Actions in your project.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SurfaceRequirements {
+    <span class="doccomment">/// The minimum set of capabilities needed to invoke the Actions in your
+    /// project. If the surface is missing any of these, the Action will not be
+    /// triggered.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>minimum_requirements: ::prost::alloc::vec::Vec&lt;CapabilityRequirement&gt;,
+}
+<span class="doccomment">/// Represents a requirement about the availability of a given capability.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CapabilityRequirement {
+    <span class="doccomment">/// The type of capability.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"capability_requirement::SurfaceCapability"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>capability: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `CapabilityRequirement`.
+</span><span class="kw">pub mod </span>capability_requirement {
+    <span class="doccomment">/// Possible set of surface capabilities.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SurfaceCapability {
+        <span class="doccomment">/// Unknown / Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Surface supports audio output.
+        </span>AudioOutput = <span class="number">1</span>,
+        <span class="doccomment">/// Surface supports screen/visual output.
+        </span>ScreenOutput = <span class="number">2</span>,
+        <span class="doccomment">/// Surface supports media response audio.
+        </span>MediaResponseAudio = <span class="number">3</span>,
+        <span class="doccomment">/// Surface supports web browsers.
+        </span>WebBrowser = <span class="number">4</span>,
+        <span class="doccomment">/// Surface supports account linking.
+        </span>AccountLinking = <span class="number">7</span>,
+        <span class="doccomment">/// Surface supports Interactive Canvas.
+        </span>InteractiveCanvas = <span class="number">8</span>,
+        <span class="doccomment">/// Surface supports home storage.
+        </span>HomeStorage = <span class="number">9</span>,
+    }
+    <span class="kw">impl </span>SurfaceCapability {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SurfaceCapability::Unspecified =&gt; <span class="string">"SURFACE_CAPABILITY_UNSPECIFIED"</span>,
+                SurfaceCapability::AudioOutput =&gt; <span class="string">"AUDIO_OUTPUT"</span>,
+                SurfaceCapability::ScreenOutput =&gt; <span class="string">"SCREEN_OUTPUT"</span>,
+                SurfaceCapability::MediaResponseAudio =&gt; <span class="string">"MEDIA_RESPONSE_AUDIO"</span>,
+                SurfaceCapability::WebBrowser =&gt; <span class="string">"WEB_BROWSER"</span>,
+                SurfaceCapability::AccountLinking =&gt; <span class="string">"ACCOUNT_LINKING"</span>,
+                SurfaceCapability::InteractiveCanvas =&gt; <span class="string">"INTERACTIVE_CANVAS"</span>,
+                SurfaceCapability::HomeStorage =&gt; <span class="string">"HOME_STORAGE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SURFACE_CAPABILITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"AUDIO_OUTPUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AudioOutput),
+                <span class="string">"SCREEN_OUTPUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ScreenOutput),
+                <span class="string">"MEDIA_RESPONSE_AUDIO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MediaResponseAudio),
+                <span class="string">"WEB_BROWSER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::WebBrowser),
+                <span class="string">"ACCOUNT_LINKING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccountLinking),
+                <span class="string">"INTERACTIVE_CANVAS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InteractiveCanvas),
+                <span class="string">"HOME_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HomeStorage),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// Represents settings of an Actions project that are not locale specific.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3250,6 +3209,39 @@
         }
     }
 }
+<span class="doccomment">/// Wrapper for repeated validation result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValidationResults {
+    <span class="doccomment">/// Multiple validation results.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;ValidationResult&gt;,
+}
+<span class="doccomment">/// Represents a validation result associated with the app content.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValidationResult {
+    <span class="doccomment">/// Holds the validation message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>validation_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Context to identify the resource the validation message relates to.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>validation_context: ::core::option::Option&lt;validation_result::ValidationContext&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ValidationResult`.
+</span><span class="kw">pub mod </span>validation_result {
+    <span class="doccomment">/// Context to identify the resource the validation message relates to.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ValidationContext {
+        <span class="doccomment">/// Language code of the lozalized resource.
+        /// Empty if the error is for non-localized resource.
+        /// See the list of supported languages in
+        /// &lt;https://developers.google.com/assistant/console/languages-locales&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    }
+}
 <span class="doccomment">/// Information about the encrypted OAuth client secret used in account linking
 /// flows (for AUTH_CODE grant type).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3318,11 +3310,11 @@
     </span><span class="kw">pub mod </span>engagement {
         <span class="doccomment">/// Defines push notification settings that this engagement supports.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>PushNotification {}
         <span class="doccomment">/// Defines daily update settings that this engagement supports.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>DailyUpdate {}
         <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
         /// corresponding settings. Action links are used to deep link a user into a
@@ -3347,7 +3339,7 @@
         }
         <span class="doccomment">/// Recurring update settings that this engagement supports.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>RecurringUpdate {
             <span class="doccomment">/// Daily update settings that this engagement supports.
             </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
@@ -3546,113 +3538,71 @@
         </span>ResourceBundle(::prost_types::Struct),
     }
 }
-<span class="doccomment">/// Definition of version resource.
+<span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Version {
-    <span class="doccomment">/// The unique identifier of the version in the following format.
-    /// `projects/{project}/versions/{version}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The current state of the version.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>version_state: ::core::option::Option&lt;version::VersionState&gt;,
-    <span class="doccomment">/// Email of the user who created this version.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>creator: ::prost::alloc::string::String,
-    <span class="doccomment">/// Timestamp of the last change to this version.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+</span><span class="kw">pub struct </span>DataFiles {
+    <span class="doccomment">/// Multiple data files.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>data_files: ::prost::alloc::vec::Vec&lt;DataFile&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `Version`.
-</span><span class="kw">pub mod </span>version {
-    <span class="doccomment">/// Represents the current state of the version.
+<span class="doccomment">/// Represents a single file which contains unstructured data. Examples include
+/// image files, audio files, and cloud function source code.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DataFile {
+    <span class="doccomment">/// Relative path of the data file from the project root in the SDK file
+    /// structure.
+    /// Allowed file paths:
+    ///      - Images: `resources/images/{multiple
+    ///      directories}?/{ImageName}.{extension}`
+    ///      - Audio: `resources/audio/{multiple
+    ///      directories}?/{AudioFileName}.{extension}`
+    ///      - Inline Cloud Function Code: `webhooks/{WebhookName}.zip`
+    /// Allowed extensions:
+    ///      - Images: `png`, `jpg`, `jpeg`
+    ///      - Audio: `mp3`, `mpeg`
+    ///      - Inline Cloud Functions: `zip`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The content type of this asset. Example: `text/html`. The content
+    /// type must comply with the specification
+    /// (&lt;http://www.w3.org/Protocols/rfc1341/4_Content-Type.html&gt;).
+    /// Cloud functions must be in zip format and the content type should
+    /// be `application/zip;zip_type=cloud_function`. The zip_type parameter
+    /// indicates that the zip is for a cloud function.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Content of the data file. Examples would be raw bytes of images, audio
+    /// files, or cloud function zip format.
+    /// There is 10 MB strict limit on the payload size.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>payload: ::prost::bytes::Bytes,
+}
+<span class="doccomment">/// Wrapper for a list of files.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Files {
+    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
+    /// data files.
+    </span><span class="attr">#[prost(oneof = <span class="string">"files::FileType"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>file_type: ::core::option::Option&lt;files::FileType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Files`.
+</span><span class="kw">pub mod </span>files {
+    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
+    /// data files.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>VersionState {
-        <span class="doccomment">/// The current state of the version.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"version_state::State"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>state: i32,
-        <span class="doccomment">/// User-friendly message for the current state of the version.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Nested message and enum types in `VersionState`.
-    </span><span class="kw">pub mod </span>version_state {
-        <span class="doccomment">/// Enum indicating the states that a Version can take. This enum is not yet
-        /// frozen and values maybe added later.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>State {
-            <span class="doccomment">/// Default value of State.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The version creation is in progress.
-            </span>CreationInProgress = <span class="number">1</span>,
-            <span class="doccomment">/// The version creation failed.
-            </span>CreationFailed = <span class="number">2</span>,
-            <span class="doccomment">/// The version has been successfully created.
-            </span>Created = <span class="number">3</span>,
-            <span class="doccomment">/// The version is under policy review (aka Approval).
-            </span>ReviewInProgress = <span class="number">4</span>,
-            <span class="doccomment">/// The version has been approved for policy review and can be deployed.
-            </span>Approved = <span class="number">5</span>,
-            <span class="doccomment">/// The version has been conditionally approved but is pending final
-            /// review. It may be rolled back if final review is denied.
-            </span>ConditionallyApproved = <span class="number">6</span>,
-            <span class="doccomment">/// The version has been denied for policy review.
-            </span>Denied = <span class="number">7</span>,
-            <span class="doccomment">/// The version is taken down as entire agent and all versions are taken
-            /// down.
-            </span>UnderTakedown = <span class="number">8</span>,
-            <span class="doccomment">/// The version has been deleted.
-            </span>Deleted = <span class="number">9</span>,
-        }
-        <span class="kw">impl </span>State {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                    State::CreationInProgress =&gt; <span class="string">"CREATION_IN_PROGRESS"</span>,
-                    State::CreationFailed =&gt; <span class="string">"CREATION_FAILED"</span>,
-                    State::Created =&gt; <span class="string">"CREATED"</span>,
-                    State::ReviewInProgress =&gt; <span class="string">"REVIEW_IN_PROGRESS"</span>,
-                    State::Approved =&gt; <span class="string">"APPROVED"</span>,
-                    State::ConditionallyApproved =&gt; <span class="string">"CONDITIONALLY_APPROVED"</span>,
-                    State::Denied =&gt; <span class="string">"DENIED"</span>,
-                    State::UnderTakedown =&gt; <span class="string">"UNDER_TAKEDOWN"</span>,
-                    State::Deleted =&gt; <span class="string">"DELETED"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"CREATION_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationInProgress),
-                    <span class="string">"CREATION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationFailed),
-                    <span class="string">"CREATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Created),
-                    <span class="string">"REVIEW_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReviewInProgress),
-                    <span class="string">"APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Approved),
-                    <span class="string">"CONDITIONALLY_APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConditionallyApproved),
-                    <span class="string">"DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Denied),
-                    <span class="string">"UNDER_TAKEDOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnderTakedown),
-                    <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>FileType {
+        <span class="doccomment">/// List of config files. This includes manifest, settings, interaction model
+        /// resource bundles and more.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>ConfigFiles(<span class="kw">super</span>::ConfigFiles),
+        <span class="doccomment">/// List of data files. This includes image, audio file, cloud function
+        /// source code.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>DataFiles(<span class="kw">super</span>::DataFiles),
     }
 }
 <span class="doccomment">/// Contains information about execution event which happened during processing
@@ -3900,21 +3850,21 @@
 <span class="doccomment">/// Event which happens after webhook validation was finished for slot(s):
 /// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SlotValidated {}
 <span class="doccomment">/// Event which happens when form is fully filled:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FormFilled {}
 <span class="doccomment">/// Event which happens when system needs user input:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#input&gt;
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WaitingForUserInput {}
 <span class="doccomment">/// Event which informs that conversation with agent was ended.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>EndConversation {}
 <span class="doccomment">/// Request for playing a round of the conversation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4186,7 +4136,7 @@
 }
 <span class="doccomment">/// Request for setting Web &amp; App Activity preferences.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SetWebAndAppActivityControlRequest {
     <span class="doccomment">/// Whether the setting should be set to an enabled or disabled state.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -4369,32 +4319,6 @@
         </span>}
     }
 }
-<span class="doccomment">/// Wrapper for a list of files.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Files {
-    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
-    /// data files.
-    </span><span class="attr">#[prost(oneof = <span class="string">"files::FileType"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>file_type: ::core::option::Option&lt;files::FileType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Files`.
-</span><span class="kw">pub mod </span>files {
-    <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
-    /// data files.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>FileType {
-        <span class="doccomment">/// List of config files. This includes manifest, settings, interaction model
-        /// resource bundles and more.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>ConfigFiles(<span class="kw">super</span>::ConfigFiles),
-        <span class="doccomment">/// List of data files. This includes image, audio file, cloud function
-        /// source code.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>DataFiles(<span class="kw">super</span>::DataFiles),
-    }
-}
 <span class="doccomment">/// Definition of release channel resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4412,37 +4336,113 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>pending_version: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Wrapper for repeated validation result.
+<span class="doccomment">/// Definition of version resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValidationResults {
-    <span class="doccomment">/// Multiple validation results.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;ValidationResult&gt;,
-}
-<span class="doccomment">/// Represents a validation result associated with the app content.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValidationResult {
-    <span class="doccomment">/// Holds the validation message.
+</span><span class="kw">pub struct </span>Version {
+    <span class="doccomment">/// The unique identifier of the version in the following format.
+    /// `projects/{project}/versions/{version}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>validation_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Context to identify the resource the validation message relates to.
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The current state of the version.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>validation_context: ::core::option::Option&lt;validation_result::ValidationContext&gt;,
+    </span><span class="kw">pub </span>version_state: ::core::option::Option&lt;version::VersionState&gt;,
+    <span class="doccomment">/// Email of the user who created this version.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>creator: ::prost::alloc::string::String,
+    <span class="doccomment">/// Timestamp of the last change to this version.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `ValidationResult`.
-</span><span class="kw">pub mod </span>validation_result {
-    <span class="doccomment">/// Context to identify the resource the validation message relates to.
+<span class="doccomment">/// Nested message and enum types in `Version`.
+</span><span class="kw">pub mod </span>version {
+    <span class="doccomment">/// Represents the current state of the version.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ValidationContext {
-        <span class="doccomment">/// Language code of the lozalized resource.
-        /// Empty if the error is for non-localized resource.
-        /// See the list of supported languages in
-        /// &lt;https://developers.google.com/assistant/console/languages-locales&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    </span><span class="kw">pub struct </span>VersionState {
+        <span class="doccomment">/// The current state of the version.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"version_state::State"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>state: i32,
+        <span class="doccomment">/// User-friendly message for the current state of the version.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Nested message and enum types in `VersionState`.
+    </span><span class="kw">pub mod </span>version_state {
+        <span class="doccomment">/// Enum indicating the states that a Version can take. This enum is not yet
+        /// frozen and values maybe added later.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>State {
+            <span class="doccomment">/// Default value of State.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The version creation is in progress.
+            </span>CreationInProgress = <span class="number">1</span>,
+            <span class="doccomment">/// The version creation failed.
+            </span>CreationFailed = <span class="number">2</span>,
+            <span class="doccomment">/// The version has been successfully created.
+            </span>Created = <span class="number">3</span>,
+            <span class="doccomment">/// The version is under policy review (aka Approval).
+            </span>ReviewInProgress = <span class="number">4</span>,
+            <span class="doccomment">/// The version has been approved for policy review and can be deployed.
+            </span>Approved = <span class="number">5</span>,
+            <span class="doccomment">/// The version has been conditionally approved but is pending final
+            /// review. It may be rolled back if final review is denied.
+            </span>ConditionallyApproved = <span class="number">6</span>,
+            <span class="doccomment">/// The version has been denied for policy review.
+            </span>Denied = <span class="number">7</span>,
+            <span class="doccomment">/// The version is taken down as entire agent and all versions are taken
+            /// down.
+            </span>UnderTakedown = <span class="number">8</span>,
+            <span class="doccomment">/// The version has been deleted.
+            </span>Deleted = <span class="number">9</span>,
+        }
+        <span class="kw">impl </span>State {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                    State::CreationInProgress =&gt; <span class="string">"CREATION_IN_PROGRESS"</span>,
+                    State::CreationFailed =&gt; <span class="string">"CREATION_FAILED"</span>,
+                    State::Created =&gt; <span class="string">"CREATED"</span>,
+                    State::ReviewInProgress =&gt; <span class="string">"REVIEW_IN_PROGRESS"</span>,
+                    State::Approved =&gt; <span class="string">"APPROVED"</span>,
+                    State::ConditionallyApproved =&gt; <span class="string">"CONDITIONALLY_APPROVED"</span>,
+                    State::Denied =&gt; <span class="string">"DENIED"</span>,
+                    State::UnderTakedown =&gt; <span class="string">"UNDER_TAKEDOWN"</span>,
+                    State::Deleted =&gt; <span class="string">"DELETED"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"CREATION_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationInProgress),
+                    <span class="string">"CREATION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CreationFailed),
+                    <span class="string">"CREATED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Created),
+                    <span class="string">"REVIEW_IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ReviewInProgress),
+                    <span class="string">"APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Approved),
+                    <span class="string">"CONDITIONALLY_APPROVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConditionallyApproved),
+                    <span class="string">"DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Denied),
+                    <span class="string">"UNDER_TAKEDOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnderTakedown),
+                    <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
     }
 }
 <span class="doccomment">/// Streaming RPC request for WriteDraft.
@@ -4496,7 +4496,7 @@
 </span><span class="kw">pub mod </span>write_preview_request {
     <span class="doccomment">/// Indicates the preview content will be coming from the Draft.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ContentFromDraft {}
     <span class="doccomment">/// Indicates the preview content will be coming from an exiting version.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4509,7 +4509,7 @@
     }
     <span class="doccomment">/// Settings for updating the preview.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>PreviewSettings {
         <span class="doccomment">/// Indicates whether or not to run certain operations, such as transactions,
         /// in sandbox mode. By default, preview requests run these operations in

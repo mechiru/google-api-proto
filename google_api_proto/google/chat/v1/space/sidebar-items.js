@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SpaceThreadingState","SpaceType","Type"],"struct":["SpaceDetails"]};
+window.SIDEBAR_ITEMS = {"enum":["SpaceThreadingState","SpaceType","Type"],"mod":["access_settings"],"struct":["AccessSettings","SpaceDetails"]};

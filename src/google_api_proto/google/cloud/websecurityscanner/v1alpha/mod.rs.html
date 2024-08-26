@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/websecurityscanner/v1alpha/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/websecurityscanner/v1alpha/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1311,7 +1311,149 @@
 <a href="#1311" id="1311">1311</a>
 <a href="#1312" id="1312">1312</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Information reported for an outdated library.
+</span><span class="doccomment">/// A ScanRun is a output-only resource representing an actual run of the scan.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanRun {
+    <span class="doccomment">/// The resource name of the ScanRun. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.
+    /// The ScanRun IDs are generated by the system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The execution state of the ScanRun.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>execution_state: i32,
+    <span class="doccomment">/// The result state of the ScanRun. This field is only available after the
+    /// execution state reaches "FINISHED".
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>result_state: i32,
+    <span class="doccomment">/// The time at which the ScanRun started.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The time at which the ScanRun reached termination state - that the ScanRun
+    /// is either finished or stopped by user.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The number of URLs crawled during this ScanRun. If the scan is in progress,
+    /// the value represents the number of URLs crawled up to now.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>urls_crawled_count: i64,
+    <span class="doccomment">/// The number of URLs tested during this ScanRun. If the scan is in progress,
+    /// the value represents the number of URLs tested up to now. The number of
+    /// URLs tested is usually larger than the number URLS crawled because
+    /// typically a crawled URL is tested with multiple test payloads.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>urls_tested_count: i64,
+    <span class="doccomment">/// Whether the scan run has found any vulnerabilities.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>has_vulnerabilities: bool,
+    <span class="doccomment">/// The percentage of total completion ranging from 0 to 100.
+    /// If the scan is in queue, the value is 0.
+    /// If the scan is running, the value ranges from 0 to 100.
+    /// If the scan is finished, the value is 100.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>progress_percent: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanRun`.
+</span><span class="kw">pub mod </span>scan_run {
+    <span class="doccomment">/// Types of ScanRun execution state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ExecutionState {
+        <span class="doccomment">/// Represents an invalid state caused by internal server error. This value
+        /// should never be returned.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The scan is waiting in the queue.
+        </span>Queued = <span class="number">1</span>,
+        <span class="doccomment">/// The scan is in progress.
+        </span>Scanning = <span class="number">2</span>,
+        <span class="doccomment">/// The scan is either finished or stopped by user.
+        </span>Finished = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ExecutionState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ExecutionState::Unspecified =&gt; <span class="string">"EXECUTION_STATE_UNSPECIFIED"</span>,
+                ExecutionState::Queued =&gt; <span class="string">"QUEUED"</span>,
+                ExecutionState::Scanning =&gt; <span class="string">"SCANNING"</span>,
+                ExecutionState::Finished =&gt; <span class="string">"FINISHED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EXECUTION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"QUEUED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Queued),
+                <span class="string">"SCANNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Scanning),
+                <span class="string">"FINISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finished),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Types of ScanRun result state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ResultState {
+        <span class="doccomment">/// Default value. This value is returned when the ScanRun is not yet
+        /// finished.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The scan finished without errors.
+        </span>Success = <span class="number">1</span>,
+        <span class="doccomment">/// The scan finished with errors.
+        </span>Error = <span class="number">2</span>,
+        <span class="doccomment">/// The scan was terminated by user.
+        </span>Killed = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>ResultState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ResultState::Unspecified =&gt; <span class="string">"RESULT_STATE_UNSPECIFIED"</span>,
+                ResultState::Success =&gt; <span class="string">"SUCCESS"</span>,
+                ResultState::Error =&gt; <span class="string">"ERROR"</span>,
+                ResultState::Killed =&gt; <span class="string">"KILLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"RESULT_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SUCCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Success),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"KILLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Killed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information reported for an outdated library.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OutdatedLibrary {
@@ -1380,6 +1522,209 @@
     <span class="doccomment">/// An error message generated by a javascript breakage.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A ScanConfig resource contains the configurations to launch a scan.
+/// next id: 12
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanConfig {
+    <span class="doccomment">/// The resource name of the ScanConfig. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are
+    /// generated by the system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The user provided display name of the ScanConfig.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum QPS during scanning. A valid value ranges from 5 to 20
+    /// inclusively. If the field is unspecified or its value is set 0, server will
+    /// default to 15. Other values outside of \[5, 20\] range will be rejected with
+    /// INVALID_ARGUMENT error.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_qps: i32,
+    <span class="doccomment">/// Required. The starting URLs from which the scanner finds site pages.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>starting_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The authentication configuration. If specified, service will use the
+    /// authentication configuration during scanning.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;scan_config::Authentication&gt;,
+    <span class="doccomment">/// The user agent used during scanning.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::UserAgent"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>user_agent: i32,
+    <span class="doccomment">/// The blacklist URL patterns as described in
+    /// &lt;https://cloud.google.com/security-scanner/docs/excluded-urls&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>blacklist_patterns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The schedule of the ScanConfig.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>schedule: ::core::option::Option&lt;scan_config::Schedule&gt;,
+    <span class="doccomment">/// Set of Cloud Platforms targeted by the scan. If empty, APP_ENGINE will be
+    /// used as a default.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::TargetPlatform"</span>, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>target_platforms: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// Latest ScanRun if available.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>latest_run: ::core::option::Option&lt;ScanRun&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanConfig`.
+</span><span class="kw">pub mod </span>scan_config {
+    <span class="doccomment">/// Scan authentication configuration.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Authentication {
+        <span class="doccomment">/// Required.
+        /// Authentication configuration
+        </span><span class="attr">#[prost(oneof = <span class="string">"authentication::Authentication"</span>, tags = <span class="string">"1, 2"</span>)]
+        </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;authentication::Authentication&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Authentication`.
+    </span><span class="kw">pub mod </span>authentication {
+        <span class="doccomment">/// Describes authentication configuration that uses a Google account.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>GoogleAccount {
+            <span class="doccomment">/// Required. The user name of the Google account.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. Input only. The password of the Google account. The credential is stored encrypted
+            /// and not returned in any response nor included in audit logs.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Describes authentication configuration that uses a custom account.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>CustomAccount {
+            <span class="doccomment">/// Required. The user name of the custom account.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. Input only. The password of the custom account. The credential is stored encrypted
+            /// and not returned in any response nor included in audit logs.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. The login form URL of the website.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>login_url: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Required.
+        /// Authentication configuration
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Authentication {
+            <span class="doccomment">/// Authentication using a Google account.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+            </span>GoogleAccount(GoogleAccount),
+            <span class="doccomment">/// Authentication using a custom account.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+            </span>CustomAccount(CustomAccount),
+        }
+    }
+    <span class="doccomment">/// Scan schedule configuration.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Schedule {
+        <span class="doccomment">/// A timestamp indicates when the next run will be scheduled. The value is
+        /// refreshed by the server after each run. If unspecified, it will default
+        /// to current server time, which means the scan will be scheduled to start
+        /// immediately.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// Required. The duration of time between executions in days.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>interval_duration_days: i32,
+    }
+    <span class="doccomment">/// Type of user agents used for scanning.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>UserAgent {
+        <span class="doccomment">/// The user agent is unknown. Service will default to CHROME_LINUX.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Chrome on Linux. This is the service default if unspecified.
+        </span>ChromeLinux = <span class="number">1</span>,
+        <span class="doccomment">/// Chrome on Android.
+        </span>ChromeAndroid = <span class="number">2</span>,
+        <span class="doccomment">/// Safari on IPhone.
+        </span>SafariIphone = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>UserAgent {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                UserAgent::Unspecified =&gt; <span class="string">"USER_AGENT_UNSPECIFIED"</span>,
+                UserAgent::ChromeLinux =&gt; <span class="string">"CHROME_LINUX"</span>,
+                UserAgent::ChromeAndroid =&gt; <span class="string">"CHROME_ANDROID"</span>,
+                UserAgent::SafariIphone =&gt; <span class="string">"SAFARI_IPHONE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"USER_AGENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CHROME_LINUX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeLinux),
+                <span class="string">"CHROME_ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeAndroid),
+                <span class="string">"SAFARI_IPHONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SafariIphone),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Cloud platforms supported by Cloud Web Security Scanner.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>TargetPlatform {
+        <span class="doccomment">/// The target platform is unknown. Requests with this enum value will be
+        /// rejected with INVALID_ARGUMENT error.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Google App Engine service.
+        </span>AppEngine = <span class="number">1</span>,
+        <span class="doccomment">/// Google Compute Engine service.
+        </span>Compute = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>TargetPlatform {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                TargetPlatform::Unspecified =&gt; <span class="string">"TARGET_PLATFORM_UNSPECIFIED"</span>,
+                TargetPlatform::AppEngine =&gt; <span class="string">"APP_ENGINE"</span>,
+                TargetPlatform::Compute =&gt; <span class="string">"COMPUTE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TARGET_PLATFORM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"APP_ENGINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppEngine),
+                <span class="string">"COMPUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Compute),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
 }
 <span class="doccomment">/// A Finding resource represents a vulnerability instance identified during a
 /// ScanRun.
@@ -1555,6 +1900,18 @@
         }
     }
 }
+<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FindingTypeStats {
+    <span class="doccomment">/// The finding type associated with the stats.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"finding::FindingType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>finding_type: i32,
+    <span class="doccomment">/// The count of findings belonging to this finding type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>finding_count: i32,
+}
 <span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
 /// Security Scanner Service crawls the web applications, following all links
 /// within the scope of sites, to find the URLs to test against.
@@ -1571,363 +1928,6 @@
     <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FindingTypeStats {
-    <span class="doccomment">/// The finding type associated with the stats.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"finding::FindingType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>finding_type: i32,
-    <span class="doccomment">/// The count of findings belonging to this finding type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>finding_count: i32,
-}
-<span class="doccomment">/// A ScanRun is a output-only resource representing an actual run of the scan.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanRun {
-    <span class="doccomment">/// The resource name of the ScanRun. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanRuns/{scanRunId}'.
-    /// The ScanRun IDs are generated by the system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The execution state of the ScanRun.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>execution_state: i32,
-    <span class="doccomment">/// The result state of the ScanRun. This field is only available after the
-    /// execution state reaches "FINISHED".
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>result_state: i32,
-    <span class="doccomment">/// The time at which the ScanRun started.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The time at which the ScanRun reached termination state - that the ScanRun
-    /// is either finished or stopped by user.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The number of URLs crawled during this ScanRun. If the scan is in progress,
-    /// the value represents the number of URLs crawled up to now.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>urls_crawled_count: i64,
-    <span class="doccomment">/// The number of URLs tested during this ScanRun. If the scan is in progress,
-    /// the value represents the number of URLs tested up to now. The number of
-    /// URLs tested is usually larger than the number URLS crawled because
-    /// typically a crawled URL is tested with multiple test payloads.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>urls_tested_count: i64,
-    <span class="doccomment">/// Whether the scan run has found any vulnerabilities.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>has_vulnerabilities: bool,
-    <span class="doccomment">/// The percentage of total completion ranging from 0 to 100.
-    /// If the scan is in queue, the value is 0.
-    /// If the scan is running, the value ranges from 0 to 100.
-    /// If the scan is finished, the value is 100.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>progress_percent: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanRun`.
-</span><span class="kw">pub mod </span>scan_run {
-    <span class="doccomment">/// Types of ScanRun execution state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ExecutionState {
-        <span class="doccomment">/// Represents an invalid state caused by internal server error. This value
-        /// should never be returned.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The scan is waiting in the queue.
-        </span>Queued = <span class="number">1</span>,
-        <span class="doccomment">/// The scan is in progress.
-        </span>Scanning = <span class="number">2</span>,
-        <span class="doccomment">/// The scan is either finished or stopped by user.
-        </span>Finished = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ExecutionState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ExecutionState::Unspecified =&gt; <span class="string">"EXECUTION_STATE_UNSPECIFIED"</span>,
-                ExecutionState::Queued =&gt; <span class="string">"QUEUED"</span>,
-                ExecutionState::Scanning =&gt; <span class="string">"SCANNING"</span>,
-                ExecutionState::Finished =&gt; <span class="string">"FINISHED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EXECUTION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"QUEUED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Queued),
-                <span class="string">"SCANNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Scanning),
-                <span class="string">"FINISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finished),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Types of ScanRun result state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ResultState {
-        <span class="doccomment">/// Default value. This value is returned when the ScanRun is not yet
-        /// finished.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The scan finished without errors.
-        </span>Success = <span class="number">1</span>,
-        <span class="doccomment">/// The scan finished with errors.
-        </span>Error = <span class="number">2</span>,
-        <span class="doccomment">/// The scan was terminated by user.
-        </span>Killed = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>ResultState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ResultState::Unspecified =&gt; <span class="string">"RESULT_STATE_UNSPECIFIED"</span>,
-                ResultState::Success =&gt; <span class="string">"SUCCESS"</span>,
-                ResultState::Error =&gt; <span class="string">"ERROR"</span>,
-                ResultState::Killed =&gt; <span class="string">"KILLED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"RESULT_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SUCCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Success),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="string">"KILLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Killed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A ScanConfig resource contains the configurations to launch a scan.
-/// next id: 12
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanConfig {
-    <span class="doccomment">/// The resource name of the ScanConfig. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are
-    /// generated by the system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The user provided display name of the ScanConfig.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum QPS during scanning. A valid value ranges from 5 to 20
-    /// inclusively. If the field is unspecified or its value is set 0, server will
-    /// default to 15. Other values outside of \[5, 20\] range will be rejected with
-    /// INVALID_ARGUMENT error.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_qps: i32,
-    <span class="doccomment">/// Required. The starting URLs from which the scanner finds site pages.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>starting_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The authentication configuration. If specified, service will use the
-    /// authentication configuration during scanning.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;scan_config::Authentication&gt;,
-    <span class="doccomment">/// The user agent used during scanning.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::UserAgent"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>user_agent: i32,
-    <span class="doccomment">/// The blacklist URL patterns as described in
-    /// &lt;https://cloud.google.com/security-scanner/docs/excluded-urls&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>blacklist_patterns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The schedule of the ScanConfig.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>schedule: ::core::option::Option&lt;scan_config::Schedule&gt;,
-    <span class="doccomment">/// Set of Cloud Platforms targeted by the scan. If empty, APP_ENGINE will be
-    /// used as a default.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::TargetPlatform"</span>, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>target_platforms: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// Latest ScanRun if available.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>latest_run: ::core::option::Option&lt;ScanRun&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanConfig`.
-</span><span class="kw">pub mod </span>scan_config {
-    <span class="doccomment">/// Scan authentication configuration.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Authentication {
-        <span class="doccomment">/// Required.
-        /// Authentication configuration
-        </span><span class="attr">#[prost(oneof = <span class="string">"authentication::Authentication"</span>, tags = <span class="string">"1, 2"</span>)]
-        </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;authentication::Authentication&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Authentication`.
-    </span><span class="kw">pub mod </span>authentication {
-        <span class="doccomment">/// Describes authentication configuration that uses a Google account.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>GoogleAccount {
-            <span class="doccomment">/// Required. The user name of the Google account.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. Input only. The password of the Google account. The credential is stored encrypted
-            /// and not returned in any response nor included in audit logs.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Describes authentication configuration that uses a custom account.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>CustomAccount {
-            <span class="doccomment">/// Required. The user name of the custom account.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. Input only. The password of the custom account. The credential is stored encrypted
-            /// and not returned in any response nor included in audit logs.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. The login form URL of the website.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>login_url: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Required.
-        /// Authentication configuration
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Authentication {
-            <span class="doccomment">/// Authentication using a Google account.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-            </span>GoogleAccount(GoogleAccount),
-            <span class="doccomment">/// Authentication using a custom account.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-            </span>CustomAccount(CustomAccount),
-        }
-    }
-    <span class="doccomment">/// Scan schedule configuration.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Schedule {
-        <span class="doccomment">/// A timestamp indicates when the next run will be scheduled. The value is
-        /// refreshed by the server after each run. If unspecified, it will default
-        /// to current server time, which means the scan will be scheduled to start
-        /// immediately.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// Required. The duration of time between executions in days.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>interval_duration_days: i32,
-    }
-    <span class="doccomment">/// Type of user agents used for scanning.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>UserAgent {
-        <span class="doccomment">/// The user agent is unknown. Service will default to CHROME_LINUX.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Chrome on Linux. This is the service default if unspecified.
-        </span>ChromeLinux = <span class="number">1</span>,
-        <span class="doccomment">/// Chrome on Android.
-        </span>ChromeAndroid = <span class="number">2</span>,
-        <span class="doccomment">/// Safari on IPhone.
-        </span>SafariIphone = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>UserAgent {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                UserAgent::Unspecified =&gt; <span class="string">"USER_AGENT_UNSPECIFIED"</span>,
-                UserAgent::ChromeLinux =&gt; <span class="string">"CHROME_LINUX"</span>,
-                UserAgent::ChromeAndroid =&gt; <span class="string">"CHROME_ANDROID"</span>,
-                UserAgent::SafariIphone =&gt; <span class="string">"SAFARI_IPHONE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"USER_AGENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CHROME_LINUX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeLinux),
-                <span class="string">"CHROME_ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeAndroid),
-                <span class="string">"SAFARI_IPHONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SafariIphone),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Cloud platforms supported by Cloud Web Security Scanner.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>TargetPlatform {
-        <span class="doccomment">/// The target platform is unknown. Requests with this enum value will be
-        /// rejected with INVALID_ARGUMENT error.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Google App Engine service.
-        </span>AppEngine = <span class="number">1</span>,
-        <span class="doccomment">/// Google Compute Engine service.
-        </span>Compute = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>TargetPlatform {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                TargetPlatform::Unspecified =&gt; <span class="string">"TARGET_PLATFORM_UNSPECIFIED"</span>,
-                TargetPlatform::AppEngine =&gt; <span class="string">"APP_ENGINE"</span>,
-                TargetPlatform::Compute =&gt; <span class="string">"COMPUTE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TARGET_PLATFORM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"APP_ENGINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AppEngine),
-                <span class="string">"COMPUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Compute),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
 }
 <span class="doccomment">/// Request for the `CreateScanConfig` method.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

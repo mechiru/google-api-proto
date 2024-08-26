@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["SslMode"]};
+window.SIDEBAR_ITEMS = {"enum":["CaMode","SslMode"]};

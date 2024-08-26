@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["FindingClass","Mute","Severity","State"]};
+window.SIDEBAR_ITEMS = {"enum":["FindingClass","Mute","Severity","State"],"mod":["mute_info"],"struct":["MuteInfo"]};

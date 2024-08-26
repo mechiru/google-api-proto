@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Action","EventType"],"mod":["pub_sub_notification"],"struct":["Export","PubSubNotification"]};
+window.SIDEBAR_ITEMS = {"enum":["Action","EventType"],"mod":["pub_sub_notification","tag_resources"],"struct":["Export","PubSubNotification","TagResources"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/osconfig/v1beta/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/osconfig/v1beta/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2999,7 +2999,1022 @@
 <a href="#2999" id="2999">2999</a>
 <a href="#3000" id="3000">3000</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// An OS Config resource representing a guest configuration policy. These
+</span><span class="doccomment">/// Message encapsulating a value that can be either absolute ("fixed") or
+/// relative ("percent") to a value.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FixedOrPercent {
+    <span class="doccomment">/// Type of the value.
+    </span><span class="attr">#[prost(oneof = <span class="string">"fixed_or_percent::Mode"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>mode: ::core::option::Option&lt;fixed_or_percent::Mode&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `FixedOrPercent`.
+</span><span class="kw">pub mod </span>fixed_or_percent {
+    <span class="doccomment">/// Type of the value.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Mode {
+        <span class="doccomment">/// Specifies a fixed value.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+        </span>Fixed(i32),
+        <span class="doccomment">/// Specifies the relative value defined as a percentage, which will be
+        /// multiplied by a reference value.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span>Percent(i32),
+    }
+}
+<span class="doccomment">/// A request message to initiate patching across Compute Engine instances.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecutePatchJobRequest {
+    <span class="doccomment">/// Required. The project in which to run this patch in the form `projects/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Description of the patch job. Length of the description is limited
+    /// to 1024 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Instances to patch, either explicitly or filtered by some criteria such
+    /// as zone or labels.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>instance_filter: ::core::option::Option&lt;PatchInstanceFilter&gt;,
+    <span class="doccomment">/// Patch configuration being applied. If omitted, instances are
+    /// patched using the default configurations.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>patch_config: ::core::option::Option&lt;PatchConfig&gt;,
+    <span class="doccomment">/// Duration of the patch job. After the duration ends, the patch job
+    /// times out.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// If this patch is a dry-run only, instances are contacted but
+    /// will do nothing.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>dry_run: bool,
+    <span class="doccomment">/// Display name for this patch job. This does not have to be unique.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Rollout strategy of the patch job.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>rollout: ::core::option::Option&lt;PatchRollout&gt;,
+}
+<span class="doccomment">/// Request to get an active or completed patch job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetPatchJobRequest {
+    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to list details for all instances that are part of a patch job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPatchJobInstanceDetailsRequest {
+    <span class="doccomment">/// Required. The parent for the instances are in the form of `projects/*/patchJobs/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of instance details records to return.  Default is 100.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A pagination token returned from a previous call
+    /// that indicates where this listing should continue from.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// A filter expression that filters results listed in the response. This
+    /// field supports filtering results by instance zone, name, state, or
+    /// `failure_reason`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A response message for listing the instances details for a patch job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPatchJobInstanceDetailsResponse {
+    <span class="doccomment">/// A list of instance status.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>patch_job_instance_details: ::prost::alloc::vec::Vec&lt;PatchJobInstanceDetails&gt;,
+    <span class="doccomment">/// A pagination token that can be used to get the next page of results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Patch details for a VM instance. For more information about reviewing VM
+/// instance details, see
+/// [Listing all VM instance details for a specific patch
+/// job](&lt;https://cloud.google.com/compute/docs/os-patch-management/manage-patch-jobs#list-instance-details&gt;).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PatchJobInstanceDetails {
+    <span class="doccomment">/// The instance name in the form `projects/*/zones/*/instances/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The unique identifier for the instance. This identifier is
+    /// defined by the server.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>instance_system_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Current state of instance patch.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::PatchState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// If the patch fails, this field provides the reason.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>failure_reason: ::prost::alloc::string::String,
+    <span class="doccomment">/// The number of times the agent that the agent attempts to apply the patch.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>attempt_count: i64,
+}
+<span class="doccomment">/// A request message for listing patch jobs.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPatchJobsRequest {
+    <span class="doccomment">/// Required. In the form of `projects/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of instance status to return.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A pagination token returned from a previous call
+    /// that indicates where this listing should continue from.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by patch
+    /// jobs to be included in the response.
+    /// Currently, filtering is only available on the patch_deployment field.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A response message for listing patch jobs.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListPatchJobsResponse {
+    <span class="doccomment">/// The list of patch jobs.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>patch_jobs: ::prost::alloc::vec::Vec&lt;PatchJob&gt;,
+    <span class="doccomment">/// A pagination token that can be used to get the next page of results.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A high level representation of a patch job that is either in progress
+/// or has completed.
+///
+/// Instance details are not included in the job. To paginate through instance
+/// details, use `ListPatchJobInstanceDetails`.
+///
+/// For more information about patch jobs, see
+/// [Creating patch
+/// jobs](&lt;https://cloud.google.com/compute/docs/os-patch-management/create-patch-job&gt;).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PatchJob {
+    <span class="doccomment">/// Unique identifier for this patch job in the form
+    /// `projects/*/patchJobs/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Display name for this patch job. This is not a unique identifier.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Description of the patch job. Length of the description is limited
+    /// to 1024 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Time this patch job was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Last time this patch job was updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The current state of the PatchJob.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_job::State"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Instances to patch.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>instance_filter: ::core::option::Option&lt;PatchInstanceFilter&gt;,
+    <span class="doccomment">/// Patch configuration being applied.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>patch_config: ::core::option::Option&lt;PatchConfig&gt;,
+    <span class="doccomment">/// Duration of the patch job. After the duration ends, the
+    /// patch job times out.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Summary of instance details.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>instance_details_summary: ::core::option::Option&lt;
+        patch_job::InstanceDetailsSummary,
+    &gt;,
+    <span class="doccomment">/// If this patch job is a dry run, the agent reports that it has
+    /// finished without running any updates on the VM instance.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>dry_run: bool,
+    <span class="doccomment">/// If this patch job failed, this message provides information about the
+    /// failure.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Reflects the overall progress of the patch job in the range of
+    /// 0.0 being no progress to 100.0 being complete.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>percent_complete: f64,
+    <span class="doccomment">/// Output only. Name of the patch deployment that created this patch job.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>patch_deployment: ::prost::alloc::string::String,
+    <span class="doccomment">/// Rollout strategy being applied.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>rollout: ::core::option::Option&lt;PatchRollout&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchJob`.
+</span><span class="kw">pub mod </span>patch_job {
+    <span class="doccomment">/// A summary of the current patch state across all instances that this patch
+    /// job affects. Contains counts of instances in different states. These states
+    /// map to `InstancePatchState`. List patch job instance details to see the
+    /// specific states of each instance.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>InstanceDetailsSummary {
+        <span class="doccomment">/// Number of instances pending patch job.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>pending_instance_count: i64,
+        <span class="doccomment">/// Number of instances that are inactive.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>inactive_instance_count: i64,
+        <span class="doccomment">/// Number of instances notified about patch job.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>notified_instance_count: i64,
+        <span class="doccomment">/// Number of instances that have started.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>started_instance_count: i64,
+        <span class="doccomment">/// Number of instances that are downloading patches.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>downloading_patches_instance_count: i64,
+        <span class="doccomment">/// Number of instances that are applying patches.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+        </span><span class="kw">pub </span>applying_patches_instance_count: i64,
+        <span class="doccomment">/// Number of instances rebooting.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>rebooting_instance_count: i64,
+        <span class="doccomment">/// Number of instances that have completed successfully.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>succeeded_instance_count: i64,
+        <span class="doccomment">/// Number of instances that require reboot.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
+        </span><span class="kw">pub </span>succeeded_reboot_required_instance_count: i64,
+        <span class="doccomment">/// Number of instances that failed.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"10"</span>)]
+        </span><span class="kw">pub </span>failed_instance_count: i64,
+        <span class="doccomment">/// Number of instances that have acked and will start shortly.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"11"</span>)]
+        </span><span class="kw">pub </span>acked_instance_count: i64,
+        <span class="doccomment">/// Number of instances that exceeded the time out while applying the patch.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"12"</span>)]
+        </span><span class="kw">pub </span>timed_out_instance_count: i64,
+        <span class="doccomment">/// Number of instances that are running the pre-patch step.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"13"</span>)]
+        </span><span class="kw">pub </span>pre_patch_step_instance_count: i64,
+        <span class="doccomment">/// Number of instances that are running the post-patch step.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"14"</span>)]
+        </span><span class="kw">pub </span>post_patch_step_instance_count: i64,
+        <span class="doccomment">/// Number of instances that do not appear to be running the agent. Check to
+        /// ensure that the agent is installed, running, and able to communicate with
+        /// the service.
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"15"</span>)]
+        </span><span class="kw">pub </span>no_agent_detected_instance_count: i64,
+    }
+    <span class="doccomment">/// Enumeration of the various states a patch job passes through as it
+    /// executes.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// State must be specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The patch job was successfully initiated.
+        </span>Started = <span class="number">1</span>,
+        <span class="doccomment">/// The patch job is looking up instances to run the patch on.
+        </span>InstanceLookup = <span class="number">2</span>,
+        <span class="doccomment">/// Instances are being patched.
+        </span>Patching = <span class="number">3</span>,
+        <span class="doccomment">/// Patch job completed successfully.
+        </span>Succeeded = <span class="number">4</span>,
+        <span class="doccomment">/// Patch job completed but there were errors.
+        </span>CompletedWithErrors = <span class="number">5</span>,
+        <span class="doccomment">/// The patch job was canceled.
+        </span>Canceled = <span class="number">6</span>,
+        <span class="doccomment">/// The patch job timed out.
+        </span>TimedOut = <span class="number">7</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Started =&gt; <span class="string">"STARTED"</span>,
+                State::InstanceLookup =&gt; <span class="string">"INSTANCE_LOOKUP"</span>,
+                State::Patching =&gt; <span class="string">"PATCHING"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::CompletedWithErrors =&gt; <span class="string">"COMPLETED_WITH_ERRORS"</span>,
+                State::Canceled =&gt; <span class="string">"CANCELED"</span>,
+                State::TimedOut =&gt; <span class="string">"TIMED_OUT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
+                <span class="string">"INSTANCE_LOOKUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InstanceLookup),
+                <span class="string">"PATCHING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Patching),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"COMPLETED_WITH_ERRORS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CompletedWithErrors),
+                <span class="string">"CANCELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Canceled),
+                <span class="string">"TIMED_OUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOut),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Patch configuration specifications. Contains details on how to apply the
+/// patch(es) to a VM instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PatchConfig {
+    <span class="doccomment">/// Post-patch reboot settings.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_config::RebootConfig"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reboot_config: i32,
+    <span class="doccomment">/// Apt update settings. Use this setting to override the default `apt` patch
+    /// rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>apt: ::core::option::Option&lt;AptSettings&gt;,
+    <span class="doccomment">/// Yum update settings. Use this setting to override the default `yum` patch
+    /// rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>yum: ::core::option::Option&lt;YumSettings&gt;,
+    <span class="doccomment">/// Goo update settings. Use this setting to override the default `goo` patch
+    /// rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>goo: ::core::option::Option&lt;GooSettings&gt;,
+    <span class="doccomment">/// Zypper update settings. Use this setting to override the default `zypper`
+    /// patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>zypper: ::core::option::Option&lt;ZypperSettings&gt;,
+    <span class="doccomment">/// Windows update settings. Use this override the default windows patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>windows_update: ::core::option::Option&lt;WindowsUpdateSettings&gt;,
+    <span class="doccomment">/// The `ExecStep` to run before the patch update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>pre_step: ::core::option::Option&lt;ExecStep&gt;,
+    <span class="doccomment">/// The `ExecStep` to run after the patch update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>post_step: ::core::option::Option&lt;ExecStep&gt;,
+    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>mig_instances_allowed: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchConfig`.
+</span><span class="kw">pub mod </span>patch_config {
+    <span class="doccomment">/// Post-patch reboot settings.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>RebootConfig {
+        <span class="doccomment">/// The default behavior is DEFAULT.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The agent decides if a reboot is necessary by checking signals such as
+        /// registry keys on Windows or `/var/run/reboot-required` on APT based
+        /// systems. On RPM based systems, a set of core system package install times
+        /// are compared with system boot time.
+        </span>Default = <span class="number">1</span>,
+        <span class="doccomment">/// Always reboot the machine after the update completes.
+        </span>Always = <span class="number">2</span>,
+        <span class="doccomment">/// Never reboot the machine after the update completes.
+        </span>Never = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>RebootConfig {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                RebootConfig::Unspecified =&gt; <span class="string">"REBOOT_CONFIG_UNSPECIFIED"</span>,
+                RebootConfig::Default =&gt; <span class="string">"DEFAULT"</span>,
+                RebootConfig::Always =&gt; <span class="string">"ALWAYS"</span>,
+                RebootConfig::Never =&gt; <span class="string">"NEVER"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"REBOOT_CONFIG_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DEFAULT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Default),
+                <span class="string">"ALWAYS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Always),
+                <span class="string">"NEVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Never),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Namespace for instance state enums.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Instance {}
+<span class="doccomment">/// Nested message and enum types in `Instance`.
+</span><span class="kw">pub mod </span>instance {
+    <span class="doccomment">/// Patch state of an instance.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>PatchState {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The instance is not yet notified.
+        </span>Pending = <span class="number">1</span>,
+        <span class="doccomment">/// Instance is inactive and cannot be patched.
+        </span>Inactive = <span class="number">2</span>,
+        <span class="doccomment">/// The instance is notified that it should be patched.
+        </span>Notified = <span class="number">3</span>,
+        <span class="doccomment">/// The instance has started the patching process.
+        </span>Started = <span class="number">4</span>,
+        <span class="doccomment">/// The instance is downloading patches.
+        </span>DownloadingPatches = <span class="number">5</span>,
+        <span class="doccomment">/// The instance is applying patches.
+        </span>ApplyingPatches = <span class="number">6</span>,
+        <span class="doccomment">/// The instance is rebooting.
+        </span>Rebooting = <span class="number">7</span>,
+        <span class="doccomment">/// The instance has completed applying patches.
+        </span>Succeeded = <span class="number">8</span>,
+        <span class="doccomment">/// The instance has completed applying patches but a reboot is required.
+        </span>SucceededRebootRequired = <span class="number">9</span>,
+        <span class="doccomment">/// The instance has failed to apply the patch.
+        </span>Failed = <span class="number">10</span>,
+        <span class="doccomment">/// The instance acked the notification and will start shortly.
+        </span>Acked = <span class="number">11</span>,
+        <span class="doccomment">/// The instance exceeded the time out while applying the patch.
+        </span>TimedOut = <span class="number">12</span>,
+        <span class="doccomment">/// The instance is running the pre-patch step.
+        </span>RunningPrePatchStep = <span class="number">13</span>,
+        <span class="doccomment">/// The instance is running the post-patch step.
+        </span>RunningPostPatchStep = <span class="number">14</span>,
+        <span class="doccomment">/// The service could not detect the presence of the agent. Check to ensure
+        /// that the agent is installed, running, and able to communicate with the
+        /// service.
+        </span>NoAgentDetected = <span class="number">15</span>,
+    }
+    <span class="kw">impl </span>PatchState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                PatchState::Unspecified =&gt; <span class="string">"PATCH_STATE_UNSPECIFIED"</span>,
+                PatchState::Pending =&gt; <span class="string">"PENDING"</span>,
+                PatchState::Inactive =&gt; <span class="string">"INACTIVE"</span>,
+                PatchState::Notified =&gt; <span class="string">"NOTIFIED"</span>,
+                PatchState::Started =&gt; <span class="string">"STARTED"</span>,
+                PatchState::DownloadingPatches =&gt; <span class="string">"DOWNLOADING_PATCHES"</span>,
+                PatchState::ApplyingPatches =&gt; <span class="string">"APPLYING_PATCHES"</span>,
+                PatchState::Rebooting =&gt; <span class="string">"REBOOTING"</span>,
+                PatchState::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                PatchState::SucceededRebootRequired =&gt; <span class="string">"SUCCEEDED_REBOOT_REQUIRED"</span>,
+                PatchState::Failed =&gt; <span class="string">"FAILED"</span>,
+                PatchState::Acked =&gt; <span class="string">"ACKED"</span>,
+                PatchState::TimedOut =&gt; <span class="string">"TIMED_OUT"</span>,
+                PatchState::RunningPrePatchStep =&gt; <span class="string">"RUNNING_PRE_PATCH_STEP"</span>,
+                PatchState::RunningPostPatchStep =&gt; <span class="string">"RUNNING_POST_PATCH_STEP"</span>,
+                PatchState::NoAgentDetected =&gt; <span class="string">"NO_AGENT_DETECTED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PATCH_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
+                <span class="string">"INACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Inactive),
+                <span class="string">"NOTIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Notified),
+                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
+                <span class="string">"DOWNLOADING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DownloadingPatches),
+                <span class="string">"APPLYING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyingPatches),
+                <span class="string">"REBOOTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rebooting),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"SUCCEEDED_REBOOT_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SucceededRebootRequired),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"ACKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Acked),
+                <span class="string">"TIMED_OUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOut),
+                <span class="string">"RUNNING_PRE_PATCH_STEP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RunningPrePatchStep),
+                <span class="string">"RUNNING_POST_PATCH_STEP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RunningPostPatchStep),
+                <span class="string">"NO_AGENT_DETECTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoAgentDetected),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Message for canceling a patch job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CancelPatchJobRequest {
+    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Apt patching is completed by executing `apt-get update &amp;&amp; apt-get
+/// upgrade`. Additional options can be set to control how this is executed.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AptSettings {
+    <span class="doccomment">/// By changing the type to DIST, the patching is performed
+    /// using `apt-get dist-upgrade` instead.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"apt_settings::Type"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// List of packages to exclude from update. These packages will be excluded
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field cannot be specified with any other patch configuration
+    /// fields.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AptSettings`.
+</span><span class="kw">pub mod </span>apt_settings {
+    <span class="doccomment">/// Apt patch type.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// By default, upgrade will be performed.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Runs `apt-get dist-upgrade`.
+        </span>Dist = <span class="number">1</span>,
+        <span class="doccomment">/// Runs `apt-get upgrade`.
+        </span>Upgrade = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Dist =&gt; <span class="string">"DIST"</span>,
+                Type::Upgrade =&gt; <span class="string">"UPGRADE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dist),
+                <span class="string">"UPGRADE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Upgrade),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Yum patching is performed by executing `yum update`. Additional options
+/// can be set to control how this is executed.
+///
+/// Note that not all settings are supported on all platforms.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>YumSettings {
+    <span class="doccomment">/// Adds the `--security` flag to `yum update`. Not supported on
+    /// all platforms.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>security: bool,
+    <span class="doccomment">/// Will cause patch to run `yum update-minimal` instead.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>minimal: bool,
+    <span class="doccomment">/// List of packages to exclude from update. These packages are excluded by
+    /// using the yum `--exclude` flag.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field must not be specified with any other patch
+    /// configuration fields.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Googet patching is performed by running `googet update`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GooSettings {}
+<span class="doccomment">/// Zypper patching is performed by running `zypper patch`.
+/// See also &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ZypperSettings {
+    <span class="doccomment">/// Adds the `--with-optional` flag to `zypper patch`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>with_optional: bool,
+    <span class="doccomment">/// Adds the `--with-update` flag, to `zypper patch`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>with_update: bool,
+    <span class="doccomment">/// Install only patches with these categories.
+    /// Common categories include security, recommended, and feature.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>categories: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Install only patches with these severities.
+    /// Common severities include critical, important, moderate, and low.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>severities: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// List of patches to exclude from update.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of patches to be updated. These are the only patches
+    /// that will be installed using 'zypper patch patch:&lt;patch_name&gt;' command.
+    /// This field must not be used with any other patch configuration fields.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Windows patching is performed using the Windows Update Agent.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WindowsUpdateSettings {
+    <span class="doccomment">/// Only apply updates of these windows update classifications. If empty, all
+    /// updates are applied.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"windows_update_settings::Classification"</span>,
+        repeated,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>classifications: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// List of KBs to exclude from update.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of kbs to be updated. These are the only patches
+    /// that will be updated. This field must not be used with other
+    /// patch configurations.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `WindowsUpdateSettings`.
+</span><span class="kw">pub mod </span>windows_update_settings {
+    <span class="doccomment">/// Microsoft Windows update classifications as defined in
+    /// \[1\]
+    /// &lt;https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro&gt;
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Classification {
+        <span class="doccomment">/// Invalid. If classifications are included, they must be specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// "A widely released fix for a specific problem that addresses a critical,
+        /// non-security-related bug." \[1\]
+        </span>Critical = <span class="number">1</span>,
+        <span class="doccomment">/// "A widely released fix for a product-specific, security-related
+        /// vulnerability. Security vulnerabilities are rated by their severity. The
+        /// severity rating is indicated in the Microsoft security bulletin as
+        /// critical, important, moderate, or low." \[1\]
+        </span>Security = <span class="number">2</span>,
+        <span class="doccomment">/// "A widely released and frequent software update that contains additions
+        /// to a product's definition database. Definition databases are often used
+        /// to detect objects that have specific attributes, such as malicious code,
+        /// phishing websites, or junk mail." \[1\]
+        </span>Definition = <span class="number">3</span>,
+        <span class="doccomment">/// "Software that controls the input and output of a device." \[1\]
+        </span>Driver = <span class="number">4</span>,
+        <span class="doccomment">/// "New product functionality that is first distributed outside the context
+        /// of a product release and that is typically included in the next full
+        /// product release." \[1\]
+        </span>FeaturePack = <span class="number">5</span>,
+        <span class="doccomment">/// "A tested, cumulative set of all hotfixes, security updates, critical
+        /// updates, and updates. Additionally, service packs may contain additional
+        /// fixes for problems that are found internally since the release of the
+        /// product. Service packs my also contain a limited number of
+        /// customer-requested design changes or features." \[1\]
+        </span>ServicePack = <span class="number">6</span>,
+        <span class="doccomment">/// "A utility or feature that helps complete a task or set of tasks." \[1\]
+        </span>Tool = <span class="number">7</span>,
+        <span class="doccomment">/// "A tested, cumulative set of hotfixes, security updates, critical
+        /// updates, and updates that are packaged together for easy deployment. A
+        /// rollup generally targets a specific area, such as security, or a
+        /// component of a product, such as Internet Information Services (IIS)." \[1\]
+        </span>UpdateRollup = <span class="number">8</span>,
+        <span class="doccomment">/// "A widely released fix for a specific problem. An update addresses a
+        /// noncritical, non-security-related bug." \[1\]
+        </span>Update = <span class="number">9</span>,
+    }
+    <span class="kw">impl </span>Classification {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Classification::Unspecified =&gt; <span class="string">"CLASSIFICATION_UNSPECIFIED"</span>,
+                Classification::Critical =&gt; <span class="string">"CRITICAL"</span>,
+                Classification::Security =&gt; <span class="string">"SECURITY"</span>,
+                Classification::Definition =&gt; <span class="string">"DEFINITION"</span>,
+                Classification::Driver =&gt; <span class="string">"DRIVER"</span>,
+                Classification::FeaturePack =&gt; <span class="string">"FEATURE_PACK"</span>,
+                Classification::ServicePack =&gt; <span class="string">"SERVICE_PACK"</span>,
+                Classification::Tool =&gt; <span class="string">"TOOL"</span>,
+                Classification::UpdateRollup =&gt; <span class="string">"UPDATE_ROLLUP"</span>,
+                Classification::Update =&gt; <span class="string">"UPDATE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CLASSIFICATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CRITICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Critical),
+                <span class="string">"SECURITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Security),
+                <span class="string">"DEFINITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Definition),
+                <span class="string">"DRIVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Driver),
+                <span class="string">"FEATURE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FeaturePack),
+                <span class="string">"SERVICE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServicePack),
+                <span class="string">"TOOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tool),
+                <span class="string">"UPDATE_ROLLUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UpdateRollup),
+                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A step that runs an executable for a PatchJob.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStep {
+    <span class="doccomment">/// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>linux_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
+    <span class="doccomment">/// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>windows_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
+}
+<span class="doccomment">/// Common configurations for an ExecStep.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStepConfig {
+    <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the
+    /// execution can return to indicate a success.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>allowed_success_codes: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is
+    /// specified the script will be executed directly, which will likely
+    /// only succeed for scripts with \[shebang lines\]
+    /// (&lt;https://en.wikipedia.org/wiki/Shebang_\(Unix\&gt;)).
+    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_config::Interpreter"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>interpreter: i32,
+    <span class="doccomment">/// Location of the executable.
+    </span><span class="attr">#[prost(oneof = <span class="string">"exec_step_config::Executable"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>executable: ::core::option::Option&lt;exec_step_config::Executable&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecStepConfig`.
+</span><span class="kw">pub mod </span>exec_step_config {
+    <span class="doccomment">/// The interpreter used to execute the a file.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Interpreter {
+        <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
+        /// interpreter will be parsed from the shebang line of the script if
+        /// unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Indicates that the script is run with `/bin/sh` on Linux and `cmd`
+        /// on Windows.
+        </span>Shell = <span class="number">1</span>,
+        <span class="doccomment">/// Indicates that the file is run with PowerShell flags
+        /// `-NonInteractive`, `-NoProfile`, and `-ExecutionPolicy Bypass`.
+        </span>Powershell = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Interpreter {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Interpreter::Unspecified =&gt; <span class="string">"INTERPRETER_UNSPECIFIED"</span>,
+                Interpreter::Shell =&gt; <span class="string">"SHELL"</span>,
+                Interpreter::Powershell =&gt; <span class="string">"POWERSHELL"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"INTERPRETER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Shell),
+                <span class="string">"POWERSHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Powershell),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Location of the executable.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Executable {
+        <span class="doccomment">/// An absolute path to the executable on the VM.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>LocalPath(::prost::alloc::string::String),
+        <span class="doccomment">/// A Google Cloud Storage object containing the executable.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GcsObject(<span class="kw">super</span>::GcsObject),
+    }
+}
+<span class="doccomment">/// Google Cloud Storage object representation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GcsObject {
+    <span class="doccomment">/// Required. Bucket of the Google Cloud Storage object.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>bucket: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Name of the Google Cloud Storage object.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>object: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Generation number of the Google Cloud Storage object. This is used to
+    /// ensure that the ExecStep specified by this PatchJob does not change.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>generation_number: i64,
+}
+<span class="doccomment">/// A filter to target VM instances for patching. The targeted
+/// VMs must meet all criteria specified. So if both labels and zones are
+/// specified, the patch job targets only VMs with those labels and in those
+/// zones.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PatchInstanceFilter {
+    <span class="doccomment">/// Target all VM instances in the project. If true, no other criteria is
+    /// permitted.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>all: bool,
+    <span class="doccomment">/// Targets VM instances matching at least one of these label sets. This allows
+    /// targeting of disparate groups, for example "env=prod or env=staging".
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>group_labels: ::prost::alloc::vec::Vec&lt;patch_instance_filter::GroupLabel&gt;,
+    <span class="doccomment">/// Targets VM instances in ANY of these zones. Leave empty to target VM
+    /// instances in any zone.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>zones: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Targets any of the VM instances specified. Instances are specified by their
+    /// URI in the form `zones/\[ZONE\]/instances/\[INSTANCE_NAME\]`,
+    /// `projects/\[PROJECT_ID\]/zones/\[ZONE\]/instances/\[INSTANCE_NAME\]`, or
+    /// `&lt;https://www.googleapis.com/compute/v1/projects/\[PROJECT_ID\]/zones/\[ZONE\]/instances/\[INSTANCE_NAME\]`&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>instances: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Targets VMs whose name starts with one of these prefixes. Similar to
+    /// labels, this is another way to group VMs when targeting configs, for
+    /// example prefix="prod-".
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>instance_name_prefixes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchInstanceFilter`.
+</span><span class="kw">pub mod </span>patch_instance_filter {
+    <span class="doccomment">/// Represents a group of VMs that can be identified as having all these
+    /// labels, for example "env=prod and app=web".
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>GroupLabel {
+        <span class="doccomment">/// Compute Engine instance labels that must be present for a VM instance to
+        /// be targeted by this filter.
+        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        &gt;,
+    }
+}
+<span class="doccomment">/// Patch rollout configuration specifications. Contains details on the
+/// concurrency control when applying patch(es) to all targeted VMs.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PatchRollout {
+    <span class="doccomment">/// Mode of the patch rollout.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_rollout::Mode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>mode: i32,
+    <span class="doccomment">/// The maximum number (or percentage) of VMs per zone to disrupt at any given
+    /// moment. The number of VMs calculated from multiplying the percentage by the
+    /// total number of VMs in a zone is rounded up.
+    ///
+    /// During patching, a VM is considered disrupted from the time the agent is
+    /// notified to begin until patching has completed. This disruption time
+    /// includes the time to complete reboot and any post-patch steps.
+    ///
+    /// A VM contributes to the disruption budget if its patching operation fails
+    /// either when applying the patches, running pre or post patch steps, or if it
+    /// fails to respond with a success notification before timing out. VMs that
+    /// are not running or do not have an active agent do not count toward this
+    /// disruption budget.
+    ///
+    /// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded,
+    /// the patch job stops, because continuing to the next zone requires
+    /// completion of the patch process in the previous zone.
+    ///
+    /// For example, if the disruption budget has a fixed value of `10`, and 8 VMs
+    /// fail to patch in the current zone, the patch job continues to patch 2 VMs
+    /// at a time until the zone is completed. When that zone is completed
+    /// successfully, patching begins with 10 VMs at a time in the next zone. If 10
+    /// VMs in the next zone fail to patch, the patch job stops.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>disruption_budget: ::core::option::Option&lt;FixedOrPercent&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchRollout`.
+</span><span class="kw">pub mod </span>patch_rollout {
+    <span class="doccomment">/// Type of the rollout.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Mode {
+        <span class="doccomment">/// Mode must be specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Patches are applied one zone at a time. The patch job begins in the
+        /// region with the lowest number of targeted VMs. Within the region,
+        /// patching begins in the zone with the lowest number of targeted VMs. If
+        /// multiple regions (or zones within a region) have the same number of
+        /// targeted VMs, a tie-breaker is achieved by sorting the regions or zones
+        /// in alphabetical order.
+        </span>ZoneByZone = <span class="number">1</span>,
+        <span class="doccomment">/// Patches are applied to VMs in all zones at the same time.
+        </span>ConcurrentZones = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Mode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
+                Mode::ZoneByZone =&gt; <span class="string">"ZONE_BY_ZONE"</span>,
+                Mode::ConcurrentZones =&gt; <span class="string">"CONCURRENT_ZONES"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ZONE_BY_ZONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ZoneByZone),
+                <span class="string">"CONCURRENT_ZONES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConcurrentZones),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// An OS Config resource representing a guest configuration policy. These
 /// policies represent the desired state for VM instance guest environments
 /// including packages to install or remove, package repository configurations,
 /// and software to install.
@@ -3999,1021 +5014,6 @@
         }
     }
 }
-<span class="doccomment">/// Message encapsulating a value that can be either absolute ("fixed") or
-/// relative ("percent") to a value.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FixedOrPercent {
-    <span class="doccomment">/// Type of the value.
-    </span><span class="attr">#[prost(oneof = <span class="string">"fixed_or_percent::Mode"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>mode: ::core::option::Option&lt;fixed_or_percent::Mode&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `FixedOrPercent`.
-</span><span class="kw">pub mod </span>fixed_or_percent {
-    <span class="doccomment">/// Type of the value.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Mode {
-        <span class="doccomment">/// Specifies a fixed value.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-        </span>Fixed(i32),
-        <span class="doccomment">/// Specifies the relative value defined as a percentage, which will be
-        /// multiplied by a reference value.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span>Percent(i32),
-    }
-}
-<span class="doccomment">/// A request message to initiate patching across Compute Engine instances.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecutePatchJobRequest {
-    <span class="doccomment">/// Required. The project in which to run this patch in the form `projects/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Description of the patch job. Length of the description is limited
-    /// to 1024 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Instances to patch, either explicitly or filtered by some criteria such
-    /// as zone or labels.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>instance_filter: ::core::option::Option&lt;PatchInstanceFilter&gt;,
-    <span class="doccomment">/// Patch configuration being applied. If omitted, instances are
-    /// patched using the default configurations.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>patch_config: ::core::option::Option&lt;PatchConfig&gt;,
-    <span class="doccomment">/// Duration of the patch job. After the duration ends, the patch job
-    /// times out.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// If this patch is a dry-run only, instances are contacted but
-    /// will do nothing.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>dry_run: bool,
-    <span class="doccomment">/// Display name for this patch job. This does not have to be unique.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Rollout strategy of the patch job.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>rollout: ::core::option::Option&lt;PatchRollout&gt;,
-}
-<span class="doccomment">/// Request to get an active or completed patch job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetPatchJobRequest {
-    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to list details for all instances that are part of a patch job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPatchJobInstanceDetailsRequest {
-    <span class="doccomment">/// Required. The parent for the instances are in the form of `projects/*/patchJobs/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of instance details records to return.  Default is 100.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A pagination token returned from a previous call
-    /// that indicates where this listing should continue from.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// A filter expression that filters results listed in the response. This
-    /// field supports filtering results by instance zone, name, state, or
-    /// `failure_reason`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A response message for listing the instances details for a patch job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPatchJobInstanceDetailsResponse {
-    <span class="doccomment">/// A list of instance status.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>patch_job_instance_details: ::prost::alloc::vec::Vec&lt;PatchJobInstanceDetails&gt;,
-    <span class="doccomment">/// A pagination token that can be used to get the next page of results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Patch details for a VM instance. For more information about reviewing VM
-/// instance details, see
-/// [Listing all VM instance details for a specific patch
-/// job](&lt;https://cloud.google.com/compute/docs/os-patch-management/manage-patch-jobs#list-instance-details&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PatchJobInstanceDetails {
-    <span class="doccomment">/// The instance name in the form `projects/*/zones/*/instances/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The unique identifier for the instance. This identifier is
-    /// defined by the server.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>instance_system_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Current state of instance patch.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::PatchState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// If the patch fails, this field provides the reason.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>failure_reason: ::prost::alloc::string::String,
-    <span class="doccomment">/// The number of times the agent that the agent attempts to apply the patch.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>attempt_count: i64,
-}
-<span class="doccomment">/// A request message for listing patch jobs.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPatchJobsRequest {
-    <span class="doccomment">/// Required. In the form of `projects/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of instance status to return.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A pagination token returned from a previous call
-    /// that indicates where this listing should continue from.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If provided, this field specifies the criteria that must be met by patch
-    /// jobs to be included in the response.
-    /// Currently, filtering is only available on the patch_deployment field.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A response message for listing patch jobs.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListPatchJobsResponse {
-    <span class="doccomment">/// The list of patch jobs.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>patch_jobs: ::prost::alloc::vec::Vec&lt;PatchJob&gt;,
-    <span class="doccomment">/// A pagination token that can be used to get the next page of results.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A high level representation of a patch job that is either in progress
-/// or has completed.
-///
-/// Instance details are not included in the job. To paginate through instance
-/// details, use `ListPatchJobInstanceDetails`.
-///
-/// For more information about patch jobs, see
-/// [Creating patch
-/// jobs](&lt;https://cloud.google.com/compute/docs/os-patch-management/create-patch-job&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PatchJob {
-    <span class="doccomment">/// Unique identifier for this patch job in the form
-    /// `projects/*/patchJobs/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Display name for this patch job. This is not a unique identifier.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Description of the patch job. Length of the description is limited
-    /// to 1024 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Time this patch job was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Last time this patch job was updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The current state of the PatchJob.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_job::State"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Instances to patch.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>instance_filter: ::core::option::Option&lt;PatchInstanceFilter&gt;,
-    <span class="doccomment">/// Patch configuration being applied.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>patch_config: ::core::option::Option&lt;PatchConfig&gt;,
-    <span class="doccomment">/// Duration of the patch job. After the duration ends, the
-    /// patch job times out.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Summary of instance details.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>instance_details_summary: ::core::option::Option&lt;
-        patch_job::InstanceDetailsSummary,
-    &gt;,
-    <span class="doccomment">/// If this patch job is a dry run, the agent reports that it has
-    /// finished without running any updates on the VM instance.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>dry_run: bool,
-    <span class="doccomment">/// If this patch job failed, this message provides information about the
-    /// failure.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Reflects the overall progress of the patch job in the range of
-    /// 0.0 being no progress to 100.0 being complete.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>percent_complete: f64,
-    <span class="doccomment">/// Output only. Name of the patch deployment that created this patch job.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>patch_deployment: ::prost::alloc::string::String,
-    <span class="doccomment">/// Rollout strategy being applied.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>rollout: ::core::option::Option&lt;PatchRollout&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchJob`.
-</span><span class="kw">pub mod </span>patch_job {
-    <span class="doccomment">/// A summary of the current patch state across all instances that this patch
-    /// job affects. Contains counts of instances in different states. These states
-    /// map to `InstancePatchState`. List patch job instance details to see the
-    /// specific states of each instance.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>InstanceDetailsSummary {
-        <span class="doccomment">/// Number of instances pending patch job.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>pending_instance_count: i64,
-        <span class="doccomment">/// Number of instances that are inactive.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>inactive_instance_count: i64,
-        <span class="doccomment">/// Number of instances notified about patch job.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>notified_instance_count: i64,
-        <span class="doccomment">/// Number of instances that have started.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>started_instance_count: i64,
-        <span class="doccomment">/// Number of instances that are downloading patches.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>downloading_patches_instance_count: i64,
-        <span class="doccomment">/// Number of instances that are applying patches.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-        </span><span class="kw">pub </span>applying_patches_instance_count: i64,
-        <span class="doccomment">/// Number of instances rebooting.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>rebooting_instance_count: i64,
-        <span class="doccomment">/// Number of instances that have completed successfully.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>succeeded_instance_count: i64,
-        <span class="doccomment">/// Number of instances that require reboot.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
-        </span><span class="kw">pub </span>succeeded_reboot_required_instance_count: i64,
-        <span class="doccomment">/// Number of instances that failed.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"10"</span>)]
-        </span><span class="kw">pub </span>failed_instance_count: i64,
-        <span class="doccomment">/// Number of instances that have acked and will start shortly.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"11"</span>)]
-        </span><span class="kw">pub </span>acked_instance_count: i64,
-        <span class="doccomment">/// Number of instances that exceeded the time out while applying the patch.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"12"</span>)]
-        </span><span class="kw">pub </span>timed_out_instance_count: i64,
-        <span class="doccomment">/// Number of instances that are running the pre-patch step.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"13"</span>)]
-        </span><span class="kw">pub </span>pre_patch_step_instance_count: i64,
-        <span class="doccomment">/// Number of instances that are running the post-patch step.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"14"</span>)]
-        </span><span class="kw">pub </span>post_patch_step_instance_count: i64,
-        <span class="doccomment">/// Number of instances that do not appear to be running the agent. Check to
-        /// ensure that the agent is installed, running, and able to communicate with
-        /// the service.
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"15"</span>)]
-        </span><span class="kw">pub </span>no_agent_detected_instance_count: i64,
-    }
-    <span class="doccomment">/// Enumeration of the various states a patch job passes through as it
-    /// executes.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// State must be specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The patch job was successfully initiated.
-        </span>Started = <span class="number">1</span>,
-        <span class="doccomment">/// The patch job is looking up instances to run the patch on.
-        </span>InstanceLookup = <span class="number">2</span>,
-        <span class="doccomment">/// Instances are being patched.
-        </span>Patching = <span class="number">3</span>,
-        <span class="doccomment">/// Patch job completed successfully.
-        </span>Succeeded = <span class="number">4</span>,
-        <span class="doccomment">/// Patch job completed but there were errors.
-        </span>CompletedWithErrors = <span class="number">5</span>,
-        <span class="doccomment">/// The patch job was canceled.
-        </span>Canceled = <span class="number">6</span>,
-        <span class="doccomment">/// The patch job timed out.
-        </span>TimedOut = <span class="number">7</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Started =&gt; <span class="string">"STARTED"</span>,
-                State::InstanceLookup =&gt; <span class="string">"INSTANCE_LOOKUP"</span>,
-                State::Patching =&gt; <span class="string">"PATCHING"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::CompletedWithErrors =&gt; <span class="string">"COMPLETED_WITH_ERRORS"</span>,
-                State::Canceled =&gt; <span class="string">"CANCELED"</span>,
-                State::TimedOut =&gt; <span class="string">"TIMED_OUT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
-                <span class="string">"INSTANCE_LOOKUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InstanceLookup),
-                <span class="string">"PATCHING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Patching),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"COMPLETED_WITH_ERRORS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CompletedWithErrors),
-                <span class="string">"CANCELED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Canceled),
-                <span class="string">"TIMED_OUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOut),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Patch configuration specifications. Contains details on how to apply the
-/// patch(es) to a VM instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PatchConfig {
-    <span class="doccomment">/// Post-patch reboot settings.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_config::RebootConfig"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reboot_config: i32,
-    <span class="doccomment">/// Apt update settings. Use this setting to override the default `apt` patch
-    /// rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>apt: ::core::option::Option&lt;AptSettings&gt;,
-    <span class="doccomment">/// Yum update settings. Use this setting to override the default `yum` patch
-    /// rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>yum: ::core::option::Option&lt;YumSettings&gt;,
-    <span class="doccomment">/// Goo update settings. Use this setting to override the default `goo` patch
-    /// rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>goo: ::core::option::Option&lt;GooSettings&gt;,
-    <span class="doccomment">/// Zypper update settings. Use this setting to override the default `zypper`
-    /// patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>zypper: ::core::option::Option&lt;ZypperSettings&gt;,
-    <span class="doccomment">/// Windows update settings. Use this override the default windows patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>windows_update: ::core::option::Option&lt;WindowsUpdateSettings&gt;,
-    <span class="doccomment">/// The `ExecStep` to run before the patch update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>pre_step: ::core::option::Option&lt;ExecStep&gt;,
-    <span class="doccomment">/// The `ExecStep` to run after the patch update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>post_step: ::core::option::Option&lt;ExecStep&gt;,
-    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>mig_instances_allowed: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchConfig`.
-</span><span class="kw">pub mod </span>patch_config {
-    <span class="doccomment">/// Post-patch reboot settings.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>RebootConfig {
-        <span class="doccomment">/// The default behavior is DEFAULT.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The agent decides if a reboot is necessary by checking signals such as
-        /// registry keys on Windows or `/var/run/reboot-required` on APT based
-        /// systems. On RPM based systems, a set of core system package install times
-        /// are compared with system boot time.
-        </span>Default = <span class="number">1</span>,
-        <span class="doccomment">/// Always reboot the machine after the update completes.
-        </span>Always = <span class="number">2</span>,
-        <span class="doccomment">/// Never reboot the machine after the update completes.
-        </span>Never = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>RebootConfig {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                RebootConfig::Unspecified =&gt; <span class="string">"REBOOT_CONFIG_UNSPECIFIED"</span>,
-                RebootConfig::Default =&gt; <span class="string">"DEFAULT"</span>,
-                RebootConfig::Always =&gt; <span class="string">"ALWAYS"</span>,
-                RebootConfig::Never =&gt; <span class="string">"NEVER"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"REBOOT_CONFIG_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DEFAULT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Default),
-                <span class="string">"ALWAYS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Always),
-                <span class="string">"NEVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Never),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Namespace for instance state enums.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Instance {}
-<span class="doccomment">/// Nested message and enum types in `Instance`.
-</span><span class="kw">pub mod </span>instance {
-    <span class="doccomment">/// Patch state of an instance.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>PatchState {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The instance is not yet notified.
-        </span>Pending = <span class="number">1</span>,
-        <span class="doccomment">/// Instance is inactive and cannot be patched.
-        </span>Inactive = <span class="number">2</span>,
-        <span class="doccomment">/// The instance is notified that it should be patched.
-        </span>Notified = <span class="number">3</span>,
-        <span class="doccomment">/// The instance has started the patching process.
-        </span>Started = <span class="number">4</span>,
-        <span class="doccomment">/// The instance is downloading patches.
-        </span>DownloadingPatches = <span class="number">5</span>,
-        <span class="doccomment">/// The instance is applying patches.
-        </span>ApplyingPatches = <span class="number">6</span>,
-        <span class="doccomment">/// The instance is rebooting.
-        </span>Rebooting = <span class="number">7</span>,
-        <span class="doccomment">/// The instance has completed applying patches.
-        </span>Succeeded = <span class="number">8</span>,
-        <span class="doccomment">/// The instance has completed applying patches but a reboot is required.
-        </span>SucceededRebootRequired = <span class="number">9</span>,
-        <span class="doccomment">/// The instance has failed to apply the patch.
-        </span>Failed = <span class="number">10</span>,
-        <span class="doccomment">/// The instance acked the notification and will start shortly.
-        </span>Acked = <span class="number">11</span>,
-        <span class="doccomment">/// The instance exceeded the time out while applying the patch.
-        </span>TimedOut = <span class="number">12</span>,
-        <span class="doccomment">/// The instance is running the pre-patch step.
-        </span>RunningPrePatchStep = <span class="number">13</span>,
-        <span class="doccomment">/// The instance is running the post-patch step.
-        </span>RunningPostPatchStep = <span class="number">14</span>,
-        <span class="doccomment">/// The service could not detect the presence of the agent. Check to ensure
-        /// that the agent is installed, running, and able to communicate with the
-        /// service.
-        </span>NoAgentDetected = <span class="number">15</span>,
-    }
-    <span class="kw">impl </span>PatchState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                PatchState::Unspecified =&gt; <span class="string">"PATCH_STATE_UNSPECIFIED"</span>,
-                PatchState::Pending =&gt; <span class="string">"PENDING"</span>,
-                PatchState::Inactive =&gt; <span class="string">"INACTIVE"</span>,
-                PatchState::Notified =&gt; <span class="string">"NOTIFIED"</span>,
-                PatchState::Started =&gt; <span class="string">"STARTED"</span>,
-                PatchState::DownloadingPatches =&gt; <span class="string">"DOWNLOADING_PATCHES"</span>,
-                PatchState::ApplyingPatches =&gt; <span class="string">"APPLYING_PATCHES"</span>,
-                PatchState::Rebooting =&gt; <span class="string">"REBOOTING"</span>,
-                PatchState::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                PatchState::SucceededRebootRequired =&gt; <span class="string">"SUCCEEDED_REBOOT_REQUIRED"</span>,
-                PatchState::Failed =&gt; <span class="string">"FAILED"</span>,
-                PatchState::Acked =&gt; <span class="string">"ACKED"</span>,
-                PatchState::TimedOut =&gt; <span class="string">"TIMED_OUT"</span>,
-                PatchState::RunningPrePatchStep =&gt; <span class="string">"RUNNING_PRE_PATCH_STEP"</span>,
-                PatchState::RunningPostPatchStep =&gt; <span class="string">"RUNNING_POST_PATCH_STEP"</span>,
-                PatchState::NoAgentDetected =&gt; <span class="string">"NO_AGENT_DETECTED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PATCH_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
-                <span class="string">"INACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Inactive),
-                <span class="string">"NOTIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Notified),
-                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
-                <span class="string">"DOWNLOADING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DownloadingPatches),
-                <span class="string">"APPLYING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyingPatches),
-                <span class="string">"REBOOTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rebooting),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"SUCCEEDED_REBOOT_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SucceededRebootRequired),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"ACKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Acked),
-                <span class="string">"TIMED_OUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOut),
-                <span class="string">"RUNNING_PRE_PATCH_STEP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RunningPrePatchStep),
-                <span class="string">"RUNNING_POST_PATCH_STEP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RunningPostPatchStep),
-                <span class="string">"NO_AGENT_DETECTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoAgentDetected),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Message for canceling a patch job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CancelPatchJobRequest {
-    <span class="doccomment">/// Required. Name of the patch in the form `projects/*/patchJobs/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Apt patching is completed by executing `apt-get update &amp;&amp; apt-get
-/// upgrade`. Additional options can be set to control how this is executed.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AptSettings {
-    <span class="doccomment">/// By changing the type to DIST, the patching is performed
-    /// using `apt-get dist-upgrade` instead.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"apt_settings::Type"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// List of packages to exclude from update. These packages will be excluded
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field cannot be specified with any other patch configuration
-    /// fields.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AptSettings`.
-</span><span class="kw">pub mod </span>apt_settings {
-    <span class="doccomment">/// Apt patch type.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// By default, upgrade will be performed.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Runs `apt-get dist-upgrade`.
-        </span>Dist = <span class="number">1</span>,
-        <span class="doccomment">/// Runs `apt-get upgrade`.
-        </span>Upgrade = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Dist =&gt; <span class="string">"DIST"</span>,
-                Type::Upgrade =&gt; <span class="string">"UPGRADE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dist),
-                <span class="string">"UPGRADE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Upgrade),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Yum patching is performed by executing `yum update`. Additional options
-/// can be set to control how this is executed.
-///
-/// Note that not all settings are supported on all platforms.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>YumSettings {
-    <span class="doccomment">/// Adds the `--security` flag to `yum update`. Not supported on
-    /// all platforms.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>security: bool,
-    <span class="doccomment">/// Will cause patch to run `yum update-minimal` instead.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>minimal: bool,
-    <span class="doccomment">/// List of packages to exclude from update. These packages are excluded by
-    /// using the yum `--exclude` flag.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field must not be specified with any other patch
-    /// configuration fields.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Googet patching is performed by running `googet update`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GooSettings {}
-<span class="doccomment">/// Zypper patching is performed by running `zypper patch`.
-/// See also &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ZypperSettings {
-    <span class="doccomment">/// Adds the `--with-optional` flag to `zypper patch`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>with_optional: bool,
-    <span class="doccomment">/// Adds the `--with-update` flag, to `zypper patch`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>with_update: bool,
-    <span class="doccomment">/// Install only patches with these categories.
-    /// Common categories include security, recommended, and feature.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>categories: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Install only patches with these severities.
-    /// Common severities include critical, important, moderate, and low.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>severities: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// List of patches to exclude from update.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of patches to be updated. These are the only patches
-    /// that will be installed using 'zypper patch patch:&lt;patch_name&gt;' command.
-    /// This field must not be used with any other patch configuration fields.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Windows patching is performed using the Windows Update Agent.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WindowsUpdateSettings {
-    <span class="doccomment">/// Only apply updates of these windows update classifications. If empty, all
-    /// updates are applied.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"windows_update_settings::Classification"</span>,
-        repeated,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>classifications: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// List of KBs to exclude from update.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of kbs to be updated. These are the only patches
-    /// that will be updated. This field must not be used with other
-    /// patch configurations.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `WindowsUpdateSettings`.
-</span><span class="kw">pub mod </span>windows_update_settings {
-    <span class="doccomment">/// Microsoft Windows update classifications as defined in
-    /// \[1\]
-    /// &lt;https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro&gt;
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Classification {
-        <span class="doccomment">/// Invalid. If classifications are included, they must be specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// "A widely released fix for a specific problem that addresses a critical,
-        /// non-security-related bug." \[1\]
-        </span>Critical = <span class="number">1</span>,
-        <span class="doccomment">/// "A widely released fix for a product-specific, security-related
-        /// vulnerability. Security vulnerabilities are rated by their severity. The
-        /// severity rating is indicated in the Microsoft security bulletin as
-        /// critical, important, moderate, or low." \[1\]
-        </span>Security = <span class="number">2</span>,
-        <span class="doccomment">/// "A widely released and frequent software update that contains additions
-        /// to a product's definition database. Definition databases are often used
-        /// to detect objects that have specific attributes, such as malicious code,
-        /// phishing websites, or junk mail." \[1\]
-        </span>Definition = <span class="number">3</span>,
-        <span class="doccomment">/// "Software that controls the input and output of a device." \[1\]
-        </span>Driver = <span class="number">4</span>,
-        <span class="doccomment">/// "New product functionality that is first distributed outside the context
-        /// of a product release and that is typically included in the next full
-        /// product release." \[1\]
-        </span>FeaturePack = <span class="number">5</span>,
-        <span class="doccomment">/// "A tested, cumulative set of all hotfixes, security updates, critical
-        /// updates, and updates. Additionally, service packs may contain additional
-        /// fixes for problems that are found internally since the release of the
-        /// product. Service packs my also contain a limited number of
-        /// customer-requested design changes or features." \[1\]
-        </span>ServicePack = <span class="number">6</span>,
-        <span class="doccomment">/// "A utility or feature that helps complete a task or set of tasks." \[1\]
-        </span>Tool = <span class="number">7</span>,
-        <span class="doccomment">/// "A tested, cumulative set of hotfixes, security updates, critical
-        /// updates, and updates that are packaged together for easy deployment. A
-        /// rollup generally targets a specific area, such as security, or a
-        /// component of a product, such as Internet Information Services (IIS)." \[1\]
-        </span>UpdateRollup = <span class="number">8</span>,
-        <span class="doccomment">/// "A widely released fix for a specific problem. An update addresses a
-        /// noncritical, non-security-related bug." \[1\]
-        </span>Update = <span class="number">9</span>,
-    }
-    <span class="kw">impl </span>Classification {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Classification::Unspecified =&gt; <span class="string">"CLASSIFICATION_UNSPECIFIED"</span>,
-                Classification::Critical =&gt; <span class="string">"CRITICAL"</span>,
-                Classification::Security =&gt; <span class="string">"SECURITY"</span>,
-                Classification::Definition =&gt; <span class="string">"DEFINITION"</span>,
-                Classification::Driver =&gt; <span class="string">"DRIVER"</span>,
-                Classification::FeaturePack =&gt; <span class="string">"FEATURE_PACK"</span>,
-                Classification::ServicePack =&gt; <span class="string">"SERVICE_PACK"</span>,
-                Classification::Tool =&gt; <span class="string">"TOOL"</span>,
-                Classification::UpdateRollup =&gt; <span class="string">"UPDATE_ROLLUP"</span>,
-                Classification::Update =&gt; <span class="string">"UPDATE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CLASSIFICATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CRITICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Critical),
-                <span class="string">"SECURITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Security),
-                <span class="string">"DEFINITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Definition),
-                <span class="string">"DRIVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Driver),
-                <span class="string">"FEATURE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FeaturePack),
-                <span class="string">"SERVICE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServicePack),
-                <span class="string">"TOOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tool),
-                <span class="string">"UPDATE_ROLLUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UpdateRollup),
-                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A step that runs an executable for a PatchJob.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStep {
-    <span class="doccomment">/// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>linux_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
-    <span class="doccomment">/// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>windows_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
-}
-<span class="doccomment">/// Common configurations for an ExecStep.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStepConfig {
-    <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the
-    /// execution can return to indicate a success.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>allowed_success_codes: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is
-    /// specified the script will be executed directly, which will likely
-    /// only succeed for scripts with \[shebang lines\]
-    /// (&lt;https://en.wikipedia.org/wiki/Shebang_\(Unix\&gt;)).
-    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_config::Interpreter"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>interpreter: i32,
-    <span class="doccomment">/// Location of the executable.
-    </span><span class="attr">#[prost(oneof = <span class="string">"exec_step_config::Executable"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>executable: ::core::option::Option&lt;exec_step_config::Executable&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecStepConfig`.
-</span><span class="kw">pub mod </span>exec_step_config {
-    <span class="doccomment">/// The interpreter used to execute the a file.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Interpreter {
-        <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
-        /// interpreter will be parsed from the shebang line of the script if
-        /// unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Indicates that the script is run with `/bin/sh` on Linux and `cmd`
-        /// on Windows.
-        </span>Shell = <span class="number">1</span>,
-        <span class="doccomment">/// Indicates that the file is run with PowerShell flags
-        /// `-NonInteractive`, `-NoProfile`, and `-ExecutionPolicy Bypass`.
-        </span>Powershell = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Interpreter {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Interpreter::Unspecified =&gt; <span class="string">"INTERPRETER_UNSPECIFIED"</span>,
-                Interpreter::Shell =&gt; <span class="string">"SHELL"</span>,
-                Interpreter::Powershell =&gt; <span class="string">"POWERSHELL"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"INTERPRETER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Shell),
-                <span class="string">"POWERSHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Powershell),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Location of the executable.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Executable {
-        <span class="doccomment">/// An absolute path to the executable on the VM.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>LocalPath(::prost::alloc::string::String),
-        <span class="doccomment">/// A Google Cloud Storage object containing the executable.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GcsObject(<span class="kw">super</span>::GcsObject),
-    }
-}
-<span class="doccomment">/// Google Cloud Storage object representation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GcsObject {
-    <span class="doccomment">/// Required. Bucket of the Google Cloud Storage object.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>bucket: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Name of the Google Cloud Storage object.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>object: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Generation number of the Google Cloud Storage object. This is used to
-    /// ensure that the ExecStep specified by this PatchJob does not change.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>generation_number: i64,
-}
-<span class="doccomment">/// A filter to target VM instances for patching. The targeted
-/// VMs must meet all criteria specified. So if both labels and zones are
-/// specified, the patch job targets only VMs with those labels and in those
-/// zones.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PatchInstanceFilter {
-    <span class="doccomment">/// Target all VM instances in the project. If true, no other criteria is
-    /// permitted.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>all: bool,
-    <span class="doccomment">/// Targets VM instances matching at least one of these label sets. This allows
-    /// targeting of disparate groups, for example "env=prod or env=staging".
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>group_labels: ::prost::alloc::vec::Vec&lt;patch_instance_filter::GroupLabel&gt;,
-    <span class="doccomment">/// Targets VM instances in ANY of these zones. Leave empty to target VM
-    /// instances in any zone.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>zones: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Targets any of the VM instances specified. Instances are specified by their
-    /// URI in the form `zones/\[ZONE\]/instances/\[INSTANCE_NAME\]`,
-    /// `projects/\[PROJECT_ID\]/zones/\[ZONE\]/instances/\[INSTANCE_NAME\]`, or
-    /// `&lt;https://www.googleapis.com/compute/v1/projects/\[PROJECT_ID\]/zones/\[ZONE\]/instances/\[INSTANCE_NAME\]`&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>instances: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Targets VMs whose name starts with one of these prefixes. Similar to
-    /// labels, this is another way to group VMs when targeting configs, for
-    /// example prefix="prod-".
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>instance_name_prefixes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchInstanceFilter`.
-</span><span class="kw">pub mod </span>patch_instance_filter {
-    <span class="doccomment">/// Represents a group of VMs that can be identified as having all these
-    /// labels, for example "env=prod and app=web".
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>GroupLabel {
-        <span class="doccomment">/// Compute Engine instance labels that must be present for a VM instance to
-        /// be targeted by this filter.
-        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        &gt;,
-    }
-}
-<span class="doccomment">/// Patch rollout configuration specifications. Contains details on the
-/// concurrency control when applying patch(es) to all targeted VMs.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PatchRollout {
-    <span class="doccomment">/// Mode of the patch rollout.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_rollout::Mode"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>mode: i32,
-    <span class="doccomment">/// The maximum number (or percentage) of VMs per zone to disrupt at any given
-    /// moment. The number of VMs calculated from multiplying the percentage by the
-    /// total number of VMs in a zone is rounded up.
-    ///
-    /// During patching, a VM is considered disrupted from the time the agent is
-    /// notified to begin until patching has completed. This disruption time
-    /// includes the time to complete reboot and any post-patch steps.
-    ///
-    /// A VM contributes to the disruption budget if its patching operation fails
-    /// either when applying the patches, running pre or post patch steps, or if it
-    /// fails to respond with a success notification before timing out. VMs that
-    /// are not running or do not have an active agent do not count toward this
-    /// disruption budget.
-    ///
-    /// For zone-by-zone rollouts, if the disruption budget in a zone is exceeded,
-    /// the patch job stops, because continuing to the next zone requires
-    /// completion of the patch process in the previous zone.
-    ///
-    /// For example, if the disruption budget has a fixed value of `10`, and 8 VMs
-    /// fail to patch in the current zone, the patch job continues to patch 2 VMs
-    /// at a time until the zone is completed. When that zone is completed
-    /// successfully, patching begins with 10 VMs at a time in the next zone. If 10
-    /// VMs in the next zone fail to patch, the patch job stops.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>disruption_budget: ::core::option::Option&lt;FixedOrPercent&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchRollout`.
-</span><span class="kw">pub mod </span>patch_rollout {
-    <span class="doccomment">/// Type of the rollout.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Mode {
-        <span class="doccomment">/// Mode must be specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Patches are applied one zone at a time. The patch job begins in the
-        /// region with the lowest number of targeted VMs. Within the region,
-        /// patching begins in the zone with the lowest number of targeted VMs. If
-        /// multiple regions (or zones within a region) have the same number of
-        /// targeted VMs, a tie-breaker is achieved by sorting the regions or zones
-        /// in alphabetical order.
-        </span>ZoneByZone = <span class="number">1</span>,
-        <span class="doccomment">/// Patches are applied to VMs in all zones at the same time.
-        </span>ConcurrentZones = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Mode {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
-                Mode::ZoneByZone =&gt; <span class="string">"ZONE_BY_ZONE"</span>,
-                Mode::ConcurrentZones =&gt; <span class="string">"CONCURRENT_ZONES"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ZONE_BY_ZONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ZoneByZone),
-                <span class="string">"CONCURRENT_ZONES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ConcurrentZones),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// Patch deployments are configurations that individual patch jobs use to
 /// complete a patch. These configurations include instance filter, package
 /// repository settings, and a schedule. For more information about creating and
@@ -5125,7 +5125,7 @@
 <span class="doccomment">/// Sets the time for a one time patch deployment. Timestamp is in
 /// [RFC3339](&lt;https://www.ietf.org/rfc/rfc3339.txt&gt;) text format.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OneTimeSchedule {
     <span class="doccomment">/// Required. The desired patch job execution time.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -5219,7 +5219,7 @@
     <span class="doccomment">/// Configurations for this recurring schedule.
     /// Configurations must match frequency.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ScheduleConfig {
         <span class="doccomment">/// Required. Schedule with weekly executions.
         </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
@@ -5231,7 +5231,7 @@
 }
 <span class="doccomment">/// Represents a weekly schedule.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WeeklySchedule {
     <span class="doccomment">/// Required. Day of the week.
     </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::super::r#type::DayOfWeek"</span>, tag = <span class="string">"1"</span>)]
@@ -5240,7 +5240,7 @@
 <span class="doccomment">/// Represents a monthly schedule. An example of a valid monthly schedule is
 /// "on the third Tuesday of the month" or "on the 15th of the month".
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MonthlySchedule {
     <span class="doccomment">/// One day in a month.
     </span><span class="attr">#[prost(oneof = <span class="string">"monthly_schedule::DayOfMonth"</span>, tags = <span class="string">"1, 2"</span>)]
@@ -5250,7 +5250,7 @@
 </span><span class="kw">pub mod </span>monthly_schedule {
     <span class="doccomment">/// One day in a month.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>DayOfMonth {
         <span class="doccomment">/// Required. Week day in a month.
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -5265,7 +5265,7 @@
 }
 <span class="doccomment">/// Represents one week day in a month. An example is "the 4th Sunday".
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WeekDayOfMonth {
     <span class="doccomment">/// Required. Week number in a month. 1-4 indicates the 1st to 4th week of the month. -1
     /// indicates the last week of the month.

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/bigquery/datatransfer/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/bigquery/datatransfer/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1757,11 +1757,23 @@
 <a href="#1757" id="1757">1757</a>
 <a href="#1758" id="1758">1758</a>
 <a href="#1759" id="1759">1759</a>
+<a href="#1760" id="1760">1760</a>
+<a href="#1761" id="1761">1761</a>
+<a href="#1762" id="1762">1762</a>
+<a href="#1763" id="1763">1763</a>
+<a href="#1764" id="1764">1764</a>
+<a href="#1765" id="1765">1765</a>
+<a href="#1766" id="1766">1766</a>
+<a href="#1767" id="1767">1767</a>
+<a href="#1768" id="1768">1768</a>
+<a href="#1769" id="1769">1769</a>
+<a href="#1770" id="1770">1770</a>
+<a href="#1771" id="1771">1771</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Represents preferences for sending email notifications for transfer run
 /// events.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>EmailPreferences {
     <span class="doccomment">/// If true, email notifications will be sent on transfer run failures.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -1769,7 +1781,7 @@
 }
 <span class="doccomment">/// Options customizing the data transfer schedule.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ScheduleOptions {
     <span class="doccomment">/// If true, automatic scheduling of data transfer runs for this configuration
     /// will be disabled. The runs can be started on ad-hoc basis using
@@ -2510,30 +2522,36 @@
     <span class="doccomment">/// Required. Data transfer configuration to create.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>transfer_config: ::core::option::Option&lt;TransferConfig&gt;,
-    <span class="doccomment">/// Optional OAuth2 authorization code to use with this transfer configuration.
+    <span class="doccomment">/// Deprecated: Authorization code was required when
+    /// `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used
+    /// in any data sources. Use `version_info` instead.
+    ///
+    /// Optional OAuth2 authorization code to use with this transfer configuration.
     /// This is required only if `transferConfig.dataSourceId` is 'youtube_channel'
     /// and new credentials are needed, as indicated by `CheckValidCreds`. In order
     /// to obtain authorization_code, make a request to the following URL:
     /// &lt;pre class="prettyprint" suppresswarning="true"&gt;
     /// &lt;https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;response_type=authorization_code&amp;client_id=&lt;var&gt;client_id&lt;/var&gt;&amp;scope=&lt;var&gt;data_source_scopes&lt;/var&gt;&gt;
     /// &lt;/pre&gt;
-    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the a data source as
+    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the data source as
     /// returned by ListDataSources method.
     /// * &lt;var&gt;data_source_scopes&lt;/var&gt; are the scopes returned by ListDataSources
     /// method.
     ///
     /// Note that this should not be set when `service_account_name` is used to
     /// create the transfer config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>authorization_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional version info. This is required only if
-    /// `transferConfig.dataSourceId` is not 'youtube_channel' and new credentials
+    <span class="doccomment">/// Optional version info. This parameter replaces `authorization_code` which
+    /// is no longer used in any data sources. This is required only if
+    /// `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials
     /// are needed, as indicated by `CheckValidCreds`. In order to obtain version
     /// info, make a request to the following URL:
     /// &lt;pre class="prettyprint" suppresswarning="true"&gt;
     /// &lt;https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;response_type=version_info&amp;client_id=&lt;var&gt;client_id&lt;/var&gt;&amp;scope=&lt;var&gt;data_source_scopes&lt;/var&gt;&gt;
     /// &lt;/pre&gt;
-    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the a data source as
+    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the data source as
     /// returned by ListDataSources method.
     /// * &lt;var&gt;data_source_scopes&lt;/var&gt; are the scopes returned by ListDataSources
     /// method.
@@ -2562,33 +2580,39 @@
     <span class="doccomment">/// Required. Data transfer configuration to create.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>transfer_config: ::core::option::Option&lt;TransferConfig&gt;,
-    <span class="doccomment">/// Optional OAuth2 authorization code to use with this transfer configuration.
+    <span class="doccomment">/// Deprecated: Authorization code was required when
+    /// `transferConfig.dataSourceId` is 'youtube_channel' but it is no longer used
+    /// in any data sources. Use `version_info` instead.
+    ///
+    /// Optional OAuth2 authorization code to use with this transfer configuration.
     /// This is required only if `transferConfig.dataSourceId` is 'youtube_channel'
     /// and new credentials are needed, as indicated by `CheckValidCreds`. In order
     /// to obtain authorization_code, make a request to the following URL:
     /// &lt;pre class="prettyprint" suppresswarning="true"&gt;
     /// &lt;https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;response_type=authorization_code&amp;client_id=&lt;var&gt;client_id&lt;/var&gt;&amp;scope=&lt;var&gt;data_source_scopes&lt;/var&gt;&gt;
     /// &lt;/pre&gt;
-    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the a data source as
+    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the data source as
     /// returned by ListDataSources method.
     /// * &lt;var&gt;data_source_scopes&lt;/var&gt; are the scopes returned by ListDataSources
     /// method.
     ///
     /// Note that this should not be set when `service_account_name` is used to
     /// update the transfer config.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>authorization_code: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. Required list of fields to be updated in this request.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-    <span class="doccomment">/// Optional version info. This is required only if
-    /// `transferConfig.dataSourceId` is not 'youtube_channel' and new credentials
+    <span class="doccomment">/// Optional version info. This parameter replaces `authorization_code` which
+    /// is no longer used in any data sources. This is required only if
+    /// `transferConfig.dataSourceId` is 'youtube_channel' *or* new credentials
     /// are needed, as indicated by `CheckValidCreds`. In order to obtain version
     /// info, make a request to the following URL:
     /// &lt;pre class="prettyprint" suppresswarning="true"&gt;
     /// &lt;https://bigquery.cloud.google.com/datatransfer/oauthz/auth?redirect_uri=urn:ietf:wg:oauth:2.0:oob&amp;response_type=version_info&amp;client_id=&lt;var&gt;client_id&lt;/var&gt;&amp;scope=&lt;var&gt;data_source_scopes&lt;/var&gt;&gt;
     /// &lt;/pre&gt;
-    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the a data source as
+    /// * The &lt;var&gt;client_id&lt;/var&gt; is the OAuth client_id of the data source as
     /// returned by ListDataSources method.
     /// * &lt;var&gt;data_source_scopes&lt;/var&gt; are the scopes returned by ListDataSources
     /// method.
@@ -2827,7 +2851,7 @@
 }
 <span class="doccomment">/// A response indicating whether the credentials exist and are valid.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CheckValidCredsResponse {
     <span class="doccomment">/// If set to `true`, the credentials exist and are valid.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -2878,7 +2902,7 @@
     <span class="doccomment">/// A specification for a time range, this will request transfer runs with
     /// run_time between start_time (inclusive) and end_time (exclusive).
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>TimeRange {
         <span class="doccomment">/// Start time of the range of transfer runs. For example,
         /// `"2017-05-25T00:00:00+00:00"`. The start_time must be strictly less than
@@ -2896,7 +2920,7 @@
     <span class="doccomment">/// The requested time specification - this can be a time range or a specific
     /// run_time.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Time {
         <span class="doccomment">/// A time_range start and end timestamp for historical data files or reports
         /// that are scheduled to be transferred by the scheduled transfer run.

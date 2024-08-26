@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["AnalysisStatus","ContinuousAnalysis"],"mod":["sbom_status"],"struct":["AnalysisCompleted","SbomStatus"]};
+window.SIDEBAR_ITEMS = {"enum":["AnalysisStatus","ContinuousAnalysis"],"mod":["sbom_status","vulnerability_attestation"],"struct":["AnalysisCompleted","SbomStatus","VulnerabilityAttestation"]};

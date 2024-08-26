@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["MysqlExportOptions"]};
+window.SIDEBAR_ITEMS = {"struct":["MysqlExportOptions","PostgresExportOptions"]};

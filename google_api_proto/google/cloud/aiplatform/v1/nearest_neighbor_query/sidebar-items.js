@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Instance"],"struct":["Embedding","Parameters","StringFilter"]};
+window.SIDEBAR_ITEMS = {"enum":["Instance"],"mod":["numeric_filter"],"struct":["Embedding","NumericFilter","Parameters","StringFilter"]};

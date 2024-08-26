@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/apphub/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/apphub/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2283,7 +2283,7 @@
 }
 <span class="doccomment">/// Criticality of the Application, Service, or Workload
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Criticality {
     <span class="doccomment">/// Required. Criticality Type.
     </span><span class="attr">#[prost(enumeration = <span class="string">"criticality::Type"</span>, tag = <span class="string">"3"</span>)]
@@ -2345,7 +2345,7 @@
 }
 <span class="doccomment">/// Environment of the Application, Service, or Workload
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Environment {
     <span class="doccomment">/// Required. Environment Type.
     </span><span class="attr">#[prost(enumeration = <span class="string">"environment::Type"</span>, tag = <span class="string">"2"</span>)]
@@ -2416,6 +2416,152 @@
     <span class="doccomment">/// Required. Email address of the contacts.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Workload is an App Hub data model that contains a discovered workload, which
+/// represents a binary deployment (such as managed instance groups (MIGs) and
+/// GKE deployments) that performs the smallest logical subset of business
+/// functionality.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Workload {
+    <span class="doccomment">/// Identifier. The resource name of the Workload. Format:
+    /// "projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. User-defined name for the Workload.
+    /// Can have a maximum length of 63 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. User-defined description of a Workload.
+    /// Can have a maximum length of 2048 characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Reference of an underlying compute resource represented by the
+    /// Workload. These are immutable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>workload_reference: ::core::option::Option&lt;WorkloadReference&gt;,
+    <span class="doccomment">/// Output only. Properties of an underlying compute resource represented by
+    /// the Workload. These are immutable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>workload_properties: ::core::option::Option&lt;WorkloadProperties&gt;,
+    <span class="doccomment">/// Required. Immutable. The resource name of the original discovered workload.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>discovered_workload: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Consumer provided attributes.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>attributes: ::core::option::Option&lt;Attributes&gt;,
+    <span class="doccomment">/// Output only. Create time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Update time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. A universally unique identifier (UUID) for the `Workload` in
+    /// the UUID4 format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Workload state.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"workload::State"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `Workload`.
+</span><span class="kw">pub mod </span>workload {
+    <span class="doccomment">/// Workload state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified state.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The Workload is being created.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The Workload is ready.
+        </span>Active = <span class="number">2</span>,
+        <span class="doccomment">/// The Workload is being deleted.
+        </span>Deleting = <span class="number">3</span>,
+        <span class="doccomment">/// The underlying compute resources have been deleted.
+        </span>Detached = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Active =&gt; <span class="string">"ACTIVE"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+                State::Detached =&gt; <span class="string">"DETACHED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="string">"DETACHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Detached),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Reference of an underlying compute resource represented by the Workload.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WorkloadReference {
+    <span class="doccomment">/// Output only. The underlying compute resource uri.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Properties of an underlying compute resource represented by the Workload.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WorkloadProperties {
+    <span class="doccomment">/// Output only. The service project identifier that the underlying cloud
+    /// resource resides in. Empty for non cloud resources.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcp_project: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The location that the underlying compute resource resides in
+    /// (e.g us-west1).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The location that the underlying compute resource resides in
+    /// if it is zonal (e.g us-west1-a).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>zone: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// DiscoveredWorkload is a binary deployment (such as managed instance groups
+/// (MIGs) and GKE deployments) that performs the smallest logical subset of
+/// business functionality. A discovered workload can be registered to an App Hub
+/// Workload.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DiscoveredWorkload {
+    <span class="doccomment">/// Identifier. The resource name of the discovered workload. Format:
+    /// "projects/{host-project-id}/locations/{location}/discoveredWorkloads/{uuid}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Reference of an underlying compute resource represented by the
+    /// Workload. These are immutable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>workload_reference: ::core::option::Option&lt;WorkloadReference&gt;,
+    <span class="doccomment">/// Output only. Properties of an underlying compute resource represented by
+    /// the Workload. These are immutable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>workload_properties: ::core::option::Option&lt;WorkloadProperties&gt;,
 }
 <span class="doccomment">/// Application defines the governance boundary for App Hub Entities that
 /// perform a logical end-to-end business function.
@@ -2509,7 +2655,7 @@
 }
 <span class="doccomment">/// Scope of an application.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Scope {
     <span class="doccomment">/// Required. Scope Type.
     </span><span class="attr">#[prost(enumeration = <span class="string">"scope::Type"</span>, tag = <span class="string">"1"</span>)]
@@ -2782,152 +2928,6 @@
         }
     }
 }
-<span class="doccomment">/// Workload is an App Hub data model that contains a discovered workload, which
-/// represents a binary deployment (such as managed instance groups (MIGs) and
-/// GKE deployments) that performs the smallest logical subset of business
-/// functionality.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Workload {
-    <span class="doccomment">/// Identifier. The resource name of the Workload. Format:
-    /// "projects/{host-project-id}/locations/{location}/applications/{application-id}/workloads/{workload-id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. User-defined name for the Workload.
-    /// Can have a maximum length of 63 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. User-defined description of a Workload.
-    /// Can have a maximum length of 2048 characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Reference of an underlying compute resource represented by the
-    /// Workload. These are immutable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>workload_reference: ::core::option::Option&lt;WorkloadReference&gt;,
-    <span class="doccomment">/// Output only. Properties of an underlying compute resource represented by
-    /// the Workload. These are immutable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>workload_properties: ::core::option::Option&lt;WorkloadProperties&gt;,
-    <span class="doccomment">/// Required. Immutable. The resource name of the original discovered workload.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>discovered_workload: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Consumer provided attributes.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>attributes: ::core::option::Option&lt;Attributes&gt;,
-    <span class="doccomment">/// Output only. Create time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Update time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. A universally unique identifier (UUID) for the `Workload` in
-    /// the UUID4 format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Workload state.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"workload::State"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `Workload`.
-</span><span class="kw">pub mod </span>workload {
-    <span class="doccomment">/// Workload state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified state.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The Workload is being created.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The Workload is ready.
-        </span>Active = <span class="number">2</span>,
-        <span class="doccomment">/// The Workload is being deleted.
-        </span>Deleting = <span class="number">3</span>,
-        <span class="doccomment">/// The underlying compute resources have been deleted.
-        </span>Detached = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Active =&gt; <span class="string">"ACTIVE"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-                State::Detached =&gt; <span class="string">"DETACHED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="string">"DETACHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Detached),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Reference of an underlying compute resource represented by the Workload.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WorkloadReference {
-    <span class="doccomment">/// Output only. The underlying compute resource uri.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Properties of an underlying compute resource represented by the Workload.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WorkloadProperties {
-    <span class="doccomment">/// Output only. The service project identifier that the underlying cloud
-    /// resource resides in. Empty for non cloud resources.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcp_project: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The location that the underlying compute resource resides in
-    /// (e.g us-west1).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The location that the underlying compute resource resides in
-    /// if it is zonal (e.g us-west1-a).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>zone: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// DiscoveredWorkload is a binary deployment (such as managed instance groups
-/// (MIGs) and GKE deployments) that performs the smallest logical subset of
-/// business functionality. A discovered workload can be registered to an App Hub
-/// Workload.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DiscoveredWorkload {
-    <span class="doccomment">/// Identifier. The resource name of the discovered workload. Format:
-    /// "projects/{host-project-id}/locations/{location}/discoveredWorkloads/{uuid}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Reference of an underlying compute resource represented by the
-    /// Workload. These are immutable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>workload_reference: ::core::option::Option&lt;WorkloadReference&gt;,
-    <span class="doccomment">/// Output only. Properties of an underlying compute resource represented by
-    /// the Workload. These are immutable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>workload_properties: ::core::option::Option&lt;WorkloadProperties&gt;,
-}
 <span class="doccomment">/// Request for LookupServiceProjectAttachment.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3063,7 +3063,7 @@
 }
 <span class="doccomment">/// Response for DetachServiceProjectAttachment.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DetachServiceProjectAttachmentResponse {}
 <span class="doccomment">/// Request for ListServices.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

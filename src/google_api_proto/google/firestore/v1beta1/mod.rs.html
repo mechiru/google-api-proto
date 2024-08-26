@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/firestore/v1beta1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/firestore/v1beta1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2532,7 +2532,7 @@
 }
 <span class="doccomment">/// A precondition on a document, used for conditional operations.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Precondition {
     <span class="doccomment">/// The type of precondition.
     </span><span class="attr">#[prost(oneof = <span class="string">"precondition::ConditionType"</span>, tags = <span class="string">"1, 2"</span>)]
@@ -2542,7 +2542,7 @@
 </span><span class="kw">pub mod </span>precondition {
     <span class="doccomment">/// The type of precondition.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ConditionType {
         <span class="doccomment">/// When set to `true`, the target document must exist.
         /// When set to `false`, the target document must not exist.
@@ -2574,7 +2574,7 @@
     }
     <span class="doccomment">/// Options for a transaction that can only be used to read documents.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ReadOnly {
         <span class="doccomment">/// The consistency mode for this transaction. If not set, defaults to strong
         /// consistency.
@@ -2586,7 +2586,7 @@
         <span class="doccomment">/// The consistency mode for this transaction. If not set, defaults to strong
         /// consistency.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>ConsistencySelector {
             <span class="doccomment">/// Reads documents at the given time.
             /// This may not be older than 60 seconds.
@@ -2746,417 +2746,6 @@
         ::prost::alloc::string::String,
         Value,
     &gt;,
-}
-<span class="doccomment">/// A write on a document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Write {
-    <span class="doccomment">/// The fields to update in this write.
-    ///
-    /// This field can be set only when the operation is `update`.
-    /// If the mask is not set for an `update` and the document exists, any
-    /// existing data will be overwritten.
-    /// If the mask is set and the document on the server has fields not covered by
-    /// the mask, they are left unchanged.
-    /// Fields referenced in the mask, but not present in the input document, are
-    /// deleted from the document on the server.
-    /// The field paths in this mask must not contain a reserved field name.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;DocumentMask&gt;,
-    <span class="doccomment">/// The transforms to perform after update.
-    ///
-    /// This field can be set only when the operation is `update`. If present, this
-    /// write is equivalent to performing `update` and `transform` to the same
-    /// document atomically and in order.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>update_transforms: ::prost::alloc::vec::Vec&lt;document_transform::FieldTransform&gt;,
-    <span class="doccomment">/// An optional precondition on the document.
-    ///
-    /// The write will fail if this is set and not met by the target document.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>current_document: ::core::option::Option&lt;Precondition&gt;,
-    <span class="doccomment">/// The operation to execute.
-    </span><span class="attr">#[prost(oneof = <span class="string">"write::Operation"</span>, tags = <span class="string">"1, 2, 6"</span>)]
-    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;write::Operation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Write`.
-</span><span class="kw">pub mod </span>write {
-    <span class="doccomment">/// The operation to execute.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Operation {
-        <span class="doccomment">/// A document to write.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Update(<span class="kw">super</span>::Document),
-        <span class="doccomment">/// A document name to delete. In the format:
-        /// `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>Delete(::prost::alloc::string::String),
-        <span class="doccomment">/// Applies a transformation to a document.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>Transform(<span class="kw">super</span>::DocumentTransform),
-    }
-}
-<span class="doccomment">/// A transformation of a document.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentTransform {
-    <span class="doccomment">/// The name of the document to transform.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document: ::prost::alloc::string::String,
-    <span class="doccomment">/// The list of transformations to apply to the fields of the document, in
-    /// order.
-    /// This must not be empty.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>field_transforms: ::prost::alloc::vec::Vec&lt;document_transform::FieldTransform&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DocumentTransform`.
-</span><span class="kw">pub mod </span>document_transform {
-    <span class="doccomment">/// A transformation of a field of the document.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>FieldTransform {
-        <span class="doccomment">/// The path of the field. See [Document.fields][google.firestore.v1beta1.Document.fields] for the field path syntax
-        /// reference.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>field_path: ::prost::alloc::string::String,
-        <span class="doccomment">/// The transformation to apply on the field.
-        </span><span class="attr">#[prost(oneof = <span class="string">"field_transform::TransformType"</span>, tags = <span class="string">"2, 3, 4, 5, 6, 7"</span>)]
-        </span><span class="kw">pub </span>transform_type: ::core::option::Option&lt;field_transform::TransformType&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `FieldTransform`.
-    </span><span class="kw">pub mod </span>field_transform {
-        <span class="doccomment">/// A value that is calculated by the server.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>ServerValue {
-            <span class="doccomment">/// Unspecified. This value must not be used.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The time at which the server processed the request, with millisecond
-            /// precision. If used on multiple fields (same or different documents) in
-            /// a transaction, all the fields will get the same server timestamp.
-            </span>RequestTime = <span class="number">1</span>,
-        }
-        <span class="kw">impl </span>ServerValue {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    ServerValue::Unspecified =&gt; <span class="string">"SERVER_VALUE_UNSPECIFIED"</span>,
-                    ServerValue::RequestTime =&gt; <span class="string">"REQUEST_TIME"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"SERVER_VALUE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"REQUEST_TIME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestTime),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// The transformation to apply on the field.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>TransformType {
-            <span class="doccomment">/// Sets the field to the given server value.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"ServerValue"</span>, tag = <span class="string">"2"</span>)]
-            </span>SetToServerValue(i32),
-            <span class="doccomment">/// Adds the given value to the field's current value.
-            ///
-            /// This must be an integer or a double value.
-            /// If the field is not an integer or double, or if the field does not yet
-            /// exist, the transformation will set the field to the given value.
-            /// If either of the given value or the current field value are doubles,
-            /// both values will be interpreted as doubles. Double arithmetic and
-            /// representation of double values follow IEEE 754 semantics.
-            /// If there is positive/negative integer overflow, the field is resolved
-            /// to the largest magnitude positive/negative integer.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-            </span>Increment(<span class="kw">super</span>::<span class="kw">super</span>::Value),
-            <span class="doccomment">/// Sets the field to the maximum of its current value and the given value.
-            ///
-            /// This must be an integer or a double value.
-            /// If the field is not an integer or double, or if the field does not yet
-            /// exist, the transformation will set the field to the given value.
-            /// If a maximum operation is applied where the field and the input value
-            /// are of mixed types (that is - one is an integer and one is a double)
-            /// the field takes on the type of the larger operand. If the operands are
-            /// equivalent (e.g. 3 and 3.0), the field does not change.
-            /// 0, 0.0, and -0.0 are all zero. The maximum of a zero stored value and
-            /// zero input value is always the stored value.
-            /// The maximum of any numeric value x and NaN is NaN.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-            </span>Maximum(<span class="kw">super</span>::<span class="kw">super</span>::Value),
-            <span class="doccomment">/// Sets the field to the minimum of its current value and the given value.
-            ///
-            /// This must be an integer or a double value.
-            /// If the field is not an integer or double, or if the field does not yet
-            /// exist, the transformation will set the field to the input value.
-            /// If a minimum operation is applied where the field and the input value
-            /// are of mixed types (that is - one is an integer and one is a double)
-            /// the field takes on the type of the smaller operand. If the operands are
-            /// equivalent (e.g. 3 and 3.0), the field does not change.
-            /// 0, 0.0, and -0.0 are all zero. The minimum of a zero stored value and
-            /// zero input value is always the stored value.
-            /// The minimum of any numeric value x and NaN is NaN.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-            </span>Minimum(<span class="kw">super</span>::<span class="kw">super</span>::Value),
-            <span class="doccomment">/// Append the given elements in order if they are not already present in
-            /// the current field value.
-            /// If the field is not an array, or if the field does not yet exist, it is
-            /// first set to the empty array.
-            ///
-            /// Equivalent numbers of different types (e.g. 3L and 3.0) are
-            /// considered equal when checking if a value is missing.
-            /// NaN is equal to NaN, and Null is equal to Null.
-            /// If the input contains multiple equivalent values, only the first will
-            /// be considered.
-            ///
-            /// The corresponding transform_result will be the null value.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-            </span>AppendMissingElements(<span class="kw">super</span>::<span class="kw">super</span>::ArrayValue),
-            <span class="doccomment">/// Remove all of the given elements from the array in the field.
-            /// If the field is not an array, or if the field does not yet exist, it is
-            /// set to the empty array.
-            ///
-            /// Equivalent numbers of the different types (e.g. 3L and 3.0) are
-            /// considered equal when deciding whether an element should be removed.
-            /// NaN is equal to NaN, and Null is equal to Null.
-            /// This will remove all equivalent values if there are duplicates.
-            ///
-            /// The corresponding transform_result will be the null value.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-            </span>RemoveAllFromArray(<span class="kw">super</span>::<span class="kw">super</span>::ArrayValue),
-        }
-    }
-}
-<span class="doccomment">/// The result of applying a write.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WriteResult {
-    <span class="doccomment">/// The last update time of the document after applying the write. Not set
-    /// after a `delete`.
-    ///
-    /// If the write did not actually change the document, this will be the
-    /// previous update_time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The results of applying each [DocumentTransform.FieldTransform][google.firestore.v1beta1.DocumentTransform.FieldTransform], in the
-    /// same order.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>transform_results: ::prost::alloc::vec::Vec&lt;Value&gt;,
-}
-<span class="doccomment">/// A [Document][google.firestore.v1beta1.Document] has changed.
-///
-/// May be the result of multiple [writes][google.firestore.v1beta1.Write], including deletes, that
-/// ultimately resulted in a new value for the [Document][google.firestore.v1beta1.Document].
-///
-/// Multiple [DocumentChange][google.firestore.v1beta1.DocumentChange] messages may be returned for the same logical
-/// change, if multiple targets are affected.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentChange {
-    <span class="doccomment">/// The new state of the [Document][google.firestore.v1beta1.Document].
-    ///
-    /// If `mask` is set, contains only fields that were updated or added.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document: ::core::option::Option&lt;Document&gt;,
-    <span class="doccomment">/// A set of target IDs of targets that match this document.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// A set of target IDs for targets that no longer match this document.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>removed_target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
-}
-<span class="doccomment">/// A [Document][google.firestore.v1beta1.Document] has been deleted.
-///
-/// May be the result of multiple [writes][google.firestore.v1beta1.Write], including updates, the
-/// last of which deleted the [Document][google.firestore.v1beta1.Document].
-///
-/// Multiple [DocumentDelete][google.firestore.v1beta1.DocumentDelete] messages may be returned for the same logical
-/// delete, if multiple targets are affected.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentDelete {
-    <span class="doccomment">/// The resource name of the [Document][google.firestore.v1beta1.Document] that was deleted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document: ::prost::alloc::string::String,
-    <span class="doccomment">/// A set of target IDs for targets that previously matched this entity.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>removed_target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// The read timestamp at which the delete was observed.
-    ///
-    /// Greater or equal to the `commit_time` of the delete.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// A [Document][google.firestore.v1beta1.Document] has been removed from the view of the targets.
-///
-/// Sent if the document is no longer relevant to a target and is out of view.
-/// Can be sent instead of a DocumentDelete or a DocumentChange if the server
-/// can not send the new value of the document.
-///
-/// Multiple [DocumentRemove][google.firestore.v1beta1.DocumentRemove] messages may be returned for the same logical
-/// write or delete, if multiple targets are affected.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DocumentRemove {
-    <span class="doccomment">/// The resource name of the [Document][google.firestore.v1beta1.Document] that has gone out of view.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>document: ::prost::alloc::string::String,
-    <span class="doccomment">/// A set of target IDs for targets that previously matched this document.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>removed_target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// The read timestamp at which the remove was observed.
-    ///
-    /// Greater or equal to the `commit_time` of the change/delete/remove.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// A digest of all the documents that match a given target.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExistenceFilter {
-    <span class="doccomment">/// The target ID to which this filter applies.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_id: i32,
-    <span class="doccomment">/// The total count of documents that match [target_id][google.firestore.v1beta1.ExistenceFilter.target_id].
-    ///
-    /// If different from the count of documents in the client that match, the
-    /// client must manually determine which documents no longer match the target.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>count: i32,
-}
-<span class="doccomment">/// A message signifying an event that cannot be delivered to Cloud Functions
-/// from Firestore using [Cloud Firestore triggers 1st
-/// gen](&lt;https://cloud.google.com/functions/docs/calling/cloud-firestore&gt;)
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UndeliverableFirstGenEvent {
-    <span class="doccomment">/// Error message for events being undeliverable.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Reason for events being undeliverable.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"undeliverable_first_gen_event::Reason"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>reason: i32,
-    <span class="doccomment">/// The resource name of the changed document, in the format of
-    /// `projects/{projectId}/databases/{databaseId}/documents/{document_path}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>document_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of the document change.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"undeliverable_first_gen_event::DocumentChangeType"</span>,
-        tag = <span class="string">"4"
-    </span>)]
-    </span><span class="kw">pub </span>document_change_type: i32,
-    <span class="doccomment">/// The names of the functions that were supposed to be triggered.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>function_name: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The commit time of triggered write operation.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>triggered_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `UndeliverableFirstGenEvent`.
-</span><span class="kw">pub mod </span>undeliverable_first_gen_event {
-    <span class="doccomment">/// Reason for events being undeliverable.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Reason {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Exceeding maximum event size limit
-        </span>ExceedingSizeLimit = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>Reason {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
-                Reason::ExceedingSizeLimit =&gt; <span class="string">"EXCEEDING_SIZE_LIMIT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"EXCEEDING_SIZE_LIMIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ExceedingSizeLimit),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Document change type.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>DocumentChangeType {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Represent creation operation.
-        </span>Create = <span class="number">1</span>,
-        <span class="doccomment">/// Represent delete operation.
-        </span>Delete = <span class="number">2</span>,
-        <span class="doccomment">/// Represent update operation.
-        </span>Update = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>DocumentChangeType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                DocumentChangeType::Unspecified =&gt; <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED"</span>,
-                DocumentChangeType::Create =&gt; <span class="string">"CREATE"</span>,
-                DocumentChangeType::Delete =&gt; <span class="string">"DELETE"</span>,
-                DocumentChangeType::Update =&gt; <span class="string">"UPDATE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Create),
-                <span class="string">"DELETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Delete),
-                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
 }
 <span class="doccomment">/// A Firestore query.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3606,6 +3195,299 @@
     /// to the sort order defined by the query.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>before: bool,
+}
+<span class="doccomment">/// A write on a document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Write {
+    <span class="doccomment">/// The fields to update in this write.
+    ///
+    /// This field can be set only when the operation is `update`.
+    /// If the mask is not set for an `update` and the document exists, any
+    /// existing data will be overwritten.
+    /// If the mask is set and the document on the server has fields not covered by
+    /// the mask, they are left unchanged.
+    /// Fields referenced in the mask, but not present in the input document, are
+    /// deleted from the document on the server.
+    /// The field paths in this mask must not contain a reserved field name.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;DocumentMask&gt;,
+    <span class="doccomment">/// The transforms to perform after update.
+    ///
+    /// This field can be set only when the operation is `update`. If present, this
+    /// write is equivalent to performing `update` and `transform` to the same
+    /// document atomically and in order.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>update_transforms: ::prost::alloc::vec::Vec&lt;document_transform::FieldTransform&gt;,
+    <span class="doccomment">/// An optional precondition on the document.
+    ///
+    /// The write will fail if this is set and not met by the target document.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>current_document: ::core::option::Option&lt;Precondition&gt;,
+    <span class="doccomment">/// The operation to execute.
+    </span><span class="attr">#[prost(oneof = <span class="string">"write::Operation"</span>, tags = <span class="string">"1, 2, 6"</span>)]
+    </span><span class="kw">pub </span>operation: ::core::option::Option&lt;write::Operation&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Write`.
+</span><span class="kw">pub mod </span>write {
+    <span class="doccomment">/// The operation to execute.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Operation {
+        <span class="doccomment">/// A document to write.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Update(<span class="kw">super</span>::Document),
+        <span class="doccomment">/// A document name to delete. In the format:
+        /// `projects/{project_id}/databases/{database_id}/documents/{document_path}`.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>Delete(::prost::alloc::string::String),
+        <span class="doccomment">/// Applies a transformation to a document.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>Transform(<span class="kw">super</span>::DocumentTransform),
+    }
+}
+<span class="doccomment">/// A transformation of a document.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentTransform {
+    <span class="doccomment">/// The name of the document to transform.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document: ::prost::alloc::string::String,
+    <span class="doccomment">/// The list of transformations to apply to the fields of the document, in
+    /// order.
+    /// This must not be empty.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>field_transforms: ::prost::alloc::vec::Vec&lt;document_transform::FieldTransform&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DocumentTransform`.
+</span><span class="kw">pub mod </span>document_transform {
+    <span class="doccomment">/// A transformation of a field of the document.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>FieldTransform {
+        <span class="doccomment">/// The path of the field. See [Document.fields][google.firestore.v1beta1.Document.fields] for the field path syntax
+        /// reference.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>field_path: ::prost::alloc::string::String,
+        <span class="doccomment">/// The transformation to apply on the field.
+        </span><span class="attr">#[prost(oneof = <span class="string">"field_transform::TransformType"</span>, tags = <span class="string">"2, 3, 4, 5, 6, 7"</span>)]
+        </span><span class="kw">pub </span>transform_type: ::core::option::Option&lt;field_transform::TransformType&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `FieldTransform`.
+    </span><span class="kw">pub mod </span>field_transform {
+        <span class="doccomment">/// A value that is calculated by the server.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>ServerValue {
+            <span class="doccomment">/// Unspecified. This value must not be used.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The time at which the server processed the request, with millisecond
+            /// precision. If used on multiple fields (same or different documents) in
+            /// a transaction, all the fields will get the same server timestamp.
+            </span>RequestTime = <span class="number">1</span>,
+        }
+        <span class="kw">impl </span>ServerValue {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    ServerValue::Unspecified =&gt; <span class="string">"SERVER_VALUE_UNSPECIFIED"</span>,
+                    ServerValue::RequestTime =&gt; <span class="string">"REQUEST_TIME"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"SERVER_VALUE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"REQUEST_TIME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestTime),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// The transformation to apply on the field.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>TransformType {
+            <span class="doccomment">/// Sets the field to the given server value.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"ServerValue"</span>, tag = <span class="string">"2"</span>)]
+            </span>SetToServerValue(i32),
+            <span class="doccomment">/// Adds the given value to the field's current value.
+            ///
+            /// This must be an integer or a double value.
+            /// If the field is not an integer or double, or if the field does not yet
+            /// exist, the transformation will set the field to the given value.
+            /// If either of the given value or the current field value are doubles,
+            /// both values will be interpreted as doubles. Double arithmetic and
+            /// representation of double values follow IEEE 754 semantics.
+            /// If there is positive/negative integer overflow, the field is resolved
+            /// to the largest magnitude positive/negative integer.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+            </span>Increment(<span class="kw">super</span>::<span class="kw">super</span>::Value),
+            <span class="doccomment">/// Sets the field to the maximum of its current value and the given value.
+            ///
+            /// This must be an integer or a double value.
+            /// If the field is not an integer or double, or if the field does not yet
+            /// exist, the transformation will set the field to the given value.
+            /// If a maximum operation is applied where the field and the input value
+            /// are of mixed types (that is - one is an integer and one is a double)
+            /// the field takes on the type of the larger operand. If the operands are
+            /// equivalent (e.g. 3 and 3.0), the field does not change.
+            /// 0, 0.0, and -0.0 are all zero. The maximum of a zero stored value and
+            /// zero input value is always the stored value.
+            /// The maximum of any numeric value x and NaN is NaN.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+            </span>Maximum(<span class="kw">super</span>::<span class="kw">super</span>::Value),
+            <span class="doccomment">/// Sets the field to the minimum of its current value and the given value.
+            ///
+            /// This must be an integer or a double value.
+            /// If the field is not an integer or double, or if the field does not yet
+            /// exist, the transformation will set the field to the input value.
+            /// If a minimum operation is applied where the field and the input value
+            /// are of mixed types (that is - one is an integer and one is a double)
+            /// the field takes on the type of the smaller operand. If the operands are
+            /// equivalent (e.g. 3 and 3.0), the field does not change.
+            /// 0, 0.0, and -0.0 are all zero. The minimum of a zero stored value and
+            /// zero input value is always the stored value.
+            /// The minimum of any numeric value x and NaN is NaN.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+            </span>Minimum(<span class="kw">super</span>::<span class="kw">super</span>::Value),
+            <span class="doccomment">/// Append the given elements in order if they are not already present in
+            /// the current field value.
+            /// If the field is not an array, or if the field does not yet exist, it is
+            /// first set to the empty array.
+            ///
+            /// Equivalent numbers of different types (e.g. 3L and 3.0) are
+            /// considered equal when checking if a value is missing.
+            /// NaN is equal to NaN, and Null is equal to Null.
+            /// If the input contains multiple equivalent values, only the first will
+            /// be considered.
+            ///
+            /// The corresponding transform_result will be the null value.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+            </span>AppendMissingElements(<span class="kw">super</span>::<span class="kw">super</span>::ArrayValue),
+            <span class="doccomment">/// Remove all of the given elements from the array in the field.
+            /// If the field is not an array, or if the field does not yet exist, it is
+            /// set to the empty array.
+            ///
+            /// Equivalent numbers of the different types (e.g. 3L and 3.0) are
+            /// considered equal when deciding whether an element should be removed.
+            /// NaN is equal to NaN, and Null is equal to Null.
+            /// This will remove all equivalent values if there are duplicates.
+            ///
+            /// The corresponding transform_result will be the null value.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+            </span>RemoveAllFromArray(<span class="kw">super</span>::<span class="kw">super</span>::ArrayValue),
+        }
+    }
+}
+<span class="doccomment">/// The result of applying a write.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WriteResult {
+    <span class="doccomment">/// The last update time of the document after applying the write. Not set
+    /// after a `delete`.
+    ///
+    /// If the write did not actually change the document, this will be the
+    /// previous update_time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The results of applying each [DocumentTransform.FieldTransform][google.firestore.v1beta1.DocumentTransform.FieldTransform], in the
+    /// same order.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>transform_results: ::prost::alloc::vec::Vec&lt;Value&gt;,
+}
+<span class="doccomment">/// A [Document][google.firestore.v1beta1.Document] has changed.
+///
+/// May be the result of multiple [writes][google.firestore.v1beta1.Write], including deletes, that
+/// ultimately resulted in a new value for the [Document][google.firestore.v1beta1.Document].
+///
+/// Multiple [DocumentChange][google.firestore.v1beta1.DocumentChange] messages may be returned for the same logical
+/// change, if multiple targets are affected.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentChange {
+    <span class="doccomment">/// The new state of the [Document][google.firestore.v1beta1.Document].
+    ///
+    /// If `mask` is set, contains only fields that were updated or added.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document: ::core::option::Option&lt;Document&gt;,
+    <span class="doccomment">/// A set of target IDs of targets that match this document.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// A set of target IDs for targets that no longer match this document.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>removed_target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
+}
+<span class="doccomment">/// A [Document][google.firestore.v1beta1.Document] has been deleted.
+///
+/// May be the result of multiple [writes][google.firestore.v1beta1.Write], including updates, the
+/// last of which deleted the [Document][google.firestore.v1beta1.Document].
+///
+/// Multiple [DocumentDelete][google.firestore.v1beta1.DocumentDelete] messages may be returned for the same logical
+/// delete, if multiple targets are affected.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentDelete {
+    <span class="doccomment">/// The resource name of the [Document][google.firestore.v1beta1.Document] that was deleted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document: ::prost::alloc::string::String,
+    <span class="doccomment">/// A set of target IDs for targets that previously matched this entity.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>removed_target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// The read timestamp at which the delete was observed.
+    ///
+    /// Greater or equal to the `commit_time` of the delete.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// A [Document][google.firestore.v1beta1.Document] has been removed from the view of the targets.
+///
+/// Sent if the document is no longer relevant to a target and is out of view.
+/// Can be sent instead of a DocumentDelete or a DocumentChange if the server
+/// can not send the new value of the document.
+///
+/// Multiple [DocumentRemove][google.firestore.v1beta1.DocumentRemove] messages may be returned for the same logical
+/// write or delete, if multiple targets are affected.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DocumentRemove {
+    <span class="doccomment">/// The resource name of the [Document][google.firestore.v1beta1.Document] that has gone out of view.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>document: ::prost::alloc::string::String,
+    <span class="doccomment">/// A set of target IDs for targets that previously matched this document.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>removed_target_ids: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// The read timestamp at which the remove was observed.
+    ///
+    /// Greater or equal to the `commit_time` of the change/delete/remove.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>read_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// A digest of all the documents that match a given target.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExistenceFilter {
+    <span class="doccomment">/// The target ID to which this filter applies.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_id: i32,
+    <span class="doccomment">/// The total count of documents that match [target_id][google.firestore.v1beta1.ExistenceFilter.target_id].
+    ///
+    /// If different from the count of documents in the client that match, the
+    /// client must manually determine which documents no longer match the target.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>count: i32,
 }
 <span class="doccomment">/// The request for [Firestore.GetDocument][google.firestore.v1beta1.Firestore.GetDocument].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5032,6 +4914,124 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
+    }
+}
+<span class="doccomment">/// A message signifying an event that cannot be delivered to Cloud Functions
+/// from Firestore using [Cloud Firestore triggers 1st
+/// gen](&lt;https://cloud.google.com/functions/docs/calling/cloud-firestore&gt;)
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UndeliverableFirstGenEvent {
+    <span class="doccomment">/// Error message for events being undeliverable.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Reason for events being undeliverable.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"undeliverable_first_gen_event::Reason"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>reason: i32,
+    <span class="doccomment">/// The resource name of the changed document, in the format of
+    /// `projects/{projectId}/databases/{databaseId}/documents/{document_path}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>document_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of the document change.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"undeliverable_first_gen_event::DocumentChangeType"</span>,
+        tag = <span class="string">"4"
+    </span>)]
+    </span><span class="kw">pub </span>document_change_type: i32,
+    <span class="doccomment">/// The names of the functions that were supposed to be triggered.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>function_name: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The commit time of triggered write operation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>triggered_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `UndeliverableFirstGenEvent`.
+</span><span class="kw">pub mod </span>undeliverable_first_gen_event {
+    <span class="doccomment">/// Reason for events being undeliverable.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Reason {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Exceeding maximum event size limit
+        </span>ExceedingSizeLimit = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>Reason {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Reason::Unspecified =&gt; <span class="string">"REASON_UNSPECIFIED"</span>,
+                Reason::ExceedingSizeLimit =&gt; <span class="string">"EXCEEDING_SIZE_LIMIT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"EXCEEDING_SIZE_LIMIT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ExceedingSizeLimit),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Document change type.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>DocumentChangeType {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Represent creation operation.
+        </span>Create = <span class="number">1</span>,
+        <span class="doccomment">/// Represent delete operation.
+        </span>Delete = <span class="number">2</span>,
+        <span class="doccomment">/// Represent update operation.
+        </span>Update = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>DocumentChangeType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                DocumentChangeType::Unspecified =&gt; <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED"</span>,
+                DocumentChangeType::Create =&gt; <span class="string">"CREATE"</span>,
+                DocumentChangeType::Delete =&gt; <span class="string">"DELETE"</span>,
+                DocumentChangeType::Update =&gt; <span class="string">"UPDATE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"DOCUMENT_CHANGE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Create),
+                <span class="string">"DELETE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Delete),
+                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
     }
 }
 </code></pre></div></section></main></body></html>

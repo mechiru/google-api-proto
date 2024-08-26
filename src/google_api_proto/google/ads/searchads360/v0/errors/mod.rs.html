@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/ads/searchads360/v0/errors/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/ads/searchads360/v0/errors/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1597,260 +1597,9 @@
 <a href="#1597" id="1597">1597</a>
 <a href="#1598" id="1598">1598</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Container for enum describing possible errors from an invalid parameter.
+</span><span class="doccomment">/// Container for enum describing possible header errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InvalidParameterErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `InvalidParameterErrorEnum`.
-</span><span class="kw">pub mod </span>invalid_parameter_error_enum {
-    <span class="doccomment">/// Enum describing possible parameter errors.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>InvalidParameterError {
-        <span class="doccomment">/// Enum unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The received error code is not known in this version.
-        </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// The specified currency code is invalid.
-        </span>InvalidCurrencyCode = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>InvalidParameterError {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                InvalidParameterError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                InvalidParameterError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                InvalidParameterError::InvalidCurrencyCode =&gt; <span class="string">"INVALID_CURRENCY_CODE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"INVALID_CURRENCY_CODE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidCurrencyCode),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Container for enum describing possible distinct errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DistinctErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `DistinctErrorEnum`.
-</span><span class="kw">pub mod </span>distinct_error_enum {
-    <span class="doccomment">/// Enum describing possible distinct errors.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>DistinctError {
-        <span class="doccomment">/// Enum unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The received error code is not known in this version.
-        </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// Duplicate element.
-        </span>DuplicateElement = <span class="number">2</span>,
-        <span class="doccomment">/// Duplicate type.
-        </span>DuplicateType = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>DistinctError {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                DistinctError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                DistinctError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                DistinctError::DuplicateElement =&gt; <span class="string">"DUPLICATE_ELEMENT"</span>,
-                DistinctError::DuplicateType =&gt; <span class="string">"DUPLICATE_TYPE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"DUPLICATE_ELEMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateElement),
-                <span class="string">"DUPLICATE_TYPE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateType),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Container for enum describing possible authentication errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AuthenticationErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `AuthenticationErrorEnum`.
-</span><span class="kw">pub mod </span>authentication_error_enum {
-    <span class="doccomment">/// Enum describing possible authentication errors.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>AuthenticationError {
-        <span class="doccomment">/// Enum unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The received error code is not known in this version.
-        </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// Authentication of the request failed.
-        </span>AuthenticationError = <span class="number">2</span>,
-        <span class="doccomment">/// Client customer ID is not a number.
-        </span>ClientCustomerIdInvalid = <span class="number">5</span>,
-        <span class="doccomment">/// No customer found for the provided customer ID.
-        </span>CustomerNotFound = <span class="number">8</span>,
-        <span class="doccomment">/// Client's Google account is deleted.
-        </span>GoogleAccountDeleted = <span class="number">9</span>,
-        <span class="doccomment">/// Account login token in the cookie is invalid.
-        </span>GoogleAccountCookieInvalid = <span class="number">10</span>,
-        <span class="doccomment">/// A problem occurred during Google account authentication.
-        </span>GoogleAccountAuthenticationFailed = <span class="number">25</span>,
-        <span class="doccomment">/// The user in the Google account login token does not match the user ID in
-        /// the cookie.
-        </span>GoogleAccountUserAndAdsUserMismatch = <span class="number">12</span>,
-        <span class="doccomment">/// Login cookie is required for authentication.
-        </span>LoginCookieRequired = <span class="number">13</span>,
-        <span class="doccomment">/// The Google account that generated the OAuth access
-        /// token is not associated with a Search Ads 360 account. Create a new
-        /// account, or add the Google account to an existing Search Ads 360 account.
-        </span>NotAdsUser = <span class="number">14</span>,
-        <span class="doccomment">/// OAuth token in the header is not valid.
-        </span>OauthTokenInvalid = <span class="number">15</span>,
-        <span class="doccomment">/// OAuth token in the header has expired.
-        </span>OauthTokenExpired = <span class="number">16</span>,
-        <span class="doccomment">/// OAuth token in the header has been disabled.
-        </span>OauthTokenDisabled = <span class="number">17</span>,
-        <span class="doccomment">/// OAuth token in the header has been revoked.
-        </span>OauthTokenRevoked = <span class="number">18</span>,
-        <span class="doccomment">/// OAuth token HTTP header is malformed.
-        </span>OauthTokenHeaderInvalid = <span class="number">19</span>,
-        <span class="doccomment">/// Login cookie is not valid.
-        </span>LoginCookieInvalid = <span class="number">20</span>,
-        <span class="doccomment">/// User ID in the header is not a valid ID.
-        </span>UserIdInvalid = <span class="number">22</span>,
-        <span class="doccomment">/// An account administrator changed this account's authentication settings.
-        /// To access this account, enable 2-Step Verification in your
-        /// Google account at &lt;https://www.google.com/landing/2step.&gt;
-        </span>TwoStepVerificationNotEnrolled = <span class="number">23</span>,
-        <span class="doccomment">/// An account administrator changed this account's authentication settings.
-        /// To access this account, enable Advanced Protection in your
-        /// Google account at &lt;https://landing.google.com/advancedprotection.&gt;
-        </span>AdvancedProtectionNotEnrolled = <span class="number">24</span>,
-    }
-    <span class="kw">impl </span>AuthenticationError {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                AuthenticationError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                AuthenticationError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                AuthenticationError::AuthenticationError =&gt; <span class="string">"AUTHENTICATION_ERROR"</span>,
-                AuthenticationError::ClientCustomerIdInvalid =&gt; {
-                    <span class="string">"CLIENT_CUSTOMER_ID_INVALID"
-                </span>}
-                AuthenticationError::CustomerNotFound =&gt; <span class="string">"CUSTOMER_NOT_FOUND"</span>,
-                AuthenticationError::GoogleAccountDeleted =&gt; <span class="string">"GOOGLE_ACCOUNT_DELETED"</span>,
-                AuthenticationError::GoogleAccountCookieInvalid =&gt; {
-                    <span class="string">"GOOGLE_ACCOUNT_COOKIE_INVALID"
-                </span>}
-                AuthenticationError::GoogleAccountAuthenticationFailed =&gt; {
-                    <span class="string">"GOOGLE_ACCOUNT_AUTHENTICATION_FAILED"
-                </span>}
-                AuthenticationError::GoogleAccountUserAndAdsUserMismatch =&gt; {
-                    <span class="string">"GOOGLE_ACCOUNT_USER_AND_ADS_USER_MISMATCH"
-                </span>}
-                AuthenticationError::LoginCookieRequired =&gt; <span class="string">"LOGIN_COOKIE_REQUIRED"</span>,
-                AuthenticationError::NotAdsUser =&gt; <span class="string">"NOT_ADS_USER"</span>,
-                AuthenticationError::OauthTokenInvalid =&gt; <span class="string">"OAUTH_TOKEN_INVALID"</span>,
-                AuthenticationError::OauthTokenExpired =&gt; <span class="string">"OAUTH_TOKEN_EXPIRED"</span>,
-                AuthenticationError::OauthTokenDisabled =&gt; <span class="string">"OAUTH_TOKEN_DISABLED"</span>,
-                AuthenticationError::OauthTokenRevoked =&gt; <span class="string">"OAUTH_TOKEN_REVOKED"</span>,
-                AuthenticationError::OauthTokenHeaderInvalid =&gt; {
-                    <span class="string">"OAUTH_TOKEN_HEADER_INVALID"
-                </span>}
-                AuthenticationError::LoginCookieInvalid =&gt; <span class="string">"LOGIN_COOKIE_INVALID"</span>,
-                AuthenticationError::UserIdInvalid =&gt; <span class="string">"USER_ID_INVALID"</span>,
-                AuthenticationError::TwoStepVerificationNotEnrolled =&gt; {
-                    <span class="string">"TWO_STEP_VERIFICATION_NOT_ENROLLED"
-                </span>}
-                AuthenticationError::AdvancedProtectionNotEnrolled =&gt; {
-                    <span class="string">"ADVANCED_PROTECTION_NOT_ENROLLED"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"AUTHENTICATION_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuthenticationError),
-                <span class="string">"CLIENT_CUSTOMER_ID_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClientCustomerIdInvalid),
-                <span class="string">"CUSTOMER_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerNotFound),
-                <span class="string">"GOOGLE_ACCOUNT_DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountDeleted),
-                <span class="string">"GOOGLE_ACCOUNT_COOKIE_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountCookieInvalid),
-                <span class="string">"GOOGLE_ACCOUNT_AUTHENTICATION_FAILED" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountAuthenticationFailed)
-                }
-                <span class="string">"GOOGLE_ACCOUNT_USER_AND_ADS_USER_MISMATCH" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountUserAndAdsUserMismatch)
-                }
-                <span class="string">"LOGIN_COOKIE_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LoginCookieRequired),
-                <span class="string">"NOT_ADS_USER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAdsUser),
-                <span class="string">"OAUTH_TOKEN_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenInvalid),
-                <span class="string">"OAUTH_TOKEN_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenExpired),
-                <span class="string">"OAUTH_TOKEN_DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenDisabled),
-                <span class="string">"OAUTH_TOKEN_REVOKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenRevoked),
-                <span class="string">"OAUTH_TOKEN_HEADER_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenHeaderInvalid),
-                <span class="string">"LOGIN_COOKIE_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LoginCookieInvalid),
-                <span class="string">"USER_ID_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserIdInvalid),
-                <span class="string">"TWO_STEP_VERIFICATION_NOT_ENROLLED" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::TwoStepVerificationNotEnrolled)
-                }
-                <span class="string">"ADVANCED_PROTECTION_NOT_ENROLLED" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AdvancedProtectionNotEnrolled)
-                }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Container for enum describing possible header errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HeaderErrorEnum {}
 <span class="doccomment">/// Nested message and enum types in `HeaderErrorEnum`.
 </span><span class="kw">pub mod </span>header_error_enum {
@@ -1906,9 +1655,185 @@
         }
     }
 }
+<span class="doccomment">/// Container for enum describing possible internal errors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InternalErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `InternalErrorEnum`.
+</span><span class="kw">pub mod </span>internal_error_enum {
+    <span class="doccomment">/// Enum describing possible internal errors.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>InternalError {
+        <span class="doccomment">/// Enum unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The received error code is not known in this version.
+        </span>Unknown = <span class="number">1</span>,
+        <span class="doccomment">/// API encountered unexpected internal error.
+        </span>InternalError = <span class="number">2</span>,
+        <span class="doccomment">/// The intended error code doesn't exist in specified API version. It will
+        /// be released in a future API version.
+        </span>ErrorCodeNotPublished = <span class="number">3</span>,
+        <span class="doccomment">/// API encountered an unexpected transient error. The user
+        /// should retry their request in these cases.
+        </span>TransientError = <span class="number">4</span>,
+        <span class="doccomment">/// The request took longer than a deadline.
+        </span>DeadlineExceeded = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>InternalError {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                InternalError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                InternalError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                InternalError::InternalError =&gt; <span class="string">"INTERNAL_ERROR"</span>,
+                InternalError::ErrorCodeNotPublished =&gt; <span class="string">"ERROR_CODE_NOT_PUBLISHED"</span>,
+                InternalError::TransientError =&gt; <span class="string">"TRANSIENT_ERROR"</span>,
+                InternalError::DeadlineExceeded =&gt; <span class="string">"DEADLINE_EXCEEDED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                <span class="string">"INTERNAL_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalError),
+                <span class="string">"ERROR_CODE_NOT_PUBLISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ErrorCodeNotPublished),
+                <span class="string">"TRANSIENT_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TransientError),
+                <span class="string">"DEADLINE_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeadlineExceeded),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Container for enum describing possible size limit errors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SizeLimitErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `SizeLimitErrorEnum`.
+</span><span class="kw">pub mod </span>size_limit_error_enum {
+    <span class="doccomment">/// Enum describing possible size limit errors.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SizeLimitError {
+        <span class="doccomment">/// Enum unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The received error code is not known in this version.
+        </span>Unknown = <span class="number">1</span>,
+        <span class="doccomment">/// The number of entries in the request exceeds the system limit, or the
+        /// contents of the operations exceed transaction limits due to their size
+        /// or complexity. Try reducing the number of entries per request.
+        </span>RequestSizeLimitExceeded = <span class="number">2</span>,
+        <span class="doccomment">/// The number of entries in the response exceeds the system limit.
+        </span>ResponseSizeLimitExceeded = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>SizeLimitError {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SizeLimitError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                SizeLimitError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                SizeLimitError::RequestSizeLimitExceeded =&gt; <span class="string">"REQUEST_SIZE_LIMIT_EXCEEDED"</span>,
+                SizeLimitError::ResponseSizeLimitExceeded =&gt; {
+                    <span class="string">"RESPONSE_SIZE_LIMIT_EXCEEDED"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                <span class="string">"REQUEST_SIZE_LIMIT_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestSizeLimitExceeded),
+                <span class="string">"RESPONSE_SIZE_LIMIT_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseSizeLimitExceeded),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Container for enum describing possible distinct errors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DistinctErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `DistinctErrorEnum`.
+</span><span class="kw">pub mod </span>distinct_error_enum {
+    <span class="doccomment">/// Enum describing possible distinct errors.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>DistinctError {
+        <span class="doccomment">/// Enum unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The received error code is not known in this version.
+        </span>Unknown = <span class="number">1</span>,
+        <span class="doccomment">/// Duplicate element.
+        </span>DuplicateElement = <span class="number">2</span>,
+        <span class="doccomment">/// Duplicate type.
+        </span>DuplicateType = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>DistinctError {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                DistinctError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                DistinctError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                DistinctError::DuplicateElement =&gt; <span class="string">"DUPLICATE_ELEMENT"</span>,
+                DistinctError::DuplicateType =&gt; <span class="string">"DUPLICATE_TYPE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                <span class="string">"DUPLICATE_ELEMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateElement),
+                <span class="string">"DUPLICATE_TYPE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateType),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// Container for enum describing possible date errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DateErrorEnum {}
 <span class="doccomment">/// Nested message and enum types in `DateErrorEnum`.
 </span><span class="kw">pub mod </span>date_error_enum {
@@ -2016,67 +1941,9 @@
         }
     }
 }
-<span class="doccomment">/// Container for enum describing possible quota errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>QuotaErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `QuotaErrorEnum`.
-</span><span class="kw">pub mod </span>quota_error_enum {
-    <span class="doccomment">/// Enum describing possible quota errors.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>QuotaError {
-        <span class="doccomment">/// Enum unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The received error code is not known in this version.
-        </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// Too many requests.
-        </span>ResourceExhausted = <span class="number">2</span>,
-        <span class="doccomment">/// Too many requests in a short amount of time.
-        </span>ResourceTemporarilyExhausted = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>QuotaError {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                QuotaError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                QuotaError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                QuotaError::ResourceExhausted =&gt; <span class="string">"RESOURCE_EXHAUSTED"</span>,
-                QuotaError::ResourceTemporarilyExhausted =&gt; {
-                    <span class="string">"RESOURCE_TEMPORARILY_EXHAUSTED"
-                </span>}
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"RESOURCE_EXHAUSTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceExhausted),
-                <span class="string">"RESOURCE_TEMPORARILY_EXHAUSTED" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceTemporarilyExhausted)
-                }
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// Container for enum describing possible custom column errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CustomColumnErrorEnum {}
 <span class="doccomment">/// Nested message and enum types in `CustomColumnErrorEnum`.
 </span><span class="kw">pub mod </span>custom_column_error_enum {
@@ -2132,7 +1999,7 @@
 }
 <span class="doccomment">/// Container for enum describing possible date range errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DateRangeErrorEnum {}
 <span class="doccomment">/// Nested message and enum types in `DateRangeErrorEnum`.
 </span><span class="kw">pub mod </span>date_range_error_enum {
@@ -2202,180 +2069,9 @@
         }
     }
 }
-<span class="doccomment">/// Container for enum describing possible internal errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>InternalErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `InternalErrorEnum`.
-</span><span class="kw">pub mod </span>internal_error_enum {
-    <span class="doccomment">/// Enum describing possible internal errors.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>InternalError {
-        <span class="doccomment">/// Enum unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The received error code is not known in this version.
-        </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// API encountered unexpected internal error.
-        </span>InternalError = <span class="number">2</span>,
-        <span class="doccomment">/// The intended error code doesn't exist in specified API version. It will
-        /// be released in a future API version.
-        </span>ErrorCodeNotPublished = <span class="number">3</span>,
-        <span class="doccomment">/// API encountered an unexpected transient error. The user
-        /// should retry their request in these cases.
-        </span>TransientError = <span class="number">4</span>,
-        <span class="doccomment">/// The request took longer than a deadline.
-        </span>DeadlineExceeded = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>InternalError {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                InternalError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                InternalError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                InternalError::InternalError =&gt; <span class="string">"INTERNAL_ERROR"</span>,
-                InternalError::ErrorCodeNotPublished =&gt; <span class="string">"ERROR_CODE_NOT_PUBLISHED"</span>,
-                InternalError::TransientError =&gt; <span class="string">"TRANSIENT_ERROR"</span>,
-                InternalError::DeadlineExceeded =&gt; <span class="string">"DEADLINE_EXCEEDED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"INTERNAL_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalError),
-                <span class="string">"ERROR_CODE_NOT_PUBLISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ErrorCodeNotPublished),
-                <span class="string">"TRANSIENT_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TransientError),
-                <span class="string">"DEADLINE_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DeadlineExceeded),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Container for enum describing possible authorization errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AuthorizationErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `AuthorizationErrorEnum`.
-</span><span class="kw">pub mod </span>authorization_error_enum {
-    <span class="doccomment">/// Enum describing possible authorization errors.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>AuthorizationError {
-        <span class="doccomment">/// Enum unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The received error code is not known in this version.
-        </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// User doesn't have permission to access customer. Note: If you're
-        /// accessing a client customer, the manager's customer ID must be set in the
-        /// `login-customer-id` header. Learn more at
-        /// &lt;https://developers.google.com/search-ads/reporting/concepts/call-structure#login_customer_id_header&gt;
-        </span>UserPermissionDenied = <span class="number">2</span>,
-        <span class="doccomment">/// The Google Cloud project sent in the request does not have permission to
-        /// access the api.
-        </span>ProjectDisabled = <span class="number">5</span>,
-        <span class="doccomment">/// Authorization of the client failed.
-        </span>AuthorizationError = <span class="number">6</span>,
-        <span class="doccomment">/// The user does not have permission to perform this action
-        /// (for example, ADD, UPDATE, REMOVE) on the resource or call a method.
-        </span>ActionNotPermitted = <span class="number">7</span>,
-        <span class="doccomment">/// Signup not complete.
-        </span>IncompleteSignup = <span class="number">8</span>,
-        <span class="doccomment">/// The customer account can't be accessed because it is not yet enabled or
-        /// has been deactivated.
-        </span>CustomerNotEnabled = <span class="number">24</span>,
-        <span class="doccomment">/// The developer must sign the terms of service. They can be found here:
-        /// &lt;https://developers.google.com/terms&gt;
-        </span>MissingTos = <span class="number">9</span>,
-        <span class="doccomment">/// The login customer specified does not have access to the account
-        /// specified, so the request is invalid.
-        </span>InvalidLoginCustomerIdServingCustomerIdCombination = <span class="number">11</span>,
-        <span class="doccomment">/// The developer specified does not have access to the service.
-        </span>ServiceAccessDenied = <span class="number">12</span>,
-        <span class="doccomment">/// The customer (or login customer) isn't allowed in Search Ads 360 API. It
-        /// belongs to another ads system.
-        </span>AccessDeniedForAccountType = <span class="number">25</span>,
-        <span class="doccomment">/// The developer does not have access to the metrics queried.
-        </span>MetricAccessDenied = <span class="number">26</span>,
-    }
-    <span class="kw">impl </span>AuthorizationError {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                AuthorizationError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                AuthorizationError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                AuthorizationError::UserPermissionDenied =&gt; <span class="string">"USER_PERMISSION_DENIED"</span>,
-                AuthorizationError::ProjectDisabled =&gt; <span class="string">"PROJECT_DISABLED"</span>,
-                AuthorizationError::AuthorizationError =&gt; <span class="string">"AUTHORIZATION_ERROR"</span>,
-                AuthorizationError::ActionNotPermitted =&gt; <span class="string">"ACTION_NOT_PERMITTED"</span>,
-                AuthorizationError::IncompleteSignup =&gt; <span class="string">"INCOMPLETE_SIGNUP"</span>,
-                AuthorizationError::CustomerNotEnabled =&gt; <span class="string">"CUSTOMER_NOT_ENABLED"</span>,
-                AuthorizationError::MissingTos =&gt; <span class="string">"MISSING_TOS"</span>,
-                AuthorizationError::InvalidLoginCustomerIdServingCustomerIdCombination =&gt; {
-                    <span class="string">"INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION"
-                </span>}
-                AuthorizationError::ServiceAccessDenied =&gt; <span class="string">"SERVICE_ACCESS_DENIED"</span>,
-                AuthorizationError::AccessDeniedForAccountType =&gt; {
-                    <span class="string">"ACCESS_DENIED_FOR_ACCOUNT_TYPE"
-                </span>}
-                AuthorizationError::MetricAccessDenied =&gt; <span class="string">"METRIC_ACCESS_DENIED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"USER_PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserPermissionDenied),
-                <span class="string">"PROJECT_DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectDisabled),
-                <span class="string">"AUTHORIZATION_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuthorizationError),
-                <span class="string">"ACTION_NOT_PERMITTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ActionNotPermitted),
-                <span class="string">"INCOMPLETE_SIGNUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IncompleteSignup),
-                <span class="string">"CUSTOMER_NOT_ENABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerNotEnabled),
-                <span class="string">"MISSING_TOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MissingTos),
-                <span class="string">"INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidLoginCustomerIdServingCustomerIdCombination)
-                }
-                <span class="string">"SERVICE_ACCESS_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceAccessDenied),
-                <span class="string">"ACCESS_DENIED_FOR_ACCOUNT_TYPE" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessDeniedForAccountType)
-                }
-                <span class="string">"METRIC_ACCESS_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricAccessDenied),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// Container for enum describing possible request errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RequestErrorEnum {}
 <span class="doccomment">/// Nested message and enum types in `RequestErrorEnum`.
 </span><span class="kw">pub mod </span>request_error_enum {
@@ -2559,13 +2255,13 @@
         }
     }
 }
-<span class="doccomment">/// Container for enum describing possible size limit errors.
+<span class="doccomment">/// Container for enum describing possible quota errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SizeLimitErrorEnum {}
-<span class="doccomment">/// Nested message and enum types in `SizeLimitErrorEnum`.
-</span><span class="kw">pub mod </span>size_limit_error_enum {
-    <span class="doccomment">/// Enum describing possible size limit errors.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>QuotaErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `QuotaErrorEnum`.
+</span><span class="kw">pub mod </span>quota_error_enum {
+    <span class="doccomment">/// Enum describing possible quota errors.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -2578,30 +2274,28 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>SizeLimitError {
+    </span><span class="kw">pub enum </span>QuotaError {
         <span class="doccomment">/// Enum unspecified.
         </span>Unspecified = <span class="number">0</span>,
         <span class="doccomment">/// The received error code is not known in this version.
         </span>Unknown = <span class="number">1</span>,
-        <span class="doccomment">/// The number of entries in the request exceeds the system limit, or the
-        /// contents of the operations exceed transaction limits due to their size
-        /// or complexity. Try reducing the number of entries per request.
-        </span>RequestSizeLimitExceeded = <span class="number">2</span>,
-        <span class="doccomment">/// The number of entries in the response exceeds the system limit.
-        </span>ResponseSizeLimitExceeded = <span class="number">3</span>,
+        <span class="doccomment">/// Too many requests.
+        </span>ResourceExhausted = <span class="number">2</span>,
+        <span class="doccomment">/// Too many requests in a short amount of time.
+        </span>ResourceTemporarilyExhausted = <span class="number">4</span>,
     }
-    <span class="kw">impl </span>SizeLimitError {
+    <span class="kw">impl </span>QuotaError {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                SizeLimitError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
-                SizeLimitError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
-                SizeLimitError::RequestSizeLimitExceeded =&gt; <span class="string">"REQUEST_SIZE_LIMIT_EXCEEDED"</span>,
-                SizeLimitError::ResponseSizeLimitExceeded =&gt; {
-                    <span class="string">"RESPONSE_SIZE_LIMIT_EXCEEDED"
+                QuotaError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                QuotaError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                QuotaError::ResourceExhausted =&gt; <span class="string">"RESOURCE_EXHAUSTED"</span>,
+                QuotaError::ResourceTemporarilyExhausted =&gt; {
+                    <span class="string">"RESOURCE_TEMPORARILY_EXHAUSTED"
                 </span>}
             }
         }
@@ -2610,8 +2304,314 @@
             <span class="kw">match </span>value {
                 <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-                <span class="string">"REQUEST_SIZE_LIMIT_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::RequestSizeLimitExceeded),
-                <span class="string">"RESPONSE_SIZE_LIMIT_EXCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResponseSizeLimitExceeded),
+                <span class="string">"RESOURCE_EXHAUSTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceExhausted),
+                <span class="string">"RESOURCE_TEMPORARILY_EXHAUSTED" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceTemporarilyExhausted)
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Container for enum describing possible authentication errors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AuthenticationErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `AuthenticationErrorEnum`.
+</span><span class="kw">pub mod </span>authentication_error_enum {
+    <span class="doccomment">/// Enum describing possible authentication errors.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>AuthenticationError {
+        <span class="doccomment">/// Enum unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The received error code is not known in this version.
+        </span>Unknown = <span class="number">1</span>,
+        <span class="doccomment">/// Authentication of the request failed.
+        </span>AuthenticationError = <span class="number">2</span>,
+        <span class="doccomment">/// Client customer ID is not a number.
+        </span>ClientCustomerIdInvalid = <span class="number">5</span>,
+        <span class="doccomment">/// No customer found for the provided customer ID.
+        </span>CustomerNotFound = <span class="number">8</span>,
+        <span class="doccomment">/// Client's Google account is deleted.
+        </span>GoogleAccountDeleted = <span class="number">9</span>,
+        <span class="doccomment">/// Account login token in the cookie is invalid.
+        </span>GoogleAccountCookieInvalid = <span class="number">10</span>,
+        <span class="doccomment">/// A problem occurred during Google account authentication.
+        </span>GoogleAccountAuthenticationFailed = <span class="number">25</span>,
+        <span class="doccomment">/// The user in the Google account login token does not match the user ID in
+        /// the cookie.
+        </span>GoogleAccountUserAndAdsUserMismatch = <span class="number">12</span>,
+        <span class="doccomment">/// Login cookie is required for authentication.
+        </span>LoginCookieRequired = <span class="number">13</span>,
+        <span class="doccomment">/// The Google account that generated the OAuth access
+        /// token is not associated with a Search Ads 360 account. Create a new
+        /// account, or add the Google account to an existing Search Ads 360 account.
+        </span>NotAdsUser = <span class="number">14</span>,
+        <span class="doccomment">/// OAuth token in the header is not valid.
+        </span>OauthTokenInvalid = <span class="number">15</span>,
+        <span class="doccomment">/// OAuth token in the header has expired.
+        </span>OauthTokenExpired = <span class="number">16</span>,
+        <span class="doccomment">/// OAuth token in the header has been disabled.
+        </span>OauthTokenDisabled = <span class="number">17</span>,
+        <span class="doccomment">/// OAuth token in the header has been revoked.
+        </span>OauthTokenRevoked = <span class="number">18</span>,
+        <span class="doccomment">/// OAuth token HTTP header is malformed.
+        </span>OauthTokenHeaderInvalid = <span class="number">19</span>,
+        <span class="doccomment">/// Login cookie is not valid.
+        </span>LoginCookieInvalid = <span class="number">20</span>,
+        <span class="doccomment">/// User ID in the header is not a valid ID.
+        </span>UserIdInvalid = <span class="number">22</span>,
+        <span class="doccomment">/// An account administrator changed this account's authentication settings.
+        /// To access this account, enable 2-Step Verification in your
+        /// Google account at &lt;https://www.google.com/landing/2step.&gt;
+        </span>TwoStepVerificationNotEnrolled = <span class="number">23</span>,
+        <span class="doccomment">/// An account administrator changed this account's authentication settings.
+        /// To access this account, enable Advanced Protection in your
+        /// Google account at &lt;https://landing.google.com/advancedprotection.&gt;
+        </span>AdvancedProtectionNotEnrolled = <span class="number">24</span>,
+    }
+    <span class="kw">impl </span>AuthenticationError {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                AuthenticationError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                AuthenticationError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                AuthenticationError::AuthenticationError =&gt; <span class="string">"AUTHENTICATION_ERROR"</span>,
+                AuthenticationError::ClientCustomerIdInvalid =&gt; {
+                    <span class="string">"CLIENT_CUSTOMER_ID_INVALID"
+                </span>}
+                AuthenticationError::CustomerNotFound =&gt; <span class="string">"CUSTOMER_NOT_FOUND"</span>,
+                AuthenticationError::GoogleAccountDeleted =&gt; <span class="string">"GOOGLE_ACCOUNT_DELETED"</span>,
+                AuthenticationError::GoogleAccountCookieInvalid =&gt; {
+                    <span class="string">"GOOGLE_ACCOUNT_COOKIE_INVALID"
+                </span>}
+                AuthenticationError::GoogleAccountAuthenticationFailed =&gt; {
+                    <span class="string">"GOOGLE_ACCOUNT_AUTHENTICATION_FAILED"
+                </span>}
+                AuthenticationError::GoogleAccountUserAndAdsUserMismatch =&gt; {
+                    <span class="string">"GOOGLE_ACCOUNT_USER_AND_ADS_USER_MISMATCH"
+                </span>}
+                AuthenticationError::LoginCookieRequired =&gt; <span class="string">"LOGIN_COOKIE_REQUIRED"</span>,
+                AuthenticationError::NotAdsUser =&gt; <span class="string">"NOT_ADS_USER"</span>,
+                AuthenticationError::OauthTokenInvalid =&gt; <span class="string">"OAUTH_TOKEN_INVALID"</span>,
+                AuthenticationError::OauthTokenExpired =&gt; <span class="string">"OAUTH_TOKEN_EXPIRED"</span>,
+                AuthenticationError::OauthTokenDisabled =&gt; <span class="string">"OAUTH_TOKEN_DISABLED"</span>,
+                AuthenticationError::OauthTokenRevoked =&gt; <span class="string">"OAUTH_TOKEN_REVOKED"</span>,
+                AuthenticationError::OauthTokenHeaderInvalid =&gt; {
+                    <span class="string">"OAUTH_TOKEN_HEADER_INVALID"
+                </span>}
+                AuthenticationError::LoginCookieInvalid =&gt; <span class="string">"LOGIN_COOKIE_INVALID"</span>,
+                AuthenticationError::UserIdInvalid =&gt; <span class="string">"USER_ID_INVALID"</span>,
+                AuthenticationError::TwoStepVerificationNotEnrolled =&gt; {
+                    <span class="string">"TWO_STEP_VERIFICATION_NOT_ENROLLED"
+                </span>}
+                AuthenticationError::AdvancedProtectionNotEnrolled =&gt; {
+                    <span class="string">"ADVANCED_PROTECTION_NOT_ENROLLED"
+                </span>}
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                <span class="string">"AUTHENTICATION_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuthenticationError),
+                <span class="string">"CLIENT_CUSTOMER_ID_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ClientCustomerIdInvalid),
+                <span class="string">"CUSTOMER_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerNotFound),
+                <span class="string">"GOOGLE_ACCOUNT_DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountDeleted),
+                <span class="string">"GOOGLE_ACCOUNT_COOKIE_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountCookieInvalid),
+                <span class="string">"GOOGLE_ACCOUNT_AUTHENTICATION_FAILED" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountAuthenticationFailed)
+                }
+                <span class="string">"GOOGLE_ACCOUNT_USER_AND_ADS_USER_MISMATCH" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::GoogleAccountUserAndAdsUserMismatch)
+                }
+                <span class="string">"LOGIN_COOKIE_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LoginCookieRequired),
+                <span class="string">"NOT_ADS_USER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAdsUser),
+                <span class="string">"OAUTH_TOKEN_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenInvalid),
+                <span class="string">"OAUTH_TOKEN_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenExpired),
+                <span class="string">"OAUTH_TOKEN_DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenDisabled),
+                <span class="string">"OAUTH_TOKEN_REVOKED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenRevoked),
+                <span class="string">"OAUTH_TOKEN_HEADER_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OauthTokenHeaderInvalid),
+                <span class="string">"LOGIN_COOKIE_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LoginCookieInvalid),
+                <span class="string">"USER_ID_INVALID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserIdInvalid),
+                <span class="string">"TWO_STEP_VERIFICATION_NOT_ENROLLED" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::TwoStepVerificationNotEnrolled)
+                }
+                <span class="string">"ADVANCED_PROTECTION_NOT_ENROLLED" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AdvancedProtectionNotEnrolled)
+                }
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Container for enum describing possible authorization errors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AuthorizationErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `AuthorizationErrorEnum`.
+</span><span class="kw">pub mod </span>authorization_error_enum {
+    <span class="doccomment">/// Enum describing possible authorization errors.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>AuthorizationError {
+        <span class="doccomment">/// Enum unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The received error code is not known in this version.
+        </span>Unknown = <span class="number">1</span>,
+        <span class="doccomment">/// User doesn't have permission to access customer. Note: If you're
+        /// accessing a client customer, the manager's customer ID must be set in the
+        /// `login-customer-id` header. Learn more at
+        /// &lt;https://developers.google.com/search-ads/reporting/concepts/call-structure#login_customer_id_header&gt;
+        </span>UserPermissionDenied = <span class="number">2</span>,
+        <span class="doccomment">/// The Google Cloud project sent in the request does not have permission to
+        /// access the api.
+        </span>ProjectDisabled = <span class="number">5</span>,
+        <span class="doccomment">/// Authorization of the client failed.
+        </span>AuthorizationError = <span class="number">6</span>,
+        <span class="doccomment">/// The user does not have permission to perform this action
+        /// (for example, ADD, UPDATE, REMOVE) on the resource or call a method.
+        </span>ActionNotPermitted = <span class="number">7</span>,
+        <span class="doccomment">/// Signup not complete.
+        </span>IncompleteSignup = <span class="number">8</span>,
+        <span class="doccomment">/// The customer account can't be accessed because it is not yet enabled or
+        /// has been deactivated.
+        </span>CustomerNotEnabled = <span class="number">24</span>,
+        <span class="doccomment">/// The developer must sign the terms of service. They can be found here:
+        /// &lt;https://developers.google.com/terms&gt;
+        </span>MissingTos = <span class="number">9</span>,
+        <span class="doccomment">/// The login customer specified does not have access to the account
+        /// specified, so the request is invalid.
+        </span>InvalidLoginCustomerIdServingCustomerIdCombination = <span class="number">11</span>,
+        <span class="doccomment">/// The developer specified does not have access to the service.
+        </span>ServiceAccessDenied = <span class="number">12</span>,
+        <span class="doccomment">/// The customer (or login customer) isn't allowed in Search Ads 360 API. It
+        /// belongs to another ads system.
+        </span>AccessDeniedForAccountType = <span class="number">25</span>,
+        <span class="doccomment">/// The developer does not have access to the metrics queried.
+        </span>MetricAccessDenied = <span class="number">26</span>,
+    }
+    <span class="kw">impl </span>AuthorizationError {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                AuthorizationError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                AuthorizationError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                AuthorizationError::UserPermissionDenied =&gt; <span class="string">"USER_PERMISSION_DENIED"</span>,
+                AuthorizationError::ProjectDisabled =&gt; <span class="string">"PROJECT_DISABLED"</span>,
+                AuthorizationError::AuthorizationError =&gt; <span class="string">"AUTHORIZATION_ERROR"</span>,
+                AuthorizationError::ActionNotPermitted =&gt; <span class="string">"ACTION_NOT_PERMITTED"</span>,
+                AuthorizationError::IncompleteSignup =&gt; <span class="string">"INCOMPLETE_SIGNUP"</span>,
+                AuthorizationError::CustomerNotEnabled =&gt; <span class="string">"CUSTOMER_NOT_ENABLED"</span>,
+                AuthorizationError::MissingTos =&gt; <span class="string">"MISSING_TOS"</span>,
+                AuthorizationError::InvalidLoginCustomerIdServingCustomerIdCombination =&gt; {
+                    <span class="string">"INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION"
+                </span>}
+                AuthorizationError::ServiceAccessDenied =&gt; <span class="string">"SERVICE_ACCESS_DENIED"</span>,
+                AuthorizationError::AccessDeniedForAccountType =&gt; {
+                    <span class="string">"ACCESS_DENIED_FOR_ACCOUNT_TYPE"
+                </span>}
+                AuthorizationError::MetricAccessDenied =&gt; <span class="string">"METRIC_ACCESS_DENIED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                <span class="string">"USER_PERMISSION_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserPermissionDenied),
+                <span class="string">"PROJECT_DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProjectDisabled),
+                <span class="string">"AUTHORIZATION_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::AuthorizationError),
+                <span class="string">"ACTION_NOT_PERMITTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ActionNotPermitted),
+                <span class="string">"INCOMPLETE_SIGNUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IncompleteSignup),
+                <span class="string">"CUSTOMER_NOT_ENABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CustomerNotEnabled),
+                <span class="string">"MISSING_TOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MissingTos),
+                <span class="string">"INVALID_LOGIN_CUSTOMER_ID_SERVING_CUSTOMER_ID_COMBINATION" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidLoginCustomerIdServingCustomerIdCombination)
+                }
+                <span class="string">"SERVICE_ACCESS_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServiceAccessDenied),
+                <span class="string">"ACCESS_DENIED_FOR_ACCOUNT_TYPE" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::AccessDeniedForAccountType)
+                }
+                <span class="string">"METRIC_ACCESS_DENIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricAccessDenied),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Container for enum describing possible errors from an invalid parameter.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>InvalidParameterErrorEnum {}
+<span class="doccomment">/// Nested message and enum types in `InvalidParameterErrorEnum`.
+</span><span class="kw">pub mod </span>invalid_parameter_error_enum {
+    <span class="doccomment">/// Enum describing possible parameter errors.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>InvalidParameterError {
+        <span class="doccomment">/// Enum unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The received error code is not known in this version.
+        </span>Unknown = <span class="number">1</span>,
+        <span class="doccomment">/// The specified currency code is invalid.
+        </span>InvalidCurrencyCode = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>InvalidParameterError {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                InvalidParameterError::Unspecified =&gt; <span class="string">"UNSPECIFIED"</span>,
+                InvalidParameterError::Unknown =&gt; <span class="string">"UNKNOWN"</span>,
+                InvalidParameterError::InvalidCurrencyCode =&gt; <span class="string">"INVALID_CURRENCY_CODE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+                <span class="string">"INVALID_CURRENCY_CODE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidCurrencyCode),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -2619,7 +2619,7 @@
 }
 <span class="doccomment">/// Container for enum describing possible query errors.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>QueryErrorEnum {}
 <span class="doccomment">/// Nested message and enum types in `QueryErrorEnum`.
 </span><span class="kw">pub mod </span>query_error_enum {
@@ -2997,7 +2997,7 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// SearchAds360-specific error.
+<span class="doccomment">/// Search Ads 360-specific error.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SearchAds360Error {
@@ -3020,7 +3020,7 @@
 }
 <span class="doccomment">/// The error reason represented by type and enum.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ErrorCode {
     <span class="doccomment">/// The list of error enums
     </span><span class="attr">#[prost(
@@ -3033,7 +3033,7 @@
 </span><span class="kw">pub mod </span>error_code {
     <span class="doccomment">/// The list of error enums
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ErrorCode {
         <span class="doccomment">/// An error caused by the request
         </span><span class="attr">#[prost(enumeration = <span class="string">"super::request_error_enum::RequestError"</span>, tag = <span class="string">"1"</span>)]

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/gkebackup/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/gkebackup/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3539,7 +3539,7 @@
 }
 <span class="doccomment">/// Message to encapsulate VolumeType enum.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VolumeTypeEnum {}
 <span class="doccomment">/// Nested message and enum types in `VolumeTypeEnum`.
 </span><span class="kw">pub mod </span>volume_type_enum {
@@ -3578,6 +3578,328 @@
             <span class="kw">match </span>value {
                 <span class="string">"VOLUME_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"GCE_PERSISTENT_DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GcePersistentDisk),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Represents the backup of a specific persistent volume as a component of a
+/// Backup - both the record of the operation and a pointer to the underlying
+/// storage-specific artifacts.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VolumeBackup {
+    <span class="doccomment">/// Output only. The full name of the VolumeBackup resource.
+    /// Format: `projects/*/locations/*/backupPlans/*/backups/*/volumeBackups/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server generated global unique identifier of
+    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when this VolumeBackup resource was
+    /// created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when this VolumeBackup resource was last
+    /// updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. A reference to the source Kubernetes PVC from which this
+    /// VolumeBackup was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>source_pvc: ::core::option::Option&lt;NamespacedName&gt;,
+    <span class="doccomment">/// Output only. A storage system-specific opaque handle to the underlying
+    /// volume backup.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>volume_backup_handle: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The format used for the volume backup.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_backup::VolumeBackupFormat"</span>, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>format: i32,
+    <span class="doccomment">/// Output only. The aggregate size of the underlying artifacts associated with
+    /// this VolumeBackup in the backup storage. This may change over time when
+    /// multiple backups of the same volume share the same backup storage
+    /// location. In particular, this is likely to increase in size when
+    /// the immediately preceding backup of the same volume is deleted.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>storage_bytes: i64,
+    <span class="doccomment">/// Output only. The minimum size of the disk to which this VolumeBackup can be
+    /// restored.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>disk_size_bytes: i64,
+    <span class="doccomment">/// Output only. The timestamp when the associated underlying volume backup
+    /// operation completed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The current state of this VolumeBackup.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_backup::State"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. A human readable message explaining why the VolumeBackup is in
+    /// its current state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
+    /// help prevent simultaneous updates of a volume backup from overwriting each
+    /// other. It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform volume backup updates in order to avoid
+    /// race conditions.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `VolumeBackup`.
+</span><span class="kw">pub mod </span>volume_backup {
+    <span class="doccomment">/// Identifies the format used for the volume backup.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>VolumeBackupFormat {
+        <span class="doccomment">/// Default value, not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Compute Engine Persistent Disk snapshot based volume backup.
+        </span>GcePersistentDisk = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>VolumeBackupFormat {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                VolumeBackupFormat::Unspecified =&gt; <span class="string">"VOLUME_BACKUP_FORMAT_UNSPECIFIED"</span>,
+                VolumeBackupFormat::GcePersistentDisk =&gt; <span class="string">"GCE_PERSISTENT_DISK"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"VOLUME_BACKUP_FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"GCE_PERSISTENT_DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GcePersistentDisk),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The current state of a VolumeBackup
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// This is an illegal state and should not be encountered.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A volume for the backup was identified and backup process is about to
+        /// start.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The volume backup operation has begun and is in the initial "snapshot"
+        /// phase of the process. Any defined ProtectedApplication "pre" hooks will
+        /// be executed before entering this state and "post" hooks will be executed
+        /// upon leaving this state.
+        </span>Snapshotting = <span class="number">2</span>,
+        <span class="doccomment">/// The snapshot phase of the volume backup operation has completed and
+        /// the snapshot is now being uploaded to backup storage.
+        </span>Uploading = <span class="number">3</span>,
+        <span class="doccomment">/// The volume backup operation has completed successfully.
+        </span>Succeeded = <span class="number">4</span>,
+        <span class="doccomment">/// The volume backup operation has failed.
+        </span>Failed = <span class="number">5</span>,
+        <span class="doccomment">/// This VolumeBackup resource (and its associated artifacts) is in the
+        /// process of being deleted.
+        </span>Deleting = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Snapshotting =&gt; <span class="string">"SNAPSHOTTING"</span>,
+                State::Uploading =&gt; <span class="string">"UPLOADING"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"SNAPSHOTTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Snapshotting),
+                <span class="string">"UPLOADING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uploading),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Represents the operation of restoring a volume from a VolumeBackup.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VolumeRestore {
+    <span class="doccomment">/// Output only. Full name of the VolumeRestore resource.
+    /// Format: `projects/*/locations/*/restorePlans/*/restores/*/volumeRestores/*`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Server generated global unique identifier of
+    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The timestamp when this VolumeRestore resource was
+    /// created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp when this VolumeRestore resource was last
+    /// updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The full name of the VolumeBackup from which the volume will
+    /// be restored. Format:
+    /// `projects/*/locations/*/backupPlans/*/backups/*/volumeBackups/*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>volume_backup: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The reference to the target Kubernetes PVC to be restored.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>target_pvc: ::core::option::Option&lt;NamespacedName&gt;,
+    <span class="doccomment">/// Output only. A storage system-specific opaque handler to the underlying
+    /// volume created for the target PVC from the volume backup.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>volume_handle: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The type of volume provisioned
+    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_restore::VolumeType"</span>, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>volume_type: i32,
+    <span class="doccomment">/// Output only. The timestamp when the associated underlying volume
+    /// restoration completed.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The current state of this VolumeRestore.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_restore::State"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. A human readable message explaining why the VolumeRestore is
+    /// in its current state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
+    /// help prevent simultaneous updates of a volume restore from overwriting each
+    /// other. It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform volume restore updates in order to avoid
+    /// race conditions.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `VolumeRestore`.
+</span><span class="kw">pub mod </span>volume_restore {
+    <span class="doccomment">/// Supported volume types.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>VolumeType {
+        <span class="doccomment">/// Default
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Compute Engine Persistent Disk volume
+        </span>GcePersistentDisk = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>VolumeType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                VolumeType::Unspecified =&gt; <span class="string">"VOLUME_TYPE_UNSPECIFIED"</span>,
+                VolumeType::GcePersistentDisk =&gt; <span class="string">"GCE_PERSISTENT_DISK"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"VOLUME_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"GCE_PERSISTENT_DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GcePersistentDisk),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The current state of a VolumeRestore
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// This is an illegal state and should not be encountered.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// A volume for the restore was identified and restore process is about to
+        /// start.
+        </span>Creating = <span class="number">1</span>,
+        <span class="doccomment">/// The volume is currently being restored.
+        </span>Restoring = <span class="number">2</span>,
+        <span class="doccomment">/// The volume has been successfully restored.
+        </span>Succeeded = <span class="number">3</span>,
+        <span class="doccomment">/// The volume restoration process failed.
+        </span>Failed = <span class="number">4</span>,
+        <span class="doccomment">/// This VolumeRestore resource is in the process of being deleted.
+        </span>Deleting = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Restoring =&gt; <span class="string">"RESTORING"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"RESTORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Restoring),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -3676,7 +3998,7 @@
 </span><span class="kw">pub mod </span>backup_plan {
     <span class="doccomment">/// RetentionPolicy defines a Backup retention policy for a BackupPlan.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>RetentionPolicy {
         <span class="doccomment">/// Optional. Minimum age for Backups created via this BackupPlan (in days).
         /// This field MUST be an integer value between 0-90 (inclusive).
@@ -3955,277 +4277,6 @@
         <span class="doccomment">/// The exclusion window occurs on these days of each week in UTC.
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>DaysOfWeek(DayOfWeekList),
-    }
-}
-<span class="doccomment">/// Represents a request to perform a single point-in-time capture of
-/// some portion of the state of a GKE cluster, the record of the backup
-/// operation itself, and an anchor for the underlying artifacts that
-/// comprise the Backup (the config backup and VolumeBackups).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Backup {
-    <span class="doccomment">/// Output only. The fully qualified name of the Backup.
-    /// `projects/*/locations/*/backupPlans/*/backups/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server generated global unique identifier of
-    /// [UUID4](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;)
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when this Backup resource was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this Backup resource was last updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. This flag indicates whether this Backup resource was created
-    /// manually by a user or via a schedule in the BackupPlan. A value of True
-    /// means that the Backup was created manually.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>manual: bool,
-    <span class="doccomment">/// Optional. A set of custom labels supplied by user.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Optional. Minimum age for this Backup (in days). If this field is set to a
-    /// non-zero value, the Backup will be "locked" against deletion (either manual
-    /// or automatic deletion) for the number of days provided (measured from the
-    /// creation time of the Backup).  MUST be an integer value between 0-90
-    /// (inclusive).
-    ///
-    /// Defaults to parent BackupPlan's
-    /// [backup_delete_lock_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_delete_lock_days]
-    /// setting and may only be increased
-    /// (either at creation time or in a subsequent update).
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>delete_lock_days: i32,
-    <span class="doccomment">/// Output only. The time at which an existing delete lock will expire for this
-    /// backup (calculated from create_time +
-    /// [delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days]).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>delete_lock_expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. The age (in days) after which this Backup will be automatically
-    /// deleted. Must be an integer value &gt;= 0:
-    ///
-    /// - If 0, no automatic deletion will occur for this Backup.
-    /// - If not 0, this must be &gt;=
-    /// [delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days] and
-    /// &lt;= 365.
-    ///
-    /// Once a Backup is created, this value may only be increased.
-    ///
-    /// Defaults to the parent BackupPlan's
-    /// [backup_retain_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_retain_days]
-    /// value.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>retain_days: i32,
-    <span class="doccomment">/// Output only. The time at which this Backup will be automatically deleted
-    /// (calculated from create_time +
-    /// [retain_days][google.cloud.gkebackup.v1.Backup.retain_days]).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>retain_expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The customer managed encryption key that was used to encrypt
-    /// the Backup's artifacts.  Inherited from the parent BackupPlan's
-    /// [encryption_key][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.encryption_key]
-    /// value.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>encryption_key: ::core::option::Option&lt;EncryptionKey&gt;,
-    <span class="doccomment">/// Output only. Whether or not the Backup contains volume data.  Controlled by
-    /// the parent BackupPlan's
-    /// [include_volume_data][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_volume_data]
-    /// value.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>contains_volume_data: bool,
-    <span class="doccomment">/// Output only. Whether or not the Backup contains Kubernetes Secrets.
-    /// Controlled by the parent BackupPlan's
-    /// [include_secrets][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_secrets]
-    /// value.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>contains_secrets: bool,
-    <span class="doccomment">/// Output only. Information about the GKE cluster from which this Backup was
-    /// created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>cluster_metadata: ::core::option::Option&lt;backup::ClusterMetadata&gt;,
-    <span class="doccomment">/// Output only. Current state of the Backup
-    </span><span class="attr">#[prost(enumeration = <span class="string">"backup::State"</span>, tag = <span class="string">"18"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. Human-readable description of why the backup is in the current
-    /// `state`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"19"</span>)]
-    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Completion time of the Backup
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"20"</span>)]
-    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The total number of Kubernetes resources included in the
-    /// Backup.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"21"</span>)]
-    </span><span class="kw">pub </span>resource_count: i32,
-    <span class="doccomment">/// Output only. The total number of volume backups contained in the Backup.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"22"</span>)]
-    </span><span class="kw">pub </span>volume_count: i32,
-    <span class="doccomment">/// Output only. The total size of the Backup in bytes = config backup size +
-    /// sum(volume backup sizes)
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"23"</span>)]
-    </span><span class="kw">pub </span>size_bytes: i64,
-    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a backup from overwriting each other.
-    /// It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform backup updates in order to avoid
-    /// race conditions: An `etag` is returned in the response to `GetBackup`,
-    /// and systems are expected to put that etag in the request to
-    /// `UpdateBackup` or `DeleteBackup` to ensure that their change will be
-    /// applied to the same version of the resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"24"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. User specified descriptive string for this Backup.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"25"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The total number of Kubernetes Pods contained in the Backup.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"26"</span>)]
-    </span><span class="kw">pub </span>pod_count: i32,
-    <span class="doccomment">/// Output only. The size of the config backup in bytes.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"27"</span>)]
-    </span><span class="kw">pub </span>config_backup_size_bytes: i64,
-    <span class="doccomment">/// Output only. If false, Backup will fail when Backup for GKE detects
-    /// Kubernetes configuration that is non-standard or
-    /// requires additional setup to restore.
-    ///
-    /// Inherited from the parent BackupPlan's
-    /// [permissive_mode][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.permissive_mode]
-    /// value.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"28"</span>)]
-    </span><span class="kw">pub </span>permissive_mode: bool,
-    <span class="doccomment">/// Defines the "scope" of the Backup - which namespaced resources in the
-    /// cluster were included in the Backup.  Inherited from the parent
-    /// BackupPlan's
-    /// [backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope]
-    /// value.
-    </span><span class="attr">#[prost(oneof = <span class="string">"backup::BackupScope"</span>, tags = <span class="string">"12, 13, 14"</span>)]
-    </span><span class="kw">pub </span>backup_scope: ::core::option::Option&lt;backup::BackupScope&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Backup`.
-</span><span class="kw">pub mod </span>backup {
-    <span class="doccomment">/// Information about the GKE cluster from which this Backup was created.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ClusterMetadata {
-        <span class="doccomment">/// Output only. The source cluster from which this Backup was created.
-        /// Valid formats:
-        ///
-        ///    - `projects/*/locations/*/clusters/*`
-        ///    - `projects/*/zones/*/clusters/*`
-        ///
-        /// This is inherited from the parent BackupPlan's
-        /// [cluster][google.cloud.gkebackup.v1.BackupPlan.cluster] field.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
-        <span class="doccomment">/// Output only. The Kubernetes server version of the source cluster.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>k8s_version: ::prost::alloc::string::String,
-        <span class="doccomment">/// Output only. A list of the Backup for GKE CRD versions found in the
-        /// cluster.
-        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>backup_crd_versions: ::prost::alloc::collections::BTreeMap&lt;
-            ::prost::alloc::string::String,
-            ::prost::alloc::string::String,
-        &gt;,
-        <span class="doccomment">/// Platform-specific version
-        </span><span class="attr">#[prost(oneof = <span class="string">"cluster_metadata::PlatformVersion"</span>, tags = <span class="string">"4, 5"</span>)]
-        </span><span class="kw">pub </span>platform_version: ::core::option::Option&lt;cluster_metadata::PlatformVersion&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `ClusterMetadata`.
-    </span><span class="kw">pub mod </span>cluster_metadata {
-        <span class="doccomment">/// Platform-specific version
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>PlatformVersion {
-            <span class="doccomment">/// Output only. GKE version
-            </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-            </span>GkeVersion(::prost::alloc::string::String),
-            <span class="doccomment">/// Output only. Anthos version
-            </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-            </span>AnthosVersion(::prost::alloc::string::String),
-        }
-    }
-    <span class="doccomment">/// State
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The Backup resource is in the process of being created.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The Backup resource has been created and the associated BackupJob
-        /// Kubernetes resource has been injected into the source cluster.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the backup
-        /// operation.
-        </span>InProgress = <span class="number">2</span>,
-        <span class="doccomment">/// The backup operation has completed successfully.
-        </span>Succeeded = <span class="number">3</span>,
-        <span class="doccomment">/// The backup operation has failed.
-        </span>Failed = <span class="number">4</span>,
-        <span class="doccomment">/// This Backup resource (and its associated artifacts) is in the process
-        /// of being deleted.
-        </span>Deleting = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::InProgress =&gt; <span class="string">"IN_PROGRESS"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InProgress),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Defines the "scope" of the Backup - which namespaced resources in the
-    /// cluster were included in the Backup.  Inherited from the parent
-    /// BackupPlan's
-    /// [backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope]
-    /// value.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>BackupScope {
-        <span class="doccomment">/// Output only. If True, all namespaces were included in the Backup.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
-        </span>AllNamespaces(bool),
-        <span class="doccomment">/// Output only. If set, the list of namespaces that were included in the
-        /// Backup.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
-        </span>SelectedNamespaces(<span class="kw">super</span>::Namespaces),
-        <span class="doccomment">/// Output only. If set, the list of ProtectedApplications whose resources
-        /// were included in the Backup.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"14"</span>)]
-        </span>SelectedApplications(<span class="kw">super</span>::NamespacedNames),
     }
 }
 <span class="doccomment">/// Represents both a request to Restore some portion of a Backup into
@@ -4740,7 +4791,7 @@
     }
     <span class="doccomment">/// Binds resources in the scope to the given VolumeDataRestorePolicy.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>VolumeDataRestorePolicyBinding {
         <span class="doccomment">/// Required. The VolumeDataRestorePolicy to apply when restoring volumes in
         /// scope.
@@ -4752,7 +4803,7 @@
     <span class="doccomment">/// Nested message and enum types in `VolumeDataRestorePolicyBinding`.
     </span><span class="kw">pub mod </span>volume_data_restore_policy_binding {
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Scope {
             <span class="doccomment">/// The volume type, as determined by the PVC's bound PV,
             /// to apply the policy to.
@@ -5223,272 +5274,199 @@
         }
     }
 }
-<span class="doccomment">/// Represents the backup of a specific persistent volume as a component of a
-/// Backup - both the record of the operation and a pointer to the underlying
-/// storage-specific artifacts.
+<span class="doccomment">/// Represents a request to perform a single point-in-time capture of
+/// some portion of the state of a GKE cluster, the record of the backup
+/// operation itself, and an anchor for the underlying artifacts that
+/// comprise the Backup (the config backup and VolumeBackups).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VolumeBackup {
-    <span class="doccomment">/// Output only. The full name of the VolumeBackup resource.
-    /// Format: `projects/*/locations/*/backupPlans/*/backups/*/volumeBackups/*`.
+</span><span class="kw">pub struct </span>Backup {
+    <span class="doccomment">/// Output only. The fully qualified name of the Backup.
+    /// `projects/*/locations/*/backupPlans/*/backups/*`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Server generated global unique identifier of
-    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
+    /// [UUID4](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;)
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when this VolumeBackup resource was
-    /// created.
+    <span class="doccomment">/// Output only. The timestamp when this Backup resource was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this VolumeBackup resource was last
-    /// updated.
+    <span class="doccomment">/// Output only. The timestamp when this Backup resource was last updated.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. A reference to the source Kubernetes PVC from which this
-    /// VolumeBackup was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>source_pvc: ::core::option::Option&lt;NamespacedName&gt;,
-    <span class="doccomment">/// Output only. A storage system-specific opaque handle to the underlying
-    /// volume backup.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>volume_backup_handle: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The format used for the volume backup.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_backup::VolumeBackupFormat"</span>, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>format: i32,
-    <span class="doccomment">/// Output only. The aggregate size of the underlying artifacts associated with
-    /// this VolumeBackup in the backup storage. This may change over time when
-    /// multiple backups of the same volume share the same backup storage
-    /// location. In particular, this is likely to increase in size when
-    /// the immediately preceding backup of the same volume is deleted.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>storage_bytes: i64,
-    <span class="doccomment">/// Output only. The minimum size of the disk to which this VolumeBackup can be
-    /// restored.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>disk_size_bytes: i64,
-    <span class="doccomment">/// Output only. The timestamp when the associated underlying volume backup
-    /// operation completed.
+    <span class="doccomment">/// Output only. This flag indicates whether this Backup resource was created
+    /// manually by a user or via a schedule in the BackupPlan. A value of True
+    /// means that the Backup was created manually.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>manual: bool,
+    <span class="doccomment">/// Optional. A set of custom labels supplied by user.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Optional. Minimum age for this Backup (in days). If this field is set to a
+    /// non-zero value, the Backup will be "locked" against deletion (either manual
+    /// or automatic deletion) for the number of days provided (measured from the
+    /// creation time of the Backup).  MUST be an integer value between 0-90
+    /// (inclusive).
+    ///
+    /// Defaults to parent BackupPlan's
+    /// [backup_delete_lock_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_delete_lock_days]
+    /// setting and may only be increased
+    /// (either at creation time or in a subsequent update).
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>delete_lock_days: i32,
+    <span class="doccomment">/// Output only. The time at which an existing delete lock will expire for this
+    /// backup (calculated from create_time +
+    /// [delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days]).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>delete_lock_expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. The age (in days) after which this Backup will be automatically
+    /// deleted. Must be an integer value &gt;= 0:
+    ///
+    /// - If 0, no automatic deletion will occur for this Backup.
+    /// - If not 0, this must be &gt;=
+    /// [delete_lock_days][google.cloud.gkebackup.v1.Backup.delete_lock_days] and
+    /// &lt;= 365.
+    ///
+    /// Once a Backup is created, this value may only be increased.
+    ///
+    /// Defaults to the parent BackupPlan's
+    /// [backup_retain_days][google.cloud.gkebackup.v1.BackupPlan.RetentionPolicy.backup_retain_days]
+    /// value.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>retain_days: i32,
+    <span class="doccomment">/// Output only. The time at which this Backup will be automatically deleted
+    /// (calculated from create_time +
+    /// [retain_days][google.cloud.gkebackup.v1.Backup.retain_days]).
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The current state of this VolumeBackup.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_backup::State"</span>, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. A human readable message explaining why the VolumeBackup is in
-    /// its current state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a volume backup from overwriting each
-    /// other. It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform volume backup updates in order to avoid
-    /// race conditions.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `VolumeBackup`.
-</span><span class="kw">pub mod </span>volume_backup {
-    <span class="doccomment">/// Identifies the format used for the volume backup.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>VolumeBackupFormat {
-        <span class="doccomment">/// Default value, not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Compute Engine Persistent Disk snapshot based volume backup.
-        </span>GcePersistentDisk = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>VolumeBackupFormat {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                VolumeBackupFormat::Unspecified =&gt; <span class="string">"VOLUME_BACKUP_FORMAT_UNSPECIFIED"</span>,
-                VolumeBackupFormat::GcePersistentDisk =&gt; <span class="string">"GCE_PERSISTENT_DISK"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"VOLUME_BACKUP_FORMAT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"GCE_PERSISTENT_DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GcePersistentDisk),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The current state of a VolumeBackup
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// This is an illegal state and should not be encountered.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A volume for the backup was identified and backup process is about to
-        /// start.
-        </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The volume backup operation has begun and is in the initial "snapshot"
-        /// phase of the process. Any defined ProtectedApplication "pre" hooks will
-        /// be executed before entering this state and "post" hooks will be executed
-        /// upon leaving this state.
-        </span>Snapshotting = <span class="number">2</span>,
-        <span class="doccomment">/// The snapshot phase of the volume backup operation has completed and
-        /// the snapshot is now being uploaded to backup storage.
-        </span>Uploading = <span class="number">3</span>,
-        <span class="doccomment">/// The volume backup operation has completed successfully.
-        </span>Succeeded = <span class="number">4</span>,
-        <span class="doccomment">/// The volume backup operation has failed.
-        </span>Failed = <span class="number">5</span>,
-        <span class="doccomment">/// This VolumeBackup resource (and its associated artifacts) is in the
-        /// process of being deleted.
-        </span>Deleting = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Snapshotting =&gt; <span class="string">"SNAPSHOTTING"</span>,
-                State::Uploading =&gt; <span class="string">"UPLOADING"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"SNAPSHOTTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Snapshotting),
-                <span class="string">"UPLOADING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Uploading),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Represents the operation of restoring a volume from a VolumeBackup.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VolumeRestore {
-    <span class="doccomment">/// Output only. Full name of the VolumeRestore resource.
-    /// Format: `projects/*/locations/*/restorePlans/*/restores/*/volumeRestores/*`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Server generated global unique identifier of
-    /// [UUID](&lt;https://en.wikipedia.org/wiki/Universally_unique_identifier&gt;) format.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The timestamp when this VolumeRestore resource was
+    </span><span class="kw">pub </span>retain_expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The customer managed encryption key that was used to encrypt
+    /// the Backup's artifacts.  Inherited from the parent BackupPlan's
+    /// [encryption_key][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.encryption_key]
+    /// value.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>encryption_key: ::core::option::Option&lt;EncryptionKey&gt;,
+    <span class="doccomment">/// Output only. Whether or not the Backup contains volume data.  Controlled by
+    /// the parent BackupPlan's
+    /// [include_volume_data][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_volume_data]
+    /// value.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>contains_volume_data: bool,
+    <span class="doccomment">/// Output only. Whether or not the Backup contains Kubernetes Secrets.
+    /// Controlled by the parent BackupPlan's
+    /// [include_secrets][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.include_secrets]
+    /// value.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>contains_secrets: bool,
+    <span class="doccomment">/// Output only. Information about the GKE cluster from which this Backup was
     /// created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp when this VolumeRestore resource was last
-    /// updated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The full name of the VolumeBackup from which the volume will
-    /// be restored. Format:
-    /// `projects/*/locations/*/backupPlans/*/backups/*/volumeBackups/*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>volume_backup: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The reference to the target Kubernetes PVC to be restored.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>target_pvc: ::core::option::Option&lt;NamespacedName&gt;,
-    <span class="doccomment">/// Output only. A storage system-specific opaque handler to the underlying
-    /// volume created for the target PVC from the volume backup.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>volume_handle: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The type of volume provisioned
-    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_restore::VolumeType"</span>, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>volume_type: i32,
-    <span class="doccomment">/// Output only. The timestamp when the associated underlying volume
-    /// restoration completed.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The current state of this VolumeRestore.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"volume_restore::State"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>cluster_metadata: ::core::option::Option&lt;backup::ClusterMetadata&gt;,
+    <span class="doccomment">/// Output only. Current state of the Backup
+    </span><span class="attr">#[prost(enumeration = <span class="string">"backup::State"</span>, tag = <span class="string">"18"</span>)]
     </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. A human readable message explaining why the VolumeRestore is
-    /// in its current state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Human-readable description of why the backup is in the current
+    /// `state`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"19"</span>)]
+    </span><span class="kw">pub </span>state_reason: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Completion time of the Backup
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>complete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The total number of Kubernetes resources included in the
+    /// Backup.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>resource_count: i32,
+    <span class="doccomment">/// Output only. The total number of volume backups contained in the Backup.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>volume_count: i32,
+    <span class="doccomment">/// Output only. The total size of the Backup in bytes = config backup size +
+    /// sum(volume backup sizes)
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"23"</span>)]
+    </span><span class="kw">pub </span>size_bytes: i64,
     <span class="doccomment">/// Output only. `etag` is used for optimistic concurrency control as a way to
-    /// help prevent simultaneous updates of a volume restore from overwriting each
-    /// other. It is strongly suggested that systems make use of the `etag` in the
-    /// read-modify-write cycle to perform volume restore updates in order to avoid
-    /// race conditions.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    /// help prevent simultaneous updates of a backup from overwriting each other.
+    /// It is strongly suggested that systems make use of the `etag` in the
+    /// read-modify-write cycle to perform backup updates in order to avoid
+    /// race conditions: An `etag` is returned in the response to `GetBackup`,
+    /// and systems are expected to put that etag in the request to
+    /// `UpdateBackup` or `DeleteBackup` to ensure that their change will be
+    /// applied to the same version of the resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"24"</span>)]
     </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. User specified descriptive string for this Backup.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"25"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The total number of Kubernetes Pods contained in the Backup.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"26"</span>)]
+    </span><span class="kw">pub </span>pod_count: i32,
+    <span class="doccomment">/// Output only. The size of the config backup in bytes.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"27"</span>)]
+    </span><span class="kw">pub </span>config_backup_size_bytes: i64,
+    <span class="doccomment">/// Output only. If false, Backup will fail when Backup for GKE detects
+    /// Kubernetes configuration that is non-standard or
+    /// requires additional setup to restore.
+    ///
+    /// Inherited from the parent BackupPlan's
+    /// [permissive_mode][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.permissive_mode]
+    /// value.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"28"</span>)]
+    </span><span class="kw">pub </span>permissive_mode: bool,
+    <span class="doccomment">/// Defines the "scope" of the Backup - which namespaced resources in the
+    /// cluster were included in the Backup.  Inherited from the parent
+    /// BackupPlan's
+    /// [backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope]
+    /// value.
+    </span><span class="attr">#[prost(oneof = <span class="string">"backup::BackupScope"</span>, tags = <span class="string">"12, 13, 14"</span>)]
+    </span><span class="kw">pub </span>backup_scope: ::core::option::Option&lt;backup::BackupScope&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `VolumeRestore`.
-</span><span class="kw">pub mod </span>volume_restore {
-    <span class="doccomment">/// Supported volume types.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>VolumeType {
-        <span class="doccomment">/// Default
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Compute Engine Persistent Disk volume
-        </span>GcePersistentDisk = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>VolumeType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+<span class="doccomment">/// Nested message and enum types in `Backup`.
+</span><span class="kw">pub mod </span>backup {
+    <span class="doccomment">/// Information about the GKE cluster from which this Backup was created.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ClusterMetadata {
+        <span class="doccomment">/// Output only. The source cluster from which this Backup was created.
+        /// Valid formats:
         ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                VolumeType::Unspecified =&gt; <span class="string">"VOLUME_TYPE_UNSPECIFIED"</span>,
-                VolumeType::GcePersistentDisk =&gt; <span class="string">"GCE_PERSISTENT_DISK"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"VOLUME_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"GCE_PERSISTENT_DISK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GcePersistentDisk),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
+        ///    - `projects/*/locations/*/clusters/*`
+        ///    - `projects/*/zones/*/clusters/*`
+        ///
+        /// This is inherited from the parent BackupPlan's
+        /// [cluster][google.cloud.gkebackup.v1.BackupPlan.cluster] field.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>cluster: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only. The Kubernetes server version of the source cluster.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>k8s_version: ::prost::alloc::string::String,
+        <span class="doccomment">/// Output only. A list of the Backup for GKE CRD versions found in the
+        /// cluster.
+        </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>backup_crd_versions: ::prost::alloc::collections::BTreeMap&lt;
+            ::prost::alloc::string::String,
+            ::prost::alloc::string::String,
+        &gt;,
+        <span class="doccomment">/// Platform-specific version
+        </span><span class="attr">#[prost(oneof = <span class="string">"cluster_metadata::PlatformVersion"</span>, tags = <span class="string">"4, 5"</span>)]
+        </span><span class="kw">pub </span>platform_version: ::core::option::Option&lt;cluster_metadata::PlatformVersion&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `ClusterMetadata`.
+    </span><span class="kw">pub mod </span>cluster_metadata {
+        <span class="doccomment">/// Platform-specific version
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>PlatformVersion {
+            <span class="doccomment">/// Output only. GKE version
+            </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+            </span>GkeVersion(::prost::alloc::string::String),
+            <span class="doccomment">/// Output only. Anthos version
+            </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+            </span>AnthosVersion(::prost::alloc::string::String),
         }
     }
-    <span class="doccomment">/// The current state of a VolumeRestore
+    <span class="doccomment">/// State
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -5502,18 +5480,20 @@
     )]
     #[repr(i32)]
     </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// This is an illegal state and should not be encountered.
+        <span class="doccomment">/// The Backup resource is in the process of being created.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// A volume for the restore was identified and restore process is about to
-        /// start.
+        <span class="doccomment">/// The Backup resource has been created and the associated BackupJob
+        /// Kubernetes resource has been injected into the source cluster.
         </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The volume is currently being restored.
-        </span>Restoring = <span class="number">2</span>,
-        <span class="doccomment">/// The volume has been successfully restored.
+        <span class="doccomment">/// The gkebackup agent in the cluster has begun executing the backup
+        /// operation.
+        </span>InProgress = <span class="number">2</span>,
+        <span class="doccomment">/// The backup operation has completed successfully.
         </span>Succeeded = <span class="number">3</span>,
-        <span class="doccomment">/// The volume restoration process failed.
+        <span class="doccomment">/// The backup operation has failed.
         </span>Failed = <span class="number">4</span>,
-        <span class="doccomment">/// This VolumeRestore resource is in the process of being deleted.
+        <span class="doccomment">/// This Backup resource (and its associated artifacts) is in the process
+        /// of being deleted.
         </span>Deleting = <span class="number">5</span>,
     }
     <span class="kw">impl </span>State {
@@ -5525,7 +5505,7 @@
             <span class="kw">match </span><span class="self">self </span>{
                 State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
                 State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Restoring =&gt; <span class="string">"RESTORING"</span>,
+                State::InProgress =&gt; <span class="string">"IN_PROGRESS"</span>,
                 State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
                 State::Failed =&gt; <span class="string">"FAILED"</span>,
                 State::Deleting =&gt; <span class="string">"DELETING"</span>,
@@ -5536,13 +5516,33 @@
             <span class="kw">match </span>value {
                 <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"RESTORING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Restoring),
+                <span class="string">"IN_PROGRESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InProgress),
                 <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
                 <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
                 <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+    <span class="doccomment">/// Defines the "scope" of the Backup - which namespaced resources in the
+    /// cluster were included in the Backup.  Inherited from the parent
+    /// BackupPlan's
+    /// [backup_scope][google.cloud.gkebackup.v1.BackupPlan.BackupConfig.backup_scope]
+    /// value.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>BackupScope {
+        <span class="doccomment">/// Output only. If True, all namespaces were included in the Backup.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
+        </span>AllNamespaces(bool),
+        <span class="doccomment">/// Output only. If set, the list of namespaces that were included in the
+        /// Backup.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
+        </span>SelectedNamespaces(<span class="kw">super</span>::Namespaces),
+        <span class="doccomment">/// Output only. If set, the list of ProtectedApplications whose resources
+        /// were included in the Backup.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"14"</span>)]
+        </span>SelectedApplications(<span class="kw">super</span>::NamespacedNames),
     }
 }
 <span class="doccomment">/// Represents the metadata of the long-running operation.

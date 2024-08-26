@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["sql_bak_import_options"],"struct":["SqlBakImportOptions","SqlCsvImportOptions","SqlImportOptions"]};
+window.SIDEBAR_ITEMS = {"mod":["sql_bak_import_options","sql_import_options"],"struct":["SqlBakImportOptions","SqlCsvImportOptions","SqlImportOptions"]};

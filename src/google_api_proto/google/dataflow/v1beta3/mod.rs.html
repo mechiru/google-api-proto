@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/dataflow/v1beta3/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/dataflow/v1beta3/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -4520,1156 +4520,7 @@
 <a href="#4520" id="4520">4520</a>
 <a href="#4521" id="4521">4521</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// A particular message pertaining to a Dataflow job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>JobMessage {
-    <span class="doccomment">/// Deprecated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The timestamp of the message.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The text of the message.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
-    <span class="doccomment">/// Importance level of the message.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>message_importance: i32,
-}
-<span class="doccomment">/// A rich message format, including a human readable string, a key for
-/// identifying the message, and structured data associated with the message for
-/// programmatic consumption.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StructuredMessage {
-    <span class="doccomment">/// Human-readable version of message.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
-    <span class="doccomment">/// Identifier for this message type.  Used by external systems to
-    /// internationalize or personalize message.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>message_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The structured data associated with this message.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>parameters: ::prost::alloc::vec::Vec&lt;structured_message::Parameter&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StructuredMessage`.
-</span><span class="kw">pub mod </span>structured_message {
-    <span class="doccomment">/// Structured data associated with this message.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Parameter {
-        <span class="doccomment">/// Key or name for this parameter.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
-        <span class="doccomment">/// Value for this parameter.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost_types::Value&gt;,
-    }
-}
-<span class="doccomment">/// A structured message reporting an autoscaling decision made by the Dataflow
-/// service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoscalingEvent {
-    <span class="doccomment">/// The current number of workers the job has.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>current_num_workers: i64,
-    <span class="doccomment">/// The target number of workers the worker pool wants to resize to use.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>target_num_workers: i64,
-    <span class="doccomment">/// The type of autoscaling event to report.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"autoscaling_event::AutoscalingEventType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>event_type: i32,
-    <span class="doccomment">/// A message describing why the system decided to adjust the current
-    /// number of workers, why it failed, or why the system decided to
-    /// not make any changes to the number of workers.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>description: ::core::option::Option&lt;StructuredMessage&gt;,
-    <span class="doccomment">/// The time this event was emitted to indicate a new target or current
-    /// num_workers value.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// A short and friendly name for the worker pool this event refers to.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>worker_pool: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `AutoscalingEvent`.
-</span><span class="kw">pub mod </span>autoscaling_event {
-    <span class="doccomment">/// Indicates the type of autoscaling event.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>AutoscalingEventType {
-        <span class="doccomment">/// Default type for the enum.  Value should never be returned.
-        </span>TypeUnknown = <span class="number">0</span>,
-        <span class="doccomment">/// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
-        /// worker pool size has changed at the start of an actuation. An event
-        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
-        /// a change in the target_num_workers.
-        </span>TargetNumWorkersChanged = <span class="number">1</span>,
-        <span class="doccomment">/// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
-        /// pool size has been changed, but the target_num_workers has not changed.
-        </span>CurrentNumWorkersChanged = <span class="number">2</span>,
-        <span class="doccomment">/// The ACTUATION_FAILURE type should be used when we want to report
-        /// an error to the user indicating why the current number of workers
-        /// in the pool could not be changed.
-        /// Displayed in the current status and history widgets.
-        </span>ActuationFailure = <span class="number">3</span>,
-        <span class="doccomment">/// Used when we want to report to the user a reason why we are
-        /// not currently adjusting the number of workers.
-        /// Should specify both target_num_workers, current_num_workers and a
-        /// decision_message.
-        </span>NoChange = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>AutoscalingEventType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                AutoscalingEventType::TypeUnknown =&gt; <span class="string">"TYPE_UNKNOWN"</span>,
-                AutoscalingEventType::TargetNumWorkersChanged =&gt; {
-                    <span class="string">"TARGET_NUM_WORKERS_CHANGED"
-                </span>}
-                AutoscalingEventType::CurrentNumWorkersChanged =&gt; {
-                    <span class="string">"CURRENT_NUM_WORKERS_CHANGED"
-                </span>}
-                AutoscalingEventType::ActuationFailure =&gt; <span class="string">"ACTUATION_FAILURE"</span>,
-                AutoscalingEventType::NoChange =&gt; <span class="string">"NO_CHANGE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TypeUnknown),
-                <span class="string">"TARGET_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TargetNumWorkersChanged),
-                <span class="string">"CURRENT_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CurrentNumWorkersChanged),
-                <span class="string">"ACTUATION_FAILURE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ActuationFailure),
-                <span class="string">"NO_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoChange),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Request to list job messages.
-/// Up to max_results messages will be returned in the time range specified
-/// starting with the oldest messages first. If no time range is specified
-/// the results with start with the oldest message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListJobMessagesRequest {
-    <span class="doccomment">/// A project id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The job to get messages about.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Filter to only get messages with importance &gt;= level
-    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>minimum_importance: i32,
-    <span class="doccomment">/// If specified, determines the maximum number of messages to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, return only messages with timestamps &gt;= start_time.
-    /// The default is the job creation time (i.e. beginning of messages).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Return only messages with timestamps &lt; end_time. The default is now
-    /// (i.e. return up to the latest messages available).
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The \[regional endpoint\]
-    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
-    /// contains the job specified by job_id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response to a request to list job messages.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListJobMessagesResponse {
-    <span class="doccomment">/// Messages in ascending timestamp order.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>job_messages: ::prost::alloc::vec::Vec&lt;JobMessage&gt;,
-    <span class="doccomment">/// The token to obtain the next page of results if there are more.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Autoscaling events in ascending timestamp order.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>autoscaling_events: ::prost::alloc::vec::Vec&lt;AutoscalingEvent&gt;,
-}
-<span class="doccomment">/// Indicates the importance of the message.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>JobMessageImportance {
-    <span class="doccomment">/// The message importance isn't specified, or is unknown.
-    </span>Unknown = <span class="number">0</span>,
-    <span class="doccomment">/// The message is at the 'debug' level: typically only useful for
-    /// software engineers working on the code the job is running.
-    /// Typically, Dataflow pipeline runners do not display log messages
-    /// at this level by default.
-    </span>JobMessageDebug = <span class="number">1</span>,
-    <span class="doccomment">/// The message is at the 'detailed' level: somewhat verbose, but
-    /// potentially useful to users.  Typically, Dataflow pipeline
-    /// runners do not display log messages at this level by default.
-    /// These messages are displayed by default in the Dataflow
-    /// monitoring UI.
-    </span>JobMessageDetailed = <span class="number">2</span>,
-    <span class="doccomment">/// The message is at the 'basic' level: useful for keeping
-    /// track of the execution of a Dataflow pipeline.  Typically,
-    /// Dataflow pipeline runners display log messages at this level by
-    /// default, and these messages are displayed by default in the
-    /// Dataflow monitoring UI.
-    </span>JobMessageBasic = <span class="number">5</span>,
-    <span class="doccomment">/// The message is at the 'warning' level: indicating a condition
-    /// pertaining to a job which may require human intervention.
-    /// Typically, Dataflow pipeline runners display log messages at this
-    /// level by default, and these messages are displayed by default in
-    /// the Dataflow monitoring UI.
-    </span>JobMessageWarning = <span class="number">3</span>,
-    <span class="doccomment">/// The message is at the 'error' level: indicating a condition
-    /// preventing a job from succeeding.  Typically, Dataflow pipeline
-    /// runners display log messages at this level by default, and these
-    /// messages are displayed by default in the Dataflow monitoring UI.
-    </span>JobMessageError = <span class="number">4</span>,
-}
-<span class="kw">impl </span>JobMessageImportance {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            JobMessageImportance::Unknown =&gt; <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN"</span>,
-            JobMessageImportance::JobMessageDebug =&gt; <span class="string">"JOB_MESSAGE_DEBUG"</span>,
-            JobMessageImportance::JobMessageDetailed =&gt; <span class="string">"JOB_MESSAGE_DETAILED"</span>,
-            JobMessageImportance::JobMessageBasic =&gt; <span class="string">"JOB_MESSAGE_BASIC"</span>,
-            JobMessageImportance::JobMessageWarning =&gt; <span class="string">"JOB_MESSAGE_WARNING"</span>,
-            JobMessageImportance::JobMessageError =&gt; <span class="string">"JOB_MESSAGE_ERROR"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-            <span class="string">"JOB_MESSAGE_DEBUG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDebug),
-            <span class="string">"JOB_MESSAGE_DETAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDetailed),
-            <span class="string">"JOB_MESSAGE_BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageBasic),
-            <span class="string">"JOB_MESSAGE_WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageWarning),
-            <span class="string">"JOB_MESSAGE_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageError),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>messages_v1_beta3_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The Dataflow Messages API is used for monitoring the progress of
-    /// Dataflow jobs.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>MessagesV1Beta3Client&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; MessagesV1Beta3Client&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; MessagesV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Request the job status.
-        ///
-        /// To request the status of a job, we recommend using
-        /// `projects.locations.jobs.messages.list` with a [regional endpoint]
-        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
-        /// `projects.jobs.messages.list` is not recommended, as you can only request
-        /// the status of jobs that are running in `us-central1`.
-        </span><span class="kw">pub async fn </span>list_job_messages(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListJobMessagesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListJobMessagesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.MessagesV1Beta3"</span>,
-                        <span class="string">"ListJobMessages"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Identifies a metric, by describing the source which generated the
-/// metric.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MetricStructuredName {
-    <span class="doccomment">/// Origin (namespace) of metric name. May be blank for user-define metrics;
-    /// will be "dataflow" for metrics defined by the Dataflow service or SDK.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>origin: ::prost::alloc::string::String,
-    <span class="doccomment">/// Worker-defined metric name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Zero or more labeled fields which identify the part of the job this
-    /// metric is associated with, such as the name of a step or collection.
-    ///
-    /// For example, built-in counters associated with steps will have
-    /// context\['step'\] = &lt;step-name&gt;. Counters associated with PCollections
-    /// in the SDK will have context\['pcollection'\] = &lt;pcollection-name&gt;.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>context: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// Describes the state of a metric.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MetricUpdate {
-    <span class="doccomment">/// Name of the metric.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::core::option::Option&lt;MetricStructuredName&gt;,
-    <span class="doccomment">/// Metric aggregation kind.  The possible metric aggregation kinds are
-    /// "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution".
-    /// The specified aggregation kind is case-insensitive.
-    ///
-    /// If omitted, this is not an aggregated value but instead
-    /// a single metric sample value.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>kind: ::prost::alloc::string::String,
-    <span class="doccomment">/// True if this metric is reported as the total cumulative aggregate
-    /// value accumulated since the worker started working on this WorkItem.
-    /// By default this is false, indicating that this metric is reported
-    /// as a delta that is not associated with any WorkItem.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>cumulative: bool,
-    <span class="doccomment">/// Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min",
-    /// "And", and "Or".  The possible value types are Long, Double, and Boolean.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>scalar: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// Worker-computed aggregate value for the "Mean" aggregation kind.
-    /// This holds the sum of the aggregated values and is used in combination
-    /// with mean_count below to obtain the actual mean aggregate value.
-    /// The only possible value types are Long and Double.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>mean_sum: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// Worker-computed aggregate value for the "Mean" aggregation kind.
-    /// This holds the count of the aggregated values and is used in combination
-    /// with mean_sum above to obtain the actual mean aggregate value.
-    /// The only possible value type is Long.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>mean_count: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// Worker-computed aggregate value for the "Set" aggregation kind.  The only
-    /// possible value type is a list of Values whose type can be Long, Double,
-    /// or String, according to the metric's type.  All Values in the list must
-    /// be of the same type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>set: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// A struct value describing properties of a distribution of numeric values.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>distribution: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// A struct value describing properties of a Gauge.
-    /// Metrics of gauge type show the value of a metric across time, and is
-    /// aggregated based on the newest value.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>gauge: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// Worker-computed aggregate value for internal use by the Dataflow
-    /// service.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>internal: ::core::option::Option&lt;::prost_types::Value&gt;,
-    <span class="doccomment">/// Timestamp associated with the metric value. Optional when workers are
-    /// reporting work progress; it will be filled in responses from the
-    /// metrics API.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Request to get job metrics.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetJobMetricsRequest {
-    <span class="doccomment">/// A project id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The job to get metrics for.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Return only metric data that has changed since this time.
-    /// Default is to return all information about all metrics for the job.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The \[regional endpoint\]
-    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
-    /// contains the job specified by job_id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// JobMetrics contains a collection of metrics describing the detailed progress
-/// of a Dataflow job. Metrics correspond to user-defined and system-defined
-/// metrics in the job.
-///
-/// This resource captures only the most recent values of each metric;
-/// time-series data can be queried for them (under the same metric names)
-/// from Cloud Monitoring.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>JobMetrics {
-    <span class="doccomment">/// Timestamp as of which metric values are current.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>metric_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// All metrics for this job.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;MetricUpdate&gt;,
-}
-<span class="doccomment">/// Request to get job execution details.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetJobExecutionDetailsRequest {
-    <span class="doccomment">/// A project id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The job to get execution details for.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The \[regional endpoint\]
-    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
-    /// contains the job specified by job_id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, determines the maximum number of stages to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Information about the progress of some component of job execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ProgressTimeseries {
-    <span class="doccomment">/// The current progress of the component, in the range \[0,1\].
-    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>current_progress: f64,
-    <span class="doccomment">/// History of progress for the component.
-    ///
-    /// Points are sorted by time.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>data_points: ::prost::alloc::vec::Vec&lt;progress_timeseries::Point&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ProgressTimeseries`.
-</span><span class="kw">pub mod </span>progress_timeseries {
-    <span class="doccomment">/// A point in the timeseries.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Point {
-        <span class="doccomment">/// The timestamp of the point.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// The value of the point.
-        </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value: f64,
-    }
-}
-<span class="doccomment">/// Information about a particular execution stage of a job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StageSummary {
-    <span class="doccomment">/// ID of this stage
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>stage_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// State of this stage.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionState"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Start time of this stage.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// End time of this stage.
-    ///
-    /// If the work item is completed, this is the actual end time of the stage.
-    /// Otherwise, it is the predicted end time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Progress for this stage.
-    /// Only applicable to Batch jobs.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>progress: ::core::option::Option&lt;ProgressTimeseries&gt;,
-    <span class="doccomment">/// Metrics for this stage.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;MetricUpdate&gt;,
-}
-<span class="doccomment">/// Information about the execution of a job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>JobExecutionDetails {
-    <span class="doccomment">/// The stages of the job execution.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>stages: ::prost::alloc::vec::Vec&lt;StageSummary&gt;,
-    <span class="doccomment">/// If present, this response does not contain all requested tasks.  To obtain
-    /// the next page of results, repeat the request with page_token set to this
-    /// value.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request to get information about a particular execution stage of a job.
-/// Currently only tracked for Batch jobs.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetStageExecutionDetailsRequest {
-    <span class="doccomment">/// A project id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The job to get execution details for.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The \[regional endpoint\]
-    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
-    /// contains the job specified by job_id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// The stage for which to fetch information.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>stage_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// If specified, determines the maximum number of work items to
-    /// return.  If unspecified, the service may choose an appropriate
-    /// default, or may return an arbitrarily large number of results.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
-    /// by an earlier call. This will cause the next page of results to
-    /// be returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Lower time bound of work items to include, by start time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Upper time bound of work items to include, by start time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Information about an individual work item execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WorkItemDetails {
-    <span class="doccomment">/// Name of this work item.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>task_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Attempt ID of this work item
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>attempt_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Start time of this work item attempt.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// End time of this work item attempt.
-    ///
-    /// If the work item is completed, this is the actual end time of the work
-    /// item.  Otherwise, it is the predicted end time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// State of this work item.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionState"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Progress of this work item.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>progress: ::core::option::Option&lt;ProgressTimeseries&gt;,
-    <span class="doccomment">/// Metrics for this work item.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;MetricUpdate&gt;,
-}
-<span class="doccomment">/// Information about a worker
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WorkerDetails {
-    <span class="doccomment">/// Name of this worker
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>worker_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Work items processed by this worker, sorted by time.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>work_items: ::prost::alloc::vec::Vec&lt;WorkItemDetails&gt;,
-}
-<span class="doccomment">/// Information about the workers and work items within a stage.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StageExecutionDetails {
-    <span class="doccomment">/// Workers that have done work on the stage.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>workers: ::prost::alloc::vec::Vec&lt;WorkerDetails&gt;,
-    <span class="doccomment">/// If present, this response does not contain all requested tasks.  To obtain
-    /// the next page of results, repeat the request with page_token set to this
-    /// value.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The state of some component of job execution.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ExecutionState {
-    <span class="doccomment">/// The component state is unknown or unspecified.
-    </span>Unknown = <span class="number">0</span>,
-    <span class="doccomment">/// The component is not yet running.
-    </span>NotStarted = <span class="number">1</span>,
-    <span class="doccomment">/// The component is currently running.
-    </span>Running = <span class="number">2</span>,
-    <span class="doccomment">/// The component succeeded.
-    </span>Succeeded = <span class="number">3</span>,
-    <span class="doccomment">/// The component failed.
-    </span>Failed = <span class="number">4</span>,
-    <span class="doccomment">/// Execution of the component was cancelled.
-    </span>Cancelled = <span class="number">5</span>,
-}
-<span class="kw">impl </span>ExecutionState {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ExecutionState::Unknown =&gt; <span class="string">"EXECUTION_STATE_UNKNOWN"</span>,
-            ExecutionState::NotStarted =&gt; <span class="string">"EXECUTION_STATE_NOT_STARTED"</span>,
-            ExecutionState::Running =&gt; <span class="string">"EXECUTION_STATE_RUNNING"</span>,
-            ExecutionState::Succeeded =&gt; <span class="string">"EXECUTION_STATE_SUCCEEDED"</span>,
-            ExecutionState::Failed =&gt; <span class="string">"EXECUTION_STATE_FAILED"</span>,
-            ExecutionState::Cancelled =&gt; <span class="string">"EXECUTION_STATE_CANCELLED"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"EXECUTION_STATE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
-            <span class="string">"EXECUTION_STATE_NOT_STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotStarted),
-            <span class="string">"EXECUTION_STATE_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
-            <span class="string">"EXECUTION_STATE_SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-            <span class="string">"EXECUTION_STATE_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-            <span class="string">"EXECUTION_STATE_CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>metrics_v1_beta3_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// The Dataflow Metrics API lets you monitor the progress of Dataflow
-    /// jobs.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>MetricsV1Beta3Client&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; MetricsV1Beta3Client&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; MetricsV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            MetricsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Request the job status.
-        ///
-        /// To request the status of a job, we recommend using
-        /// `projects.locations.jobs.getMetrics` with a [regional endpoint]
-        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
-        /// `projects.jobs.getMetrics` is not recommended, as you can only request the
-        /// status of jobs that are running in `us-central1`.
-        </span><span class="kw">pub async fn </span>get_job_metrics(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetJobMetricsRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::JobMetrics&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.MetricsV1Beta3/GetJobMetrics"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
-                        <span class="string">"GetJobMetrics"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Request detailed information about the execution status of the job.
-        ///
-        /// EXPERIMENTAL.  This API is subject to change or removal without notice.
-        </span><span class="kw">pub async fn </span>get_job_execution_details(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetJobExecutionDetailsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::JobExecutionDetails&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.MetricsV1Beta3/GetJobExecutionDetails"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
-                        <span class="string">"GetJobExecutionDetails"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Request detailed information about the execution status of a stage of the
-        /// job.
-        ///
-        /// EXPERIMENTAL.  This API is subject to change or removal without notice.
-        </span><span class="kw">pub async fn </span>get_stage_execution_details(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetStageExecutionDetailsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::StageExecutionDetails&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.dataflow.v1beta3.MetricsV1Beta3/GetStageExecutionDetails"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
-                        <span class="string">"GetStageExecutionDetails"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Global topology of the streaming Dataflow job, including all
-/// computations and their sharded locations.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TopologyConfig {
-    <span class="doccomment">/// The computations associated with a streaming Dataflow job.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>computations: ::prost::alloc::vec::Vec&lt;ComputationTopology&gt;,
-    <span class="doccomment">/// The disks assigned to a streaming Dataflow job.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>data_disk_assignments: ::prost::alloc::vec::Vec&lt;DataDiskAssignment&gt;,
-    <span class="doccomment">/// Maps user stage names to stable computation names.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>user_stage_to_computation_name_map: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// The size (in bits) of keys that will be assigned to source messages.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>forwarding_key_bits: i32,
-    <span class="doccomment">/// Version number for persistent state.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>persistent_state_version: i32,
-}
-<span class="doccomment">/// Identifies a pubsub location to use for transferring data into or
-/// out of a streaming Dataflow job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PubsubLocation {
-    <span class="doccomment">/// A pubsub topic, in the form of
-    /// "pubsub.googleapis.com/topics/&lt;project-id&gt;/&lt;topic-name&gt;"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
-    <span class="doccomment">/// A pubsub subscription, in the form of
-    /// "pubsub.googleapis.com/subscriptions/&lt;project-id&gt;/&lt;subscription-name&gt;"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>subscription: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set, contains a pubsub label from which to extract record timestamps.
-    /// If left empty, record timestamps will be generated upon arrival.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>timestamp_label: ::prost::alloc::string::String,
-    <span class="doccomment">/// If set, contains a pubsub label from which to extract record ids.
-    /// If left empty, record deduplication will be strictly best effort.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>id_label: ::prost::alloc::string::String,
-    <span class="doccomment">/// Indicates whether the pipeline allows late-arriving data.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>drop_late_data: bool,
-    <span class="doccomment">/// If set, specifies the pubsub subscription that will be used for tracking
-    /// custom time timestamps for watermark estimation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>tracking_subscription: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true, then the client has requested to get pubsub attributes.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>with_attributes: bool,
-}
-<span class="doccomment">/// Identifies the location of a streaming computation stage, for
-/// stage-to-stage communication.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StreamingStageLocation {
-    <span class="doccomment">/// Identifies the particular stream within the streaming Dataflow
-    /// job.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>stream_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Identifies the location of a streaming side input.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StreamingSideInputLocation {
-    <span class="doccomment">/// Identifies the particular side input within the streaming Dataflow job.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Identifies the state family where this side input is stored.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>state_family: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Identifies the location of a custom souce.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CustomSourceLocation {
-    <span class="doccomment">/// Whether this source is stateful.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>stateful: bool,
-}
-<span class="doccomment">/// Describes a stream of data, either as input to be processed or as
-/// output of a streaming Dataflow job.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StreamLocation {
-    <span class="doccomment">/// A specification of a stream's location.
-    </span><span class="attr">#[prost(oneof = <span class="string">"stream_location::Location"</span>, tags = <span class="string">"1, 2, 3, 4"</span>)]
-    </span><span class="kw">pub </span>location: ::core::option::Option&lt;stream_location::Location&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `StreamLocation`.
-</span><span class="kw">pub mod </span>stream_location {
-    <span class="doccomment">/// A specification of a stream's location.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Location {
-        <span class="doccomment">/// The stream is part of another computation within the current
-        /// streaming Dataflow job.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>StreamingStageLocation(<span class="kw">super</span>::StreamingStageLocation),
-        <span class="doccomment">/// The stream is a pubsub stream.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>PubsubLocation(<span class="kw">super</span>::PubsubLocation),
-        <span class="doccomment">/// The stream is a streaming side input.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>SideInputLocation(<span class="kw">super</span>::StreamingSideInputLocation),
-        <span class="doccomment">/// The stream is a custom source.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>CustomSourceLocation(<span class="kw">super</span>::CustomSourceLocation),
-    }
-}
-<span class="doccomment">/// State family configuration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StateFamilyConfig {
-    <span class="doccomment">/// The state family value.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state_family: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true, this family corresponds to a read operation.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>is_read: bool,
-}
-<span class="doccomment">/// All configuration data for a particular Computation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ComputationTopology {
-    <span class="doccomment">/// The system stage name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>system_stage_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the computation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>computation_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The key ranges processed by the computation.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>key_ranges: ::prost::alloc::vec::Vec&lt;KeyRangeLocation&gt;,
-    <span class="doccomment">/// The inputs to the computation.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>inputs: ::prost::alloc::vec::Vec&lt;StreamLocation&gt;,
-    <span class="doccomment">/// The outputs from the computation.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>outputs: ::prost::alloc::vec::Vec&lt;StreamLocation&gt;,
-    <span class="doccomment">/// The state family values.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>state_families: ::prost::alloc::vec::Vec&lt;StateFamilyConfig&gt;,
-}
-<span class="doccomment">/// Location information for a specific key-range of a sharded computation.
-/// Currently we only support UTF-8 character splits to simplify encoding into
-/// JSON.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KeyRangeLocation {
-    <span class="doccomment">/// The start (inclusive) of the key range.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start: ::prost::alloc::string::String,
-    <span class="doccomment">/// The end (exclusive) of the key range.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end: ::prost::alloc::string::String,
-    <span class="doccomment">/// The physical location of this range assignment to be used for
-    /// streaming computation cross-worker message delivery.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>delivery_endpoint: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the data disk where data for this range is stored.
-    /// This name is local to the Google Cloud Platform project and uniquely
-    /// identifies the disk within that project, for example
-    /// "myproject-1014-104817-4c2-harness-0-disk-1".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>data_disk: ::prost::alloc::string::String,
-    <span class="doccomment">/// DEPRECATED. The location of the persistent state for this range, as a
-    /// persistent directory in the worker local filesystem.
-    </span><span class="attr">#[deprecated]
-    #[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>deprecated_persistent_directory: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Describes mounted data disk.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MountedDataDisk {
-    <span class="doccomment">/// The name of the data disk.
-    /// This name is local to the Google Cloud Platform project and uniquely
-    /// identifies the disk within that project, for example
-    /// "myproject-1014-104817-4c2-harness-0-disk-1".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>data_disk: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Data disk assignment for a given VM instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DataDiskAssignment {
-    <span class="doccomment">/// VM instance name the data disks mounted to, for example
-    /// "myproject-1014-104817-4c2-harness-0".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>vm_instance: ::prost::alloc::string::String,
-    <span class="doccomment">/// Mounted data disks. The order is important a data disk's 0-based index in
-    /// this list defines which persistent directory the disk is mounted to, for
-    /// example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" },
-    /// { "myproject-1014-104817-4c2-harness-0-disk-1" }.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>data_disks: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Data disk assignment information for a specific key-range of a sharded
-/// computation.
-/// Currently we only support UTF-8 character splits to simplify encoding into
-/// JSON.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>KeyRangeDataDiskAssignment {
-    <span class="doccomment">/// The start (inclusive) of the key range.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start: ::prost::alloc::string::String,
-    <span class="doccomment">/// The end (exclusive) of the key range.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end: ::prost::alloc::string::String,
-    <span class="doccomment">/// The name of the data disk where data for this range is stored.
-    /// This name is local to the Google Cloud Platform project and uniquely
-    /// identifies the disk within that project, for example
-    /// "myproject-1014-104817-4c2-harness-0-disk-1".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>data_disk: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Describes full or partial data disk assignment information of the computation
-/// ranges.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StreamingComputationRanges {
-    <span class="doccomment">/// The ID of the computation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>computation_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Data disk assignments for ranges from this computation.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>range_assignments: ::prost::alloc::vec::Vec&lt;KeyRangeDataDiskAssignment&gt;,
-}
-<span class="doccomment">/// Streaming appliance snapshot configuration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>StreamingApplianceSnapshotConfig {
-    <span class="doccomment">/// If set, indicates the snapshot id for the snapshot being performed.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>snapshot_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Indicates which endpoint is used to import appliance state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>import_state_endpoint: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Describes the environment in which a Dataflow Job runs.
+</span><span class="doccomment">/// Describes the environment in which a Dataflow Job runs.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Environment {
@@ -5954,7 +4805,7 @@
 }
 <span class="doccomment">/// Settings for WorkerPool autoscaling.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AutoscalingSettings {
     <span class="doccomment">/// The algorithm to use for autoscaling.
     </span><span class="attr">#[prost(enumeration = <span class="string">"AutoscalingAlgorithm"</span>, tag = <span class="string">"1"</span>)]
@@ -6103,7 +4954,7 @@
 }
 <span class="doccomment">/// Describes any options that have an effect on the debugging of pipelines.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DebugOptions {
     <span class="doccomment">/// When true, enables the logging of the literal hot key to the user's Cloud
     /// Logging.
@@ -6444,7 +5295,7 @@
 }
 <span class="doccomment">/// Response from deleting a snapshot.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteSnapshotResponse {}
 <span class="doccomment">/// Request to list snapshots.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -7496,7 +6347,7 @@
 }
 <span class="doccomment">/// Response for CheckActiveJobsRequest.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CheckActiveJobsResponse {
     <span class="doccomment">/// If True, active jobs exists for project. False otherwise.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -7994,6 +6845,1155 @@
             req.extensions_mut()
                 .insert(
                     GrpcMethod::new(<span class="string">"google.dataflow.v1beta3.JobsV1Beta3"</span>, <span class="string">"SnapshotJob"</span>),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Identifies a metric, by describing the source which generated the
+/// metric.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MetricStructuredName {
+    <span class="doccomment">/// Origin (namespace) of metric name. May be blank for user-define metrics;
+    /// will be "dataflow" for metrics defined by the Dataflow service or SDK.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>origin: ::prost::alloc::string::String,
+    <span class="doccomment">/// Worker-defined metric name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Zero or more labeled fields which identify the part of the job this
+    /// metric is associated with, such as the name of a step or collection.
+    ///
+    /// For example, built-in counters associated with steps will have
+    /// context\['step'\] = &lt;step-name&gt;. Counters associated with PCollections
+    /// in the SDK will have context\['pcollection'\] = &lt;pcollection-name&gt;.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>context: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// Describes the state of a metric.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MetricUpdate {
+    <span class="doccomment">/// Name of the metric.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::core::option::Option&lt;MetricStructuredName&gt;,
+    <span class="doccomment">/// Metric aggregation kind.  The possible metric aggregation kinds are
+    /// "Sum", "Max", "Min", "Mean", "Set", "And", "Or", and "Distribution".
+    /// The specified aggregation kind is case-insensitive.
+    ///
+    /// If omitted, this is not an aggregated value but instead
+    /// a single metric sample value.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>kind: ::prost::alloc::string::String,
+    <span class="doccomment">/// True if this metric is reported as the total cumulative aggregate
+    /// value accumulated since the worker started working on this WorkItem.
+    /// By default this is false, indicating that this metric is reported
+    /// as a delta that is not associated with any WorkItem.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>cumulative: bool,
+    <span class="doccomment">/// Worker-computed aggregate value for aggregation kinds "Sum", "Max", "Min",
+    /// "And", and "Or".  The possible value types are Long, Double, and Boolean.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>scalar: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// Worker-computed aggregate value for the "Mean" aggregation kind.
+    /// This holds the sum of the aggregated values and is used in combination
+    /// with mean_count below to obtain the actual mean aggregate value.
+    /// The only possible value types are Long and Double.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>mean_sum: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// Worker-computed aggregate value for the "Mean" aggregation kind.
+    /// This holds the count of the aggregated values and is used in combination
+    /// with mean_sum above to obtain the actual mean aggregate value.
+    /// The only possible value type is Long.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>mean_count: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// Worker-computed aggregate value for the "Set" aggregation kind.  The only
+    /// possible value type is a list of Values whose type can be Long, Double,
+    /// or String, according to the metric's type.  All Values in the list must
+    /// be of the same type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>set: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// A struct value describing properties of a distribution of numeric values.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>distribution: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// A struct value describing properties of a Gauge.
+    /// Metrics of gauge type show the value of a metric across time, and is
+    /// aggregated based on the newest value.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>gauge: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// Worker-computed aggregate value for internal use by the Dataflow
+    /// service.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>internal: ::core::option::Option&lt;::prost_types::Value&gt;,
+    <span class="doccomment">/// Timestamp associated with the metric value. Optional when workers are
+    /// reporting work progress; it will be filled in responses from the
+    /// metrics API.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Request to get job metrics.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetJobMetricsRequest {
+    <span class="doccomment">/// A project id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The job to get metrics for.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Return only metric data that has changed since this time.
+    /// Default is to return all information about all metrics for the job.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The \[regional endpoint\]
+    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
+    /// contains the job specified by job_id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// JobMetrics contains a collection of metrics describing the detailed progress
+/// of a Dataflow job. Metrics correspond to user-defined and system-defined
+/// metrics in the job.
+///
+/// This resource captures only the most recent values of each metric;
+/// time-series data can be queried for them (under the same metric names)
+/// from Cloud Monitoring.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>JobMetrics {
+    <span class="doccomment">/// Timestamp as of which metric values are current.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>metric_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// All metrics for this job.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;MetricUpdate&gt;,
+}
+<span class="doccomment">/// Request to get job execution details.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetJobExecutionDetailsRequest {
+    <span class="doccomment">/// A project id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The job to get execution details for.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The \[regional endpoint\]
+    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
+    /// contains the job specified by job_id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, determines the maximum number of stages to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Information about the progress of some component of job execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ProgressTimeseries {
+    <span class="doccomment">/// The current progress of the component, in the range \[0,1\].
+    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>current_progress: f64,
+    <span class="doccomment">/// History of progress for the component.
+    ///
+    /// Points are sorted by time.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>data_points: ::prost::alloc::vec::Vec&lt;progress_timeseries::Point&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ProgressTimeseries`.
+</span><span class="kw">pub mod </span>progress_timeseries {
+    <span class="doccomment">/// A point in the timeseries.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Point {
+        <span class="doccomment">/// The timestamp of the point.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// The value of the point.
+        </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value: f64,
+    }
+}
+<span class="doccomment">/// Information about a particular execution stage of a job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StageSummary {
+    <span class="doccomment">/// ID of this stage
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>stage_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// State of this stage.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionState"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Start time of this stage.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// End time of this stage.
+    ///
+    /// If the work item is completed, this is the actual end time of the stage.
+    /// Otherwise, it is the predicted end time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Progress for this stage.
+    /// Only applicable to Batch jobs.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>progress: ::core::option::Option&lt;ProgressTimeseries&gt;,
+    <span class="doccomment">/// Metrics for this stage.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;MetricUpdate&gt;,
+}
+<span class="doccomment">/// Information about the execution of a job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>JobExecutionDetails {
+    <span class="doccomment">/// The stages of the job execution.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>stages: ::prost::alloc::vec::Vec&lt;StageSummary&gt;,
+    <span class="doccomment">/// If present, this response does not contain all requested tasks.  To obtain
+    /// the next page of results, repeat the request with page_token set to this
+    /// value.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request to get information about a particular execution stage of a job.
+/// Currently only tracked for Batch jobs.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetStageExecutionDetailsRequest {
+    <span class="doccomment">/// A project id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The job to get execution details for.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The \[regional endpoint\]
+    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
+    /// contains the job specified by job_id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// The stage for which to fetch information.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>stage_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, determines the maximum number of work items to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Lower time bound of work items to include, by start time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Upper time bound of work items to include, by start time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Information about an individual work item execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WorkItemDetails {
+    <span class="doccomment">/// Name of this work item.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>task_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Attempt ID of this work item
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>attempt_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Start time of this work item attempt.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// End time of this work item attempt.
+    ///
+    /// If the work item is completed, this is the actual end time of the work
+    /// item.  Otherwise, it is the predicted end time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// State of this work item.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ExecutionState"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Progress of this work item.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>progress: ::core::option::Option&lt;ProgressTimeseries&gt;,
+    <span class="doccomment">/// Metrics for this work item.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;MetricUpdate&gt;,
+}
+<span class="doccomment">/// Information about a worker
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WorkerDetails {
+    <span class="doccomment">/// Name of this worker
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>worker_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Work items processed by this worker, sorted by time.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>work_items: ::prost::alloc::vec::Vec&lt;WorkItemDetails&gt;,
+}
+<span class="doccomment">/// Information about the workers and work items within a stage.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StageExecutionDetails {
+    <span class="doccomment">/// Workers that have done work on the stage.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>workers: ::prost::alloc::vec::Vec&lt;WorkerDetails&gt;,
+    <span class="doccomment">/// If present, this response does not contain all requested tasks.  To obtain
+    /// the next page of results, repeat the request with page_token set to this
+    /// value.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The state of some component of job execution.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ExecutionState {
+    <span class="doccomment">/// The component state is unknown or unspecified.
+    </span>Unknown = <span class="number">0</span>,
+    <span class="doccomment">/// The component is not yet running.
+    </span>NotStarted = <span class="number">1</span>,
+    <span class="doccomment">/// The component is currently running.
+    </span>Running = <span class="number">2</span>,
+    <span class="doccomment">/// The component succeeded.
+    </span>Succeeded = <span class="number">3</span>,
+    <span class="doccomment">/// The component failed.
+    </span>Failed = <span class="number">4</span>,
+    <span class="doccomment">/// Execution of the component was cancelled.
+    </span>Cancelled = <span class="number">5</span>,
+}
+<span class="kw">impl </span>ExecutionState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ExecutionState::Unknown =&gt; <span class="string">"EXECUTION_STATE_UNKNOWN"</span>,
+            ExecutionState::NotStarted =&gt; <span class="string">"EXECUTION_STATE_NOT_STARTED"</span>,
+            ExecutionState::Running =&gt; <span class="string">"EXECUTION_STATE_RUNNING"</span>,
+            ExecutionState::Succeeded =&gt; <span class="string">"EXECUTION_STATE_SUCCEEDED"</span>,
+            ExecutionState::Failed =&gt; <span class="string">"EXECUTION_STATE_FAILED"</span>,
+            ExecutionState::Cancelled =&gt; <span class="string">"EXECUTION_STATE_CANCELLED"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"EXECUTION_STATE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+            <span class="string">"EXECUTION_STATE_NOT_STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotStarted),
+            <span class="string">"EXECUTION_STATE_RUNNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Running),
+            <span class="string">"EXECUTION_STATE_SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+            <span class="string">"EXECUTION_STATE_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+            <span class="string">"EXECUTION_STATE_CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>metrics_v1_beta3_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The Dataflow Metrics API lets you monitor the progress of Dataflow
+    /// jobs.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>MetricsV1Beta3Client&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; MetricsV1Beta3Client&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; MetricsV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            MetricsV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Request the job status.
+        ///
+        /// To request the status of a job, we recommend using
+        /// `projects.locations.jobs.getMetrics` with a [regional endpoint]
+        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
+        /// `projects.jobs.getMetrics` is not recommended, as you can only request the
+        /// status of jobs that are running in `us-central1`.
+        </span><span class="kw">pub async fn </span>get_job_metrics(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetJobMetricsRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::JobMetrics&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.MetricsV1Beta3/GetJobMetrics"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
+                        <span class="string">"GetJobMetrics"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Request detailed information about the execution status of the job.
+        ///
+        /// EXPERIMENTAL.  This API is subject to change or removal without notice.
+        </span><span class="kw">pub async fn </span>get_job_execution_details(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetJobExecutionDetailsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::JobExecutionDetails&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.MetricsV1Beta3/GetJobExecutionDetails"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
+                        <span class="string">"GetJobExecutionDetails"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Request detailed information about the execution status of a stage of the
+        /// job.
+        ///
+        /// EXPERIMENTAL.  This API is subject to change or removal without notice.
+        </span><span class="kw">pub async fn </span>get_stage_execution_details(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetStageExecutionDetailsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::StageExecutionDetails&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.MetricsV1Beta3/GetStageExecutionDetails"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.MetricsV1Beta3"</span>,
+                        <span class="string">"GetStageExecutionDetails"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Global topology of the streaming Dataflow job, including all
+/// computations and their sharded locations.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TopologyConfig {
+    <span class="doccomment">/// The computations associated with a streaming Dataflow job.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>computations: ::prost::alloc::vec::Vec&lt;ComputationTopology&gt;,
+    <span class="doccomment">/// The disks assigned to a streaming Dataflow job.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>data_disk_assignments: ::prost::alloc::vec::Vec&lt;DataDiskAssignment&gt;,
+    <span class="doccomment">/// Maps user stage names to stable computation names.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>user_stage_to_computation_name_map: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// The size (in bits) of keys that will be assigned to source messages.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>forwarding_key_bits: i32,
+    <span class="doccomment">/// Version number for persistent state.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>persistent_state_version: i32,
+}
+<span class="doccomment">/// Identifies a pubsub location to use for transferring data into or
+/// out of a streaming Dataflow job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PubsubLocation {
+    <span class="doccomment">/// A pubsub topic, in the form of
+    /// "pubsub.googleapis.com/topics/&lt;project-id&gt;/&lt;topic-name&gt;"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>topic: ::prost::alloc::string::String,
+    <span class="doccomment">/// A pubsub subscription, in the form of
+    /// "pubsub.googleapis.com/subscriptions/&lt;project-id&gt;/&lt;subscription-name&gt;"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>subscription: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set, contains a pubsub label from which to extract record timestamps.
+    /// If left empty, record timestamps will be generated upon arrival.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>timestamp_label: ::prost::alloc::string::String,
+    <span class="doccomment">/// If set, contains a pubsub label from which to extract record ids.
+    /// If left empty, record deduplication will be strictly best effort.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>id_label: ::prost::alloc::string::String,
+    <span class="doccomment">/// Indicates whether the pipeline allows late-arriving data.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>drop_late_data: bool,
+    <span class="doccomment">/// If set, specifies the pubsub subscription that will be used for tracking
+    /// custom time timestamps for watermark estimation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>tracking_subscription: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, then the client has requested to get pubsub attributes.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>with_attributes: bool,
+}
+<span class="doccomment">/// Identifies the location of a streaming computation stage, for
+/// stage-to-stage communication.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StreamingStageLocation {
+    <span class="doccomment">/// Identifies the particular stream within the streaming Dataflow
+    /// job.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>stream_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Identifies the location of a streaming side input.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StreamingSideInputLocation {
+    <span class="doccomment">/// Identifies the particular side input within the streaming Dataflow job.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Identifies the state family where this side input is stored.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>state_family: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Identifies the location of a custom souce.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CustomSourceLocation {
+    <span class="doccomment">/// Whether this source is stateful.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>stateful: bool,
+}
+<span class="doccomment">/// Describes a stream of data, either as input to be processed or as
+/// output of a streaming Dataflow job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StreamLocation {
+    <span class="doccomment">/// A specification of a stream's location.
+    </span><span class="attr">#[prost(oneof = <span class="string">"stream_location::Location"</span>, tags = <span class="string">"1, 2, 3, 4"</span>)]
+    </span><span class="kw">pub </span>location: ::core::option::Option&lt;stream_location::Location&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StreamLocation`.
+</span><span class="kw">pub mod </span>stream_location {
+    <span class="doccomment">/// A specification of a stream's location.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Location {
+        <span class="doccomment">/// The stream is part of another computation within the current
+        /// streaming Dataflow job.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>StreamingStageLocation(<span class="kw">super</span>::StreamingStageLocation),
+        <span class="doccomment">/// The stream is a pubsub stream.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>PubsubLocation(<span class="kw">super</span>::PubsubLocation),
+        <span class="doccomment">/// The stream is a streaming side input.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>SideInputLocation(<span class="kw">super</span>::StreamingSideInputLocation),
+        <span class="doccomment">/// The stream is a custom source.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>CustomSourceLocation(<span class="kw">super</span>::CustomSourceLocation),
+    }
+}
+<span class="doccomment">/// State family configuration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StateFamilyConfig {
+    <span class="doccomment">/// The state family value.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state_family: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, this family corresponds to a read operation.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>is_read: bool,
+}
+<span class="doccomment">/// All configuration data for a particular Computation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ComputationTopology {
+    <span class="doccomment">/// The system stage name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>system_stage_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the computation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>computation_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The key ranges processed by the computation.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>key_ranges: ::prost::alloc::vec::Vec&lt;KeyRangeLocation&gt;,
+    <span class="doccomment">/// The inputs to the computation.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>inputs: ::prost::alloc::vec::Vec&lt;StreamLocation&gt;,
+    <span class="doccomment">/// The outputs from the computation.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>outputs: ::prost::alloc::vec::Vec&lt;StreamLocation&gt;,
+    <span class="doccomment">/// The state family values.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>state_families: ::prost::alloc::vec::Vec&lt;StateFamilyConfig&gt;,
+}
+<span class="doccomment">/// Location information for a specific key-range of a sharded computation.
+/// Currently we only support UTF-8 character splits to simplify encoding into
+/// JSON.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KeyRangeLocation {
+    <span class="doccomment">/// The start (inclusive) of the key range.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start: ::prost::alloc::string::String,
+    <span class="doccomment">/// The end (exclusive) of the key range.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end: ::prost::alloc::string::String,
+    <span class="doccomment">/// The physical location of this range assignment to be used for
+    /// streaming computation cross-worker message delivery.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>delivery_endpoint: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the data disk where data for this range is stored.
+    /// This name is local to the Google Cloud Platform project and uniquely
+    /// identifies the disk within that project, for example
+    /// "myproject-1014-104817-4c2-harness-0-disk-1".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>data_disk: ::prost::alloc::string::String,
+    <span class="doccomment">/// DEPRECATED. The location of the persistent state for this range, as a
+    /// persistent directory in the worker local filesystem.
+    </span><span class="attr">#[deprecated]
+    #[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>deprecated_persistent_directory: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Describes mounted data disk.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MountedDataDisk {
+    <span class="doccomment">/// The name of the data disk.
+    /// This name is local to the Google Cloud Platform project and uniquely
+    /// identifies the disk within that project, for example
+    /// "myproject-1014-104817-4c2-harness-0-disk-1".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>data_disk: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Data disk assignment for a given VM instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DataDiskAssignment {
+    <span class="doccomment">/// VM instance name the data disks mounted to, for example
+    /// "myproject-1014-104817-4c2-harness-0".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>vm_instance: ::prost::alloc::string::String,
+    <span class="doccomment">/// Mounted data disks. The order is important a data disk's 0-based index in
+    /// this list defines which persistent directory the disk is mounted to, for
+    /// example the list of { "myproject-1014-104817-4c2-harness-0-disk-0" },
+    /// { "myproject-1014-104817-4c2-harness-0-disk-1" }.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>data_disks: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Data disk assignment information for a specific key-range of a sharded
+/// computation.
+/// Currently we only support UTF-8 character splits to simplify encoding into
+/// JSON.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KeyRangeDataDiskAssignment {
+    <span class="doccomment">/// The start (inclusive) of the key range.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start: ::prost::alloc::string::String,
+    <span class="doccomment">/// The end (exclusive) of the key range.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end: ::prost::alloc::string::String,
+    <span class="doccomment">/// The name of the data disk where data for this range is stored.
+    /// This name is local to the Google Cloud Platform project and uniquely
+    /// identifies the disk within that project, for example
+    /// "myproject-1014-104817-4c2-harness-0-disk-1".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>data_disk: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Describes full or partial data disk assignment information of the computation
+/// ranges.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StreamingComputationRanges {
+    <span class="doccomment">/// The ID of the computation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>computation_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Data disk assignments for ranges from this computation.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>range_assignments: ::prost::alloc::vec::Vec&lt;KeyRangeDataDiskAssignment&gt;,
+}
+<span class="doccomment">/// Streaming appliance snapshot configuration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StreamingApplianceSnapshotConfig {
+    <span class="doccomment">/// If set, indicates the snapshot id for the snapshot being performed.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>snapshot_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Indicates which endpoint is used to import appliance state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>import_state_endpoint: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A particular message pertaining to a Dataflow job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>JobMessage {
+    <span class="doccomment">/// Deprecated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The timestamp of the message.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The text of the message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
+    <span class="doccomment">/// Importance level of the message.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>message_importance: i32,
+}
+<span class="doccomment">/// A rich message format, including a human readable string, a key for
+/// identifying the message, and structured data associated with the message for
+/// programmatic consumption.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>StructuredMessage {
+    <span class="doccomment">/// Human-readable version of message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>message_text: ::prost::alloc::string::String,
+    <span class="doccomment">/// Identifier for this message type.  Used by external systems to
+    /// internationalize or personalize message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>message_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The structured data associated with this message.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>parameters: ::prost::alloc::vec::Vec&lt;structured_message::Parameter&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `StructuredMessage`.
+</span><span class="kw">pub mod </span>structured_message {
+    <span class="doccomment">/// Structured data associated with this message.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Parameter {
+        <span class="doccomment">/// Key or name for this parameter.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
+        <span class="doccomment">/// Value for this parameter.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value: ::core::option::Option&lt;::prost_types::Value&gt;,
+    }
+}
+<span class="doccomment">/// A structured message reporting an autoscaling decision made by the Dataflow
+/// service.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoscalingEvent {
+    <span class="doccomment">/// The current number of workers the job has.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>current_num_workers: i64,
+    <span class="doccomment">/// The target number of workers the worker pool wants to resize to use.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>target_num_workers: i64,
+    <span class="doccomment">/// The type of autoscaling event to report.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"autoscaling_event::AutoscalingEventType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>event_type: i32,
+    <span class="doccomment">/// A message describing why the system decided to adjust the current
+    /// number of workers, why it failed, or why the system decided to
+    /// not make any changes to the number of workers.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>description: ::core::option::Option&lt;StructuredMessage&gt;,
+    <span class="doccomment">/// The time this event was emitted to indicate a new target or current
+    /// num_workers value.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// A short and friendly name for the worker pool this event refers to.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>worker_pool: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `AutoscalingEvent`.
+</span><span class="kw">pub mod </span>autoscaling_event {
+    <span class="doccomment">/// Indicates the type of autoscaling event.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>AutoscalingEventType {
+        <span class="doccomment">/// Default type for the enum.  Value should never be returned.
+        </span>TypeUnknown = <span class="number">0</span>,
+        <span class="doccomment">/// The TARGET_NUM_WORKERS_CHANGED type should be used when the target
+        /// worker pool size has changed at the start of an actuation. An event
+        /// should always be specified as TARGET_NUM_WORKERS_CHANGED if it reflects
+        /// a change in the target_num_workers.
+        </span>TargetNumWorkersChanged = <span class="number">1</span>,
+        <span class="doccomment">/// The CURRENT_NUM_WORKERS_CHANGED type should be used when actual worker
+        /// pool size has been changed, but the target_num_workers has not changed.
+        </span>CurrentNumWorkersChanged = <span class="number">2</span>,
+        <span class="doccomment">/// The ACTUATION_FAILURE type should be used when we want to report
+        /// an error to the user indicating why the current number of workers
+        /// in the pool could not be changed.
+        /// Displayed in the current status and history widgets.
+        </span>ActuationFailure = <span class="number">3</span>,
+        <span class="doccomment">/// Used when we want to report to the user a reason why we are
+        /// not currently adjusting the number of workers.
+        /// Should specify both target_num_workers, current_num_workers and a
+        /// decision_message.
+        </span>NoChange = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>AutoscalingEventType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                AutoscalingEventType::TypeUnknown =&gt; <span class="string">"TYPE_UNKNOWN"</span>,
+                AutoscalingEventType::TargetNumWorkersChanged =&gt; {
+                    <span class="string">"TARGET_NUM_WORKERS_CHANGED"
+                </span>}
+                AutoscalingEventType::CurrentNumWorkersChanged =&gt; {
+                    <span class="string">"CURRENT_NUM_WORKERS_CHANGED"
+                </span>}
+                AutoscalingEventType::ActuationFailure =&gt; <span class="string">"ACTUATION_FAILURE"</span>,
+                AutoscalingEventType::NoChange =&gt; <span class="string">"NO_CHANGE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TypeUnknown),
+                <span class="string">"TARGET_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TargetNumWorkersChanged),
+                <span class="string">"CURRENT_NUM_WORKERS_CHANGED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CurrentNumWorkersChanged),
+                <span class="string">"ACTUATION_FAILURE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ActuationFailure),
+                <span class="string">"NO_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NoChange),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Request to list job messages.
+/// Up to max_results messages will be returned in the time range specified
+/// starting with the oldest messages first. If no time range is specified
+/// the results with start with the oldest message.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListJobMessagesRequest {
+    <span class="doccomment">/// A project id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>project_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The job to get messages about.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>job_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Filter to only get messages with importance &gt;= level
+    </span><span class="attr">#[prost(enumeration = <span class="string">"JobMessageImportance"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>minimum_importance: i32,
+    <span class="doccomment">/// If specified, determines the maximum number of messages to
+    /// return.  If unspecified, the service may choose an appropriate
+    /// default, or may return an arbitrarily large number of results.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// If supplied, this should be the value of next_page_token returned
+    /// by an earlier call. This will cause the next page of results to
+    /// be returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// If specified, return only messages with timestamps &gt;= start_time.
+    /// The default is the job creation time (i.e. beginning of messages).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Return only messages with timestamps &lt; end_time. The default is now
+    /// (i.e. return up to the latest messages available).
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The \[regional endpoint\]
+    /// (&lt;https://cloud.google.com/dataflow/docs/concepts/regional-endpoints&gt;) that
+    /// contains the job specified by job_id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response to a request to list job messages.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListJobMessagesResponse {
+    <span class="doccomment">/// Messages in ascending timestamp order.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>job_messages: ::prost::alloc::vec::Vec&lt;JobMessage&gt;,
+    <span class="doccomment">/// The token to obtain the next page of results if there are more.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Autoscaling events in ascending timestamp order.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>autoscaling_events: ::prost::alloc::vec::Vec&lt;AutoscalingEvent&gt;,
+}
+<span class="doccomment">/// Indicates the importance of the message.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>JobMessageImportance {
+    <span class="doccomment">/// The message importance isn't specified, or is unknown.
+    </span>Unknown = <span class="number">0</span>,
+    <span class="doccomment">/// The message is at the 'debug' level: typically only useful for
+    /// software engineers working on the code the job is running.
+    /// Typically, Dataflow pipeline runners do not display log messages
+    /// at this level by default.
+    </span>JobMessageDebug = <span class="number">1</span>,
+    <span class="doccomment">/// The message is at the 'detailed' level: somewhat verbose, but
+    /// potentially useful to users.  Typically, Dataflow pipeline
+    /// runners do not display log messages at this level by default.
+    /// These messages are displayed by default in the Dataflow
+    /// monitoring UI.
+    </span>JobMessageDetailed = <span class="number">2</span>,
+    <span class="doccomment">/// The message is at the 'basic' level: useful for keeping
+    /// track of the execution of a Dataflow pipeline.  Typically,
+    /// Dataflow pipeline runners display log messages at this level by
+    /// default, and these messages are displayed by default in the
+    /// Dataflow monitoring UI.
+    </span>JobMessageBasic = <span class="number">5</span>,
+    <span class="doccomment">/// The message is at the 'warning' level: indicating a condition
+    /// pertaining to a job which may require human intervention.
+    /// Typically, Dataflow pipeline runners display log messages at this
+    /// level by default, and these messages are displayed by default in
+    /// the Dataflow monitoring UI.
+    </span>JobMessageWarning = <span class="number">3</span>,
+    <span class="doccomment">/// The message is at the 'error' level: indicating a condition
+    /// preventing a job from succeeding.  Typically, Dataflow pipeline
+    /// runners display log messages at this level by default, and these
+    /// messages are displayed by default in the Dataflow monitoring UI.
+    </span>JobMessageError = <span class="number">4</span>,
+}
+<span class="kw">impl </span>JobMessageImportance {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            JobMessageImportance::Unknown =&gt; <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN"</span>,
+            JobMessageImportance::JobMessageDebug =&gt; <span class="string">"JOB_MESSAGE_DEBUG"</span>,
+            JobMessageImportance::JobMessageDetailed =&gt; <span class="string">"JOB_MESSAGE_DETAILED"</span>,
+            JobMessageImportance::JobMessageBasic =&gt; <span class="string">"JOB_MESSAGE_BASIC"</span>,
+            JobMessageImportance::JobMessageWarning =&gt; <span class="string">"JOB_MESSAGE_WARNING"</span>,
+            JobMessageImportance::JobMessageError =&gt; <span class="string">"JOB_MESSAGE_ERROR"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"JOB_MESSAGE_IMPORTANCE_UNKNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unknown),
+            <span class="string">"JOB_MESSAGE_DEBUG" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDebug),
+            <span class="string">"JOB_MESSAGE_DETAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageDetailed),
+            <span class="string">"JOB_MESSAGE_BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageBasic),
+            <span class="string">"JOB_MESSAGE_WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageWarning),
+            <span class="string">"JOB_MESSAGE_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::JobMessageError),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>messages_v1_beta3_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// The Dataflow Messages API is used for monitoring the progress of
+    /// Dataflow jobs.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>MessagesV1Beta3Client&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; MessagesV1Beta3Client&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; MessagesV1Beta3Client&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            MessagesV1Beta3Client::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Request the job status.
+        ///
+        /// To request the status of a job, we recommend using
+        /// `projects.locations.jobs.messages.list` with a [regional endpoint]
+        /// (https://cloud.google.com/dataflow/docs/concepts/regional-endpoints). Using
+        /// `projects.jobs.messages.list` is not recommended, as you can only request
+        /// the status of jobs that are running in `us-central1`.
+        </span><span class="kw">pub async fn </span>list_job_messages(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListJobMessagesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListJobMessagesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.dataflow.v1beta3.MessagesV1Beta3/ListJobMessages"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.dataflow.v1beta3.MessagesV1Beta3"</span>,
+                        <span class="string">"ListJobMessages"</span>,
+                    ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}

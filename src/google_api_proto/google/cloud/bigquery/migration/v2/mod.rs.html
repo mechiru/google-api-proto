@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/bigquery/migration/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/bigquery/migration/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1254,6 +1254,328 @@
 <a href="#1254" id="1254">1254</a>
 <a href="#1255" id="1255">1255</a>
 <a href="#1256" id="1256">1256</a>
+<a href="#1257" id="1257">1257</a>
+<a href="#1258" id="1258">1258</a>
+<a href="#1259" id="1259">1259</a>
+<a href="#1260" id="1260">1260</a>
+<a href="#1261" id="1261">1261</a>
+<a href="#1262" id="1262">1262</a>
+<a href="#1263" id="1263">1263</a>
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
+<a href="#1278" id="1278">1278</a>
+<a href="#1279" id="1279">1279</a>
+<a href="#1280" id="1280">1280</a>
+<a href="#1281" id="1281">1281</a>
+<a href="#1282" id="1282">1282</a>
+<a href="#1283" id="1283">1283</a>
+<a href="#1284" id="1284">1284</a>
+<a href="#1285" id="1285">1285</a>
+<a href="#1286" id="1286">1286</a>
+<a href="#1287" id="1287">1287</a>
+<a href="#1288" id="1288">1288</a>
+<a href="#1289" id="1289">1289</a>
+<a href="#1290" id="1290">1290</a>
+<a href="#1291" id="1291">1291</a>
+<a href="#1292" id="1292">1292</a>
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
+<a href="#1299" id="1299">1299</a>
+<a href="#1300" id="1300">1300</a>
+<a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a>
+<a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
+<a href="#1310" id="1310">1310</a>
+<a href="#1311" id="1311">1311</a>
+<a href="#1312" id="1312">1312</a>
+<a href="#1313" id="1313">1313</a>
+<a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
+<a href="#1325" id="1325">1325</a>
+<a href="#1326" id="1326">1326</a>
+<a href="#1327" id="1327">1327</a>
+<a href="#1328" id="1328">1328</a>
+<a href="#1329" id="1329">1329</a>
+<a href="#1330" id="1330">1330</a>
+<a href="#1331" id="1331">1331</a>
+<a href="#1332" id="1332">1332</a>
+<a href="#1333" id="1333">1333</a>
+<a href="#1334" id="1334">1334</a>
+<a href="#1335" id="1335">1335</a>
+<a href="#1336" id="1336">1336</a>
+<a href="#1337" id="1337">1337</a>
+<a href="#1338" id="1338">1338</a>
+<a href="#1339" id="1339">1339</a>
+<a href="#1340" id="1340">1340</a>
+<a href="#1341" id="1341">1341</a>
+<a href="#1342" id="1342">1342</a>
+<a href="#1343" id="1343">1343</a>
+<a href="#1344" id="1344">1344</a>
+<a href="#1345" id="1345">1345</a>
+<a href="#1346" id="1346">1346</a>
+<a href="#1347" id="1347">1347</a>
+<a href="#1348" id="1348">1348</a>
+<a href="#1349" id="1349">1349</a>
+<a href="#1350" id="1350">1350</a>
+<a href="#1351" id="1351">1351</a>
+<a href="#1352" id="1352">1352</a>
+<a href="#1353" id="1353">1353</a>
+<a href="#1354" id="1354">1354</a>
+<a href="#1355" id="1355">1355</a>
+<a href="#1356" id="1356">1356</a>
+<a href="#1357" id="1357">1357</a>
+<a href="#1358" id="1358">1358</a>
+<a href="#1359" id="1359">1359</a>
+<a href="#1360" id="1360">1360</a>
+<a href="#1361" id="1361">1361</a>
+<a href="#1362" id="1362">1362</a>
+<a href="#1363" id="1363">1363</a>
+<a href="#1364" id="1364">1364</a>
+<a href="#1365" id="1365">1365</a>
+<a href="#1366" id="1366">1366</a>
+<a href="#1367" id="1367">1367</a>
+<a href="#1368" id="1368">1368</a>
+<a href="#1369" id="1369">1369</a>
+<a href="#1370" id="1370">1370</a>
+<a href="#1371" id="1371">1371</a>
+<a href="#1372" id="1372">1372</a>
+<a href="#1373" id="1373">1373</a>
+<a href="#1374" id="1374">1374</a>
+<a href="#1375" id="1375">1375</a>
+<a href="#1376" id="1376">1376</a>
+<a href="#1377" id="1377">1377</a>
+<a href="#1378" id="1378">1378</a>
+<a href="#1379" id="1379">1379</a>
+<a href="#1380" id="1380">1380</a>
+<a href="#1381" id="1381">1381</a>
+<a href="#1382" id="1382">1382</a>
+<a href="#1383" id="1383">1383</a>
+<a href="#1384" id="1384">1384</a>
+<a href="#1385" id="1385">1385</a>
+<a href="#1386" id="1386">1386</a>
+<a href="#1387" id="1387">1387</a>
+<a href="#1388" id="1388">1388</a>
+<a href="#1389" id="1389">1389</a>
+<a href="#1390" id="1390">1390</a>
+<a href="#1391" id="1391">1391</a>
+<a href="#1392" id="1392">1392</a>
+<a href="#1393" id="1393">1393</a>
+<a href="#1394" id="1394">1394</a>
+<a href="#1395" id="1395">1395</a>
+<a href="#1396" id="1396">1396</a>
+<a href="#1397" id="1397">1397</a>
+<a href="#1398" id="1398">1398</a>
+<a href="#1399" id="1399">1399</a>
+<a href="#1400" id="1400">1400</a>
+<a href="#1401" id="1401">1401</a>
+<a href="#1402" id="1402">1402</a>
+<a href="#1403" id="1403">1403</a>
+<a href="#1404" id="1404">1404</a>
+<a href="#1405" id="1405">1405</a>
+<a href="#1406" id="1406">1406</a>
+<a href="#1407" id="1407">1407</a>
+<a href="#1408" id="1408">1408</a>
+<a href="#1409" id="1409">1409</a>
+<a href="#1410" id="1410">1410</a>
+<a href="#1411" id="1411">1411</a>
+<a href="#1412" id="1412">1412</a>
+<a href="#1413" id="1413">1413</a>
+<a href="#1414" id="1414">1414</a>
+<a href="#1415" id="1415">1415</a>
+<a href="#1416" id="1416">1416</a>
+<a href="#1417" id="1417">1417</a>
+<a href="#1418" id="1418">1418</a>
+<a href="#1419" id="1419">1419</a>
+<a href="#1420" id="1420">1420</a>
+<a href="#1421" id="1421">1421</a>
+<a href="#1422" id="1422">1422</a>
+<a href="#1423" id="1423">1423</a>
+<a href="#1424" id="1424">1424</a>
+<a href="#1425" id="1425">1425</a>
+<a href="#1426" id="1426">1426</a>
+<a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
+<a href="#1429" id="1429">1429</a>
+<a href="#1430" id="1430">1430</a>
+<a href="#1431" id="1431">1431</a>
+<a href="#1432" id="1432">1432</a>
+<a href="#1433" id="1433">1433</a>
+<a href="#1434" id="1434">1434</a>
+<a href="#1435" id="1435">1435</a>
+<a href="#1436" id="1436">1436</a>
+<a href="#1437" id="1437">1437</a>
+<a href="#1438" id="1438">1438</a>
+<a href="#1439" id="1439">1439</a>
+<a href="#1440" id="1440">1440</a>
+<a href="#1441" id="1441">1441</a>
+<a href="#1442" id="1442">1442</a>
+<a href="#1443" id="1443">1443</a>
+<a href="#1444" id="1444">1444</a>
+<a href="#1445" id="1445">1445</a>
+<a href="#1446" id="1446">1446</a>
+<a href="#1447" id="1447">1447</a>
+<a href="#1448" id="1448">1448</a>
+<a href="#1449" id="1449">1449</a>
+<a href="#1450" id="1450">1450</a>
+<a href="#1451" id="1451">1451</a>
+<a href="#1452" id="1452">1452</a>
+<a href="#1453" id="1453">1453</a>
+<a href="#1454" id="1454">1454</a>
+<a href="#1455" id="1455">1455</a>
+<a href="#1456" id="1456">1456</a>
+<a href="#1457" id="1457">1457</a>
+<a href="#1458" id="1458">1458</a>
+<a href="#1459" id="1459">1459</a>
+<a href="#1460" id="1460">1460</a>
+<a href="#1461" id="1461">1461</a>
+<a href="#1462" id="1462">1462</a>
+<a href="#1463" id="1463">1463</a>
+<a href="#1464" id="1464">1464</a>
+<a href="#1465" id="1465">1465</a>
+<a href="#1466" id="1466">1466</a>
+<a href="#1467" id="1467">1467</a>
+<a href="#1468" id="1468">1468</a>
+<a href="#1469" id="1469">1469</a>
+<a href="#1470" id="1470">1470</a>
+<a href="#1471" id="1471">1471</a>
+<a href="#1472" id="1472">1472</a>
+<a href="#1473" id="1473">1473</a>
+<a href="#1474" id="1474">1474</a>
+<a href="#1475" id="1475">1475</a>
+<a href="#1476" id="1476">1476</a>
+<a href="#1477" id="1477">1477</a>
+<a href="#1478" id="1478">1478</a>
+<a href="#1479" id="1479">1479</a>
+<a href="#1480" id="1480">1480</a>
+<a href="#1481" id="1481">1481</a>
+<a href="#1482" id="1482">1482</a>
+<a href="#1483" id="1483">1483</a>
+<a href="#1484" id="1484">1484</a>
+<a href="#1485" id="1485">1485</a>
+<a href="#1486" id="1486">1486</a>
+<a href="#1487" id="1487">1487</a>
+<a href="#1488" id="1488">1488</a>
+<a href="#1489" id="1489">1489</a>
+<a href="#1490" id="1490">1490</a>
+<a href="#1491" id="1491">1491</a>
+<a href="#1492" id="1492">1492</a>
+<a href="#1493" id="1493">1493</a>
+<a href="#1494" id="1494">1494</a>
+<a href="#1495" id="1495">1495</a>
+<a href="#1496" id="1496">1496</a>
+<a href="#1497" id="1497">1497</a>
+<a href="#1498" id="1498">1498</a>
+<a href="#1499" id="1499">1499</a>
+<a href="#1500" id="1500">1500</a>
+<a href="#1501" id="1501">1501</a>
+<a href="#1502" id="1502">1502</a>
+<a href="#1503" id="1503">1503</a>
+<a href="#1504" id="1504">1504</a>
+<a href="#1505" id="1505">1505</a>
+<a href="#1506" id="1506">1506</a>
+<a href="#1507" id="1507">1507</a>
+<a href="#1508" id="1508">1508</a>
+<a href="#1509" id="1509">1509</a>
+<a href="#1510" id="1510">1510</a>
+<a href="#1511" id="1511">1511</a>
+<a href="#1512" id="1512">1512</a>
+<a href="#1513" id="1513">1513</a>
+<a href="#1514" id="1514">1514</a>
+<a href="#1515" id="1515">1515</a>
+<a href="#1516" id="1516">1516</a>
+<a href="#1517" id="1517">1517</a>
+<a href="#1518" id="1518">1518</a>
+<a href="#1519" id="1519">1519</a>
+<a href="#1520" id="1520">1520</a>
+<a href="#1521" id="1521">1521</a>
+<a href="#1522" id="1522">1522</a>
+<a href="#1523" id="1523">1523</a>
+<a href="#1524" id="1524">1524</a>
+<a href="#1525" id="1525">1525</a>
+<a href="#1526" id="1526">1526</a>
+<a href="#1527" id="1527">1527</a>
+<a href="#1528" id="1528">1528</a>
+<a href="#1529" id="1529">1529</a>
+<a href="#1530" id="1530">1530</a>
+<a href="#1531" id="1531">1531</a>
+<a href="#1532" id="1532">1532</a>
+<a href="#1533" id="1533">1533</a>
+<a href="#1534" id="1534">1534</a>
+<a href="#1535" id="1535">1535</a>
+<a href="#1536" id="1536">1536</a>
+<a href="#1537" id="1537">1537</a>
+<a href="#1538" id="1538">1538</a>
+<a href="#1539" id="1539">1539</a>
+<a href="#1540" id="1540">1540</a>
+<a href="#1541" id="1541">1541</a>
+<a href="#1542" id="1542">1542</a>
+<a href="#1543" id="1543">1543</a>
+<a href="#1544" id="1544">1544</a>
+<a href="#1545" id="1545">1545</a>
+<a href="#1546" id="1546">1546</a>
+<a href="#1547" id="1547">1547</a>
+<a href="#1548" id="1548">1548</a>
+<a href="#1549" id="1549">1549</a>
+<a href="#1550" id="1550">1550</a>
+<a href="#1551" id="1551">1551</a>
+<a href="#1552" id="1552">1552</a>
+<a href="#1553" id="1553">1553</a>
+<a href="#1554" id="1554">1554</a>
+<a href="#1555" id="1555">1555</a>
+<a href="#1556" id="1556">1556</a>
+<a href="#1557" id="1557">1557</a>
+<a href="#1558" id="1558">1558</a>
+<a href="#1559" id="1559">1559</a>
+<a href="#1560" id="1560">1560</a>
+<a href="#1561" id="1561">1561</a>
+<a href="#1562" id="1562">1562</a>
+<a href="#1563" id="1563">1563</a>
+<a href="#1564" id="1564">1564</a>
+<a href="#1565" id="1565">1565</a>
+<a href="#1566" id="1566">1566</a>
+<a href="#1567" id="1567">1567</a>
+<a href="#1568" id="1568">1568</a>
+<a href="#1569" id="1569">1569</a>
+<a href="#1570" id="1570">1570</a>
+<a href="#1571" id="1571">1571</a>
+<a href="#1572" id="1572">1572</a>
+<a href="#1573" id="1573">1573</a>
+<a href="#1574" id="1574">1574</a>
+<a href="#1575" id="1575">1575</a>
+<a href="#1576" id="1576">1576</a>
+<a href="#1577" id="1577">1577</a>
+<a href="#1578" id="1578">1578</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Provides details for errors and the corresponding resources.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1287,7 +1609,7 @@
 }
 <span class="doccomment">/// Holds information about where the error is located.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ErrorLocation {
     <span class="doccomment">/// Optional. If applicable, denotes the line where the error occurred. A zero
     /// value means that there is no line information.
@@ -1358,7 +1680,7 @@
 /// If the start time is the same as the end time, then the interval
 /// represents a single point in time.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TimeInterval {
     <span class="doccomment">/// Optional. The beginning of the time interval.  The default value
     /// for the start time is the end time. The start time must not be
@@ -1402,6 +1724,46 @@
         </span>DistributionValue(<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::api::Distribution),
     }
 }
+<span class="doccomment">/// A record in the aggregate CSV report for a migration workflow
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GcsReportLogMessage {
+    <span class="doccomment">/// Severity of the translation record.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>severity: ::prost::alloc::string::String,
+    <span class="doccomment">/// Category of the error/warning. Example: SyntaxError
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
+    <span class="doccomment">/// The file path in which the error occurred
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>file_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// The file name in which the error occurred
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>filename: ::prost::alloc::string::String,
+    <span class="doccomment">/// Specifies the row from the source text where the error occurred (0 based,
+    /// -1 for messages without line location). Example: 2
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>source_script_line: i32,
+    <span class="doccomment">/// Specifies the column from the source texts where the error occurred. (0
+    /// based, -1 for messages without column location) example: 6
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>source_script_column: i32,
+    <span class="doccomment">/// Detailed message of the record.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The script context (obfuscated) in which the error occurred
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>script_context: ::prost::alloc::string::String,
+    <span class="doccomment">/// Category of the error/warning. Example: SyntaxError
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>action: ::prost::alloc::string::String,
+    <span class="doccomment">/// Effect of the error/warning. Example: COMPATIBILITY
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>effect: ::prost::alloc::string::String,
+    <span class="doccomment">/// Name of the affected object in the log message.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>object_name: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// The translation config to capture necessary settings for a translation task
 /// and subtask.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1419,6 +1781,12 @@
     <span class="doccomment">/// The indicator to show translation request initiator.
     </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>request_source: ::prost::alloc::string::String,
+    <span class="doccomment">/// The types of output to generate, e.g. sql, metadata etc. If not specified,
+    /// a default set of targets will be generated. Some additional target types
+    /// may be slower to generate. See the documentation for the set of available
+    /// target types.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>target_types: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
     <span class="doccomment">/// The chosen path where the source for input files will be found.
     </span><span class="attr">#[prost(oneof = <span class="string">"translation_config_details::SourceLocation"</span>, tags = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>source_location: ::core::option::Option&lt;
@@ -1466,12 +1834,12 @@
 }
 <span class="doccomment">/// The possible dialect options for translation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Dialect {
     <span class="doccomment">/// The possible dialect options that this message represents.
     </span><span class="attr">#[prost(
         oneof = <span class="string">"dialect::DialectValue"</span>,
-        tags = <span class="string">"1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14"
+        tags = <span class="string">"1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17"
     </span>)]
     </span><span class="kw">pub </span>dialect_value: ::core::option::Option&lt;dialect::DialectValue&gt;,
 }
@@ -1479,7 +1847,7 @@
 </span><span class="kw">pub mod </span>dialect {
     <span class="doccomment">/// The possible dialect options that this message represents.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>DialectValue {
         <span class="doccomment">/// The BigQuery dialect
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -1523,23 +1891,32 @@
         <span class="doccomment">/// The MySQL dialect
         </span><span class="attr">#[prost(message, tag = <span class="string">"14"</span>)]
         </span>MysqlDialect(<span class="kw">super</span>::MySqlDialect),
+        <span class="doccomment">/// DB2 dialect
+        </span><span class="attr">#[prost(message, tag = <span class="string">"15"</span>)]
+        </span>Db2Dialect(<span class="kw">super</span>::Db2Dialect),
+        <span class="doccomment">/// SQLite dialect
+        </span><span class="attr">#[prost(message, tag = <span class="string">"16"</span>)]
+        </span>SqliteDialect(<span class="kw">super</span>::SqLiteDialect),
+        <span class="doccomment">/// Greenplum dialect
+        </span><span class="attr">#[prost(message, tag = <span class="string">"17"</span>)]
+        </span>GreenplumDialect(<span class="kw">super</span>::GreenplumDialect),
     }
 }
 <span class="doccomment">/// The dialect definition for BigQuery.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BigQueryDialect {}
 <span class="doccomment">/// The dialect definition for HiveQL.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HiveQlDialect {}
 <span class="doccomment">/// The dialect definition for Redshift.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RedshiftDialect {}
 <span class="doccomment">/// The dialect definition for Teradata.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TeradataDialect {
     <span class="doccomment">/// Which Teradata sub-dialect mode the user specifies.
     </span><span class="attr">#[prost(enumeration = <span class="string">"teradata_dialect::Mode"</span>, tag = <span class="string">"1"</span>)]
@@ -1593,44 +1970,56 @@
 }
 <span class="doccomment">/// The dialect definition for Oracle.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OracleDialect {}
 <span class="doccomment">/// The dialect definition for SparkSQL.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SparkSqlDialect {}
 <span class="doccomment">/// The dialect definition for Snowflake.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SnowflakeDialect {}
 <span class="doccomment">/// The dialect definition for Netezza.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NetezzaDialect {}
 <span class="doccomment">/// The dialect definition for Azure Synapse.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AzureSynapseDialect {}
 <span class="doccomment">/// The dialect definition for Vertica.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VerticaDialect {}
 <span class="doccomment">/// The dialect definition for SQL Server.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SqlServerDialect {}
 <span class="doccomment">/// The dialect definition for Postgresql.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PostgresqlDialect {}
 <span class="doccomment">/// The dialect definition for Presto.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PrestoDialect {}
 <span class="doccomment">/// The dialect definition for MySQL.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MySqlDialect {}
+<span class="doccomment">/// The dialect definition for DB2.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Db2Dialect {}
+<span class="doccomment">/// The dialect definition for SQLite.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SqLiteDialect {}
+<span class="doccomment">/// The dialect definition for Greenplum.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GreenplumDialect {}
 <span class="doccomment">/// Represents a map of name mappings using a list of key:value proto messages of
 /// existing name to desired output name.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1775,14 +2164,140 @@
     /// translation engine will search through this list to find the value.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>schema_search_path: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. Expects a valid BigQuery dataset ID that exists, e.g.,
+    /// project-123.metadata_store_123.  If specified, translation will search and
+    /// read the required schema information from a metadata store in this dataset.
+    /// If metadata store doesn't exist, translation will parse the metadata file
+    /// and upload the schema info to a temp table in the dataset to speed up
+    /// future translation jobs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>metadata_store_dataset: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The translation details to capture the necessary settings for a translation
+/// job.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TranslationDetails {
+    <span class="doccomment">/// The mapping from source to target SQL.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>source_target_mapping: ::prost::alloc::vec::Vec&lt;SourceTargetMapping&gt;,
+    <span class="doccomment">/// The base URI for all writes to persistent storage.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>target_base_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// The default source environment values for the translation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>source_environment: ::core::option::Option&lt;SourceEnvironment&gt;,
+    <span class="doccomment">/// The list of literal targets that will be directly returned to the response.
+    /// Each entry consists of the constructed path, EXCLUDING the base path. Not
+    /// providing a target_base_uri will prevent writing to persistent storage.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>target_return_literals: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The types of output to generate, e.g. sql, metadata,
+    /// lineage_from_sql_scripts, etc. If not specified, a default set of
+    /// targets will be generated. Some additional target types may be slower to
+    /// generate. See the documentation for the set of available target types.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>target_types: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Represents one mapping from a source SQL to a target SQL.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SourceTargetMapping {
+    <span class="doccomment">/// The source SQL or the path to it.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>source_spec: ::core::option::Option&lt;SourceSpec&gt;,
+    <span class="doccomment">/// The target SQL or the path for it.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>target_spec: ::core::option::Option&lt;TargetSpec&gt;,
+}
+<span class="doccomment">/// Represents one path to the location that holds source data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SourceSpec {
+    <span class="doccomment">/// Optional. The optional field to specify the encoding of the sql bytes.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>encoding: ::prost::alloc::string::String,
+    <span class="doccomment">/// The specific source SQL.
+    </span><span class="attr">#[prost(oneof = <span class="string">"source_spec::Source"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>source: ::core::option::Option&lt;source_spec::Source&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SourceSpec`.
+</span><span class="kw">pub mod </span>source_spec {
+    <span class="doccomment">/// The specific source SQL.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Source {
+        <span class="doccomment">/// The base URI for all files to be read in as sources for translation.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>BaseUri(::prost::alloc::string::String),
+        <span class="doccomment">/// Source literal.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Literal(<span class="kw">super</span>::Literal),
+    }
+}
+<span class="doccomment">/// Represents one path to the location that holds target data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TargetSpec {
+    <span class="doccomment">/// The relative path for the target data. Given source file
+    /// `base_uri/input/sql`, the output would be
+    /// `target_base_uri/sql/relative_path/input.sql`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>relative_path: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Literal data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Literal {
+    <span class="doccomment">/// Required. The identifier of the literal entry.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>relative_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// The literal SQL contents.
+    </span><span class="attr">#[prost(oneof = <span class="string">"literal::LiteralData"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>literal_data: ::core::option::Option&lt;literal::LiteralData&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Literal`.
+</span><span class="kw">pub mod </span>literal {
+    <span class="doccomment">/// The literal SQL contents.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>LiteralData {
+        <span class="doccomment">/// Literal string data.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>LiteralString(::prost::alloc::string::String),
+        <span class="doccomment">/// Literal byte data.
+        </span><span class="attr">#[prost(bytes, tag = <span class="string">"3"</span>)]
+        </span>LiteralBytes(::prost::bytes::Bytes),
+    }
+}
+<span class="doccomment">/// Represents the default source environment values for the translation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SourceEnvironment {
+    <span class="doccomment">/// The default database name to fully qualify SQL objects when their database
+    /// name is missing.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>default_database: ::prost::alloc::string::String,
+    <span class="doccomment">/// The schema search path. When SQL objects are missing schema name,
+    /// translation engine will search through this list to find the value.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>schema_search_path: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. Expects a validQ BigQuery dataset ID that exists, e.g.,
+    /// project-123.metadata_store_123.  If specified, translation will search and
+    /// read the required schema information from a metadata store in this dataset.
+    /// If metadata store doesn't exist, translation will parse the metadata file
+    /// and upload the schema info to a temp table in the dataset to speed up
+    /// future translation jobs.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>metadata_store_dataset: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A migration workflow which specifies what needs to be done for an EDW
 /// migration.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MigrationWorkflow {
-    <span class="doccomment">/// Output only. Immutable. The unique identifier for the migration workflow.
-    /// The ID is server-generated.
+    <span class="doccomment">/// Output only. Immutable. Identifier. The unique identifier for the migration
+    /// workflow. The ID is server-generated.
     ///
     /// Example: `projects/123/locations/us/workflows/345`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -1882,7 +2397,7 @@
     /// Translation_Snowflake2BQ, Translation_Netezza2BQ,
     /// Translation_AzureSynapse2BQ, Translation_Vertica2BQ,
     /// Translation_SQLServer2BQ, Translation_Presto2BQ, Translation_MySQL2BQ,
-    /// Translation_Postgresql2BQ.
+    /// Translation_Postgresql2BQ, Translation_SQLite2BQ, Translation_Greenplum2BQ.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. The current state of the task.
@@ -1900,8 +2415,31 @@
     <span class="doccomment">/// Time when the task was last updated.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>last_update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Provides details to errors and issues encountered while
+    /// processing the task. Presence of error details does not mean that the task
+    /// failed.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>resource_error_details: ::prost::alloc::vec::Vec&lt;ResourceErrorDetail&gt;,
+    <span class="doccomment">/// The number or resources with errors. Note: This is not the total
+    /// number of errors as each resource can have more than one error.
+    /// This is used to indicate truncation by having a `resource_error_count`
+    /// that is higher than the size of `resource_error_details`.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"18"</span>)]
+    </span><span class="kw">pub </span>resource_error_count: i32,
+    <span class="doccomment">/// The metrics for the task.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"19"</span>)]
+    </span><span class="kw">pub </span>metrics: ::prost::alloc::vec::Vec&lt;TimeSeries&gt;,
+    <span class="doccomment">/// Output only. The result of the task.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>task_result: ::core::option::Option&lt;MigrationTaskResult&gt;,
+    <span class="doccomment">/// Count of all the processing errors in this task and its subtasks.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"21"</span>)]
+    </span><span class="kw">pub </span>total_processing_error_count: i32,
+    <span class="doccomment">/// Count of all the resource errors in this task and its subtasks.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"22"</span>)]
+    </span><span class="kw">pub </span>total_resource_error_count: i32,
     <span class="doccomment">/// The details of the task.
-    </span><span class="attr">#[prost(oneof = <span class="string">"migration_task::TaskDetails"</span>, tags = <span class="string">"14"</span>)]
+    </span><span class="attr">#[prost(oneof = <span class="string">"migration_task::TaskDetails"</span>, tags = <span class="string">"14, 16"</span>)]
     </span><span class="kw">pub </span>task_details: ::core::option::Option&lt;migration_task::TaskDetails&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `MigrationTask`.
@@ -1970,9 +2508,12 @@
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>TaskDetails {
-        <span class="doccomment">/// Task configuration for Batch SQL Translation.
+        <span class="doccomment">/// Task configuration for CW Batch/Offline SQL Translation.
         </span><span class="attr">#[prost(message, tag = <span class="string">"14"</span>)]
         </span>TranslationConfigDetails(<span class="kw">super</span>::TranslationConfigDetails),
+        <span class="doccomment">/// Task details for unified SQL Translation.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"16"</span>)]
+        </span>TranslationDetails(<span class="kw">super</span>::TranslationDetails),
     }
 }
 <span class="doccomment">/// A subtask for a migration which carries details about the configuration of
@@ -2089,6 +2630,36 @@
             }
         }
     }
+}
+<span class="doccomment">/// The migration task result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MigrationTaskResult {
+    <span class="doccomment">/// Details specific to the task type.
+    </span><span class="attr">#[prost(oneof = <span class="string">"migration_task_result::Details"</span>, tags = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>details: ::core::option::Option&lt;migration_task_result::Details&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `MigrationTaskResult`.
+</span><span class="kw">pub mod </span>migration_task_result {
+    <span class="doccomment">/// Details specific to the task type.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Details {
+        <span class="doccomment">/// Details specific to translation task types.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>TranslationTaskResult(<span class="kw">super</span>::TranslationTaskResult),
+    }
+}
+<span class="doccomment">/// Translation specific result details from the migration task.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TranslationTaskResult {
+    <span class="doccomment">/// The list of the translated literals.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>translated_literals: ::prost::alloc::vec::Vec&lt;Literal&gt;,
+    <span class="doccomment">/// The records from the aggregate CSV report for a migration workflow.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>report_log_messages: ::prost::alloc::vec::Vec&lt;GcsReportLogMessage&gt;,
 }
 <span class="doccomment">/// Request to create a migration workflow resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2508,6 +3079,79 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
+    }
+}
+<span class="doccomment">/// Details about a record.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TranslationReportRecord {
+    <span class="doccomment">/// Severity of the translation record.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"translation_report_record::Severity"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>severity: i32,
+    <span class="doccomment">/// Specifies the row from the source text where the error occurred (0 based).
+    /// Example: 2
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>script_line: i32,
+    <span class="doccomment">/// Specifies the column from the source texts where the error occurred. (0
+    /// based) example: 6
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>script_column: i32,
+    <span class="doccomment">/// Category of the error/warning. Example: SyntaxError
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>category: ::prost::alloc::string::String,
+    <span class="doccomment">/// Detailed message of the record.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>message: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `TranslationReportRecord`.
+</span><span class="kw">pub mod </span>translation_report_record {
+    <span class="doccomment">/// The severity type of the record.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Severity {
+        <span class="doccomment">/// SeverityType not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// INFO type.
+        </span>Info = <span class="number">1</span>,
+        <span class="doccomment">/// WARNING type. The translated query may still provide useful information
+        /// if all the report records are WARNING.
+        </span>Warning = <span class="number">2</span>,
+        <span class="doccomment">/// ERROR type. Translation failed.
+        </span>Error = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Severity {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Severity::Unspecified =&gt; <span class="string">"SEVERITY_UNSPECIFIED"</span>,
+                Severity::Info =&gt; <span class="string">"INFO"</span>,
+                Severity::Warning =&gt; <span class="string">"WARNING"</span>,
+                Severity::Error =&gt; <span class="string">"ERROR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SEVERITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INFO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Info),
+                <span class="string">"WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Warning),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
     }
 }
 </code></pre></div></section></main></body></html>

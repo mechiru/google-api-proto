@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["routing_config"],"struct":["RoutingConfig"]};

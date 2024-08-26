@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/apps/drive/activity/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/apps/drive/activity/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1922,38 +1922,109 @@
 <a href="#1922" id="1922">1922</a>
 <a href="#1923" id="1923">1923</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Information about time ranges.
+</span><span class="doccomment">/// The request message for querying Drive activity.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TimeRange {
-    <span class="doccomment">/// The start of the time range.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// The end of the time range.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+</span><span class="kw">pub struct </span>QueryDriveActivityRequest {
+    <span class="doccomment">/// Details on how to consolidate related actions that make up the activity. If
+    /// not set, then related actions aren't consolidated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>consolidation_strategy: ::core::option::Option&lt;ConsolidationStrategy&gt;,
+    <span class="doccomment">/// The minimum number of activities desired in the response; the server
+    /// attempts to return at least this quantity. The server may also return fewer
+    /// activities if it has a partial response ready before the request times out.
+    /// If not set, a default value is used.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// The token identifies which page of results to return. Set this to the
+    /// next_page_token value returned from a previous query to obtain the
+    /// following page of results. If not set, the first page of results is
+    /// returned.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// The filtering for items returned from this query request. The format of the
+    /// filter string is a sequence of expressions, joined by an optional "AND",
+    /// where each expression is of the form "field operator value".
+    ///
+    /// Supported fields:
+    ///
+    ///    - `time`: Uses numerical operators on date values either in
+    ///      terms of milliseconds since Jan 1, 1970 or in &lt;a
+    ///      href="&lt;https://www.rfc-editor.org/rfc/rfc3339"&gt; target="_blank"&gt;RFC
+    ///      3339&lt;/a&gt; format. Examples:
+    ///        - `time &gt; 1452409200000 AND time &lt;= 1492812924310`
+    ///        - `time &gt;= "2016-01-10T01:02:03-05:00"`
+    ///
+    ///    - `detail.action_detail_case`: Uses the "has" operator (:) and
+    ///      either a singular value or a list of allowed action types enclosed in
+    ///      parentheses, separated by a space. To exclude a result from the
+    ///      response, prepend a hyphen (`-`) to the beginning of the filter string.
+    ///      Examples:
+    ///        - `detail.action_detail_case:RENAME`
+    ///        - `detail.action_detail_case:(CREATE RESTORE)`
+    ///        - `-detail.action_detail_case:MOVE`
+    ///
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// The primary criteria in the query. The default is
+    /// ancestorName = `items/root`, if no key is specified.
+    </span><span class="attr">#[prost(oneof = <span class="string">"query_drive_activity_request::Key"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>key: ::core::option::Option&lt;query_drive_activity_request::Key&gt;,
 }
-<span class="doccomment">/// Information about a group.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Group {
-    <span class="doccomment">/// The email address of the group.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
-    <span class="doccomment">/// The title of the group.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+<span class="doccomment">/// Nested message and enum types in `QueryDriveActivityRequest`.
+</span><span class="kw">pub mod </span>query_drive_activity_request {
+    <span class="doccomment">/// The primary criteria in the query. The default is
+    /// ancestorName = `items/root`, if no key is specified.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Key {
+        <span class="doccomment">/// Return activities for this Drive item. The format is
+        /// `items/ITEM_ID`.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>ItemName(::prost::alloc::string::String),
+        <span class="doccomment">/// Return activities for this Drive folder, plus all children and
+        /// descendants. The format is `items/ITEM_ID`.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>AncestorName(::prost::alloc::string::String),
+    }
 }
-<span class="doccomment">/// Information about a domain.
+<span class="doccomment">/// How the individual activities are consolidated. If a set of activities is
+/// related they can be consolidated into one combined activity, such as one
+/// actor performing the same action on multiple targets, or multiple actors
+/// performing the same action on a single target. The strategy defines the rules
+/// for which activities are related.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Domain {
-    <span class="doccomment">/// The name of the domain, e.g. `google.com`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// An opaque string used to identify this domain.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>legacy_id: ::prost::alloc::string::String,
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ConsolidationStrategy {
+    <span class="doccomment">/// How the individual activities are consolidated.
+    </span><span class="attr">#[prost(oneof = <span class="string">"consolidation_strategy::Strategy"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>strategy: ::core::option::Option&lt;consolidation_strategy::Strategy&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ConsolidationStrategy`.
+</span><span class="kw">pub mod </span>consolidation_strategy {
+    <span class="doccomment">/// A strategy that does no consolidation of individual activities.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>NoConsolidation {}
+    <span class="doccomment">/// A strategy that consolidates activities using the grouping rules from the
+    /// legacy V1 Activity API. Similar actions occurring within a window of time
+    /// can be grouped across multiple targets (such as moving a set of files at
+    /// once) or multiple actors (such as several users editing the same item).
+    /// Grouping rules for this strategy are specific to each type of action.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Legacy {}
+    <span class="doccomment">/// How the individual activities are consolidated.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Strategy {
+        <span class="doccomment">/// The individual activities are not consolidated.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span><span class="prelude-val">None</span>(NoConsolidation),
+        <span class="doccomment">/// The individual activities are consolidated using the legacy strategy.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Legacy(Legacy),
+    }
 }
 <span class="doccomment">/// The actor of a Drive activity.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2011,11 +2082,11 @@
     }
     <span class="doccomment">/// A user whose account has since been deleted.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DeletedUser {}
     <span class="doccomment">/// A user about whom nothing is currently known.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UnknownUser {}
     <span class="doccomment">/// The type of user, such as known, unknown, and deleted.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2035,7 +2106,7 @@
 <span class="doccomment">/// Empty message representing an anonymous user or indicating the authenticated
 /// user should be anonymized.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AnonymousUser {}
 <span class="doccomment">/// Information about an impersonation, where an admin acts on behalf of an end
 /// user. Information about the acting admin is not currently available.
@@ -2048,7 +2119,7 @@
 }
 <span class="doccomment">/// Event triggered by system operations instead of end users.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SystemEvent {
     <span class="doccomment">/// The type of the system event that may triggered activity.
     </span><span class="attr">#[prost(enumeration = <span class="string">"system_event::Type"</span>, tag = <span class="string">"1"</span>)]
@@ -2102,8 +2173,41 @@
 }
 <span class="doccomment">/// Empty message representing an administrator.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Administrator {}
+<span class="doccomment">/// Information about time ranges.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TimeRange {
+    <span class="doccomment">/// The start of the time range.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// The end of the time range.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// Information about a group.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Group {
+    <span class="doccomment">/// The email address of the group.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>email: ::prost::alloc::string::String,
+    <span class="doccomment">/// The title of the group.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Information about a domain.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Domain {
+    <span class="doccomment">/// The name of the domain, e.g. `google.com`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// An opaque string used to identify this domain.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>legacy_id: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Information about the target of activity.
 ///
 /// For more information on how activity history is shared with users, see
@@ -2219,11 +2323,11 @@
 </span><span class="kw">pub mod </span>drive_item {
     <span class="doccomment">/// This item is deprecated; please see `DriveFile` instead.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>File {}
     <span class="doccomment">/// This item is deprecated; please see `DriveFolder` instead.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Folder {
         <span class="doccomment">/// This field is deprecated; please see `DriveFolder.type` instead.
         </span><span class="attr">#[prost(enumeration = <span class="string">"folder::Type"</span>, tag = <span class="string">"6"</span>)]
@@ -2281,11 +2385,11 @@
     }
     <span class="doccomment">/// A Drive item which is a file.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DriveFile {}
     <span class="doccomment">/// A Drive item which is a folder.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DriveFolder {
         <span class="doccomment">/// The type of Drive folder.
         </span><span class="attr">#[prost(enumeration = <span class="string">"drive_folder::Type"</span>, tag = <span class="string">"6"</span>)]
@@ -2343,7 +2447,7 @@
     }
     <span class="doccomment">/// If present, this describes the type of the Drive item.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ItemType {
         <span class="doccomment">/// The Drive item is a file.
         </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
@@ -2439,7 +2543,7 @@
 </span><span class="kw">pub mod </span>drive_item_reference {
     <span class="doccomment">/// If present, this describes the type of the Drive item.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ItemType {
         <span class="doccomment">/// The Drive item is a file.
         </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
@@ -2497,7 +2601,7 @@
 </span><span class="kw">pub mod </span>action {
     <span class="doccomment">/// When the action occurred (or empty if same time as entire activity).
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Time {
         <span class="doccomment">/// The action occurred at this specific time.
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
@@ -2574,11 +2678,11 @@
 </span><span class="kw">pub mod </span>create {
     <span class="doccomment">/// An object was created from scratch.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>New {}
     <span class="doccomment">/// An object was uploaded into Drive.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Upload {}
     <span class="doccomment">/// An object was created by copying an existing object.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2608,7 +2712,7 @@
 }
 <span class="doccomment">/// An empty message indicating an object was edited.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Edit {}
 <span class="doccomment">/// An object was moved.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2634,7 +2738,7 @@
 }
 <span class="doccomment">/// An object was deleted.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Delete {
     <span class="doccomment">/// The type of delete action taken.
     </span><span class="attr">#[prost(enumeration = <span class="string">"delete::Type"</span>, tag = <span class="string">"1"</span>)]
@@ -2688,7 +2792,7 @@
 }
 <span class="doccomment">/// A deleted object was restored.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Restore {
     <span class="doccomment">/// The type of restore action taken.
     </span><span class="attr">#[prost(enumeration = <span class="string">"restore::Type"</span>, tag = <span class="string">"1"</span>)]
@@ -2769,7 +2873,7 @@
 </span><span class="kw">pub mod </span>permission {
     <span class="doccomment">/// Represents any user (including a logged out user).
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Anyone {}
     <span class="doccomment">/// The [Google Drive permissions
     /// roles](&lt;https://developers.google.com/drive/web/manage-sharing#roles&gt;).
@@ -2873,7 +2977,7 @@
 </span><span class="kw">pub mod </span>comment {
     <span class="doccomment">/// A regular posted comment.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Post {
         <span class="doccomment">/// The sub-type of this event.
         </span><span class="attr">#[prost(enumeration = <span class="string">"post::Subtype"</span>, tag = <span class="string">"1"</span>)]
@@ -3020,7 +3124,7 @@
     }
     <span class="doccomment">/// A suggestion.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Suggestion {
         <span class="doccomment">/// The sub-type of this event.
         </span><span class="attr">#[prost(enumeration = <span class="string">"suggestion::Subtype"</span>, tag = <span class="string">"1"</span>)]
@@ -3113,7 +3217,7 @@
 }
 <span class="doccomment">/// A change in the object's data leak prevention status.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DataLeakPreventionChange {
     <span class="doccomment">/// The type of Data Leak Prevention (DLP) change.
     </span><span class="attr">#[prost(enumeration = <span class="string">"data_leak_prevention_change::Type"</span>, tag = <span class="string">"1"</span>)]
@@ -3167,7 +3271,7 @@
 }
 <span class="doccomment">/// Activity in applications other than Drive.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ApplicationReference {
     <span class="doccomment">/// The reference type corresponding to this event.
     </span><span class="attr">#[prost(enumeration = <span class="string">"application_reference::Type"</span>, tag = <span class="string">"1"</span>)]
@@ -3233,7 +3337,7 @@
 </span><span class="kw">pub mod </span>settings_change {
     <span class="doccomment">/// Information about restriction policy changes to a feature.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>RestrictionChange {
         <span class="doccomment">/// The feature which had a change in restriction policy.
         </span><span class="attr">#[prost(enumeration = <span class="string">"restriction_change::Feature"</span>, tag = <span class="string">"1"</span>)]
@@ -3459,7 +3563,7 @@
                 }
                 <span class="doccomment">/// Wrapper for Integer Field value.
                 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-                #[derive(Clone, PartialEq, ::prost::Message)]
+                #[derive(Clone, Copy, PartialEq, ::prost::Message)]
                 </span><span class="kw">pub struct </span>Integer {
                     <span class="doccomment">/// Integer value.
                     </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"1"</span>)]
@@ -3483,7 +3587,7 @@
                 }
                 <span class="doccomment">/// Wrapper for Date Field value.
                 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-                #[derive(Clone, PartialEq, ::prost::Message)]
+                #[derive(Clone, Copy, PartialEq, ::prost::Message)]
                 </span><span class="kw">pub struct </span>Date {
                     <span class="doccomment">/// Date value.
                     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -3620,7 +3724,7 @@
 </span><span class="kw">pub mod </span>drive_activity {
     <span class="doccomment">/// The period of time when this activity occurred.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Time {
         <span class="doccomment">/// The activity occurred at this specific time.
         </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
@@ -3628,110 +3732,6 @@
         <span class="doccomment">/// The activity occurred over this time range.
         </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
         </span>TimeRange(<span class="kw">super</span>::TimeRange),
-    }
-}
-<span class="doccomment">/// The request message for querying Drive activity.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>QueryDriveActivityRequest {
-    <span class="doccomment">/// Details on how to consolidate related actions that make up the activity. If
-    /// not set, then related actions aren't consolidated.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>consolidation_strategy: ::core::option::Option&lt;ConsolidationStrategy&gt;,
-    <span class="doccomment">/// The minimum number of activities desired in the response; the server
-    /// attempts to return at least this quantity. The server may also return fewer
-    /// activities if it has a partial response ready before the request times out.
-    /// If not set, a default value is used.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// The token identifies which page of results to return. Set this to the
-    /// next_page_token value returned from a previous query to obtain the
-    /// following page of results. If not set, the first page of results is
-    /// returned.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// The filtering for items returned from this query request. The format of the
-    /// filter string is a sequence of expressions, joined by an optional "AND",
-    /// where each expression is of the form "field operator value".
-    ///
-    /// Supported fields:
-    ///
-    ///    - `time`: Uses numerical operators on date values either in
-    ///      terms of milliseconds since Jan 1, 1970 or in &lt;a
-    ///      href="&lt;https://www.rfc-editor.org/rfc/rfc3339"&gt; target="_blank"&gt;RFC
-    ///      3339&lt;/a&gt; format. Examples:
-    ///        - `time &gt; 1452409200000 AND time &lt;= 1492812924310`
-    ///        - `time &gt;= "2016-01-10T01:02:03-05:00"`
-    ///
-    ///    - `detail.action_detail_case`: Uses the "has" operator (:) and
-    ///      either a singular value or a list of allowed action types enclosed in
-    ///      parentheses, separated by a space. To exclude a result from the
-    ///      response, prepend a hyphen (`-`) to the beginning of the filter string.
-    ///      Examples:
-    ///        - `detail.action_detail_case:RENAME`
-    ///        - `detail.action_detail_case:(CREATE RESTORE)`
-    ///        - `-detail.action_detail_case:MOVE`
-    ///
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// The primary criteria in the query. The default is
-    /// ancestorName = `items/root`, if no key is specified.
-    </span><span class="attr">#[prost(oneof = <span class="string">"query_drive_activity_request::Key"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>key: ::core::option::Option&lt;query_drive_activity_request::Key&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `QueryDriveActivityRequest`.
-</span><span class="kw">pub mod </span>query_drive_activity_request {
-    <span class="doccomment">/// The primary criteria in the query. The default is
-    /// ancestorName = `items/root`, if no key is specified.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Key {
-        <span class="doccomment">/// Return activities for this Drive item. The format is
-        /// `items/ITEM_ID`.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>ItemName(::prost::alloc::string::String),
-        <span class="doccomment">/// Return activities for this Drive folder, plus all children and
-        /// descendants. The format is `items/ITEM_ID`.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>AncestorName(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// How the individual activities are consolidated. If a set of activities is
-/// related they can be consolidated into one combined activity, such as one
-/// actor performing the same action on multiple targets, or multiple actors
-/// performing the same action on a single target. The strategy defines the rules
-/// for which activities are related.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ConsolidationStrategy {
-    <span class="doccomment">/// How the individual activities are consolidated.
-    </span><span class="attr">#[prost(oneof = <span class="string">"consolidation_strategy::Strategy"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>strategy: ::core::option::Option&lt;consolidation_strategy::Strategy&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ConsolidationStrategy`.
-</span><span class="kw">pub mod </span>consolidation_strategy {
-    <span class="doccomment">/// A strategy that does no consolidation of individual activities.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>NoConsolidation {}
-    <span class="doccomment">/// A strategy that consolidates activities using the grouping rules from the
-    /// legacy V1 Activity API. Similar actions occurring within a window of time
-    /// can be grouped across multiple targets (such as moving a set of files at
-    /// once) or multiple actors (such as several users editing the same item).
-    /// Grouping rules for this strategy are specific to each type of action.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Legacy {}
-    <span class="doccomment">/// How the individual activities are consolidated.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Strategy {
-        <span class="doccomment">/// The individual activities are not consolidated.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span><span class="prelude-val">None</span>(NoConsolidation),
-        <span class="doccomment">/// The individual activities are consolidated using the legacy strategy.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Legacy(Legacy),
     }
 }
 <span class="doccomment">/// Generated client implementations.

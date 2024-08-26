@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/maps/places/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/maps/places/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2252,25 +2252,6 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>photo_uri: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Information about a photo of a place.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Photo {
-    <span class="doccomment">/// Identifier. A reference representing this place photo which may be used to
-    /// look up this place photo again (also called the API "resource" name:
-    /// `places/{place_id}/photos/{photo}`).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum available width, in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>width_px: i32,
-    <span class="doccomment">/// The maximum available height, in pixels.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>height_px: i32,
-    <span class="doccomment">/// This photo's authors.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>author_attributions: ::prost::alloc::vec::Vec&lt;AuthorAttribution&gt;,
-}
 <span class="doccomment">/// Information about a review of a place.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -2301,130 +2282,6 @@
     <span class="doccomment">/// Timestamp for the review.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>publish_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Experimental: See
-/// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-/// for more details.
-///
-/// Content that is contextual to the place query.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContextualContent {
-    <span class="doccomment">/// List of reviews about this place, contexual to the place query.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reviews: ::prost::alloc::vec::Vec&lt;Review&gt;,
-    <span class="doccomment">/// Information (including references) about photos of this place, contexual to
-    /// the place query.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>photos: ::prost::alloc::vec::Vec&lt;Photo&gt;,
-    <span class="doccomment">/// Experimental: See
-    /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-    /// for more details.
-    ///
-    /// Justifications for the place.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>justifications: ::prost::alloc::vec::Vec&lt;contextual_content::Justification&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ContextualContent`.
-</span><span class="kw">pub mod </span>contextual_content {
-    <span class="doccomment">/// Experimental: See
-    /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-    /// for more details.
-    ///
-    /// Justifications for the place. Justifications answers the question of why a
-    /// place could interest an end user.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Justification {
-        <span class="attr">#[prost(oneof = <span class="string">"justification::Justification"</span>, tags = <span class="string">"1, 2"</span>)]
-        </span><span class="kw">pub </span>justification: ::core::option::Option&lt;justification::Justification&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Justification`.
-    </span><span class="kw">pub mod </span>justification {
-        <span class="doccomment">/// Experimental: See
-        /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-        /// for more details.
-        ///
-        /// User review justifications. This highlights a section of the user review
-        /// that would interest an end user. For instance, if the search query is
-        /// "firewood pizza", the review justification highlights the text relevant
-        /// to the search query.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>ReviewJustification {
-            <span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>highlighted_text: ::core::option::Option&lt;
-                review_justification::HighlightedText,
-            &gt;,
-            <span class="doccomment">/// The review that the highlighted text is generated from.
-            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>review: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::Review&gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `ReviewJustification`.
-        </span><span class="kw">pub mod </span>review_justification {
-            <span class="doccomment">/// The text highlighted by the justification. This is a subset of the
-            /// review itself. The exact word to highlight is marked by the
-            /// HighlightedTextRange. There could be several words in the text being
-            /// highlighted.
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>HighlightedText {
-                <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-                </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-                <span class="doccomment">/// The list of the ranges of the highlighted text.
-                </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>highlighted_text_ranges: ::prost::alloc::vec::Vec&lt;
-                    highlighted_text::HighlightedTextRange,
-                &gt;,
-            }
-            <span class="doccomment">/// Nested message and enum types in `HighlightedText`.
-            </span><span class="kw">pub mod </span>highlighted_text {
-                <span class="doccomment">/// The range of highlighted text.
-                </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-                #[derive(Clone, PartialEq, ::prost::Message)]
-                </span><span class="kw">pub struct </span>HighlightedTextRange {
-                    <span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-                    </span><span class="kw">pub </span>start_index: i32,
-                    <span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-                    </span><span class="kw">pub </span>end_index: i32,
-                }
-            }
-        }
-        <span class="doccomment">/// Experimental: See
-        /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-        /// for more details.
-        /// BusinessAvailabilityAttributes justifications. This shows some attributes
-        /// a business has that could interest an end user.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>BusinessAvailabilityAttributesJustification {
-            <span class="doccomment">/// If a place provides takeout.
-            </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>takeout: bool,
-            <span class="doccomment">/// If a place provides delivery.
-            </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>delivery: bool,
-            <span class="doccomment">/// If a place provides dine-in.
-            </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>dine_in: bool,
-        }
-        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Justification {
-            <span class="doccomment">/// Experimental: See
-            /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-            /// for more details.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-            </span>ReviewJustification(ReviewJustification),
-            <span class="doccomment">/// Experimental: See
-            /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
-            /// for more details.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-            </span>BusinessAvailabilityAttributesJustification(
-                BusinessAvailabilityAttributesJustification,
-            ),
-        }
-    }
 }
 <span class="doccomment">/// Experimental: See
 /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
@@ -2487,7 +2344,7 @@
     /// Shows EV charge aggregation of connectors that have the same type and max
     /// charge rate in kw.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ConnectorAggregation {
         <span class="doccomment">/// The connector type of this aggregation.
         </span><span class="attr">#[prost(enumeration = <span class="string">"super::EvConnectorType"</span>, tag = <span class="string">"1"</span>)]
@@ -2722,6 +2579,25 @@
             }
         }
     }
+}
+<span class="doccomment">/// Information about a photo of a place.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Photo {
+    <span class="doccomment">/// Identifier. A reference representing this place photo which may be used to
+    /// look up this place photo again (also called the API "resource" name:
+    /// `places/{place_id}/photos/{photo}`).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum available width, in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>width_px: i32,
+    <span class="doccomment">/// The maximum available height, in pixels.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>height_px: i32,
+    <span class="doccomment">/// This photo's authors.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>author_attributions: ::prost::alloc::vec::Vec&lt;AuthorAttribution&gt;,
 }
 <span class="doccomment">/// All the information representing a Place.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3057,7 +2933,7 @@
     </span><span class="kw">pub mod </span>opening_hours {
         <span class="doccomment">/// A period the place remains in open_now status.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Period {
             <span class="doccomment">/// The time that the place starts to be open.
             </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -3070,7 +2946,7 @@
         </span><span class="kw">pub mod </span>period {
             <span class="doccomment">/// Status changing points.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>Point {
                 <span class="doccomment">/// A day of the week, as an integer in the range 0-6.  0 is Sunday, 1 is
                 /// Monday, etc.
@@ -3100,7 +2976,7 @@
         /// the returned opening hours cover. Special days are days that could impact
         /// the business hours of a place, e.g. Christmas day.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>SpecialDay {
             <span class="doccomment">/// The date of this special day.
             </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -3209,7 +3085,7 @@
     }
     <span class="doccomment">/// Payment options the place accepts.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>PaymentOptions {
         <span class="doccomment">/// Place accepts credit cards as payment.
         </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"1"</span>)]
@@ -3228,7 +3104,7 @@
     <span class="doccomment">/// Information about parking options for the place. A parking lot could
     /// support more than one option at the same time.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ParkingOptions {
         <span class="doccomment">/// Place offers free parking lots.
         </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"1"</span>)]
@@ -3266,7 +3142,7 @@
     }
     <span class="doccomment">/// Information about the accessibility options a place offers.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AccessibilityOptions {
         <span class="doccomment">/// Place offers wheelchair accessible parking.
         </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"1"</span>)]
@@ -3409,9 +3285,133 @@
         }
     }
 }
-<span class="doccomment">/// Circle with a LatLng as center and radius.
+<span class="doccomment">/// Experimental: See
+/// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+/// for more details.
+///
+/// Content that is contextual to the place query.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContextualContent {
+    <span class="doccomment">/// List of reviews about this place, contexual to the place query.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reviews: ::prost::alloc::vec::Vec&lt;Review&gt;,
+    <span class="doccomment">/// Information (including references) about photos of this place, contexual to
+    /// the place query.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>photos: ::prost::alloc::vec::Vec&lt;Photo&gt;,
+    <span class="doccomment">/// Experimental: See
+    /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+    /// for more details.
+    ///
+    /// Justifications for the place.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>justifications: ::prost::alloc::vec::Vec&lt;contextual_content::Justification&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ContextualContent`.
+</span><span class="kw">pub mod </span>contextual_content {
+    <span class="doccomment">/// Experimental: See
+    /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+    /// for more details.
+    ///
+    /// Justifications for the place. Justifications answers the question of why a
+    /// place could interest an end user.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Justification {
+        <span class="attr">#[prost(oneof = <span class="string">"justification::Justification"</span>, tags = <span class="string">"1, 2"</span>)]
+        </span><span class="kw">pub </span>justification: ::core::option::Option&lt;justification::Justification&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Justification`.
+    </span><span class="kw">pub mod </span>justification {
+        <span class="doccomment">/// Experimental: See
+        /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+        /// for more details.
+        ///
+        /// User review justifications. This highlights a section of the user review
+        /// that would interest an end user. For instance, if the search query is
+        /// "firewood pizza", the review justification highlights the text relevant
+        /// to the search query.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>ReviewJustification {
+            <span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>highlighted_text: ::core::option::Option&lt;
+                review_justification::HighlightedText,
+            &gt;,
+            <span class="doccomment">/// The review that the highlighted text is generated from.
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>review: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::Review&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `ReviewJustification`.
+        </span><span class="kw">pub mod </span>review_justification {
+            <span class="doccomment">/// The text highlighted by the justification. This is a subset of the
+            /// review itself. The exact word to highlight is marked by the
+            /// HighlightedTextRange. There could be several words in the text being
+            /// highlighted.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>HighlightedText {
+                <span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+                </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+                <span class="doccomment">/// The list of the ranges of the highlighted text.
+                </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>highlighted_text_ranges: ::prost::alloc::vec::Vec&lt;
+                    highlighted_text::HighlightedTextRange,
+                &gt;,
+            }
+            <span class="doccomment">/// Nested message and enum types in `HighlightedText`.
+            </span><span class="kw">pub mod </span>highlighted_text {
+                <span class="doccomment">/// The range of highlighted text.
+                </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+                #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+                </span><span class="kw">pub struct </span>HighlightedTextRange {
+                    <span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+                    </span><span class="kw">pub </span>start_index: i32,
+                    <span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+                    </span><span class="kw">pub </span>end_index: i32,
+                }
+            }
+        }
+        <span class="doccomment">/// Experimental: See
+        /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+        /// for more details.
+        /// BusinessAvailabilityAttributes justifications. This shows some attributes
+        /// a business has that could interest an end user.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>BusinessAvailabilityAttributesJustification {
+            <span class="doccomment">/// If a place provides takeout.
+            </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>takeout: bool,
+            <span class="doccomment">/// If a place provides delivery.
+            </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>delivery: bool,
+            <span class="doccomment">/// If a place provides dine-in.
+            </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>dine_in: bool,
+        }
+        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Justification {
+            <span class="doccomment">/// Experimental: See
+            /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+            /// for more details.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+            </span>ReviewJustification(ReviewJustification),
+            <span class="doccomment">/// Experimental: See
+            /// &lt;https://developers.google.com/maps/documentation/places/web-service/experimental/places-generative&gt;
+            /// for more details.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+            </span>BusinessAvailabilityAttributesJustification(
+                BusinessAvailabilityAttributesJustification,
+            ),
+        }
+    }
+}
+<span class="doccomment">/// Circle with a LatLng as center and radius.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Circle {
     <span class="doccomment">/// Required. Center latitude and longitude.
     ///
@@ -3548,7 +3548,7 @@
 </span><span class="kw">pub mod </span>search_nearby_request {
     <span class="doccomment">/// The region to search.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LocationRestriction {
         <span class="attr">#[prost(oneof = <span class="string">"location_restriction::Type"</span>, tags = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;location_restriction::Type&gt;,
@@ -3556,7 +3556,7 @@
     <span class="doccomment">/// Nested message and enum types in `LocationRestriction`.
     </span><span class="kw">pub mod </span>location_restriction {
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Type {
             <span class="doccomment">/// A circle defined by center point and radius.
             </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
@@ -3702,7 +3702,7 @@
     <span class="doccomment">/// The region to search. This location serves as a bias which means results
     /// around given location might be returned.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LocationBias {
         <span class="attr">#[prost(oneof = <span class="string">"location_bias::Type"</span>, tags = <span class="string">"1, 2"</span>)]
         </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;location_bias::Type&gt;,
@@ -3710,7 +3710,7 @@
     <span class="doccomment">/// Nested message and enum types in `LocationBias`.
     </span><span class="kw">pub mod </span>location_bias {
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Type {
             <span class="doccomment">/// A rectangle box defined by northeast and southwest corner.
             /// `rectangle.high()` must be the northeast point of the rectangle
@@ -3728,7 +3728,7 @@
     <span class="doccomment">/// The region to search. This location serves as a restriction which means
     /// results outside given location will not be returned.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LocationRestriction {
         <span class="attr">#[prost(oneof = <span class="string">"location_restriction::Type"</span>, tags = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;location_restriction::Type&gt;,
@@ -3736,7 +3736,7 @@
     <span class="doccomment">/// Nested message and enum types in `LocationRestriction`.
     </span><span class="kw">pub mod </span>location_restriction {
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Type {
             <span class="doccomment">/// A rectangle box defined by northeast and southwest corner.
             /// `rectangle.high()` must be the northeast point of the rectangle
@@ -4049,7 +4049,7 @@
     <span class="doccomment">/// The region to search. The results may be biased around the specified
     /// region.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LocationBias {
         <span class="attr">#[prost(oneof = <span class="string">"location_bias::Type"</span>, tags = <span class="string">"1, 2"</span>)]
         </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;location_bias::Type&gt;,
@@ -4057,7 +4057,7 @@
     <span class="doccomment">/// Nested message and enum types in `LocationBias`.
     </span><span class="kw">pub mod </span>location_bias {
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Type {
             <span class="doccomment">/// A viewport defined by a northeast and a southwest corner.
             </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -4070,7 +4070,7 @@
     <span class="doccomment">/// The region to search. The results will be restricted to the specified
     /// region.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LocationRestriction {
         <span class="attr">#[prost(oneof = <span class="string">"location_restriction::Type"</span>, tags = <span class="string">"1, 2"</span>)]
         </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;location_restriction::Type&gt;,
@@ -4078,7 +4078,7 @@
     <span class="doccomment">/// Nested message and enum types in `LocationRestriction`.
     </span><span class="kw">pub mod </span>location_restriction {
         <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Type {
             <span class="doccomment">/// A viewport defined by a northeast and a southwest corner.
             </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -4110,7 +4110,7 @@
     </span><span class="kw">pub mod </span>suggestion {
         <span class="doccomment">/// Identifies a substring within a given text.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>StringRange {
             <span class="doccomment">/// Zero-based offset of the first Unicode character of the string
             /// (inclusive).

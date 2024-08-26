@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["knowledge_answer"],"struct":["KnowledgeAnswer","SuggestedQuery"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/datacatalog/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/datacatalog/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -5925,234 +5925,72 @@
 <a href="#5925" id="5925">5925</a>
 <a href="#5926" id="5926">5926</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Entry metadata relevant only to the user and private to them.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PersonalDetails {
-    <span class="doccomment">/// True if the entry is starred by the user; false otherwise.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>starred: bool,
-    <span class="doccomment">/// Set if the entry is starred; unset otherwise.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>star_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// This enum lists all the systems that Data Catalog integrates with.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>IntegratedSystem {
-    <span class="doccomment">/// Default unknown system.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// BigQuery.
-    </span>Bigquery = <span class="number">1</span>,
-    <span class="doccomment">/// Cloud Pub/Sub.
-    </span>CloudPubsub = <span class="number">2</span>,
-    <span class="doccomment">/// Dataproc Metastore.
-    </span>DataprocMetastore = <span class="number">3</span>,
-    <span class="doccomment">/// Dataplex.
-    </span>Dataplex = <span class="number">4</span>,
-    <span class="doccomment">/// Cloud Spanner
-    </span>CloudSpanner = <span class="number">6</span>,
-    <span class="doccomment">/// Cloud Bigtable
-    </span>CloudBigtable = <span class="number">7</span>,
-    <span class="doccomment">/// Cloud Sql
-    </span>CloudSql = <span class="number">8</span>,
-    <span class="doccomment">/// Looker
-    </span>Looker = <span class="number">9</span>,
-    <span class="doccomment">/// Vertex AI
-    </span>VertexAi = <span class="number">10</span>,
-}
-<span class="kw">impl </span>IntegratedSystem {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            IntegratedSystem::Unspecified =&gt; <span class="string">"INTEGRATED_SYSTEM_UNSPECIFIED"</span>,
-            IntegratedSystem::Bigquery =&gt; <span class="string">"BIGQUERY"</span>,
-            IntegratedSystem::CloudPubsub =&gt; <span class="string">"CLOUD_PUBSUB"</span>,
-            IntegratedSystem::DataprocMetastore =&gt; <span class="string">"DATAPROC_METASTORE"</span>,
-            IntegratedSystem::Dataplex =&gt; <span class="string">"DATAPLEX"</span>,
-            IntegratedSystem::CloudSpanner =&gt; <span class="string">"CLOUD_SPANNER"</span>,
-            IntegratedSystem::CloudBigtable =&gt; <span class="string">"CLOUD_BIGTABLE"</span>,
-            IntegratedSystem::CloudSql =&gt; <span class="string">"CLOUD_SQL"</span>,
-            IntegratedSystem::Looker =&gt; <span class="string">"LOOKER"</span>,
-            IntegratedSystem::VertexAi =&gt; <span class="string">"VERTEX_AI"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"INTEGRATED_SYSTEM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"BIGQUERY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bigquery),
-            <span class="string">"CLOUD_PUBSUB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudPubsub),
-            <span class="string">"DATAPROC_METASTORE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DataprocMetastore),
-            <span class="string">"DATAPLEX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dataplex),
-            <span class="string">"CLOUD_SPANNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudSpanner),
-            <span class="string">"CLOUD_BIGTABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudBigtable),
-            <span class="string">"CLOUD_SQL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudSql),
-            <span class="string">"LOOKER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Looker),
-            <span class="string">"VERTEX_AI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VertexAi),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// This enum describes all the systems that manage
-/// Taxonomy and PolicyTag resources in DataCatalog.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ManagingSystem {
-    <span class="doccomment">/// Default value
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Dataplex.
-    </span>Dataplex = <span class="number">1</span>,
-    <span class="doccomment">/// Other
-    </span>Other = <span class="number">2</span>,
-}
-<span class="kw">impl </span>ManagingSystem {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ManagingSystem::Unspecified =&gt; <span class="string">"MANAGING_SYSTEM_UNSPECIFIED"</span>,
-            ManagingSystem::Dataplex =&gt; <span class="string">"MANAGING_SYSTEM_DATAPLEX"</span>,
-            ManagingSystem::Other =&gt; <span class="string">"MANAGING_SYSTEM_OTHER"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"MANAGING_SYSTEM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"MANAGING_SYSTEM_DATAPLEX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dataplex),
-            <span class="string">"MANAGING_SYSTEM_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Result in the response to a search request.
+</span><span class="doccomment">/// Detailed statistics on the entry's usage.
 ///
-/// Each result captures details of one entry that matches the search.
+/// Usage statistics have the following limitations:
+///
+/// - Only BigQuery tables have them.
+/// - They only include BigQuery query jobs.
+/// - They might be underestimated because wildcard table references
+///    are not yet counted. For more information, see
+///    \[Querying multiple tables using a wildcard table\]
+///    (&lt;https://cloud.google.com/bigquery/docs/querying-wildcard-tables&gt;)
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UsageStats {
+    <span class="doccomment">/// The number of successful uses of the underlying entry.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>total_completions: f32,
+    <span class="doccomment">/// The number of failed attempts to use the underlying entry.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>total_failures: f32,
+    <span class="doccomment">/// The number of cancelled attempts to use the underlying entry.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_cancellations: f32,
+    <span class="doccomment">/// Total time spent only on successful uses, in milliseconds.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>total_execution_time_for_completions_millis: f32,
+}
+<span class="doccomment">/// Common statistics on the entry's usage.
+///
+/// They can be set on any system.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CommonUsageStats {
+    <span class="doccomment">/// View count in source system.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>view_count: ::core::option::Option&lt;i64&gt;,
+}
+<span class="doccomment">/// The set of all usage signals that Data Catalog stores.
+///
+/// Note: Usually, these signals are updated daily. In rare cases, an update may
+/// fail but will be performed again on the next day.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SearchCatalogResult {
-    <span class="doccomment">/// Type of the search result.
+</span><span class="kw">pub struct </span>UsageSignal {
+    <span class="doccomment">/// The end timestamp of the duration of usage statistics.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. BigQuery usage statistics over each of the predefined time
+    /// ranges.
     ///
-    /// You can use this field to determine which get method to call to fetch the
-    /// full resource.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"SearchResultType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>search_result_type: i32,
-    <span class="doccomment">/// Sub-type of the search result.
+    /// Supported time ranges are `{"24H", "7D", "30D"}`.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>usage_within_time_range: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        UsageStats,
+    &gt;,
+    <span class="doccomment">/// Common usage statistics over each of the predefined time ranges.
     ///
-    /// A dot-delimited full type of the resource. The same type you
-    /// specify in the `type` search predicate.
-    ///
-    /// Examples: `entry.table`, `entry.dataStream`, `tagTemplate`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>search_result_subtype: ::prost::alloc::string::String,
-    <span class="doccomment">/// The relative name of the resource in URL format.
-    ///
-    /// Examples:
-    ///
-    ///   * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`
-    ///   * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>relative_resource_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The full name of the Google Cloud resource the entry belongs to.
-    ///
-    /// For more information, see \[Full Resource Name\]
-    /// (/apis/design/resource_names#full_resource_name).
-    ///
-    /// Example:
-    ///
-    /// `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>linked_resource: ::prost::alloc::string::String,
-    <span class="doccomment">/// The last modification timestamp of the entry in the source system.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>modify_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Fully qualified name (FQN) of the resource.
-    ///
-    /// FQNs take two forms:
-    ///
-    /// * For non-regionalized resources:
-    ///
-    ///    `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
-    ///
-    /// * For regionalized resources:
-    ///
-    ///    `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
-    ///
-    /// Example for a DPMS table:
-    ///
-    /// `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>fully_qualified_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The display name of the result.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Entry description that can consist of several sentences or paragraphs that
-    /// describe entry contents.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The source system of the entry. Applicable only when the
-    /// `search_result_type` is `ENTRY`.
-    </span><span class="attr">#[prost(oneof = <span class="string">"search_catalog_result::System"</span>, tags = <span class="string">"8, 9"</span>)]
-    </span><span class="kw">pub </span>system: ::core::option::Option&lt;search_catalog_result::System&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `SearchCatalogResult`.
-</span><span class="kw">pub mod </span>search_catalog_result {
-    <span class="doccomment">/// The source system of the entry. Applicable only when the
-    /// `search_result_type` is `ENTRY`.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>System {
-        <span class="doccomment">/// Output only. The source system that Data Catalog automatically integrates
-        /// with, such as BigQuery, Cloud Pub/Sub, or Dataproc Metastore.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"super::IntegratedSystem"</span>, tag = <span class="string">"8"</span>)]
-        </span>IntegratedSystem(i32),
-        <span class="doccomment">/// Custom source system that you can manually integrate Data Catalog with.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-        </span>UserSpecifiedSystem(::prost::alloc::string::String),
-    }
-}
-<span class="doccomment">/// The resource types that can be returned in search results.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>SearchResultType {
-    <span class="doccomment">/// Default unknown type.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// An [Entry][google.cloud.datacatalog.v1.Entry].
-    </span>Entry = <span class="number">1</span>,
-    <span class="doccomment">/// A [TagTemplate][google.cloud.datacatalog.v1.TagTemplate].
-    </span>TagTemplate = <span class="number">2</span>,
-    <span class="doccomment">/// An [EntryGroup][google.cloud.datacatalog.v1.EntryGroup].
-    </span>EntryGroup = <span class="number">3</span>,
-}
-<span class="kw">impl </span>SearchResultType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            SearchResultType::Unspecified =&gt; <span class="string">"SEARCH_RESULT_TYPE_UNSPECIFIED"</span>,
-            SearchResultType::Entry =&gt; <span class="string">"ENTRY"</span>,
-            SearchResultType::TagTemplate =&gt; <span class="string">"TAG_TEMPLATE"</span>,
-            SearchResultType::EntryGroup =&gt; <span class="string">"ENTRY_GROUP"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"SEARCH_RESULT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"ENTRY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Entry),
-            <span class="string">"TAG_TEMPLATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TagTemplate),
-            <span class="string">"ENTRY_GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EntryGroup),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
+    /// Supported time ranges are `{"24H", "7D", "30D", "Lifetime"}`.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>common_usage_within_time_range: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        CommonUsageStats,
+    &gt;,
+    <span class="doccomment">/// Favorite count in the source system.
+    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>favorite_count: ::core::option::Option&lt;i64&gt;,
 }
 <span class="doccomment">/// Specification for the BigQuery connection.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6289,6 +6127,112 @@
     <span class="doccomment">/// Paths of the imported libraries.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>imported_libraries: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Entry metadata relevant only to the user and private to them.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PersonalDetails {
+    <span class="doccomment">/// True if the entry is starred by the user; false otherwise.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>starred: bool,
+    <span class="doccomment">/// Set if the entry is starred; unset otherwise.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>star_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// This enum lists all the systems that Data Catalog integrates with.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>IntegratedSystem {
+    <span class="doccomment">/// Default unknown system.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// BigQuery.
+    </span>Bigquery = <span class="number">1</span>,
+    <span class="doccomment">/// Cloud Pub/Sub.
+    </span>CloudPubsub = <span class="number">2</span>,
+    <span class="doccomment">/// Dataproc Metastore.
+    </span>DataprocMetastore = <span class="number">3</span>,
+    <span class="doccomment">/// Dataplex.
+    </span>Dataplex = <span class="number">4</span>,
+    <span class="doccomment">/// Cloud Spanner
+    </span>CloudSpanner = <span class="number">6</span>,
+    <span class="doccomment">/// Cloud Bigtable
+    </span>CloudBigtable = <span class="number">7</span>,
+    <span class="doccomment">/// Cloud Sql
+    </span>CloudSql = <span class="number">8</span>,
+    <span class="doccomment">/// Looker
+    </span>Looker = <span class="number">9</span>,
+    <span class="doccomment">/// Vertex AI
+    </span>VertexAi = <span class="number">10</span>,
+}
+<span class="kw">impl </span>IntegratedSystem {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            IntegratedSystem::Unspecified =&gt; <span class="string">"INTEGRATED_SYSTEM_UNSPECIFIED"</span>,
+            IntegratedSystem::Bigquery =&gt; <span class="string">"BIGQUERY"</span>,
+            IntegratedSystem::CloudPubsub =&gt; <span class="string">"CLOUD_PUBSUB"</span>,
+            IntegratedSystem::DataprocMetastore =&gt; <span class="string">"DATAPROC_METASTORE"</span>,
+            IntegratedSystem::Dataplex =&gt; <span class="string">"DATAPLEX"</span>,
+            IntegratedSystem::CloudSpanner =&gt; <span class="string">"CLOUD_SPANNER"</span>,
+            IntegratedSystem::CloudBigtable =&gt; <span class="string">"CLOUD_BIGTABLE"</span>,
+            IntegratedSystem::CloudSql =&gt; <span class="string">"CLOUD_SQL"</span>,
+            IntegratedSystem::Looker =&gt; <span class="string">"LOOKER"</span>,
+            IntegratedSystem::VertexAi =&gt; <span class="string">"VERTEX_AI"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"INTEGRATED_SYSTEM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"BIGQUERY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Bigquery),
+            <span class="string">"CLOUD_PUBSUB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudPubsub),
+            <span class="string">"DATAPROC_METASTORE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DataprocMetastore),
+            <span class="string">"DATAPLEX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dataplex),
+            <span class="string">"CLOUD_SPANNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudSpanner),
+            <span class="string">"CLOUD_BIGTABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudBigtable),
+            <span class="string">"CLOUD_SQL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CloudSql),
+            <span class="string">"LOOKER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Looker),
+            <span class="string">"VERTEX_AI" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::VertexAi),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// This enum describes all the systems that manage
+/// Taxonomy and PolicyTag resources in DataCatalog.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ManagingSystem {
+    <span class="doccomment">/// Default value
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Dataplex.
+    </span>Dataplex = <span class="number">1</span>,
+    <span class="doccomment">/// Other
+    </span>Other = <span class="number">2</span>,
+}
+<span class="kw">impl </span>ManagingSystem {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ManagingSystem::Unspecified =&gt; <span class="string">"MANAGING_SYSTEM_UNSPECIFIED"</span>,
+            ManagingSystem::Dataplex =&gt; <span class="string">"MANAGING_SYSTEM_DATAPLEX"</span>,
+            ManagingSystem::Other =&gt; <span class="string">"MANAGING_SYSTEM_OTHER"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"MANAGING_SYSTEM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"MANAGING_SYSTEM_DATAPLEX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dataplex),
+            <span class="string">"MANAGING_SYSTEM_OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
 }
 <span class="doccomment">/// Physical location of an entry.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6427,15 +6371,15 @@
     }
     <span class="doccomment">/// Marks a Parquet-encoded data source.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ParquetSchema {}
     <span class="doccomment">/// Marks an ORC-encoded data source.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>OrcSchema {}
     <span class="doccomment">/// Marks a CSV-encoded data source.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>CsvSchema {}
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -6531,7 +6475,7 @@
 }
 <span class="doccomment">/// Timestamps associated with this resource in a particular system.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SystemTimestamps {
     <span class="doccomment">/// Creation timestamp of the resource within the given system.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -6679,7 +6623,7 @@
 </span><span class="kw">pub mod </span>column_schema {
     <span class="doccomment">/// Column info specific to Looker System.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LookerColumnSpec {
         <span class="doccomment">/// Looker specific column type of this column.
         </span><span class="attr">#[prost(enumeration = <span class="string">"looker_column_spec::LookerColumnType"</span>, tag = <span class="string">"1"</span>)]
@@ -6805,11 +6749,134 @@
     }
     <span class="doccomment">/// Information only applying for columns in Entries from a specific system.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>SystemSpec {
         <span class="doccomment">/// Looker specific column info of this column.
         </span><span class="attr">#[prost(message, tag = <span class="string">"18"</span>)]
         </span>LookerColumnSpec(LookerColumnSpec),
+    }
+}
+<span class="doccomment">/// Result in the response to a search request.
+///
+/// Each result captures details of one entry that matches the search.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SearchCatalogResult {
+    <span class="doccomment">/// Type of the search result.
+    ///
+    /// You can use this field to determine which get method to call to fetch the
+    /// full resource.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"SearchResultType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>search_result_type: i32,
+    <span class="doccomment">/// Sub-type of the search result.
+    ///
+    /// A dot-delimited full type of the resource. The same type you
+    /// specify in the `type` search predicate.
+    ///
+    /// Examples: `entry.table`, `entry.dataStream`, `tagTemplate`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>search_result_subtype: ::prost::alloc::string::String,
+    <span class="doccomment">/// The relative name of the resource in URL format.
+    ///
+    /// Examples:
+    ///
+    ///   * `projects/{PROJECT_ID}/locations/{LOCATION_ID}/entryGroups/{ENTRY_GROUP_ID}/entries/{ENTRY_ID}`
+    ///   * `projects/{PROJECT_ID}/tagTemplates/{TAG_TEMPLATE_ID}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>relative_resource_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The full name of the Google Cloud resource the entry belongs to.
+    ///
+    /// For more information, see \[Full Resource Name\]
+    /// (/apis/design/resource_names#full_resource_name).
+    ///
+    /// Example:
+    ///
+    /// `//bigquery.googleapis.com/projects/PROJECT_ID/datasets/DATASET_ID/tables/TABLE_ID`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>linked_resource: ::prost::alloc::string::String,
+    <span class="doccomment">/// The last modification timestamp of the entry in the source system.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>modify_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Fully qualified name (FQN) of the resource.
+    ///
+    /// FQNs take two forms:
+    ///
+    /// * For non-regionalized resources:
+    ///
+    ///    `{SYSTEM}:{PROJECT}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
+    ///
+    /// * For regionalized resources:
+    ///
+    ///    `{SYSTEM}:{PROJECT}.{LOCATION_ID}.{PATH_TO_RESOURCE_SEPARATED_WITH_DOTS}`
+    ///
+    /// Example for a DPMS table:
+    ///
+    /// `dataproc_metastore:PROJECT_ID.LOCATION_ID.INSTANCE_ID.DATABASE_ID.TABLE_ID`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>fully_qualified_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The display name of the result.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Entry description that can consist of several sentences or paragraphs that
+    /// describe entry contents.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The source system of the entry. Applicable only when the
+    /// `search_result_type` is `ENTRY`.
+    </span><span class="attr">#[prost(oneof = <span class="string">"search_catalog_result::System"</span>, tags = <span class="string">"8, 9"</span>)]
+    </span><span class="kw">pub </span>system: ::core::option::Option&lt;search_catalog_result::System&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `SearchCatalogResult`.
+</span><span class="kw">pub mod </span>search_catalog_result {
+    <span class="doccomment">/// The source system of the entry. Applicable only when the
+    /// `search_result_type` is `ENTRY`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>System {
+        <span class="doccomment">/// Output only. The source system that Data Catalog automatically integrates
+        /// with, such as BigQuery, Cloud Pub/Sub, or Dataproc Metastore.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"super::IntegratedSystem"</span>, tag = <span class="string">"8"</span>)]
+        </span>IntegratedSystem(i32),
+        <span class="doccomment">/// Custom source system that you can manually integrate Data Catalog with.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+        </span>UserSpecifiedSystem(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// The resource types that can be returned in search results.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>SearchResultType {
+    <span class="doccomment">/// Default unknown type.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// An [Entry][google.cloud.datacatalog.v1.Entry].
+    </span>Entry = <span class="number">1</span>,
+    <span class="doccomment">/// A [TagTemplate][google.cloud.datacatalog.v1.TagTemplate].
+    </span>TagTemplate = <span class="number">2</span>,
+    <span class="doccomment">/// An [EntryGroup][google.cloud.datacatalog.v1.EntryGroup].
+    </span>EntryGroup = <span class="number">3</span>,
+}
+<span class="kw">impl </span>SearchResultType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            SearchResultType::Unspecified =&gt; <span class="string">"SEARCH_RESULT_TYPE_UNSPECIFIED"</span>,
+            SearchResultType::Entry =&gt; <span class="string">"ENTRY"</span>,
+            SearchResultType::TagTemplate =&gt; <span class="string">"TAG_TEMPLATE"</span>,
+            SearchResultType::EntryGroup =&gt; <span class="string">"ENTRY_GROUP"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"SEARCH_RESULT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"ENTRY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Entry),
+            <span class="string">"TAG_TEMPLATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TagTemplate),
+            <span class="string">"ENTRY_GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EntryGroup),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
     }
 }
 <span class="doccomment">/// Describes a BigQuery table.
@@ -7252,73 +7319,6 @@
         </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
         </span>EnumType(EnumType),
     }
-}
-<span class="doccomment">/// Detailed statistics on the entry's usage.
-///
-/// Usage statistics have the following limitations:
-///
-/// - Only BigQuery tables have them.
-/// - They only include BigQuery query jobs.
-/// - They might be underestimated because wildcard table references
-///    are not yet counted. For more information, see
-///    \[Querying multiple tables using a wildcard table\]
-///    (&lt;https://cloud.google.com/bigquery/docs/querying-wildcard-tables&gt;)
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UsageStats {
-    <span class="doccomment">/// The number of successful uses of the underlying entry.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>total_completions: f32,
-    <span class="doccomment">/// The number of failed attempts to use the underlying entry.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>total_failures: f32,
-    <span class="doccomment">/// The number of cancelled attempts to use the underlying entry.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_cancellations: f32,
-    <span class="doccomment">/// Total time spent only on successful uses, in milliseconds.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>total_execution_time_for_completions_millis: f32,
-}
-<span class="doccomment">/// Common statistics on the entry's usage.
-///
-/// They can be set on any system.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CommonUsageStats {
-    <span class="doccomment">/// View count in source system.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>view_count: ::core::option::Option&lt;i64&gt;,
-}
-<span class="doccomment">/// The set of all usage signals that Data Catalog stores.
-///
-/// Note: Usually, these signals are updated daily. In rare cases, an update may
-/// fail but will be performed again on the next day.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UsageSignal {
-    <span class="doccomment">/// The end timestamp of the duration of usage statistics.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. BigQuery usage statistics over each of the predefined time
-    /// ranges.
-    ///
-    /// Supported time ranges are `{"24H", "7D", "30D"}`.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>usage_within_time_range: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        UsageStats,
-    &gt;,
-    <span class="doccomment">/// Common usage statistics over each of the predefined time ranges.
-    ///
-    /// Supported time ranges are `{"24H", "7D", "30D", "Lifetime"}`.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>common_usage_within_time_range: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        CommonUsageStats,
-    &gt;,
-    <span class="doccomment">/// Favorite count in the source system.
-    </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>favorite_count: ::core::option::Option&lt;i64&gt;,
 }
 <span class="doccomment">/// Request message for
 /// [SearchCatalog][google.cloud.datacatalog.v1.DataCatalog.SearchCatalog].
@@ -8267,7 +8267,7 @@
 <span class="doccomment">/// Specification that applies to a dataset. Valid only for
 /// entries with the `DATASET` type.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DatasetSpec {
     <span class="doccomment">/// Fields specific to the source system.
     </span><span class="attr">#[prost(oneof = <span class="string">"dataset_spec::SystemSpec"</span>, tags = <span class="string">"2"</span>)]
@@ -8277,7 +8277,7 @@
 </span><span class="kw">pub mod </span>dataset_spec {
     <span class="doccomment">/// Fields specific to the source system.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>SystemSpec {
         <span class="doccomment">/// Vertex AI Dataset specific fields
         </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
@@ -8407,7 +8407,7 @@
 }
 <span class="doccomment">/// Detail description of the source information of a Vertex model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VertexModelSourceInfo {
     <span class="doccomment">/// Type of the model source.
     </span><span class="attr">#[prost(enumeration = <span class="string">"vertex_model_source_info::ModelSourceType"</span>, tag = <span class="string">"1"</span>)]
@@ -8496,7 +8496,7 @@
 }
 <span class="doccomment">/// Specification for vertex dataset resources.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VertexDatasetSpec {
     <span class="doccomment">/// The number of DataItems in this Dataset. Only apply for non-structured
     /// Dataset.
@@ -8950,7 +8950,7 @@
 /// response message returned by
 /// [ReconcileTags][google.cloud.datacatalog.v1.DataCatalog.ReconcileTags].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReconcileTagsResponse {
     <span class="doccomment">/// Number of tags created in the request.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
@@ -9083,7 +9083,7 @@
 /// [StarEntry][google.cloud.datacatalog.v1.DataCatalog.StarEntry].
 /// Empty for now
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StarEntryResponse {}
 <span class="doccomment">/// Request message for
 /// [UnstarEntry][google.cloud.datacatalog.v1.DataCatalog.UnstarEntry].
@@ -9098,7 +9098,7 @@
 /// [UnstarEntry][google.cloud.datacatalog.v1.DataCatalog.UnstarEntry].
 /// Empty for now
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UnstarEntryResponse {}
 <span class="doccomment">/// Request message for
 /// [ImportEntries][google.cloud.datacatalog.v1.DataCatalog.ImportEntries]
@@ -9132,7 +9132,7 @@
 /// returned by the
 /// [ImportEntries][google.cloud.datacatalog.v1.DataCatalog.ImportEntries].
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ImportEntriesResponse {
     <span class="doccomment">/// Cumulative number of entries created and entries updated as a result of
     /// import operation.
@@ -10649,6 +10649,51 @@
         </span>}
     }
 }
+<span class="doccomment">/// Wrapper containing Entry and information about Tags
+/// that should and should not be attached to it.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TaggedEntry {
+    <span class="doccomment">/// Optional. Tags that should be ingested into the Data Catalog.
+    /// Caller should populate template name, column and fields.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>present_tags: ::prost::alloc::vec::Vec&lt;Tag&gt;,
+    <span class="doccomment">/// Optional. Tags that should be deleted from the Data Catalog.
+    /// Caller should populate template name and column only.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>absent_tags: ::prost::alloc::vec::Vec&lt;Tag&gt;,
+    <span class="doccomment">/// Required. Entry to be ingested.
+    </span><span class="attr">#[prost(oneof = <span class="string">"tagged_entry::Entry"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>entry: ::core::option::Option&lt;tagged_entry::Entry&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `TaggedEntry`.
+</span><span class="kw">pub mod </span>tagged_entry {
+    <span class="doccomment">/// Required. Entry to be ingested.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Entry {
+        <span class="doccomment">/// Non-encrypted Data Catalog v1 Entry.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>V1Entry(<span class="kw">super</span>::Entry),
+    }
+}
+<span class="doccomment">/// Wrapper for any item that can be contained in the dump.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DumpItem {
+    <span class="attr">#[prost(oneof = <span class="string">"dump_item::Item"</span>, tags = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>item: ::core::option::Option&lt;dump_item::Item&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DumpItem`.
+</span><span class="kw">pub mod </span>dump_item {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Item {
+        <span class="doccomment">/// Entry and its tags.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>TaggedEntry(<span class="kw">super</span>::TaggedEntry),
+    }
+}
 <span class="doccomment">/// A taxonomy is a collection of hierarchical policy tags that classify data
 /// along a common axis.
 ///
@@ -11592,7 +11637,7 @@
 </span><span class="kw">pub mod </span>export_taxonomies_request {
     <span class="doccomment">/// Required. Export destination for taxonomies.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Destination {
         <span class="doccomment">/// Serialized export taxonomies that contain all the policy
         /// tags as nested protocol buffers.
@@ -11803,51 +11848,6 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-    }
-}
-<span class="doccomment">/// Wrapper containing Entry and information about Tags
-/// that should and should not be attached to it.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TaggedEntry {
-    <span class="doccomment">/// Optional. Tags that should be ingested into the Data Catalog.
-    /// Caller should populate template name, column and fields.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>present_tags: ::prost::alloc::vec::Vec&lt;Tag&gt;,
-    <span class="doccomment">/// Optional. Tags that should be deleted from the Data Catalog.
-    /// Caller should populate template name and column only.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>absent_tags: ::prost::alloc::vec::Vec&lt;Tag&gt;,
-    <span class="doccomment">/// Required. Entry to be ingested.
-    </span><span class="attr">#[prost(oneof = <span class="string">"tagged_entry::Entry"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>entry: ::core::option::Option&lt;tagged_entry::Entry&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `TaggedEntry`.
-</span><span class="kw">pub mod </span>tagged_entry {
-    <span class="doccomment">/// Required. Entry to be ingested.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Entry {
-        <span class="doccomment">/// Non-encrypted Data Catalog v1 Entry.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>V1Entry(<span class="kw">super</span>::Entry),
-    }
-}
-<span class="doccomment">/// Wrapper for any item that can be contained in the dump.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DumpItem {
-    <span class="attr">#[prost(oneof = <span class="string">"dump_item::Item"</span>, tags = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>item: ::core::option::Option&lt;dump_item::Item&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DumpItem`.
-</span><span class="kw">pub mod </span>dump_item {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Item {
-        <span class="doccomment">/// Entry and its tags.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>TaggedEntry(<span class="kw">super</span>::TaggedEntry),
     }
 }
 </code></pre></div></section></main></body></html>

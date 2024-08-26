@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/migrationcenter/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/migrationcenter/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -7236,7 +7236,7 @@
 }
 <span class="doccomment">/// A response to a call to `ReportAssetFrame`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReportAssetFramesResponse {}
 <span class="doccomment">/// A request to aggregate one or more values.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -8830,7 +8830,7 @@
     }
     <span class="doccomment">/// Additional details for specific platforms.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>PlatformSpecific {
         <span class="doccomment">/// VMware disk details.
         </span><span class="attr">#[prost(message, tag = <span class="string">"20"</span>)]
@@ -8873,7 +8873,7 @@
 }
 <span class="doccomment">/// VMware disk config details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VmwareDiskConfig {
     <span class="doccomment">/// VMDK backing type.
     </span><span class="attr">#[prost(enumeration = <span class="string">"vmware_disk_config::BackingType"</span>, tag = <span class="string">"1"</span>)]
@@ -9662,7 +9662,7 @@
 }
 <span class="doccomment">/// Memory usage sample.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MemoryUsageSample {
     <span class="doccomment">/// Percentage of system memory utilized. Must be in the interval \[0, 100\].
     </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
@@ -9670,7 +9670,7 @@
 }
 <span class="doccomment">/// CPU usage sample.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CpuUsageSample {
     <span class="doccomment">/// Percentage of total CPU capacity utilized. Must be in the interval [0,
     /// 100]. On most systems can be calculated using 100 - idle percentage.
@@ -9679,7 +9679,7 @@
 }
 <span class="doccomment">/// Network usage sample. Values are across all network interfaces.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NetworkUsageSample {
     <span class="doccomment">/// Average network ingress in B/s sampled over a short window.
     /// Must be non-negative.
@@ -9692,7 +9692,7 @@
 }
 <span class="doccomment">/// Disk usage sample. Values are across all disks.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DiskUsageSample {
     <span class="doccomment">/// Average IOPS sampled over a short window. Must be non-negative.
     </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
@@ -9700,7 +9700,7 @@
 }
 <span class="doccomment">/// Performance data sample.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PerformanceSample {
     <span class="doccomment">/// Time the sample was collected.
     /// If omitted, the frame report time will be used.
@@ -9733,7 +9733,7 @@
 }
 <span class="doccomment">/// Usage data aggregation for a single day.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DailyResourceUsageAggregation {
     <span class="doccomment">/// Aggregation date. Day boundaries are at midnight UTC.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9755,7 +9755,7 @@
 </span><span class="kw">pub mod </span>daily_resource_usage_aggregation {
     <span class="doccomment">/// Statistical aggregation of samples for a single resource usage.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Stats {
         <span class="doccomment">/// Average usage value.
         </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
@@ -9772,7 +9772,7 @@
     }
     <span class="doccomment">/// Statistical aggregation of CPU usage.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Cpu {
         <span class="doccomment">/// CPU utilization percentage.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9780,7 +9780,7 @@
     }
     <span class="doccomment">/// Statistical aggregation of memory usage.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Memory {
         <span class="doccomment">/// Memory utilization percentage.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9788,7 +9788,7 @@
     }
     <span class="doccomment">/// Statistical aggregation of network usage.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Network {
         <span class="doccomment">/// Network ingress in B/s.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9799,7 +9799,7 @@
     }
     <span class="doccomment">/// Statistical aggregation of disk usage.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Disk {
         <span class="doccomment">/// Disk I/O operations per second.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9912,7 +9912,7 @@
 }
 <span class="doccomment">/// Compute Engine storage option descriptor.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ComputeStorageDescriptor {
     <span class="doccomment">/// Disk type backing the storage.
     </span><span class="attr">#[prost(enumeration = <span class="string">"PersistentDiskType"</span>, tag = <span class="string">"1"</span>)]
@@ -9923,7 +9923,7 @@
 }
 <span class="doccomment">/// Describes the fit level of an asset for migration to a specific target.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FitDescriptor {
     <span class="doccomment">/// Fit level.
     </span><span class="attr">#[prost(enumeration = <span class="string">"fit_descriptor::FitLevel"</span>, tag = <span class="string">"1"</span>)]
@@ -9994,11 +9994,11 @@
 </span><span class="kw">pub mod </span>aggregation {
     <span class="doccomment">/// Object count.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Count {}
     <span class="doccomment">/// Sum of field values.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Sum {}
     <span class="doccomment">/// Histogram of bucketed assets counts by field value.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -10018,7 +10018,7 @@
     }
     <span class="doccomment">/// Frequency distribution of all field values.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Frequency {}
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -10050,14 +10050,14 @@
 </span><span class="kw">pub mod </span>aggregation_result {
     <span class="doccomment">/// The result of a count aggregation.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Count {
         <span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>value: i64,
     }
     <span class="doccomment">/// The result of a sum aggregation.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Sum {
         <span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>value: f64,
@@ -10081,7 +10081,7 @@
         /// The lower bound is inclusive and the upper bound is exclusive.
         /// Lower bound may be -infinity and upper bound may be infinity.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Bucket {
             <span class="doccomment">/// Lower bound - inclusive.
             </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
@@ -10351,7 +10351,7 @@
 }
 <span class="doccomment">/// The user preferences relating to Google Cloud VMware Engine target platform.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VmwareEnginePreferences {
     <span class="doccomment">/// CPU overcommit ratio.
     /// Acceptable values are between 1.0 and 8.0, with 0.1 increment.
@@ -10652,7 +10652,7 @@
     <span class="doccomment">/// Utilization Chart is a specific type of visualization which displays
     /// a metric classified into "Used" and "Free" buckets.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UtilizationChartData {
         <span class="doccomment">/// Aggregate value which falls into the "Used" bucket.
         </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
@@ -10681,7 +10681,7 @@
         /// The lower bound is inclusive and the upper bound is exclusive.
         /// Lower bound may be -infinity and upper bound may be infinity.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Bucket {
             <span class="doccomment">/// Lower bound - inclusive.
             </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]

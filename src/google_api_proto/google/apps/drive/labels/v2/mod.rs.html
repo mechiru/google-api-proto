@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/apps/drive/labels/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/apps/drive/labels/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3156,175 +3156,7 @@
 <a href="#3156" id="3156">3156</a>
 <a href="#3157" id="3157">3157</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// The lifecycle state of an object, such as label, field, or choice. The
-/// lifecycle enforces the following transitions:
-///
-/// * `UNPUBLISHED_DRAFT` (starting state)
-/// * `UNPUBLISHED_DRAFT` -&gt; `PUBLISHED`
-/// * `UNPUBLISHED_DRAFT` -&gt; (Deleted)
-/// * `PUBLISHED` -&gt; `DISABLED`
-/// * `DISABLED` -&gt; `PUBLISHED`
-/// * `DISABLED` -&gt; (Deleted)
-///
-/// The published and disabled states have some distinct characteristics:
-///
-/// * Published—Some kinds of changes might be made to an object in this state,
-///    in which case `has_unpublished_changes` will be true. Also, some kinds of
-///    changes are not permitted. Generally, any change that would invalidate or
-///    cause new restrictions on existing metadata related to the label are
-///    rejected.
-/// * Disabled—When disabled, the configured `DisabledPolicy` takes effect.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Lifecycle {
-    <span class="doccomment">/// Output only. The state of the object associated with this lifecycle.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"lifecycle::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. Whether the object associated with this lifecycle has
-    /// unpublished changes.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>has_unpublished_changes: bool,
-    <span class="doccomment">/// The policy that governs how to show a disabled label, field, or selection
-    /// choice.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>disabled_policy: ::core::option::Option&lt;lifecycle::DisabledPolicy&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Lifecycle`.
-</span><span class="kw">pub mod </span>lifecycle {
-    <span class="doccomment">/// The policy that governs how to treat a disabled label, field, or selection
-    /// choice in different contexts.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>DisabledPolicy {
-        <span class="doccomment">/// Whether to hide this disabled object in the search menu for Drive items.
-        ///
-        /// * When `false`, the object is generally shown in the UI as disabled but
-        /// it appears in the search results when searching for Drive items.
-        /// * When `true`, the object is generally hidden in the UI when
-        ///    searching for Drive items.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>hide_in_search: bool,
-        <span class="doccomment">/// Whether to show this disabled object in the apply menu on Drive items.
-        ///
-        /// * When `true`, the object is generally shown in the UI as disabled
-        ///    and is unselectable.
-        /// * When `false`, the object is generally hidden in the UI.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>show_in_apply: bool,
-    }
-    <span class="doccomment">/// The state of the object associated with this lifecycle.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unknown State.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The initial state of an object. Once published, the object can never
-        /// return to this state. Once an object is published, certain kinds of
-        /// changes are no longer permitted.
-        </span>UnpublishedDraft = <span class="number">1</span>,
-        <span class="doccomment">/// The object has been published. The object might have unpublished draft
-        /// changes as indicated by `has_unpublished_changes`.
-        </span>Published = <span class="number">2</span>,
-        <span class="doccomment">/// The object has been published and has since been disabled. The object
-        /// might have unpublished draft changes as indicated by
-        /// `has_unpublished_changes`.
-        </span>Disabled = <span class="number">3</span>,
-        <span class="doccomment">/// The object has been deleted.
-        </span>Deleted = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::UnpublishedDraft =&gt; <span class="string">"UNPUBLISHED_DRAFT"</span>,
-                State::Published =&gt; <span class="string">"PUBLISHED"</span>,
-                State::Disabled =&gt; <span class="string">"DISABLED"</span>,
-                State::Deleted =&gt; <span class="string">"DELETED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"UNPUBLISHED_DRAFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnpublishedDraft),
-                <span class="string">"PUBLISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Published),
-                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
-                <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Information about a user.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UserInfo {
-    <span class="doccomment">/// The identifier for this user that can be used with the People API to get
-    /// more information.
-    /// For example, people/12345678.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>person: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Badge status of the label.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BadgeConfig {
-    <span class="doccomment">/// The color of the badge. When not specified, no badge is rendered.
-    /// The background, foreground, and solo (light and dark mode) colors set here
-    /// are changed in the Drive UI into the closest recommended supported color.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>color: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color&gt;,
-    <span class="doccomment">/// Override the default global priority of this badge.
-    /// When set to 0, the default priority heuristic is used.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>priority_override: i64,
-}
-<span class="doccomment">/// The color derived from BadgeConfig and changed to the closest recommended
-/// supported color.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BadgeColors {
-    <span class="doccomment">/// Output only. Badge background that pairs with the foreground.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>background_color: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color,
-    &gt;,
-    <span class="doccomment">/// Output only. Badge foreground that pairs with the background.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>foreground_color: ::core::option::Option&lt;
-        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color,
-    &gt;,
-    <span class="doccomment">/// Output only. Color that can be used for text without a background.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>solo_color: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color&gt;,
-}
-<span class="doccomment">/// Contains information about whether a label component should be considered
-/// locked.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LockStatus {
-    <span class="doccomment">/// Output only. Indicates whether this label component is the (direct) target
-    /// of a LabelLock.  A label component can be implicitly locked even if it's
-    /// not the direct target of a LabelLock, in which case this field is set to
-    /// false.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>locked: bool,
-}
-<span class="doccomment">/// Describes violations in a request to create or update a Label or its
+</span><span class="doccomment">/// Describes violations in a request to create or update a Label or its
 /// Fields.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3553,6 +3385,174 @@
         }
     }
 }
+<span class="doccomment">/// The lifecycle state of an object, such as label, field, or choice. The
+/// lifecycle enforces the following transitions:
+///
+/// * `UNPUBLISHED_DRAFT` (starting state)
+/// * `UNPUBLISHED_DRAFT` -&gt; `PUBLISHED`
+/// * `UNPUBLISHED_DRAFT` -&gt; (Deleted)
+/// * `PUBLISHED` -&gt; `DISABLED`
+/// * `DISABLED` -&gt; `PUBLISHED`
+/// * `DISABLED` -&gt; (Deleted)
+///
+/// The published and disabled states have some distinct characteristics:
+///
+/// * Published—Some kinds of changes might be made to an object in this state,
+///    in which case `has_unpublished_changes` will be true. Also, some kinds of
+///    changes are not permitted. Generally, any change that would invalidate or
+///    cause new restrictions on existing metadata related to the label are
+///    rejected.
+/// * Disabled—When disabled, the configured `DisabledPolicy` takes effect.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Lifecycle {
+    <span class="doccomment">/// Output only. The state of the object associated with this lifecycle.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"lifecycle::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. Whether the object associated with this lifecycle has
+    /// unpublished changes.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>has_unpublished_changes: bool,
+    <span class="doccomment">/// The policy that governs how to show a disabled label, field, or selection
+    /// choice.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>disabled_policy: ::core::option::Option&lt;lifecycle::DisabledPolicy&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Lifecycle`.
+</span><span class="kw">pub mod </span>lifecycle {
+    <span class="doccomment">/// The policy that governs how to treat a disabled label, field, or selection
+    /// choice in different contexts.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DisabledPolicy {
+        <span class="doccomment">/// Whether to hide this disabled object in the search menu for Drive items.
+        ///
+        /// * When `false`, the object is generally shown in the UI as disabled but
+        /// it appears in the search results when searching for Drive items.
+        /// * When `true`, the object is generally hidden in the UI when
+        ///    searching for Drive items.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>hide_in_search: bool,
+        <span class="doccomment">/// Whether to show this disabled object in the apply menu on Drive items.
+        ///
+        /// * When `true`, the object is generally shown in the UI as disabled
+        ///    and is unselectable.
+        /// * When `false`, the object is generally hidden in the UI.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>show_in_apply: bool,
+    }
+    <span class="doccomment">/// The state of the object associated with this lifecycle.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unknown State.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The initial state of an object. Once published, the object can never
+        /// return to this state. Once an object is published, certain kinds of
+        /// changes are no longer permitted.
+        </span>UnpublishedDraft = <span class="number">1</span>,
+        <span class="doccomment">/// The object has been published. The object might have unpublished draft
+        /// changes as indicated by `has_unpublished_changes`.
+        </span>Published = <span class="number">2</span>,
+        <span class="doccomment">/// The object has been published and has since been disabled. The object
+        /// might have unpublished draft changes as indicated by
+        /// `has_unpublished_changes`.
+        </span>Disabled = <span class="number">3</span>,
+        <span class="doccomment">/// The object has been deleted.
+        </span>Deleted = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::UnpublishedDraft =&gt; <span class="string">"UNPUBLISHED_DRAFT"</span>,
+                State::Published =&gt; <span class="string">"PUBLISHED"</span>,
+                State::Disabled =&gt; <span class="string">"DISABLED"</span>,
+                State::Deleted =&gt; <span class="string">"DELETED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"UNPUBLISHED_DRAFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnpublishedDraft),
+                <span class="string">"PUBLISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Published),
+                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
+                <span class="string">"DELETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleted),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information about a user.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UserInfo {
+    <span class="doccomment">/// The identifier for this user that can be used with the People API to get
+    /// more information.
+    /// For example, people/12345678.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>person: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Badge status of the label.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BadgeConfig {
+    <span class="doccomment">/// The color of the badge. When not specified, no badge is rendered.
+    /// The background, foreground, and solo (light and dark mode) colors set here
+    /// are changed in the Drive UI into the closest recommended supported color.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>color: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color&gt;,
+    <span class="doccomment">/// Override the default global priority of this badge.
+    /// When set to 0, the default priority heuristic is used.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>priority_override: i64,
+}
+<span class="doccomment">/// The color derived from BadgeConfig and changed to the closest recommended
+/// supported color.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BadgeColors {
+    <span class="doccomment">/// Output only. Badge background that pairs with the foreground.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>background_color: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color,
+    &gt;,
+    <span class="doccomment">/// Output only. Badge foreground that pairs with the background.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>foreground_color: ::core::option::Option&lt;
+        <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color,
+    &gt;,
+    <span class="doccomment">/// Output only. Color that can be used for text without a background.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>solo_color: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Color&gt;,
+}
+<span class="doccomment">/// Contains information about whether a label component should be considered
+/// locked.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LockStatus {
+    <span class="doccomment">/// Output only. Indicates whether this label component is the (direct) target
+    /// of a LabelLock.  A label component can be implicitly locked even if it's
+    /// not the direct target of a LabelLock, in which case this field is set to
+    /// false.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>locked: bool,
+}
 <span class="doccomment">/// Defines a field that has a display name, data type, and other
 /// configuration options. This field defines the kind of metadata that may be
 /// set on a Drive item.
@@ -3636,7 +3636,7 @@
     }
     <span class="doccomment">/// UI display hints for rendering a field.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DisplayHints {
         <span class="doccomment">/// Whether the field should be shown as required in the UI.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3655,7 +3655,7 @@
     }
     <span class="doccomment">/// The capabilities related to this field when editing the field.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>SchemaCapabilities {
         <span class="doccomment">/// Whether the user can change this field.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3676,7 +3676,7 @@
     }
     <span class="doccomment">/// The capabilities related to this field on applied metadata.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AppliedCapabilities {
         <span class="doccomment">/// Whether the user can read related applied metadata on items.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3690,7 +3690,7 @@
     }
     <span class="doccomment">/// Options for a multi-valued variant of an associated field type.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ListOptions {
         <span class="doccomment">/// Maximum number of entries permitted.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -3698,7 +3698,7 @@
     }
     <span class="doccomment">/// Options for the Text field type.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>TextOptions {
         <span class="doccomment">/// Output only. The minimum valid length of values for the text field.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -3709,7 +3709,7 @@
     }
     <span class="doccomment">/// Options for the Integer field type.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>IntegerOptions {
         <span class="doccomment">/// Output only. The minimum valid value for the integer field.
         </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
@@ -3889,7 +3889,7 @@
             }
             <span class="doccomment">/// UI display hints for rendering an option.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>DisplayHints {
                 <span class="doccomment">/// Whether the option should be shown in the UI as disabled.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3925,7 +3925,7 @@
             }
             <span class="doccomment">/// The capabilities related to this choice when editing the choice.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>SchemaCapabilities {
                 <span class="doccomment">/// Whether the user can update this choice.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3942,7 +3942,7 @@
             }
             <span class="doccomment">/// The capabilities related to this choice on applied metadata.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>AppliedCapabilities {
                 <span class="doccomment">/// Whether the user can read related applied metadata on items.
                 </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3958,7 +3958,7 @@
     }
     <span class="doccomment">/// Options for the user field type.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UserOptions {
         <span class="doccomment">/// When specified, indicates that this field supports a list of values.
         /// Once the field is published, this cannot be changed.
@@ -4090,7 +4090,7 @@
     }
     <span class="doccomment">/// UI display hints for rendering the label.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DisplayHints {
         <span class="doccomment">/// Whether the label should be shown in the UI as disabled.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -4109,7 +4109,7 @@
     }
     <span class="doccomment">/// The capabilities a user has on this label's applied metadata.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AppliedCapabilities {
         <span class="doccomment">/// Whether the user can read applied metadata related to this label.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -4123,7 +4123,7 @@
     }
     <span class="doccomment">/// The capabilities related to this label when editing the label.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>SchemaCapabilities {
         <span class="doccomment">/// Whether the user can change this label.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -4144,7 +4144,7 @@
     }
     <span class="doccomment">/// Behavior of this label when it's applied to Drive items.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AppliedLabelPolicy {
         <span class="doccomment">/// Indicates how the applied label and field values should be copied when
         /// a Drive item is copied.
@@ -4256,95 +4256,147 @@
         }
     }
 }
-<span class="doccomment">/// A Lock that can be applied to a Label, Field, or Choice.
+<span class="doccomment">/// Label constraints governing the structure of a Label; such as, the maximum
+/// number of Fields allowed and maximum length of the label title.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LabelLock {
-    <span class="doccomment">/// Output only. Resource name of this LabelLock.
+</span><span class="kw">pub struct </span>LabelLimits {
+    <span class="doccomment">/// Resource name.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the Field that should be locked.  Empty if the whole
-    /// Label should be locked.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>field_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The ID of the Selection Field Choice that should be locked.  If present,
-    /// `field_id` must also be present.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>choice_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The time this LabelLock was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The user whose credentials were used to create the LabelLock.
-    /// This will not be present if no user was responsible for creating the
-    /// LabelLock.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>creator: ::core::option::Option&lt;UserInfo&gt;,
-    <span class="doccomment">/// Output only. A timestamp indicating when this LabelLock was scheduled for
-    /// deletion. This will be present only if this LabelLock is in the DELETING
-    /// state.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The user's capabilities on this LabelLock.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>capabilities: ::core::option::Option&lt;label_lock::Capabilities&gt;,
-    <span class="doccomment">/// Output only. This LabelLock's state.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"label_lock::State"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The maximum number of characters allowed for the title.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_title_length: i32,
+    <span class="doccomment">/// The maximum number of characters allowed for the description.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_description_length: i32,
+    <span class="doccomment">/// The maximum number of Fields allowed within the label.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>max_fields: i32,
+    <span class="doccomment">/// The maximum number of published Fields that can be deleted.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>max_deleted_fields: i32,
+    <span class="doccomment">/// The maximum number of draft revisions that will be kept before deleting
+    /// old drafts.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>max_draft_revisions: i32,
+    <span class="doccomment">/// The limits for Fields.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>field_limits: ::core::option::Option&lt;FieldLimits&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `LabelLock`.
-</span><span class="kw">pub mod </span>label_lock {
-    <span class="doccomment">/// A description of a user's capabilities on a LabelLock.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Capabilities {
-        <span class="doccomment">/// True if the user is authorized to view the policy.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>can_view_policy: bool,
-    }
-    <span class="doccomment">/// A description of a LabelLock's state.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unknown state.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The LabelLock is active and is being enforced by the server.
-        </span>Active = <span class="number">1</span>,
-        <span class="doccomment">/// The LabelLock is being deleted.  The LabelLock will continue to be
-        /// enforced by the server until it has been fully removed.
-        </span>Deleting = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Active =&gt; <span class="string">"ACTIVE"</span>,
-                State::Deleting =&gt; <span class="string">"DELETING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
+<span class="doccomment">/// Field constants governing the structure of a Field; such as, the maximum
+/// title length, minimum and maximum field values or length, etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FieldLimits {
+    <span class="doccomment">/// Max length for the id.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>max_id_length: i32,
+    <span class="doccomment">/// Limits for Field title.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_display_name_length: i32,
+    <span class="doccomment">/// Limits for Field description, also called help text.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_description_length: i32,
+    <span class="doccomment">/// The relevant limits for the specified Field.Type.
+    /// Text Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>text_limits: ::core::option::Option&lt;TextLimits&gt;,
+    <span class="doccomment">/// Long text Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>long_text_limits: ::core::option::Option&lt;LongTextLimits&gt;,
+    <span class="doccomment">/// Integer Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>integer_limits: ::core::option::Option&lt;IntegerLimits&gt;,
+    <span class="doccomment">/// Date Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>date_limits: ::core::option::Option&lt;DateLimits&gt;,
+    <span class="doccomment">/// User Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>user_limits: ::core::option::Option&lt;UserLimits&gt;,
+    <span class="doccomment">/// Selection Field limits.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>selection_limits: ::core::option::Option&lt;SelectionLimits&gt;,
+}
+<span class="doccomment">/// Limits for list-variant of a Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListLimits {
+    <span class="doccomment">/// Maximum number of values allowed for the Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>max_entries: i32,
+}
+<span class="doccomment">/// Limits for text Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextLimits {
+    <span class="doccomment">/// Minimum length allowed for a text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_length: i32,
+    <span class="doccomment">/// Maximum length allowed for a text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_length: i32,
+}
+<span class="doccomment">/// Limits for long text Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LongTextLimits {
+    <span class="doccomment">/// Minimum length allowed for a long text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_length: i32,
+    <span class="doccomment">/// Maximum length allowed for a long text Field type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_length: i32,
+}
+<span class="doccomment">/// Limits for integer Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>IntegerLimits {
+    <span class="doccomment">/// Minimum value for an integer Field type.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_value: i64,
+    <span class="doccomment">/// Maximum value for an integer Field type.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_value: i64,
+}
+<span class="doccomment">/// Limits for date Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DateLimits {
+    <span class="doccomment">/// Minimum value for the date Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+    <span class="doccomment">/// Maximum value for the date Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
+}
+<span class="doccomment">/// Limits for selection Field type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SelectionLimits {
+    <span class="doccomment">/// Limits for list-variant of a Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
+    <span class="doccomment">/// Maximum ID length for a selection options.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_id_length: i32,
+    <span class="doccomment">/// Maximum length for display name.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_display_name_length: i32,
+    <span class="doccomment">/// The max number of choices.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>max_choices: i32,
+    <span class="doccomment">/// Maximum number of deleted choices.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>max_deleted_choices: i32,
+}
+<span class="doccomment">/// Limits for Field.Type.USER.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UserLimits {
+    <span class="doccomment">/// Limits for list-variant of a Field type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
 }
 <span class="doccomment">/// The permission that applies to a principal (user, group, audience) on a
 /// label.
@@ -4449,6 +4501,96 @@
         /// organization that owns the Label.
         </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
         </span>Audience(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// A Lock that can be applied to a Label, Field, or Choice.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LabelLock {
+    <span class="doccomment">/// Output only. Resource name of this LabelLock.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the Field that should be locked.  Empty if the whole
+    /// Label should be locked.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>field_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The ID of the Selection Field Choice that should be locked.  If present,
+    /// `field_id` must also be present.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>choice_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The time this LabelLock was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The user whose credentials were used to create the LabelLock.
+    /// This will not be present if no user was responsible for creating the
+    /// LabelLock.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>creator: ::core::option::Option&lt;UserInfo&gt;,
+    <span class="doccomment">/// Output only. A timestamp indicating when this LabelLock was scheduled for
+    /// deletion. This will be present only if this LabelLock is in the DELETING
+    /// state.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>delete_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The user's capabilities on this LabelLock.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>capabilities: ::core::option::Option&lt;label_lock::Capabilities&gt;,
+    <span class="doccomment">/// Output only. This LabelLock's state.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"label_lock::State"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `LabelLock`.
+</span><span class="kw">pub mod </span>label_lock {
+    <span class="doccomment">/// A description of a user's capabilities on a LabelLock.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Capabilities {
+        <span class="doccomment">/// True if the user is authorized to view the policy.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>can_view_policy: bool,
+    }
+    <span class="doccomment">/// A description of a LabelLock's state.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unknown state.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The LabelLock is active and is being enforced by the server.
+        </span>Active = <span class="number">1</span>,
+        <span class="doccomment">/// The LabelLock is being deleted.  The LabelLock will continue to be
+        /// enforced by the server until it has been fully removed.
+        </span>Deleting = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Active =&gt; <span class="string">"ACTIVE"</span>,
+                State::Deleting =&gt; <span class="string">"DELETING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+                <span class="string">"DELETING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deleting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
     }
 }
 <span class="doccomment">/// Provides control over how write requests are executed. When not specified,
@@ -4878,7 +5020,7 @@
     }
     <span class="doccomment">/// Response following update to Label properties.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UpdateLabelPropertiesResponse {}
     <span class="doccomment">/// Response following Field create.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4895,7 +5037,7 @@
     }
     <span class="doccomment">/// Response following update to Field properties.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UpdateFieldPropertiesResponse {
         <span class="doccomment">/// The priority of the updated field. The priority may change from what
         /// was specified to assure contiguous priorities between fields (1-n).
@@ -4904,19 +5046,19 @@
     }
     <span class="doccomment">/// Response following update to Field type.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UpdateFieldTypeResponse {}
     <span class="doccomment">/// Response following Field enable.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>EnableFieldResponse {}
     <span class="doccomment">/// Response following Field disable.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DisableFieldResponse {}
     <span class="doccomment">/// Response following Field delete.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DeleteFieldResponse {}
     <span class="doccomment">/// Response following Selection Choice create.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4931,7 +5073,7 @@
     }
     <span class="doccomment">/// Response following update to Selection Choice properties.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UpdateSelectionChoicePropertiesResponse {
         <span class="doccomment">/// The priority of the updated choice. The priority may change from what
         /// was specified to assure contiguous priorities between choices (1-n).
@@ -4940,15 +5082,15 @@
     }
     <span class="doccomment">/// Response following Choice enable.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>EnableSelectionChoiceResponse {}
     <span class="doccomment">/// Response following Choice disable.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DisableSelectionChoiceResponse {}
     <span class="doccomment">/// Response following Choice delete.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DeleteSelectionChoiceResponse {}
 }
 <span class="doccomment">/// Request to update the `CopyMode` of the given Label. Changes to this policy
@@ -5025,7 +5167,7 @@
 <span class="doccomment">/// Nested message and enum types in `ListLabelsRequest`.
 </span><span class="kw">pub mod </span>list_labels_request {
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Access {
         <span class="doccomment">/// Set to `true` in order to use the user's admin credentials. This will
         /// return all Labels within the customer.
@@ -5313,321 +5455,6 @@
         <span class="kw">match </span>value {
             <span class="string">"LABEL_VIEW_BASIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Basic),
             <span class="string">"LABEL_VIEW_FULL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Full),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Label constraints governing the structure of a Label; such as, the maximum
-/// number of Fields allowed and maximum length of the label title.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LabelLimits {
-    <span class="doccomment">/// Resource name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of characters allowed for the title.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_title_length: i32,
-    <span class="doccomment">/// The maximum number of characters allowed for the description.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_description_length: i32,
-    <span class="doccomment">/// The maximum number of Fields allowed within the label.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>max_fields: i32,
-    <span class="doccomment">/// The maximum number of published Fields that can be deleted.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>max_deleted_fields: i32,
-    <span class="doccomment">/// The maximum number of draft revisions that will be kept before deleting
-    /// old drafts.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>max_draft_revisions: i32,
-    <span class="doccomment">/// The limits for Fields.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>field_limits: ::core::option::Option&lt;FieldLimits&gt;,
-}
-<span class="doccomment">/// Field constants governing the structure of a Field; such as, the maximum
-/// title length, minimum and maximum field values or length, etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FieldLimits {
-    <span class="doccomment">/// Max length for the id.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>max_id_length: i32,
-    <span class="doccomment">/// Limits for Field title.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_display_name_length: i32,
-    <span class="doccomment">/// Limits for Field description, also called help text.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_description_length: i32,
-    <span class="doccomment">/// The relevant limits for the specified Field.Type.
-    /// Text Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>text_limits: ::core::option::Option&lt;TextLimits&gt;,
-    <span class="doccomment">/// Long text Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>long_text_limits: ::core::option::Option&lt;LongTextLimits&gt;,
-    <span class="doccomment">/// Integer Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>integer_limits: ::core::option::Option&lt;IntegerLimits&gt;,
-    <span class="doccomment">/// Date Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>date_limits: ::core::option::Option&lt;DateLimits&gt;,
-    <span class="doccomment">/// User Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>user_limits: ::core::option::Option&lt;UserLimits&gt;,
-    <span class="doccomment">/// Selection Field limits.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>selection_limits: ::core::option::Option&lt;SelectionLimits&gt;,
-}
-<span class="doccomment">/// Limits for list-variant of a Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListLimits {
-    <span class="doccomment">/// Maximum number of values allowed for the Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>max_entries: i32,
-}
-<span class="doccomment">/// Limits for text Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextLimits {
-    <span class="doccomment">/// Minimum length allowed for a text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_length: i32,
-    <span class="doccomment">/// Maximum length allowed for a text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_length: i32,
-}
-<span class="doccomment">/// Limits for long text Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LongTextLimits {
-    <span class="doccomment">/// Minimum length allowed for a long text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_length: i32,
-    <span class="doccomment">/// Maximum length allowed for a long text Field type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_length: i32,
-}
-<span class="doccomment">/// Limits for integer Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>IntegerLimits {
-    <span class="doccomment">/// Minimum value for an integer Field type.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_value: i64,
-    <span class="doccomment">/// Maximum value for an integer Field type.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_value: i64,
-}
-<span class="doccomment">/// Limits for date Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DateLimits {
-    <span class="doccomment">/// Minimum value for the date Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-    <span class="doccomment">/// Maximum value for the date Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_value: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Date&gt;,
-}
-<span class="doccomment">/// Limits for selection Field type.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SelectionLimits {
-    <span class="doccomment">/// Limits for list-variant of a Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
-    <span class="doccomment">/// Maximum ID length for a selection options.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_id_length: i32,
-    <span class="doccomment">/// Maximum length for display name.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_display_name_length: i32,
-    <span class="doccomment">/// The max number of choices.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>max_choices: i32,
-    <span class="doccomment">/// Maximum number of deleted choices.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>max_deleted_choices: i32,
-}
-<span class="doccomment">/// Limits for Field.Type.USER.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UserLimits {
-    <span class="doccomment">/// Limits for list-variant of a Field type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>list_limits: ::core::option::Option&lt;ListLimits&gt;,
-}
-<span class="doccomment">/// Exception detail.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExceptionDetail {
-    <span class="doccomment">/// The type of exception that occurred. Required.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ExceptionType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>error_type: i32,
-}
-<span class="doccomment">/// Every ExceptionType maps to one and only one Exception class. This allows
-/// internal clients to identify the exact server exception that caused the
-/// error for debugging and logging purposes.
-/// Add new ExceptionTypes to EXCEPTION_TYPE_TO_ERROR_CODE_MAP in
-/// j/c/g/apps/boq/metadata/model/service/exceptions/CategoryExceptionHelper
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ExceptionType {
-    <span class="doccomment">/// Unknown ExceptionType.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The required field is missing.
-    </span>FieldRequired = <span class="number">1</span>,
-    <span class="doccomment">/// Unable to create a metamodel with the given ID because it already exists.
-    </span>MetamodelAlreadyExists = <span class="number">2</span>,
-    <span class="doccomment">/// Metamodel was not found
-    </span>MetamodelNotFound = <span class="number">3</span>,
-    <span class="doccomment">/// Metamodel state transition isn't allowed.
-    </span>IllegalMetamodelStateTransition = <span class="number">4</span>,
-    <span class="doccomment">/// Metamodel deprecation policy is invalid.
-    </span>InvalidMetamodelDeprecationPolicy = <span class="number">5</span>,
-    <span class="doccomment">/// Cannot delete a metamodel due to the pending deprecation policy.
-    </span>MetamodelDeletionDeniedUntil = <span class="number">6</span>,
-    <span class="doccomment">/// A Field value is invalid.
-    </span>InvalidField = <span class="number">7</span>,
-    <span class="doccomment">/// Precondition failed when updating a metamodel
-    </span>MetamodelPreconditionFailed = <span class="number">8</span>,
-    <span class="doccomment">/// Multiple fields had the same key.
-    </span>DuplicateFieldKey = <span class="number">9</span>,
-    <span class="doccomment">/// Removing a field from a Metamodel (e.g. a published Metamodel) is not
-    /// permitted.
-    </span>IllegalFieldRemoval = <span class="number">10</span>,
-    <span class="doccomment">/// Cannot specify field options for a different field type.
-    </span>IllegalFieldOptionsForField = <span class="number">11</span>,
-    <span class="doccomment">/// Some changes are not supported
-    </span>UnsupportedChangeToPublishedMetamodel = <span class="number">12</span>,
-    <span class="doccomment">/// Cannot change the metamodel state in an update
-    </span>IllegalMetamodelStateTransitionInUpdate = <span class="number">13</span>,
-    <span class="doccomment">/// The page token is expired
-    </span>PageTokenExpired = <span class="number">14</span>,
-    <span class="doccomment">/// The user is not authorized to make the request.
-    </span>NotAuthorized = <span class="number">15</span>,
-    <span class="doccomment">/// Illegal field state transition
-    </span>IllegalFieldStateTransition = <span class="number">16</span>,
-    <span class="doccomment">/// Illegal choice set option state transition
-    </span>IllegalChoiceSetOptionStateTransition = <span class="number">17</span>,
-    <span class="doccomment">/// Invalid choice set options
-    </span>InvalidChoiceSetOptions = <span class="number">18</span>,
-    <span class="doccomment">/// Invalid field key
-    </span>InvalidFieldKey = <span class="number">19</span>,
-    <span class="doccomment">/// A specified property on a field is outside the allowed range.
-    </span>InvalidFieldPropertyRange = <span class="number">20</span>,
-    <span class="doccomment">/// A localized string wasn't valid. This may be because the locale is invalid,
-    /// its missing a default value, or the translation is empty for a set locale.
-    </span>InvalidLocalizedString = <span class="number">21</span>,
-    <span class="doccomment">/// cannot change a property on a published field
-    </span>IllegalChangeToPublishedField = <span class="number">22</span>,
-    <span class="doccomment">/// A field update is not inclusive of the previous value
-    </span>InvalidFieldUpdateNotInclusive = <span class="number">23</span>,
-    <span class="doccomment">/// A field update is not inclusive of the previous value
-    </span>InvalidChoiceSetState = <span class="number">24</span>,
-    <span class="doccomment">/// An unknown error occurred
-    </span>InternalServerError = <span class="number">500</span>,
-}
-<span class="kw">impl </span>ExceptionType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ExceptionType::Unspecified =&gt; <span class="string">"EXCEPTION_TYPE_UNSPECIFIED"</span>,
-            ExceptionType::FieldRequired =&gt; <span class="string">"FIELD_REQUIRED"</span>,
-            ExceptionType::MetamodelAlreadyExists =&gt; <span class="string">"METAMODEL_ALREADY_EXISTS"</span>,
-            ExceptionType::MetamodelNotFound =&gt; <span class="string">"METAMODEL_NOT_FOUND"</span>,
-            ExceptionType::IllegalMetamodelStateTransition =&gt; {
-                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION"
-            </span>}
-            ExceptionType::InvalidMetamodelDeprecationPolicy =&gt; {
-                <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY"
-            </span>}
-            ExceptionType::MetamodelDeletionDeniedUntil =&gt; {
-                <span class="string">"METAMODEL_DELETION_DENIED_UNTIL"
-            </span>}
-            ExceptionType::InvalidField =&gt; <span class="string">"INVALID_FIELD"</span>,
-            ExceptionType::MetamodelPreconditionFailed =&gt; <span class="string">"METAMODEL_PRECONDITION_FAILED"</span>,
-            ExceptionType::DuplicateFieldKey =&gt; <span class="string">"DUPLICATE_FIELD_KEY"</span>,
-            ExceptionType::IllegalFieldRemoval =&gt; <span class="string">"ILLEGAL_FIELD_REMOVAL"</span>,
-            ExceptionType::IllegalFieldOptionsForField =&gt; {
-                <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD"
-            </span>}
-            ExceptionType::UnsupportedChangeToPublishedMetamodel =&gt; {
-                <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL"
-            </span>}
-            ExceptionType::IllegalMetamodelStateTransitionInUpdate =&gt; {
-                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE"
-            </span>}
-            ExceptionType::PageTokenExpired =&gt; <span class="string">"PAGE_TOKEN_EXPIRED"</span>,
-            ExceptionType::NotAuthorized =&gt; <span class="string">"NOT_AUTHORIZED"</span>,
-            ExceptionType::IllegalFieldStateTransition =&gt; {
-                <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION"
-            </span>}
-            ExceptionType::IllegalChoiceSetOptionStateTransition =&gt; {
-                <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION"
-            </span>}
-            ExceptionType::InvalidChoiceSetOptions =&gt; <span class="string">"INVALID_CHOICE_SET_OPTIONS"</span>,
-            ExceptionType::InvalidFieldKey =&gt; <span class="string">"INVALID_FIELD_KEY"</span>,
-            ExceptionType::InvalidFieldPropertyRange =&gt; <span class="string">"INVALID_FIELD_PROPERTY_RANGE"</span>,
-            ExceptionType::InvalidLocalizedString =&gt; <span class="string">"INVALID_LOCALIZED_STRING"</span>,
-            ExceptionType::IllegalChangeToPublishedField =&gt; {
-                <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD"
-            </span>}
-            ExceptionType::InvalidFieldUpdateNotInclusive =&gt; {
-                <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE"
-            </span>}
-            ExceptionType::InvalidChoiceSetState =&gt; <span class="string">"INVALID_CHOICE_SET_STATE"</span>,
-            ExceptionType::InternalServerError =&gt; <span class="string">"INTERNAL_SERVER_ERROR"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"EXCEPTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"FIELD_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldRequired),
-            <span class="string">"METAMODEL_ALREADY_EXISTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelAlreadyExists),
-            <span class="string">"METAMODEL_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelNotFound),
-            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransition)
-            }
-            <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidMetamodelDeprecationPolicy)
-            }
-            <span class="string">"METAMODEL_DELETION_DENIED_UNTIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelDeletionDeniedUntil),
-            <span class="string">"INVALID_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidField),
-            <span class="string">"METAMODEL_PRECONDITION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelPreconditionFailed),
-            <span class="string">"DUPLICATE_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateFieldKey),
-            <span class="string">"ILLEGAL_FIELD_REMOVAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldRemoval),
-            <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldOptionsForField),
-            <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedChangeToPublishedMetamodel)
-            }
-            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransitionInUpdate)
-            }
-            <span class="string">"PAGE_TOKEN_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PageTokenExpired),
-            <span class="string">"NOT_AUTHORIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAuthorized),
-            <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldStateTransition),
-            <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChoiceSetOptionStateTransition)
-            }
-            <span class="string">"INVALID_CHOICE_SET_OPTIONS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetOptions),
-            <span class="string">"INVALID_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldKey),
-            <span class="string">"INVALID_FIELD_PROPERTY_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldPropertyRange),
-            <span class="string">"INVALID_LOCALIZED_STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidLocalizedString),
-            <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChangeToPublishedField)
-            }
-            <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE" </span>=&gt; {
-                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldUpdateNotInclusive)
-            }
-            <span class="string">"INVALID_CHOICE_SET_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetState),
-            <span class="string">"INTERNAL_SERVER_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalServerError),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
@@ -6310,6 +6137,179 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
+    }
+}
+<span class="doccomment">/// Exception detail.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExceptionDetail {
+    <span class="doccomment">/// The type of exception that occurred. Required.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ExceptionType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>error_type: i32,
+}
+<span class="doccomment">/// Every ExceptionType maps to one and only one Exception class. This allows
+/// internal clients to identify the exact server exception that caused the
+/// error for debugging and logging purposes.
+/// Add new ExceptionTypes to EXCEPTION_TYPE_TO_ERROR_CODE_MAP in
+/// j/c/g/apps/boq/metadata/model/service/exceptions/CategoryExceptionHelper
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ExceptionType {
+    <span class="doccomment">/// Unknown ExceptionType.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The required field is missing.
+    </span>FieldRequired = <span class="number">1</span>,
+    <span class="doccomment">/// Unable to create a metamodel with the given ID because it already exists.
+    </span>MetamodelAlreadyExists = <span class="number">2</span>,
+    <span class="doccomment">/// Metamodel was not found
+    </span>MetamodelNotFound = <span class="number">3</span>,
+    <span class="doccomment">/// Metamodel state transition isn't allowed.
+    </span>IllegalMetamodelStateTransition = <span class="number">4</span>,
+    <span class="doccomment">/// Metamodel deprecation policy is invalid.
+    </span>InvalidMetamodelDeprecationPolicy = <span class="number">5</span>,
+    <span class="doccomment">/// Cannot delete a metamodel due to the pending deprecation policy.
+    </span>MetamodelDeletionDeniedUntil = <span class="number">6</span>,
+    <span class="doccomment">/// A Field value is invalid.
+    </span>InvalidField = <span class="number">7</span>,
+    <span class="doccomment">/// Precondition failed when updating a metamodel
+    </span>MetamodelPreconditionFailed = <span class="number">8</span>,
+    <span class="doccomment">/// Multiple fields had the same key.
+    </span>DuplicateFieldKey = <span class="number">9</span>,
+    <span class="doccomment">/// Removing a field from a Metamodel (e.g. a published Metamodel) is not
+    /// permitted.
+    </span>IllegalFieldRemoval = <span class="number">10</span>,
+    <span class="doccomment">/// Cannot specify field options for a different field type.
+    </span>IllegalFieldOptionsForField = <span class="number">11</span>,
+    <span class="doccomment">/// Some changes are not supported
+    </span>UnsupportedChangeToPublishedMetamodel = <span class="number">12</span>,
+    <span class="doccomment">/// Cannot change the metamodel state in an update
+    </span>IllegalMetamodelStateTransitionInUpdate = <span class="number">13</span>,
+    <span class="doccomment">/// The page token is expired
+    </span>PageTokenExpired = <span class="number">14</span>,
+    <span class="doccomment">/// The user is not authorized to make the request.
+    </span>NotAuthorized = <span class="number">15</span>,
+    <span class="doccomment">/// Illegal field state transition
+    </span>IllegalFieldStateTransition = <span class="number">16</span>,
+    <span class="doccomment">/// Illegal choice set option state transition
+    </span>IllegalChoiceSetOptionStateTransition = <span class="number">17</span>,
+    <span class="doccomment">/// Invalid choice set options
+    </span>InvalidChoiceSetOptions = <span class="number">18</span>,
+    <span class="doccomment">/// Invalid field key
+    </span>InvalidFieldKey = <span class="number">19</span>,
+    <span class="doccomment">/// A specified property on a field is outside the allowed range.
+    </span>InvalidFieldPropertyRange = <span class="number">20</span>,
+    <span class="doccomment">/// A localized string wasn't valid. This may be because the locale is invalid,
+    /// its missing a default value, or the translation is empty for a set locale.
+    </span>InvalidLocalizedString = <span class="number">21</span>,
+    <span class="doccomment">/// cannot change a property on a published field
+    </span>IllegalChangeToPublishedField = <span class="number">22</span>,
+    <span class="doccomment">/// A field update is not inclusive of the previous value
+    </span>InvalidFieldUpdateNotInclusive = <span class="number">23</span>,
+    <span class="doccomment">/// A field update is not inclusive of the previous value
+    </span>InvalidChoiceSetState = <span class="number">24</span>,
+    <span class="doccomment">/// An unknown error occurred
+    </span>InternalServerError = <span class="number">500</span>,
+}
+<span class="kw">impl </span>ExceptionType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ExceptionType::Unspecified =&gt; <span class="string">"EXCEPTION_TYPE_UNSPECIFIED"</span>,
+            ExceptionType::FieldRequired =&gt; <span class="string">"FIELD_REQUIRED"</span>,
+            ExceptionType::MetamodelAlreadyExists =&gt; <span class="string">"METAMODEL_ALREADY_EXISTS"</span>,
+            ExceptionType::MetamodelNotFound =&gt; <span class="string">"METAMODEL_NOT_FOUND"</span>,
+            ExceptionType::IllegalMetamodelStateTransition =&gt; {
+                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION"
+            </span>}
+            ExceptionType::InvalidMetamodelDeprecationPolicy =&gt; {
+                <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY"
+            </span>}
+            ExceptionType::MetamodelDeletionDeniedUntil =&gt; {
+                <span class="string">"METAMODEL_DELETION_DENIED_UNTIL"
+            </span>}
+            ExceptionType::InvalidField =&gt; <span class="string">"INVALID_FIELD"</span>,
+            ExceptionType::MetamodelPreconditionFailed =&gt; <span class="string">"METAMODEL_PRECONDITION_FAILED"</span>,
+            ExceptionType::DuplicateFieldKey =&gt; <span class="string">"DUPLICATE_FIELD_KEY"</span>,
+            ExceptionType::IllegalFieldRemoval =&gt; <span class="string">"ILLEGAL_FIELD_REMOVAL"</span>,
+            ExceptionType::IllegalFieldOptionsForField =&gt; {
+                <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD"
+            </span>}
+            ExceptionType::UnsupportedChangeToPublishedMetamodel =&gt; {
+                <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL"
+            </span>}
+            ExceptionType::IllegalMetamodelStateTransitionInUpdate =&gt; {
+                <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE"
+            </span>}
+            ExceptionType::PageTokenExpired =&gt; <span class="string">"PAGE_TOKEN_EXPIRED"</span>,
+            ExceptionType::NotAuthorized =&gt; <span class="string">"NOT_AUTHORIZED"</span>,
+            ExceptionType::IllegalFieldStateTransition =&gt; {
+                <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION"
+            </span>}
+            ExceptionType::IllegalChoiceSetOptionStateTransition =&gt; {
+                <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION"
+            </span>}
+            ExceptionType::InvalidChoiceSetOptions =&gt; <span class="string">"INVALID_CHOICE_SET_OPTIONS"</span>,
+            ExceptionType::InvalidFieldKey =&gt; <span class="string">"INVALID_FIELD_KEY"</span>,
+            ExceptionType::InvalidFieldPropertyRange =&gt; <span class="string">"INVALID_FIELD_PROPERTY_RANGE"</span>,
+            ExceptionType::InvalidLocalizedString =&gt; <span class="string">"INVALID_LOCALIZED_STRING"</span>,
+            ExceptionType::IllegalChangeToPublishedField =&gt; {
+                <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD"
+            </span>}
+            ExceptionType::InvalidFieldUpdateNotInclusive =&gt; {
+                <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE"
+            </span>}
+            ExceptionType::InvalidChoiceSetState =&gt; <span class="string">"INVALID_CHOICE_SET_STATE"</span>,
+            ExceptionType::InternalServerError =&gt; <span class="string">"INTERNAL_SERVER_ERROR"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"EXCEPTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"FIELD_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FieldRequired),
+            <span class="string">"METAMODEL_ALREADY_EXISTS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelAlreadyExists),
+            <span class="string">"METAMODEL_NOT_FOUND" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelNotFound),
+            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransition)
+            }
+            <span class="string">"INVALID_METAMODEL_DEPRECATION_POLICY" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidMetamodelDeprecationPolicy)
+            }
+            <span class="string">"METAMODEL_DELETION_DENIED_UNTIL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelDeletionDeniedUntil),
+            <span class="string">"INVALID_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidField),
+            <span class="string">"METAMODEL_PRECONDITION_FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetamodelPreconditionFailed),
+            <span class="string">"DUPLICATE_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DuplicateFieldKey),
+            <span class="string">"ILLEGAL_FIELD_REMOVAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldRemoval),
+            <span class="string">"ILLEGAL_FIELD_OPTIONS_FOR_FIELD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldOptionsForField),
+            <span class="string">"UNSUPPORTED_CHANGE_TO_PUBLISHED_METAMODEL" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::UnsupportedChangeToPublishedMetamodel)
+            }
+            <span class="string">"ILLEGAL_METAMODEL_STATE_TRANSITION_IN_UPDATE" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalMetamodelStateTransitionInUpdate)
+            }
+            <span class="string">"PAGE_TOKEN_EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PageTokenExpired),
+            <span class="string">"NOT_AUTHORIZED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotAuthorized),
+            <span class="string">"ILLEGAL_FIELD_STATE_TRANSITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalFieldStateTransition),
+            <span class="string">"ILLEGAL_CHOICE_SET_OPTION_STATE_TRANSITION" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChoiceSetOptionStateTransition)
+            }
+            <span class="string">"INVALID_CHOICE_SET_OPTIONS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetOptions),
+            <span class="string">"INVALID_FIELD_KEY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldKey),
+            <span class="string">"INVALID_FIELD_PROPERTY_RANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldPropertyRange),
+            <span class="string">"INVALID_LOCALIZED_STRING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidLocalizedString),
+            <span class="string">"ILLEGAL_CHANGE_TO_PUBLISHED_FIELD" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::IllegalChangeToPublishedField)
+            }
+            <span class="string">"INVALID_FIELD_UPDATE_NOT_INCLUSIVE" </span>=&gt; {
+                <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidFieldUpdateNotInclusive)
+            }
+            <span class="string">"INVALID_CHOICE_SET_STATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InvalidChoiceSetState),
+            <span class="string">"INTERNAL_SERVER_ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InternalServerError),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
     }
 }
 </code></pre></div></section></main></body></html>

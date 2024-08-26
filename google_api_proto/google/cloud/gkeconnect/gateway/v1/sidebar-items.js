@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["gateway_service_client"]};
+window.SIDEBAR_ITEMS = {"mod":["gateway_control_client","generate_credentials_request"],"struct":["GenerateCredentialsRequest","GenerateCredentialsResponse"]};

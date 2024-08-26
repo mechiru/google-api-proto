@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/ai/generativelanguage/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/ai/generativelanguage/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1259,12 +1259,77 @@
 <a href="#1259" id="1259">1259</a>
 <a href="#1260" id="1260">1260</a>
 <a href="#1261" id="1261">1261</a>
+<a href="#1262" id="1262">1262</a>
+<a href="#1263" id="1263">1263</a>
+<a href="#1264" id="1264">1264</a>
+<a href="#1265" id="1265">1265</a>
+<a href="#1266" id="1266">1266</a>
+<a href="#1267" id="1267">1267</a>
+<a href="#1268" id="1268">1268</a>
+<a href="#1269" id="1269">1269</a>
+<a href="#1270" id="1270">1270</a>
+<a href="#1271" id="1271">1271</a>
+<a href="#1272" id="1272">1272</a>
+<a href="#1273" id="1273">1273</a>
+<a href="#1274" id="1274">1274</a>
+<a href="#1275" id="1275">1275</a>
+<a href="#1276" id="1276">1276</a>
+<a href="#1277" id="1277">1277</a>
+<a href="#1278" id="1278">1278</a>
+<a href="#1279" id="1279">1279</a>
+<a href="#1280" id="1280">1280</a>
+<a href="#1281" id="1281">1281</a>
+<a href="#1282" id="1282">1282</a>
+<a href="#1283" id="1283">1283</a>
+<a href="#1284" id="1284">1284</a>
+<a href="#1285" id="1285">1285</a>
+<a href="#1286" id="1286">1286</a>
+<a href="#1287" id="1287">1287</a>
+<a href="#1288" id="1288">1288</a>
+<a href="#1289" id="1289">1289</a>
+<a href="#1290" id="1290">1290</a>
+<a href="#1291" id="1291">1291</a>
+<a href="#1292" id="1292">1292</a>
+<a href="#1293" id="1293">1293</a>
+<a href="#1294" id="1294">1294</a>
+<a href="#1295" id="1295">1295</a>
+<a href="#1296" id="1296">1296</a>
+<a href="#1297" id="1297">1297</a>
+<a href="#1298" id="1298">1298</a>
+<a href="#1299" id="1299">1299</a>
+<a href="#1300" id="1300">1300</a>
+<a href="#1301" id="1301">1301</a>
+<a href="#1302" id="1302">1302</a>
+<a href="#1303" id="1303">1303</a>
+<a href="#1304" id="1304">1304</a>
+<a href="#1305" id="1305">1305</a>
+<a href="#1306" id="1306">1306</a>
+<a href="#1307" id="1307">1307</a>
+<a href="#1308" id="1308">1308</a>
+<a href="#1309" id="1309">1309</a>
+<a href="#1310" id="1310">1310</a>
+<a href="#1311" id="1311">1311</a>
+<a href="#1312" id="1312">1312</a>
+<a href="#1313" id="1313">1313</a>
+<a href="#1314" id="1314">1314</a>
+<a href="#1315" id="1315">1315</a>
+<a href="#1316" id="1316">1316</a>
+<a href="#1317" id="1317">1317</a>
+<a href="#1318" id="1318">1318</a>
+<a href="#1319" id="1319">1319</a>
+<a href="#1320" id="1320">1320</a>
+<a href="#1321" id="1321">1321</a>
+<a href="#1322" id="1322">1322</a>
+<a href="#1323" id="1323">1323</a>
+<a href="#1324" id="1324">1324</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Information about a Generative Language Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Model {
-    <span class="doccomment">/// Required. The resource name of the `Model`.
+    <span class="doccomment">/// Required. The resource name of the `Model`. Refer to [Model
+    /// variants](&lt;https://ai.google.dev/gemini-api/docs/models/gemini#model-variations&gt;)
+    /// for all allowed values.
     ///
     /// Format: `models/{model}` with a `{model}` naming convention of:
     ///
@@ -1272,22 +1337,22 @@
     ///
     /// Examples:
     ///
-    /// * `models/chat-bison-001`
+    /// * `models/gemini-1.5-flash-001`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The name of the base model, pass this to the generation request.
     ///
     /// Examples:
     ///
-    /// * `chat-bison`
+    /// * `gemini-1.5-flash`
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The version number of the model.
     ///
-    /// This represents the major version
+    /// This represents the major version (`1.0` or `1.5`)
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human-readable name of the model. E.g. "Chat Bison".
+    <span class="doccomment">/// The human-readable name of the model. E.g. "Gemini 1.5 Flash".
     ///
     /// The name can be up to 128 characters long and can consist of any UTF-8
     /// characters.
@@ -1304,22 +1369,26 @@
     </span><span class="kw">pub </span>output_token_limit: i32,
     <span class="doccomment">/// The model's supported generation methods.
     ///
-    /// The method names are defined as Pascal case
-    /// strings, such as `generateMessage` which correspond to API methods.
+    /// The corresponding API method names are defined as Pascal case
+    /// strings, such as `generateMessage` and `generateContent`.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>supported_generation_methods: ::prost::alloc::vec::Vec&lt;
         ::prost::alloc::string::String,
     &gt;,
     <span class="doccomment">/// Controls the randomness of the output.
     ///
-    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
-    /// produce responses that are more varied, while a value closer to `0.0` will
-    /// typically result in less surprising responses from the model.
+    /// Values can range over `\[0.0,max_temperature\]`, inclusive. A higher value
+    /// will produce responses that are more varied, while a value closer to `0.0`
+    /// will typically result in less surprising responses from the model.
     /// This value specifies default to be used by the backend while making the
     /// call to the model.
     </span><span class="attr">#[prost(float, optional, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// For Nucleus sampling.
+    <span class="doccomment">/// The maximum temperature this model can use.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>max_temperature: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// For [Nucleus
+    /// sampling](&lt;https://ai.google.dev/gemini-api/docs/prompting-strategies#top-p&gt;).
     ///
     /// Nucleus sampling considers the smallest set of tokens whose probability
     /// sum is at least `top_p`.
@@ -1336,6 +1405,70 @@
     /// allowed as a generation parameter.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// The base structured datatype containing multi-part content of a message.
+///
+/// A `Content` includes a `role` field designating the producer of the `Content`
+/// and a `parts` field containing multi-part data that contains the content of
+/// the message turn.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Content {
+    <span class="doccomment">/// Ordered `Parts` that constitute a single message. Parts may have different
+    /// MIME types.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parts: ::prost::alloc::vec::Vec&lt;Part&gt;,
+    <span class="doccomment">/// Optional. The producer of the content. Must be either 'user' or 'model'.
+    ///
+    /// Useful to set for multi-turn conversations, otherwise can be left blank
+    /// or unset.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>role: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A datatype containing media that is part of a multi-part `Content` message.
+///
+/// A `Part` consists of data which has an associated datatype. A `Part` can only
+/// contain one of the accepted types in `Part.data`.
+///
+/// A `Part` must have a fixed IANA MIME type identifying the type and subtype
+/// of the media if the `inline_data` field is filled with raw bytes.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Part {
+    <span class="attr">#[prost(oneof = <span class="string">"part::Data"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>data: ::core::option::Option&lt;part::Data&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Part`.
+</span><span class="kw">pub mod </span>part {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Data {
+        <span class="doccomment">/// Inline text.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>Text(::prost::alloc::string::String),
+        <span class="doccomment">/// Inline media bytes.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>InlineData(<span class="kw">super</span>::Blob),
+    }
+}
+<span class="doccomment">/// Raw media bytes.
+///
+/// Text should not be sent as raw bytes, use the 'text' field.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Blob {
+    <span class="doccomment">/// The IANA standard MIME type of the source data.
+    /// Examples:
+    ///    - image/png
+    ///    - image/jpeg
+    /// If an unsupported MIME type is provided, an error will be returned. For a
+    /// complete list of supported types, see [Supported file
+    /// formats](&lt;https://ai.google.dev/gemini-api/docs/prompting_with_media#supported_file_formats&gt;).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Raw bytes for media formats.
+    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>data: ::prost::bytes::Bytes,
 }
 <span class="doccomment">/// Request for getting information about a specific Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -1355,8 +1488,7 @@
 </span><span class="kw">pub struct </span>ListModelsRequest {
     <span class="doccomment">/// The maximum number of `Models` to return (per page).
     ///
-    /// The service may return fewer models.
-    /// If unspecified, at most 50 models will be returned per page.
+    /// If unspecified, 50 models will be returned per page.
     /// This method returns at most 1000 models per page, even if you pass a larger
     /// page_size.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
@@ -1459,7 +1591,12 @@
             <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
             <span class="self">self
         </span>}
-        <span class="doccomment">/// Gets information about a specific Model.
+        <span class="doccomment">/// Gets information about a specific `Model` such as its version number, token
+        /// limits,
+        /// [parameters](https://ai.google.dev/gemini-api/docs/models/generative-models#model-parameters)
+        /// and other metadata. Refer to the [Gemini models
+        /// guide](https://ai.google.dev/gemini-api/docs/models/gemini) for detailed
+        /// model information.
         </span><span class="kw">pub async fn </span>get_model(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetModelRequest&gt;,
@@ -1487,7 +1624,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Lists models available through the API.
+        <span class="doccomment">/// Lists the [`Model`s](https://ai.google.dev/gemini-api/docs/models/gemini)
+        /// available through the Gemini API.
         </span><span class="kw">pub async fn </span>list_models(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListModelsRequest&gt;,
@@ -1528,7 +1666,7 @@
 /// harm categories and the probability of the harm classification is included
 /// here.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SafetyRating {
     <span class="doccomment">/// Required. The category for this rating.
     </span><span class="attr">#[prost(enumeration = <span class="string">"HarmCategory"</span>, tag = <span class="string">"3"</span>)]
@@ -1602,7 +1740,7 @@
 /// Passing a safety setting for a category changes the allowed probability that
 /// content is blocked.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SafetySetting {
     <span class="doccomment">/// Required. The category for this setting.
     </span><span class="attr">#[prost(enumeration = <span class="string">"HarmCategory"</span>, tag = <span class="string">"3"</span>)]
@@ -1765,70 +1903,6 @@
     </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>license: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
 }
-<span class="doccomment">/// The base structured datatype containing multi-part content of a message.
-///
-/// A `Content` includes a `role` field designating the producer of the `Content`
-/// and a `parts` field containing multi-part data that contains the content of
-/// the message turn.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Content {
-    <span class="doccomment">/// Ordered `Parts` that constitute a single message. Parts may have different
-    /// MIME types.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parts: ::prost::alloc::vec::Vec&lt;Part&gt;,
-    <span class="doccomment">/// Optional. The producer of the content. Must be either 'user' or 'model'.
-    ///
-    /// Useful to set for multi-turn conversations, otherwise can be left blank
-    /// or unset.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>role: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A datatype containing media that is part of a multi-part `Content` message.
-///
-/// A `Part` consists of data which has an associated datatype. A `Part` can only
-/// contain one of the accepted types in `Part.data`.
-///
-/// A `Part` must have a fixed IANA MIME type identifying the type and subtype
-/// of the media if the `inline_data` field is filled with raw bytes.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Part {
-    <span class="attr">#[prost(oneof = <span class="string">"part::Data"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>data: ::core::option::Option&lt;part::Data&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Part`.
-</span><span class="kw">pub mod </span>part {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Data {
-        <span class="doccomment">/// Inline text.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>Text(::prost::alloc::string::String),
-        <span class="doccomment">/// Inline media bytes.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>InlineData(<span class="kw">super</span>::Blob),
-    }
-}
-<span class="doccomment">/// Raw media bytes.
-///
-/// Text should not be sent as raw bytes, use the 'text' field.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Blob {
-    <span class="doccomment">/// The IANA standard MIME type of the source data.
-    /// Examples:
-    ///    - image/png
-    ///    - image/jpeg
-    /// If an unsupported MIME type is provided, an error will be returned. For a
-    /// complete list of supported types, see [Supported file
-    /// formats](&lt;https://ai.google.dev/gemini-api/docs/prompting_with_media#supported_file_formats&gt;).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Raw bytes for media formats.
-    </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>data: ::prost::bytes::Bytes,
-}
 <span class="doccomment">/// Request to generate a completion from the model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1840,9 +1914,10 @@
     </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The content of the current conversation with the model.
     ///
-    /// For single-turn queries, this is a single instance. For multi-turn queries,
-    /// this is a repeated field that contains conversation history + latest
-    /// request.
+    /// For single-turn queries, this is a single instance. For multi-turn queries
+    /// like [chat](&lt;https://ai.google.dev/gemini-api/docs/text-generation#chat&gt;),
+    /// this is a repeated field that contains the conversation history and the
+    /// latest request.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>contents: ::prost::alloc::vec::Vec&lt;Content&gt;,
     <span class="doccomment">/// Optional. A list of unique `SafetySetting` instances for blocking unsafe
@@ -1857,7 +1932,11 @@
     /// `SafetyCategory` provided in the list, the API will use the default safety
     /// setting for that category. Harm categories HARM_CATEGORY_HATE_SPEECH,
     /// HARM_CATEGORY_SEXUALLY_EXPLICIT, HARM_CATEGORY_DANGEROUS_CONTENT,
-    /// HARM_CATEGORY_HARASSMENT are supported.
+    /// HARM_CATEGORY_HARASSMENT are supported. Refer to the
+    /// [guide](&lt;https://ai.google.dev/gemini-api/docs/safety-settings&gt;)
+    /// for detailed information on available safety settings. Also refer to the
+    /// [Safety guidance](&lt;https://ai.google.dev/gemini-api/docs/safety-guidance&gt;) to
+    /// learn how to incorporate safety considerations in your AI applications.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>safety_settings: ::prost::alloc::vec::Vec&lt;SafetySetting&gt;,
     <span class="doccomment">/// Optional. Configuration options for model generation and outputs.
@@ -1865,7 +1944,7 @@
     </span><span class="kw">pub </span>generation_config: ::core::option::Option&lt;GenerationConfig&gt;,
 }
 <span class="doccomment">/// Configuration options for model generation and outputs. Not all parameters
-/// may be configurable for every model.
+/// are configurable for every model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GenerationConfig {
@@ -1877,11 +1956,11 @@
     </span><span class="kw">pub </span>candidate_count: ::core::option::Option&lt;i32&gt;,
     <span class="doccomment">/// Optional. The set of character sequences (up to 5) that will stop output
     /// generation. If specified, the API will stop at the first appearance of a
-    /// stop sequence. The stop sequence will not be included as part of the
+    /// `stop_sequence`. The stop sequence will not be included as part of the
     /// response.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>stop_sequences: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Optional. The maximum number of tokens to include in a candidate.
+    <span class="doccomment">/// Optional. The maximum number of tokens to include in a response candidate.
     ///
     /// Note: The default value varies by model, see the `Model.output_token_limit`
     /// attribute of the `Model` returned from the `getModel` function.
@@ -1898,39 +1977,41 @@
     <span class="doccomment">/// Optional. The maximum cumulative probability of tokens to consider when
     /// sampling.
     ///
-    /// The model uses combined Top-k and nucleus sampling.
+    /// The model uses combined Top-k and Top-p (nucleus) sampling.
     ///
     /// Tokens are sorted based on their assigned probabilities so that only the
     /// most likely tokens are considered. Top-k sampling directly limits the
-    /// maximum number of tokens to consider, while Nucleus sampling limits number
-    /// of tokens based on the cumulative probability.
+    /// maximum number of tokens to consider, while Nucleus sampling limits the
+    /// number of tokens based on the cumulative probability.
     ///
-    /// Note: The default value varies by model, see the `Model.top_p`
-    /// attribute of the `Model` returned from the `getModel` function.
+    /// Note: The default value varies by `Model` and is specified by
+    /// the`Model.top_p` attribute returned from the `getModel` function. An empty
+    /// `top_k` attribute indicates that the model doesn't apply top-k sampling
+    /// and doesn't allow setting `top_k` on requests.
     </span><span class="attr">#[prost(float, optional, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
     <span class="doccomment">/// Optional. The maximum number of tokens to consider when sampling.
     ///
-    /// Models use nucleus sampling or combined Top-k and nucleus sampling.
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// Models running with nucleus sampling don't allow top_k setting.
+    /// Gemini models use Top-p (nucleus) sampling or a combination of Top-k and
+    /// nucleus sampling. Top-k sampling considers the set of `top_k` most probable
+    /// tokens. Models running with nucleus sampling don't allow top_k setting.
     ///
-    /// Note: The default value varies by model, see the `Model.top_k`
-    /// attribute of the `Model` returned from the `getModel` function. Empty
-    /// `top_k` field in `Model` indicates the model doesn't apply top-k sampling
+    /// Note: The default value varies by `Model` and is specified by
+    /// the`Model.top_p` attribute returned from the `getModel` function. An empty
+    /// `top_k` attribute indicates that the model doesn't apply top-k sampling
     /// and doesn't allow setting `top_k` on requests.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
 }
-<span class="doccomment">/// Response from the model supporting multiple candidates.
+<span class="doccomment">/// Response from the model supporting multiple candidate responses.
 ///
-/// Note on safety ratings and content filtering. They are reported for both
+/// Safety ratings and content filtering are reported for both
 /// prompt in `GenerateContentResponse.prompt_feedback` and for each candidate
-/// in `finish_reason` and in `safety_ratings`. The API contract is that:
-///   - either all requested candidates are returned or no candidates at all
-///   - no candidates are returned only if there was something wrong with the
-///     prompt (see `prompt_feedback`)
-///   - feedback on each candidate is reported on `finish_reason` and
+/// in `finish_reason` and in `safety_ratings`. The API:
+///   - Returns either all requested candidates or none of them
+///   - Returns no candidates at all only if there was something wrong with the
+///     prompt (check `prompt_feedback`)
+///   - Reports feedback on each candidate in `finish_reason` and
 ///     `safety_ratings`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -1955,7 +2036,7 @@
     #[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>PromptFeedback {
         <span class="doccomment">/// Optional. If set, the prompt was blocked and no candidates are returned.
-        /// Rephrase your prompt.
+        /// Rephrase the prompt.
         </span><span class="attr">#[prost(enumeration = <span class="string">"prompt_feedback::BlockReason"</span>, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>block_reason: i32,
         <span class="doccomment">/// Ratings for safety of the prompt.
@@ -1965,7 +2046,7 @@
     }
     <span class="doccomment">/// Nested message and enum types in `PromptFeedback`.
     </span><span class="kw">pub mod </span>prompt_feedback {
-        <span class="doccomment">/// Specifies what was the reason why prompt was blocked.
+        <span class="doccomment">/// Specifies the reason why the prompt was blocked.
         </span><span class="attr">#[derive(
             Clone,
             Copy,
@@ -1981,11 +2062,16 @@
         </span><span class="kw">pub enum </span>BlockReason {
             <span class="doccomment">/// Default value. This value is unused.
             </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Prompt was blocked due to safety reasons. You can inspect
-            /// `safety_ratings` to understand which safety category blocked it.
+            <span class="doccomment">/// Prompt was blocked due to safety reasons. Inspect `safety_ratings`
+            /// to understand which safety category blocked it.
             </span>Safety = <span class="number">1</span>,
-            <span class="doccomment">/// Prompt was blocked due to unknown reaasons.
+            <span class="doccomment">/// Prompt was blocked due to unknown reasons.
             </span>Other = <span class="number">2</span>,
+            <span class="doccomment">/// Prompt was blocked due to the terms which are included from the
+            /// terminology blocklist.
+            </span>Blocklist = <span class="number">3</span>,
+            <span class="doccomment">/// Prompt was blocked due to prohibited content.
+            </span>ProhibitedContent = <span class="number">4</span>,
         }
         <span class="kw">impl </span>BlockReason {
             <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -1997,6 +2083,8 @@
                     BlockReason::Unspecified =&gt; <span class="string">"BLOCK_REASON_UNSPECIFIED"</span>,
                     BlockReason::Safety =&gt; <span class="string">"SAFETY"</span>,
                     BlockReason::Other =&gt; <span class="string">"OTHER"</span>,
+                    BlockReason::Blocklist =&gt; <span class="string">"BLOCKLIST"</span>,
+                    BlockReason::ProhibitedContent =&gt; <span class="string">"PROHIBITED_CONTENT"</span>,
                 }
             }
             <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -2005,6 +2093,8 @@
                     <span class="string">"BLOCK_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                     <span class="string">"SAFETY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Safety),
                     <span class="string">"OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
+                    <span class="string">"BLOCKLIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Blocklist),
+                    <span class="string">"PROHIBITED_CONTENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProhibitedContent),
                     <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
                 }
             }
@@ -2012,15 +2102,18 @@
     }
     <span class="doccomment">/// Metadata on the generation request's token usage.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>UsageMetadata {
-        <span class="doccomment">/// Number of tokens in the prompt.
+        <span class="doccomment">/// Number of tokens in the prompt. When `cached_content` is set, this is
+        /// still the total effective prompt size meaning this includes the number of
+        /// tokens in the cached content.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>prompt_token_count: i32,
-        <span class="doccomment">/// Total number of tokens across the generated candidates.
+        <span class="doccomment">/// Total number of tokens across all the generated response candidates.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>candidates_token_count: i32,
-        <span class="doccomment">/// Total token count for the generation request (prompt + candidates).
+        <span class="doccomment">/// Total token count for the generation request (prompt + response
+        /// candidates).
         </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
         </span><span class="kw">pub </span>total_token_count: i32,
     }
@@ -2029,7 +2122,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Candidate {
-    <span class="doccomment">/// Output only. Index of the candidate in the list of candidates.
+    <span class="doccomment">/// Output only. Index of the candidate in the list of response candidates.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>index: ::core::option::Option&lt;i32&gt;,
     <span class="doccomment">/// Output only. Generated content returned from the model.
@@ -2037,7 +2130,7 @@
     </span><span class="kw">pub </span>content: ::core::option::Option&lt;Content&gt;,
     <span class="doccomment">/// Optional. Output only. The reason why the model stopped generating tokens.
     ///
-    /// If empty, the model has not stopped generating the tokens.
+    /// If empty, the model has not stopped generating tokens.
     </span><span class="attr">#[prost(enumeration = <span class="string">"candidate::FinishReason"</span>, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>finish_reason: i32,
     <span class="doccomment">/// List of ratings for the safety of a response candidate.
@@ -2078,12 +2171,24 @@
         </span>Stop = <span class="number">1</span>,
         <span class="doccomment">/// The maximum number of tokens as specified in the request was reached.
         </span>MaxTokens = <span class="number">2</span>,
-        <span class="doccomment">/// The candidate content was flagged for safety reasons.
+        <span class="doccomment">/// The response candidate content was flagged for safety reasons.
         </span>Safety = <span class="number">3</span>,
-        <span class="doccomment">/// The candidate content was flagged for recitation reasons.
+        <span class="doccomment">/// The response candidate content was flagged for recitation reasons.
         </span>Recitation = <span class="number">4</span>,
+        <span class="doccomment">/// The response candidate content was flagged for using an unsupported
+        /// language.
+        </span>Language = <span class="number">6</span>,
         <span class="doccomment">/// Unknown reason.
         </span>Other = <span class="number">5</span>,
+        <span class="doccomment">/// Token generation stopped because the content contains forbidden terms.
+        </span>Blocklist = <span class="number">7</span>,
+        <span class="doccomment">/// Token generation stopped for potentially containing prohibited content.
+        </span>ProhibitedContent = <span class="number">8</span>,
+        <span class="doccomment">/// Token generation stopped because the content potentially contains
+        /// Sensitive Personally Identifiable Information (SPII).
+        </span>Spii = <span class="number">9</span>,
+        <span class="doccomment">/// The function call generated by the model is invalid.
+        </span>MalformedFunctionCall = <span class="number">10</span>,
     }
     <span class="kw">impl </span>FinishReason {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
@@ -2097,7 +2202,12 @@
                 FinishReason::MaxTokens =&gt; <span class="string">"MAX_TOKENS"</span>,
                 FinishReason::Safety =&gt; <span class="string">"SAFETY"</span>,
                 FinishReason::Recitation =&gt; <span class="string">"RECITATION"</span>,
+                FinishReason::Language =&gt; <span class="string">"LANGUAGE"</span>,
                 FinishReason::Other =&gt; <span class="string">"OTHER"</span>,
+                FinishReason::Blocklist =&gt; <span class="string">"BLOCKLIST"</span>,
+                FinishReason::ProhibitedContent =&gt; <span class="string">"PROHIBITED_CONTENT"</span>,
+                FinishReason::Spii =&gt; <span class="string">"SPII"</span>,
+                FinishReason::MalformedFunctionCall =&gt; <span class="string">"MALFORMED_FUNCTION_CALL"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
@@ -2108,7 +2218,12 @@
                 <span class="string">"MAX_TOKENS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MaxTokens),
                 <span class="string">"SAFETY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Safety),
                 <span class="string">"RECITATION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Recitation),
+                <span class="string">"LANGUAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Language),
                 <span class="string">"OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
+                <span class="string">"BLOCKLIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Blocklist),
+                <span class="string">"PROHIBITED_CONTENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ProhibitedContent),
+                <span class="string">"SPII" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Spii),
+                <span class="string">"MALFORMED_FUNCTION_CALL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MalformedFunctionCall),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -2143,8 +2258,8 @@
     </span><span class="kw">pub </span>title: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
     <span class="doccomment">/// Optional. Optional reduced dimension for the output embedding. If set,
     /// excessive values in the output embedding are truncated from the end.
-    /// Supported by newer models since 2024, and the earlier model
-    /// (`models/embedding-001`) cannot specify this value.
+    /// Supported by newer models since 2024 only. You cannot set this value if
+    /// using the earlier model (`models/embedding-001`).
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>output_dimensionality: ::core::option::Option&lt;i32&gt;,
 }
@@ -2209,8 +2324,14 @@
     /// when `generate_content_request` is set.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>contents: ::prost::alloc::vec::Vec&lt;Content&gt;,
-    <span class="doccomment">/// Optional. The overall input given to the model. CountTokens will count
-    /// prompt, function calling, etc.
+    <span class="doccomment">/// Optional. The overall input given to the `Model`. This includes the prompt
+    /// as well as other model steering information like [system
+    /// instructions](&lt;https://ai.google.dev/gemini-api/docs/system-instructions&gt;),
+    /// and/or function declarations for [function
+    /// calling](&lt;https://ai.google.dev/gemini-api/docs/function-calling&gt;).
+    /// `Model`s/`Content`s and `generate_content_request`s are mutually
+    /// exclusive. You can either send `Model` + `Content`s or a
+    /// `generate_content_request`, but never both.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>generate_content_request: ::core::option::Option&lt;GenerateContentRequest&gt;,
 }
@@ -2218,11 +2339,10 @@
 ///
 /// It returns the model's `token_count` for the `prompt`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CountTokensResponse {
-    <span class="doccomment">/// The number of tokens that the `model` tokenizes the `prompt` into.
-    ///
-    /// Always non-negative.
+    <span class="doccomment">/// The number of tokens that the `Model` tokenizes the `prompt` into. Always
+    /// non-negative.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>total_tokens: i32,
 }
@@ -2355,13 +2475,13 @@
             <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
             <span class="self">self
         </span>}
-        <span class="doccomment">/// Generates a response from the model given an input
-        /// `GenerateContentRequest`.
-        ///
-        /// Input capabilities differ between models, including tuned models. See the
-        /// [model guide](https://ai.google.dev/models/gemini) and
-        /// [tuning guide](https://ai.google.dev/docs/model_tuning_guidance) for
-        /// details.
+        <span class="doccomment">/// Generates a model response given an input `GenerateContentRequest`.
+        /// Refer to the [text generation
+        /// guide](https://ai.google.dev/gemini-api/docs/text-generation) for detailed
+        /// usage information. Input capabilities differ between models, including
+        /// tuned models. Refer to the [model
+        /// guide](https://ai.google.dev/gemini-api/docs/models/gemini) and [tuning
+        /// guide](https://ai.google.dev/gemini-api/docs/model-tuning) for details.
         </span><span class="kw">pub async fn </span>generate_content(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GenerateContentRequest&gt;,
@@ -2392,8 +2512,9 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Generates a streamed response from the model given an input
-        /// `GenerateContentRequest`.
+        <span class="doccomment">/// Generates a [streamed
+        /// response](https://ai.google.dev/gemini-api/docs/text-generation?lang=python#generate-a-text-stream)
+        /// from the model given an input `GenerateContentRequest`.
         </span><span class="kw">pub async fn </span>stream_generate_content(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GenerateContentRequest&gt;,
@@ -2424,7 +2545,9 @@
                 );
             <span class="self">self</span>.inner.server_streaming(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Generates an embedding from the model given an input `Content`.
+        <span class="doccomment">/// Generates a text embedding vector from the input `Content` using the
+        /// specified [Gemini Embedding
+        /// model](https://ai.google.dev/gemini-api/docs/models/gemini#text-embedding).
         </span><span class="kw">pub async fn </span>embed_content(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::EmbedContentRequest&gt;,
@@ -2455,8 +2578,9 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Generates multiple embeddings from the model given input text in a
-        /// synchronous call.
+        <span class="doccomment">/// Generates multiple embedding vectors from the input `Content` which
+        /// consists of a batch of strings represented as `EmbedContentRequest`
+        /// objects.
         </span><span class="kw">pub async fn </span>batch_embed_contents(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchEmbedContentsRequest&gt;,
@@ -2487,7 +2611,9 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Runs a model's tokenizer on input content and returns the token count.
+        <span class="doccomment">/// Runs a model's tokenizer on input `Content` and returns the token count.
+        /// Refer to the [tokens guide](https://ai.google.dev/gemini-api/docs/tokens)
+        /// to learn more about tokens.
         </span><span class="kw">pub async fn </span>count_tokens(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CountTokensRequest&gt;,

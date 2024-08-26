@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/contactcenterinsights/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/contactcenterinsights/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -4283,7 +4283,7 @@
 </span><span class="kw">pub mod </span>conversation {
     <span class="doccomment">/// Call-specific metadata.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>CallMetadata {
         <span class="doccomment">/// The audio channel that contains the customer.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -4406,7 +4406,7 @@
             }
             <span class="doccomment">/// Metadata from Dialogflow relating to the current transcript segment.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>DialogflowSegmentMetadata {
                 <span class="doccomment">/// Whether the transcript segment was covered under the configured smart
                 /// reply allowlist in Agent Assist.
@@ -4460,7 +4460,7 @@
     }
     <span class="doccomment">/// Metadata that applies to the conversation.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Metadata {
         <span class="doccomment">/// Call-specific metadata.
         </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
@@ -4471,7 +4471,7 @@
     /// Conversations with an expiration set will be removed up to 24 hours after
     /// the specified time.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Expiration {
         <span class="doccomment">/// The time at which this conversation should expire. After this time, the
         /// conversation data and any associated analyses will be deleted.
@@ -4625,7 +4625,7 @@
 }
 <span class="doccomment">/// One channel of conversation-level sentiment data.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConversationLevelSentiment {
     <span class="doccomment">/// The channel of the audio that the data applies to.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -4702,7 +4702,7 @@
 }
 <span class="doccomment">/// A point in a conversation that marks the start or the end of an annotation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AnnotationBoundary {
     <span class="doccomment">/// The index in the sequence of transcribed pieces of the conversation where
     /// the boundary is located. This index starts at zero.
@@ -4716,7 +4716,7 @@
 </span><span class="kw">pub mod </span>annotation_boundary {
     <span class="doccomment">/// A detailed boundary, which describes a more specific point.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>DetailedBoundary {
         <span class="doccomment">/// The word index of this boundary with respect to the first word in the
         /// transcript piece. This index starts at zero.
@@ -4916,15 +4916,15 @@
 }
 <span class="doccomment">/// The data for an interruption annotation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InterruptionData {}
 <span class="doccomment">/// The data for a silence annotation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SilenceData {}
 <span class="doccomment">/// The data for a hold annotation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HoldData {}
 <span class="doccomment">/// The data for an entity mention annotation.
 /// This represents a mention of an `Entity` in the conversation.
@@ -5002,7 +5002,7 @@
 }
 <span class="doccomment">/// The data for a sentiment annotation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SentimentData {
     <span class="doccomment">/// A non-negative number from 0 to infinity which represents the abolute
     /// magnitude of sentiment regardless of score.
@@ -5414,7 +5414,7 @@
 }
 <span class="doccomment">/// Configuration information of a phrase match rule.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PhraseMatchRuleConfig {
     <span class="doccomment">/// The configuration of the phrase match rule.
     </span><span class="attr">#[prost(oneof = <span class="string">"phrase_match_rule_config::Config"</span>, tags = <span class="string">"1"</span>)]
@@ -5424,7 +5424,7 @@
 </span><span class="kw">pub mod </span>phrase_match_rule_config {
     <span class="doccomment">/// The configuration of the phrase match rule.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Config {
         <span class="doccomment">/// The configuration for the exact match rule.
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -5433,7 +5433,7 @@
 }
 <span class="doccomment">/// Exact match configuration.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExactMatchConfig {
     <span class="doccomment">/// Whether to consider case sensitivity when performing an exact match.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -5598,7 +5598,7 @@
 <span class="doccomment">/// The feedback that the customer has about a certain answer in the
 /// conversation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AnswerFeedback {
     <span class="doccomment">/// The correctness level of an answer.
     </span><span class="attr">#[prost(enumeration = <span class="string">"answer_feedback::CorrectnessLevel"</span>, tag = <span class="string">"1"</span>)]
@@ -6132,7 +6132,7 @@
     </span><span class="kw">pub mod </span>time_series {
         <span class="doccomment">/// A single interval in a time series.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Interval {
             <span class="doccomment">/// The start time of this interval.
             </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -6391,7 +6391,7 @@
     }
     <span class="doccomment">/// Configuration for processing transcript objects.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>TranscriptObjectConfig {
         <span class="doccomment">/// Required. The medium transcript objects represent.
         </span><span class="attr">#[prost(enumeration = <span class="string">"super::conversation::Medium"</span>, tag = <span class="string">"1"</span>)]
@@ -6428,7 +6428,7 @@
     }
     <span class="doccomment">/// Configuration for converting individual `source` objects to conversations.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ObjectConfig {
         <span class="doccomment">/// Configuration for when `source` contains conversation transcripts.
         </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
@@ -6462,7 +6462,7 @@
 </span><span class="kw">pub mod </span>ingest_conversations_metadata {
     <span class="doccomment">/// Statistics for IngestConversations operation.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>IngestConversationsStats {
         <span class="doccomment">/// Output only. The number of objects processed during the ingest operation.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -6483,7 +6483,7 @@
 }
 <span class="doccomment">/// The response to an IngestConversations operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>IngestConversationsResponse {}
 <span class="doccomment">/// The request to create an analysis.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6596,7 +6596,7 @@
 }
 <span class="doccomment">/// The response for a bulk analyze conversations operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BulkAnalyzeConversationsResponse {
     <span class="doccomment">/// Count of successful analyses.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -6646,7 +6646,7 @@
 }
 <span class="doccomment">/// The response for a bulk delete conversations operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BulkDeleteConversationsResponse {}
 <span class="doccomment">/// The request to export insights.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6766,7 +6766,7 @@
 }
 <span class="doccomment">/// Response for an export insights operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportInsightsDataResponse {}
 <span class="doccomment">/// The request to create an issue model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6860,7 +6860,7 @@
 }
 <span class="doccomment">/// The response to deploy an issue model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeployIssueModelResponse {}
 <span class="doccomment">/// Metadata for deploying an issue model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6886,7 +6886,7 @@
 }
 <span class="doccomment">/// The response to undeploy an issue model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UndeployIssueModelResponse {}
 <span class="doccomment">/// Metadata for undeploying an issue model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

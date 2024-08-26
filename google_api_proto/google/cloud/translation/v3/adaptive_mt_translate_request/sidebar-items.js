@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"struct":["GlossaryConfig","ReferenceSentenceConfig","ReferenceSentencePair","ReferenceSentencePairList"]};

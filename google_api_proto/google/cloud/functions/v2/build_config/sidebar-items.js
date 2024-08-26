@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["DockerRegistry"]};
+window.SIDEBAR_ITEMS = {"enum":["DockerRegistry","RuntimeUpdatePolicy"]};

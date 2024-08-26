@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/aiplatform/v1beta1/schema/predict/instance/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../../../" data-static-root-path="../../../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../../../src-files.js"></script><script defer src="../../../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/aiplatform/v1beta1/schema/predict/instance/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../../../" data-static-root-path="../../../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../../../src-files.js"></script><script defer src="../../../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -176,72 +176,7 @@
 <a href="#176" id="176">176</a>
 <a href="#177" id="177">177</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Prediction input format for Text Sentiment.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextSentimentPredictionInstance {
-    <span class="doccomment">/// The text snippet to make the predictions on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
-    /// below.
-    /// - text/plain
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Video Action Recognition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VideoActionRecognitionPredictionInstance {
-    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
-    /// prediction.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the content of the video. Only the following are
-    /// supported: video/mp4 video/avi video/quicktime
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The beginning, inclusive, of the video's time segment on which to perform
-    /// the prediction. Expressed as a number of seconds as measured from the
-    /// start of the video, with "s" appended at the end. Fractions are allowed,
-    /// up to a microsecond precision.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>time_segment_start: ::prost::alloc::string::String,
-    <span class="doccomment">/// The end, exclusive, of the video's time segment on which to perform
-    /// the prediction. Expressed as a number of seconds as measured from the
-    /// start of the video, with "s" appended at the end. Fractions are allowed,
-    /// up to a microsecond precision, and "inf" or "Infinity" is allowed, which
-    /// means the end of the video.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Video Classification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VideoClassificationPredictionInstance {
-    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
-    /// prediction.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the content of the video. Only the following are
-    /// supported: video/mp4 video/avi video/quicktime
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// The beginning, inclusive, of the video's time segment on which to perform
-    /// the prediction. Expressed as a number of seconds as measured from the
-    /// start of the video, with "s" appended at the end. Fractions are allowed,
-    /// up to a microsecond precision.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>time_segment_start: ::prost::alloc::string::String,
-    <span class="doccomment">/// The end, exclusive, of the video's time segment on which to perform
-    /// the prediction. Expressed as a number of seconds as measured from the
-    /// start of the video, with "s" appended at the end. Fractions are allowed,
-    /// up to a microsecond precision, and "inf" or "Infinity" is allowed, which
-    /// means the end of the video.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Image Classification.
+</span><span class="doccomment">/// Prediction input format for Image Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ImageClassificationPredictionInstance {
@@ -260,43 +195,10 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Prediction input format for Image Object Detection.
+<span class="doccomment">/// Prediction input format for Video Action Recognition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageObjectDetectionPredictionInstance {
-    <span class="doccomment">/// The image bytes or Cloud Storage URI to make the prediction on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed
-    /// MIME types are supported.
-    /// - image/jpeg
-    /// - image/gif
-    /// - image/png
-    /// - image/webp
-    /// - image/bmp
-    /// - image/tiff
-    /// - image/vnd.microsoft.icon
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Image Segmentation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageSegmentationPredictionInstance {
-    <span class="doccomment">/// The image bytes to make the predictions on.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed
-    /// MIME types are supported.
-    /// - image/jpeg
-    /// - image/png
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Prediction input format for Video Object Tracking.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VideoObjectTrackingPredictionInstance {
+</span><span class="kw">pub struct </span>VideoActionRecognitionPredictionInstance {
     <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
     /// prediction.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -339,6 +241,65 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>key: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Prediction input format for Image Object Detection.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageObjectDetectionPredictionInstance {
+    <span class="doccomment">/// The image bytes or Cloud Storage URI to make the prediction on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed
+    /// MIME types are supported.
+    /// - image/jpeg
+    /// - image/gif
+    /// - image/png
+    /// - image/webp
+    /// - image/bmp
+    /// - image/tiff
+    /// - image/vnd.microsoft.icon
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Video Classification.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VideoClassificationPredictionInstance {
+    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
+    /// prediction.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the content of the video. Only the following are
+    /// supported: video/mp4 video/avi video/quicktime
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The beginning, inclusive, of the video's time segment on which to perform
+    /// the prediction. Expressed as a number of seconds as measured from the
+    /// start of the video, with "s" appended at the end. Fractions are allowed,
+    /// up to a microsecond precision.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>time_segment_start: ::prost::alloc::string::String,
+    <span class="doccomment">/// The end, exclusive, of the video's time segment on which to perform
+    /// the prediction. Expressed as a number of seconds as measured from the
+    /// start of the video, with "s" appended at the end. Fractions are allowed,
+    /// up to a microsecond precision, and "inf" or "Infinity" is allowed, which
+    /// means the end of the video.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Image Segmentation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageSegmentationPredictionInstance {
+    <span class="doccomment">/// The image bytes to make the predictions on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the content of the image. Only the images in below listed
+    /// MIME types are supported.
+    /// - image/jpeg
+    /// - image/png
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Prediction input format for Text Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -351,5 +312,44 @@
     /// - text/plain
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Text Sentiment.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextSentimentPredictionInstance {
+    <span class="doccomment">/// The text snippet to make the predictions on.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the text snippet. The supported MIME types are listed
+    /// below.
+    /// - text/plain
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Prediction input format for Video Object Tracking.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VideoObjectTrackingPredictionInstance {
+    <span class="doccomment">/// The Google Cloud Storage location of the video on which to perform the
+    /// prediction.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// The MIME type of the content of the video. Only the following are
+    /// supported: video/mp4 video/avi video/quicktime
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>mime_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// The beginning, inclusive, of the video's time segment on which to perform
+    /// the prediction. Expressed as a number of seconds as measured from the
+    /// start of the video, with "s" appended at the end. Fractions are allowed,
+    /// up to a microsecond precision.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>time_segment_start: ::prost::alloc::string::String,
+    <span class="doccomment">/// The end, exclusive, of the video's time segment on which to perform
+    /// the prediction. Expressed as a number of seconds as measured from the
+    /// start of the video, with "s" appended at the end. Fractions are allowed,
+    /// up to a microsecond precision, and "inf" or "Infinity" is allowed, which
+    /// means the end of the video.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>time_segment_end: ::prost::alloc::string::String,
 }
 </code></pre></div></section></main></body></html>

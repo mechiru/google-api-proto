@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ModelType","State"],"struct":["DeprecationInfo"]};
+window.SIDEBAR_ITEMS = {"enum":["ModelType","State"],"mod":["gen_ai_model_info"],"struct":["DeprecationInfo","GenAiModelInfo"]};

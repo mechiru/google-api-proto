@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/networksecurity/v1beta1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/networksecurity/v1beta1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1190,113 +1190,7 @@
 <a href="#1190" id="1190">1190</a>
 <a href="#1191" id="1191">1191</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Represents the metadata of the long-running operation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OperationMetadata {
-    <span class="doccomment">/// Output only. The time the operation was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The time the operation finished running.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Name of the verb executed by the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation
-    /// of the operation. Operations that have successfully been cancelled
-    /// have [Operation.error][] value with a
-    /// [google.rpc.Status.code][google.rpc.Status.code] of 1, corresponding to
-    /// `Code.CANCELLED`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>requested_cancellation: bool,
-    <span class="doccomment">/// Output only. API version used to start the operation.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specification of the GRPC Endpoint.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GrpcEndpoint {
-    <span class="doccomment">/// Required. The target URI of the gRPC endpoint. Only UDS path is supported,
-    /// and should start with "unix:".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>target_uri: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specification of ValidationCA. Defines the mechanism to obtain the
-/// Certificate Authority certificate to validate the peer certificate.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ValidationCa {
-    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
-    </span><span class="attr">#[prost(oneof = <span class="string">"validation_ca::Type"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;validation_ca::Type&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ValidationCA`.
-</span><span class="kw">pub mod </span>validation_ca {
-    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
-        /// obtain the CA certificate.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
-        <span class="doccomment">/// The certificate provider instance specification that will be passed to
-        /// the data plane, which will be used to load necessary credential
-        /// information.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
-    }
-}
-<span class="doccomment">/// Specification of a TLS certificate provider instance. Workloads may have one
-/// or more CertificateProvider instances (plugins) and one of them is enabled
-/// and configured by specifying this message. Workloads use the values from this
-/// message to locate and load the CertificateProvider instance configuration.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CertificateProviderInstance {
-    <span class="doccomment">/// Required. Plugin instance name, used to locate and load CertificateProvider
-    /// instance configuration. Set to "google_cloud_private_spiffe" to use
-    /// Certificate Authority Service certificate provider instance.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>plugin_instance: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Specification of certificate provider. Defines the mechanism to obtain the
-/// certificate and private key for peer to peer authentication.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CertificateProvider {
-    <span class="doccomment">/// The type of certificate provider which provides the certificates and
-    /// private keys.
-    </span><span class="attr">#[prost(oneof = <span class="string">"certificate_provider::Type"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;certificate_provider::Type&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CertificateProvider`.
-</span><span class="kw">pub mod </span>certificate_provider {
-    <span class="doccomment">/// The type of certificate provider which provides the certificates and
-    /// private keys.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
-        /// obtain the cert and private key.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
-        <span class="doccomment">/// The certificate provider instance specification that will be passed to
-        /// the data plane, which will be used to load necessary credential
-        /// information.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
-    }
-}
-<span class="doccomment">/// AuthorizationPolicy is a resource that specifies how a server
+</span><span class="doccomment">/// AuthorizationPolicy is a resource that specifies how a server
 /// should authorize incoming connections. This resource in itself does
 /// not change the configuration unless it's attached to a target https
 /// proxy or endpoint config selector resource.
@@ -1564,6 +1458,82 @@
     /// format `projects/{project}/locations/{location}/authorizationPolicies/*`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specification of the GRPC Endpoint.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GrpcEndpoint {
+    <span class="doccomment">/// Required. The target URI of the gRPC endpoint. Only UDS path is supported,
+    /// and should start with "unix:".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_uri: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specification of ValidationCA. Defines the mechanism to obtain the
+/// Certificate Authority certificate to validate the peer certificate.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ValidationCa {
+    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
+    </span><span class="attr">#[prost(oneof = <span class="string">"validation_ca::Type"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;validation_ca::Type&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ValidationCA`.
+</span><span class="kw">pub mod </span>validation_ca {
+    <span class="doccomment">/// The type of certificate provider which provides the CA certificate.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
+        /// obtain the CA certificate.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
+        <span class="doccomment">/// The certificate provider instance specification that will be passed to
+        /// the data plane, which will be used to load necessary credential
+        /// information.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
+    }
+}
+<span class="doccomment">/// Specification of a TLS certificate provider instance. Workloads may have one
+/// or more CertificateProvider instances (plugins) and one of them is enabled
+/// and configured by specifying this message. Workloads use the values from this
+/// message to locate and load the CertificateProvider instance configuration.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CertificateProviderInstance {
+    <span class="doccomment">/// Required. Plugin instance name, used to locate and load CertificateProvider
+    /// instance configuration. Set to "google_cloud_private_spiffe" to use
+    /// Certificate Authority Service certificate provider instance.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>plugin_instance: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Specification of certificate provider. Defines the mechanism to obtain the
+/// certificate and private key for peer to peer authentication.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CertificateProvider {
+    <span class="doccomment">/// The type of certificate provider which provides the certificates and
+    /// private keys.
+    </span><span class="attr">#[prost(oneof = <span class="string">"certificate_provider::Type"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;certificate_provider::Type&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CertificateProvider`.
+</span><span class="kw">pub mod </span>certificate_provider {
+    <span class="doccomment">/// The type of certificate provider which provides the certificates and
+    /// private keys.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// gRPC specific configuration to access the gRPC server to
+        /// obtain the cert and private key.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GrpcEndpoint(<span class="kw">super</span>::GrpcEndpoint),
+        <span class="doccomment">/// The certificate provider instance specification that will be passed to
+        /// the data plane, which will be used to load necessary credential
+        /// information.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>CertificateProviderInstance(<span class="kw">super</span>::CertificateProviderInstance),
+    }
 }
 <span class="doccomment">/// ClientTlsPolicy is a resource that specifies how a client should authenticate
 /// connections to backends of a service. This resource itself does not affect
@@ -2379,5 +2349,35 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
+}
+<span class="doccomment">/// Represents the metadata of the long-running operation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OperationMetadata {
+    <span class="doccomment">/// Output only. The time the operation was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The time the operation finished running.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Server-defined resource path for the target of the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>target: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Name of the verb executed by the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>verb: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Human-readable status of the operation, if any.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>status_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Identifies whether the user has requested cancellation
+    /// of the operation. Operations that have successfully been cancelled
+    /// have [Operation.error][] value with a
+    /// [google.rpc.Status.code][google.rpc.Status.code] of 1, corresponding to
+    /// `Code.CANCELLED`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>requested_cancellation: bool,
+    <span class="doccomment">/// Output only. API version used to start the operation.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>api_version: ::prost::alloc::string::String,
 }
 </code></pre></div></section></main></body></html>

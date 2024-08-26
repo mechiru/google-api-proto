@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["TypeDedicatedConfig"],"struct":["DigitalParsingConfig","OcrParsingConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["TypeDedicatedConfig"],"struct":["DigitalParsingConfig","LayoutParsingConfig","OcrParsingConfig"]};

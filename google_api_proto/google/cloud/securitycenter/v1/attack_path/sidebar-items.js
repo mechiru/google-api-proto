@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"mod":["attack_path_node"],"struct":["AttackPathEdge","AttackPathNode"]};

@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Specification","ToolType"],"mod":["authentication","data_store_tool","open_api_tool","tls_config"],"struct":["Authentication","DataStoreTool","ExtensionTool","FunctionTool","OpenApiTool","TlsConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["Specification","ToolType"],"mod":["authentication","data_store_tool","open_api_tool","tls_config"],"struct":["Authentication","DataStoreTool","ExtensionTool","FunctionTool","OpenApiTool","ServiceDirectoryConfig","TlsConfig"]};

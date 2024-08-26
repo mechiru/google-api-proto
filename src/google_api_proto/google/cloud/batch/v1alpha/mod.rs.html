@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/batch/v1alpha/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/batch/v1alpha/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2777,280 +2777,106 @@
 <a href="#2777" id="2777">2777</a>
 <a href="#2778" id="2778">2778</a>
 <a href="#2779" id="2779">2779</a>
+<a href="#2780" id="2780">2780</a>
+<a href="#2781" id="2781">2781</a>
+<a href="#2782" id="2782">2782</a>
+<a href="#2783" id="2783">2783</a>
+<a href="#2784" id="2784">2784</a>
+<a href="#2785" id="2785">2785</a>
+<a href="#2786" id="2786">2786</a>
+<a href="#2787" id="2787">2787</a>
+<a href="#2788" id="2788">2788</a>
+<a href="#2789" id="2789">2789</a>
+<a href="#2790" id="2790">2790</a>
+<a href="#2791" id="2791">2791</a>
+<a href="#2792" id="2792">2792</a>
+<a href="#2793" id="2793">2793</a>
+<a href="#2794" id="2794">2794</a>
+<a href="#2795" id="2795">2795</a>
+<a href="#2796" id="2796">2796</a>
+<a href="#2797" id="2797">2797</a>
+<a href="#2798" id="2798">2798</a>
+<a href="#2799" id="2799">2799</a>
+<a href="#2800" id="2800">2800</a>
+<a href="#2801" id="2801">2801</a>
+<a href="#2802" id="2802">2802</a>
+<a href="#2803" id="2803">2803</a>
+<a href="#2804" id="2804">2804</a>
+<a href="#2805" id="2805">2805</a>
+<a href="#2806" id="2806">2806</a>
+<a href="#2807" id="2807">2807</a>
+<a href="#2808" id="2808">2808</a>
+<a href="#2809" id="2809">2809</a>
+<a href="#2810" id="2810">2810</a>
+<a href="#2811" id="2811">2811</a>
+<a href="#2812" id="2812">2812</a>
+<a href="#2813" id="2813">2813</a>
+<a href="#2814" id="2814">2814</a>
+<a href="#2815" id="2815">2815</a>
+<a href="#2816" id="2816">2816</a>
+<a href="#2817" id="2817">2817</a>
+<a href="#2818" id="2818">2818</a>
+<a href="#2819" id="2819">2819</a>
+<a href="#2820" id="2820">2820</a>
+<a href="#2821" id="2821">2821</a>
+<a href="#2822" id="2822">2822</a>
+<a href="#2823" id="2823">2823</a>
+<a href="#2824" id="2824">2824</a>
+<a href="#2825" id="2825">2825</a>
+<a href="#2826" id="2826">2826</a>
+<a href="#2827" id="2827">2827</a>
+<a href="#2828" id="2828">2828</a>
+<a href="#2829" id="2829">2829</a>
+<a href="#2830" id="2830">2830</a>
+<a href="#2831" id="2831">2831</a>
+<a href="#2832" id="2832">2832</a>
+<a href="#2833" id="2833">2833</a>
+<a href="#2834" id="2834">2834</a>
+<a href="#2835" id="2835">2835</a>
+<a href="#2836" id="2836">2836</a>
+<a href="#2837" id="2837">2837</a>
+<a href="#2838" id="2838">2838</a>
+<a href="#2839" id="2839">2839</a>
+<a href="#2840" id="2840">2840</a>
+<a href="#2841" id="2841">2841</a>
+<a href="#2842" id="2842">2842</a>
+<a href="#2843" id="2843">2843</a>
+<a href="#2844" id="2844">2844</a>
+<a href="#2845" id="2845">2845</a>
+<a href="#2846" id="2846">2846</a>
+<a href="#2847" id="2847">2847</a>
+<a href="#2848" id="2848">2848</a>
+<a href="#2849" id="2849">2849</a>
+<a href="#2850" id="2850">2850</a>
+<a href="#2851" id="2851">2851</a>
+<a href="#2852" id="2852">2852</a>
+<a href="#2853" id="2853">2853</a>
+<a href="#2854" id="2854">2854</a>
+<a href="#2855" id="2855">2855</a>
+<a href="#2856" id="2856">2856</a>
+<a href="#2857" id="2857">2857</a>
+<a href="#2858" id="2858">2858</a>
+<a href="#2859" id="2859">2859</a>
+<a href="#2860" id="2860">2860</a>
+<a href="#2861" id="2861">2861</a>
+<a href="#2862" id="2862">2862</a>
+<a href="#2863" id="2863">2863</a>
+<a href="#2864" id="2864">2864</a>
+<a href="#2865" id="2865">2865</a>
+<a href="#2866" id="2866">2866</a>
+<a href="#2867" id="2867">2867</a>
+<a href="#2868" id="2868">2868</a>
+<a href="#2869" id="2869">2869</a>
+<a href="#2870" id="2870">2870</a>
+<a href="#2871" id="2871">2871</a>
+<a href="#2872" id="2872">2872</a>
+<a href="#2873" id="2873">2873</a>
+<a href="#2874" id="2874">2874</a>
+<a href="#2875" id="2875">2875</a>
+<a href="#2876" id="2876">2876</a>
+<a href="#2877" id="2877">2877</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Notification on resource state change.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Notification {
-    <span class="doccomment">/// Required. The Pub/Sub topic where notifications like the resource allowance
-    /// state changes will be published. The topic must exist in the same project
-    /// as the job and billings will be charged to this project. If not specified,
-    /// no Pub/Sub messages will be sent. Topic format:
-    /// `projects/{project}/topics/{topic}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The Resource Allowance description for Cloud Batch.
-/// Only one Resource Allowance is supported now under a specific location and
-/// project.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ResourceAllowance {
-    <span class="doccomment">/// Identifier. ResourceAllowance name.
-    /// For example:
-    /// "projects/123456/locations/us-central1/resourceAllowances/resource-allowance-1".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. A system generated unique ID (in UUID4 format) for the
-    /// ResourceAllowance.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Time when the ResourceAllowance was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Labels are attributes that can be set and used by both the
-    /// user and by Batch. Labels must meet the following constraints:
-    ///
-    /// * Keys and values can contain only lowercase letters, numeric characters,
-    /// underscores, and dashes.
-    /// * All characters must use UTF-8 encoding, and international characters are
-    /// allowed.
-    /// * Keys must start with a lowercase letter or international character.
-    /// * Each resource is limited to a maximum of 64 labels.
-    ///
-    /// Both keys and values are additionally constrained to be &lt;= 128 bytes.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Optional. Notification configurations.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>notifications: ::prost::alloc::vec::Vec&lt;Notification&gt;,
-    <span class="doccomment">/// ResourceAllowance detail.
-    </span><span class="attr">#[prost(oneof = <span class="string">"resource_allowance::ResourceAllowance"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>resource_allowance: ::core::option::Option&lt;
-        resource_allowance::ResourceAllowance,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ResourceAllowance`.
-</span><span class="kw">pub mod </span>resource_allowance {
-    <span class="doccomment">/// ResourceAllowance detail.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>ResourceAllowance {
-        <span class="doccomment">/// The detail of usage resource allowance.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>UsageResourceAllowance(<span class="kw">super</span>::UsageResourceAllowance),
-    }
-}
-<span class="doccomment">/// UsageResourceAllowance describes the detail of usage resource allowance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UsageResourceAllowance {
-    <span class="doccomment">/// Required. Spec of a usage ResourceAllowance.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>spec: ::core::option::Option&lt;UsageResourceAllowanceSpec&gt;,
-    <span class="doccomment">/// Output only. Status of a usage ResourceAllowance.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>status: ::core::option::Option&lt;UsageResourceAllowanceStatus&gt;,
-}
-<span class="doccomment">/// Spec of a usage ResourceAllowance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UsageResourceAllowanceSpec {
-    <span class="doccomment">/// Required. Spec type is unique for each usage ResourceAllowance.
-    /// Batch now only supports type as "cpu-core-hours" for CPU usage consumption
-    /// tracking.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Threshold of a UsageResourceAllowance limiting how many resources
-    /// can be consumed for each type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>limit: ::core::option::Option&lt;usage_resource_allowance_spec::Limit&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `UsageResourceAllowanceSpec`.
-</span><span class="kw">pub mod </span>usage_resource_allowance_spec {
-    <span class="doccomment">/// UsageResourceAllowance limitation.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Limit {
-        <span class="doccomment">/// Required. Limit value of a UsageResourceAllowance within its one
-        /// duration.
-        ///
-        /// Limit cannot be a negative value. Default is 0.
-        /// For example, you can set `limit` as 10000.0 with duration of the current
-        /// month by setting `calendar_period` field as monthly. That means in your
-        /// current month, 10000.0 is the core hour limitation that your resources
-        /// are allowed to consume.
-        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>limit: ::core::option::Option&lt;f64&gt;,
-        <span class="attr">#[prost(oneof = <span class="string">"limit::Duration"</span>, tags = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>duration: ::core::option::Option&lt;limit::Duration&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Limit`.
-    </span><span class="kw">pub mod </span>limit {
-        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Duration {
-            <span class="doccomment">/// Optional. A CalendarPeriod represents the abstract concept of a time
-            /// period that has a canonical start.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::CalendarPeriod"</span>, tag = <span class="string">"1"</span>)]
-            </span>CalendarPeriod(i32),
-        }
-    }
-}
-<span class="doccomment">/// Status of a usage ResourceAllowance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UsageResourceAllowanceStatus {
-    <span class="doccomment">/// Output only. ResourceAllowance state.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ResourceAllowanceState"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. ResourceAllowance consumption status for usage resources.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>limit_status: ::core::option::Option&lt;
-        usage_resource_allowance_status::LimitStatus,
-    &gt;,
-    <span class="doccomment">/// Output only. The report of ResourceAllowance consumptions in a time period.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>report: ::core::option::Option&lt;
-        usage_resource_allowance_status::ConsumptionReport,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `UsageResourceAllowanceStatus`.
-</span><span class="kw">pub mod </span>usage_resource_allowance_status {
-    <span class="doccomment">/// UsageResourceAllowanceStatus detail about usage consumption.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>LimitStatus {
-        <span class="doccomment">/// Output only. The consumption interval.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>consumption_interval: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Interval,
-        &gt;,
-        <span class="doccomment">/// Output only. Limit value of a UsageResourceAllowance within its one
-        /// duration.
-        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>limit: ::core::option::Option&lt;f64&gt;,
-        <span class="doccomment">/// Output only. Accumulated consumption during `consumption_interval`.
-        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>consumed: ::core::option::Option&lt;f64&gt;,
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>PeriodConsumption {
-        <span class="doccomment">/// Output only. The consumption interval.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>consumption_interval: ::core::option::Option&lt;
-            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Interval,
-        &gt;,
-        <span class="doccomment">/// Output only. Accumulated consumption during `consumption_interval`.
-        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>consumed: ::core::option::Option&lt;f64&gt;,
-    }
-    <span class="doccomment">/// ConsumptionReport is the report of ResourceAllowance consumptions in a time
-    /// period.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ConsumptionReport {
-        <span class="doccomment">/// Output only. ResourceAllowance consumptions in the latest calendar
-        /// period. Key is the calendar period in string format. Batch currently
-        /// supports HOUR, DAY, MONTH and YEAR.
-        </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>latest_period_consumptions: ::prost::alloc::collections::BTreeMap&lt;
-            ::prost::alloc::string::String,
-            PeriodConsumption,
-        &gt;,
-    }
-}
-<span class="doccomment">/// A `CalendarPeriod` represents the abstract concept of a time period that
-/// has a canonical start. All calendar times begin at 12 AM US and Canadian
-/// Pacific Time (UTC-8).
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>CalendarPeriod {
-    <span class="doccomment">/// Unspecified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The month starts on the first date of the month and resets at the beginning
-    /// of each month.
-    </span>Month = <span class="number">1</span>,
-    <span class="doccomment">/// The quarter starts on dates January 1, April 1, July 1, and October 1 of
-    /// each year and resets at the beginning of the next quarter.
-    </span>Quarter = <span class="number">2</span>,
-    <span class="doccomment">/// The year starts on January 1 and resets at the beginning of the next year.
-    </span>Year = <span class="number">3</span>,
-    <span class="doccomment">/// The week period starts and resets every Monday.
-    </span>Week = <span class="number">4</span>,
-    <span class="doccomment">/// The day starts at 12:00am.
-    </span>Day = <span class="number">5</span>,
-}
-<span class="kw">impl </span>CalendarPeriod {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            CalendarPeriod::Unspecified =&gt; <span class="string">"CALENDAR_PERIOD_UNSPECIFIED"</span>,
-            CalendarPeriod::Month =&gt; <span class="string">"MONTH"</span>,
-            CalendarPeriod::Quarter =&gt; <span class="string">"QUARTER"</span>,
-            CalendarPeriod::Year =&gt; <span class="string">"YEAR"</span>,
-            CalendarPeriod::Week =&gt; <span class="string">"WEEK"</span>,
-            CalendarPeriod::Day =&gt; <span class="string">"DAY"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"CALENDAR_PERIOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"MONTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Month),
-            <span class="string">"QUARTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Quarter),
-            <span class="string">"YEAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Year),
-            <span class="string">"WEEK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Week),
-            <span class="string">"DAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Day),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// ResourceAllowance valid state.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>ResourceAllowanceState {
-    <span class="doccomment">/// Unspecified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// ResourceAllowance is active and in use.
-    </span>ResourceAllowanceActive = <span class="number">1</span>,
-    <span class="doccomment">/// ResourceAllowance limit is reached.
-    </span>ResourceAllowanceDepleted = <span class="number">2</span>,
-}
-<span class="kw">impl </span>ResourceAllowanceState {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            ResourceAllowanceState::Unspecified =&gt; <span class="string">"RESOURCE_ALLOWANCE_STATE_UNSPECIFIED"</span>,
-            ResourceAllowanceState::ResourceAllowanceActive =&gt; {
-                <span class="string">"RESOURCE_ALLOWANCE_ACTIVE"
-            </span>}
-            ResourceAllowanceState::ResourceAllowanceDepleted =&gt; {
-                <span class="string">"RESOURCE_ALLOWANCE_DEPLETED"
-            </span>}
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"RESOURCE_ALLOWANCE_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"RESOURCE_ALLOWANCE_ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceAllowanceActive),
-            <span class="string">"RESOURCE_ALLOWANCE_DEPLETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceAllowanceDepleted),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
+</span><span class="doccomment">/// Volume describes a volume and parameters for it to be mounted to a VM.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Volume {
@@ -3147,7 +2973,7 @@
 /// [InstancePolicyOrTemplate](&lt;https://cloud.google.com/batch/docs/reference/rest/v1/projects.locations.jobs#instancepolicyortemplate&gt;)
 /// field, make sure both fields are compatible with each other.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ComputeResource {
     <span class="doccomment">/// The milliCPU count.
     ///
@@ -3196,7 +3022,7 @@
     </span><span class="attr">#[prost(int64, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>boot_disk_mib: i64,
 }
-<span class="doccomment">/// Status event
+<span class="doccomment">/// Status event.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StatusEvent {
@@ -3209,10 +3035,13 @@
     <span class="doccomment">/// The time this event occurred.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Task Execution
+    <span class="doccomment">/// Task Execution.
+    /// This field is only defined for task-level status events where the task
+    /// fails.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>task_execution: ::core::option::Option&lt;TaskExecution&gt;,
-    <span class="doccomment">/// Task State
+    <span class="doccomment">/// Task State.
+    /// This field is only defined for task-level status events.
     </span><span class="attr">#[prost(enumeration = <span class="string">"task_status::State"</span>, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>task_state: i32,
 }
@@ -3239,11 +3068,11 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>stderr_snippet: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Status of a task
+<span class="doccomment">/// Status of a task.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TaskStatus {
-    <span class="doccomment">/// Task state
+    <span class="doccomment">/// Task state.
     </span><span class="attr">#[prost(enumeration = <span class="string">"task_status::State"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>state: i32,
     <span class="doccomment">/// Detailed info about why the state is reached.
@@ -3317,7 +3146,7 @@
 }
 <span class="doccomment">/// TaskResourceUsage describes the resource usage of the task.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TaskResourceUsage {
     <span class="doccomment">/// The CPU core hours the task consumes based on task requirement and run
     /// time.
@@ -3335,13 +3164,24 @@
     /// provided the index of the runnable will be used for outputs.
     </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Normally, a non-zero exit status causes the Task to fail. This flag allows
-    /// execution of other Runnables to continue instead.
+    <span class="doccomment">/// Normally, a runnable that returns a non-zero exit status fails and causes
+    /// the task to fail. However, you can set this field to `true` to allow the
+    /// task to continue executing its other runnables even if this runnable
+    /// fails.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>ignore_exit_status: bool,
-    <span class="doccomment">/// This flag allows a Runnable to continue running in the background while the
-    /// Task executes subsequent Runnables. This is useful to provide services to
-    /// other Runnables (or to provide debugging support tools like SSH servers).
+    <span class="doccomment">/// Normally, a runnable that doesn't exit causes its task to fail. However,
+    /// you can set this field to `true` to configure a background runnable.
+    /// Background runnables are allowed continue running in the background while
+    /// the task executes subsequent runnables. For example, background runnables
+    /// are useful for providing services to other runnables or providing
+    /// debugging-support tools like SSH servers.
+    ///
+    /// Specifically, background runnables are killed automatically (if they have
+    /// not already exited) a short time after all foreground runnables have
+    /// completed. Even though this is likely to result in a non-zero exit status
+    /// for the background runnable, these automatic kills are not treated as task
+    /// failures.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>background: bool,
     <span class="doccomment">/// By default, after a Runnable fails, no further Runnable are executed. This
@@ -3367,7 +3207,7 @@
         ::prost::alloc::string::String,
         ::prost::alloc::string::String,
     &gt;,
-    <span class="doccomment">/// The script or container to run.
+    <span class="doccomment">/// Required. The script, container, or barrier for this runnable to execute.
     </span><span class="attr">#[prost(oneof = <span class="string">"runnable::Executable"</span>, tags = <span class="string">"1, 2, 6"</span>)]
     </span><span class="kw">pub </span>executable: ::core::option::Option&lt;runnable::Executable&gt;,
 }
@@ -3377,32 +3217,36 @@
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Container {
-        <span class="doccomment">/// The URI to pull the container image from.
+        <span class="doccomment">/// Required. The URI to pull the container image from.
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>image_uri: ::prost::alloc::string::String,
-        <span class="doccomment">/// Overrides the `CMD` specified in the container. If there is an ENTRYPOINT
-        /// (either in the container image or with the entrypoint field below) then
-        /// commands are appended as arguments to the ENTRYPOINT.
+        <span class="doccomment">/// Required for some container images. Overrides the `CMD` specified in the
+        /// container. If there is an `ENTRYPOINT` (either in the container image or
+        /// with the `entrypoint` field below) then these commands are appended as
+        /// arguments to the `ENTRYPOINT`.
         </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>commands: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Overrides the `ENTRYPOINT` specified in the container.
+        <span class="doccomment">/// Required for some container images. Overrides the `ENTRYPOINT` specified
+        /// in the container.
         </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
         </span><span class="kw">pub </span>entrypoint: ::prost::alloc::string::String,
         <span class="doccomment">/// Volumes to mount (bind mount) from the host machine files or directories
-        /// into the container, formatted to match docker run's --volume option,
-        /// e.g. /foo:/bar, or /foo:/bar:ro
+        /// into the container, formatted to match `--volume` option for the
+        /// `docker run` command&amp;mdash;for example, `/foo:/bar` or `/foo:/bar:ro`.
         ///
         /// If the `TaskSpec.Volumes` field is specified but this field is not, Batch
         /// will mount each volume from the host machine to the container with the
         /// same mount path by default. In this case, the default mount option for
-        /// containers will be read-only (ro) for existing persistent disks and
-        /// read-write (rw) for other volume types, regardless of the original mount
-        /// options specified in `TaskSpec.Volumes`. If you need different mount
-        /// settings, you can explicitly configure them in this field.
+        /// containers will be read-only (`ro`) for existing persistent disks and
+        /// read-write (`rw`) for other volume types, regardless of the original
+        /// mount options specified in `TaskSpec.Volumes`. If you need different
+        /// mount settings, you can explicitly configure them in this field.
         </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
         </span><span class="kw">pub </span>volumes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-        <span class="doccomment">/// Arbitrary additional options to include in the "docker run" command when
-        /// running this container, e.g. "--network host".
+        <span class="doccomment">/// Required for some container images. Arbitrary additional options to
+        /// include in the `docker run` command when running this container&amp;mdash;for
+        /// example, `--network host`. For the `--volume` option, use the `volumes`
+        /// field for the container.
         </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
         </span><span class="kw">pub </span>options: ::prost::alloc::string::String,
         <span class="doccomment">/// If set to true, external network access to and from container will be
@@ -3470,37 +3314,42 @@
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Script {
-        <span class="attr">#[prost(oneof = <span class="string">"script::Command"</span>, tags = <span class="string">"1, 2"</span>)]
+        <span class="doccomment">/// Required. The source code for this script runnable.
+        </span><span class="attr">#[prost(oneof = <span class="string">"script::Command"</span>, tags = <span class="string">"1, 2"</span>)]
         </span><span class="kw">pub </span>command: ::core::option::Option&lt;script::Command&gt;,
     }
     <span class="doccomment">/// Nested message and enum types in `Script`.
     </span><span class="kw">pub mod </span>script {
-        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        <span class="doccomment">/// Required. The source code for this script runnable.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
         #[derive(Clone, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Command {
-            <span class="doccomment">/// Script file path on the host VM.
+            <span class="doccomment">/// The path to a script file that is accessible from the host VM(s).
             ///
-            /// To specify an interpreter, please add a `#!&lt;interpreter&gt;`(also known as
-            /// [shebang line](&lt;https://en.wikipedia.org/wiki/Shebang_(Unix&gt;))) as the
-            /// first line of the file.(For example, to execute the script using bash,
-            /// `#!/bin/bash` should be the first line of the file. To execute the
-            /// script using`Python3`, `#!/usr/bin/env python3` should be the first
-            /// line of the file.) Otherwise, the file will by default be executed by
-            /// `/bin/sh`.
+            /// Unless the script file supports the default `#!/bin/sh` shell
+            /// interpreter, you must specify an interpreter by including a
+            /// [shebang line](&lt;https://en.wikipedia.org/wiki/Shebang_(Unix&gt;) as the
+            /// first line of the file. For example, to execute the script using bash,
+            /// include `#!/bin/bash` as the first line of the file. Alternatively,
+            /// to execute the script using Python3, include `#!/usr/bin/env python3`
+            /// as the first line of the file.
             </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
             </span>Path(::prost::alloc::string::String),
-            <span class="doccomment">/// Shell script text.
+            <span class="doccomment">/// The text for a script.
             ///
-            /// To specify an interpreter, please add a `#!&lt;interpreter&gt;\n` at the
-            /// beginning of the text.(For example, to execute the script using bash,
-            /// `#!/bin/bash\n` should be added. To execute the script using`Python3`,
-            /// `#!/usr/bin/env python3\n` should be added.) Otherwise, the script will
-            /// by default be executed by `/bin/sh`.
+            /// Unless the script text supports the default `#!/bin/sh` shell
+            /// interpreter, you must specify an interpreter by including a
+            /// [shebang line](&lt;https://en.wikipedia.org/wiki/Shebang_(Unix&gt;) at the
+            /// beginning of the text. For example, to execute the script using bash,
+            /// include `#!/bin/bash\n` at the beginning of the text. Alternatively,
+            /// to execute the script using Python3, include `#!/usr/bin/env python3\n`
+            /// at the beginning of the text.
             </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
             </span>Text(::prost::alloc::string::String),
         }
     }
-    <span class="doccomment">/// Barrier runnable blocks until all tasks in a taskgroup reach it.
+    <span class="doccomment">/// A barrier runnable automatically blocks the execution of subsequent
+    /// runnables until all the tasks in the task group reach the barrier.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Barrier {
@@ -3509,7 +3358,7 @@
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
         </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     }
-    <span class="doccomment">/// The script or container to run.
+    <span class="doccomment">/// Required. The script, container, or barrier for this runnable to execute.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Executable {
@@ -3528,16 +3377,16 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TaskSpec {
-    <span class="doccomment">/// The sequence of scripts or containers to run for this Task. Each Task using
-    /// this TaskSpec executes its list of runnables in order. The Task succeeds if
-    /// all of its runnables either exit with a zero status or any that exit with a
-    /// non-zero status have the ignore_exit_status flag.
+    <span class="doccomment">/// Required. The sequence of one or more runnables (executable scripts,
+    /// executable containers, and/or barriers) for each task in this task group to
+    /// run. Each task runs this list of runnables in order. For a task to succeed,
+    /// all of its script and container runnables each must meet at least one of
+    /// the following conditions:
     ///
-    /// Background runnables are killed automatically (if they have not already
-    /// exited) a short time after all foreground runnables have completed. Even
-    /// though this is likely to result in a non-zero exit status for the
-    /// background runnable, these automatic kills are not treated as Task
-    /// failures.
+    /// + The runnable exited with a zero status.
+    /// + The runnable didn't finish, but you enabled its `background` subfield.
+    /// + The runnable exited with a non-zero status, but you enabled its
+    ///    `ignore_exit_status` subfield.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>runnables: ::prost::alloc::vec::Vec&lt;Runnable&gt;,
     <span class="doccomment">/// ComputeResource requirements.
@@ -3841,7 +3690,7 @@
     <span class="doccomment">/// `CloudLoggingOption` contains additional settings for Cloud Logging logs
     /// generated by Batch job.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>CloudLoggingOption {
         <span class="doccomment">/// Optional. Set this flag to true to change the [monitored resource
         /// type](&lt;https://cloud.google.com/monitoring/api/resources&gt;) for
@@ -4089,7 +3938,7 @@
 }
 <span class="doccomment">/// ResourceUsage describes the resource usage of the job.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResourceUsage {
     <span class="doccomment">/// The CPU core hours that the job consumes.
     </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
@@ -4129,7 +3978,7 @@
     /// job level: JOB_STATE_CHANGED and/or a specified new_job_state;
     /// task level: TASK_STATE_CHANGED and/or a specified new_task_state.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Message {
         <span class="doccomment">/// The message type.
         </span><span class="attr">#[prost(enumeration = <span class="string">"Type"</span>, tag = <span class="string">"1"</span>)]
@@ -4353,9 +4202,7 @@
             /// The following image values are supported for a boot disk:
             ///
             /// * `batch-debian`: use Batch Debian images.
-            /// * `batch-centos`: use Batch CentOS images.
             /// * `batch-cos`: use Batch Container-Optimized images.
-            /// * `batch-hpc-centos`: use Batch HPC CentOS images.
             /// * `batch-hpc-rocky`: use Batch HPC Rocky Linux images.
             </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
             </span>Image(::prost::alloc::string::String),
@@ -4481,6 +4328,25 @@
         /// your behalf. Default is false.
         </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
         </span><span class="kw">pub </span>install_ops_agent: bool,
+        <span class="doccomment">/// Optional. Set this field to `true` if you want Batch to block
+        /// project-level SSH keys from accessing this job's VMs.  Alternatively, you
+        /// can configure the job to specify a VM instance template that blocks
+        /// project-level SSH keys. In either case, Batch blocks project-level SSH
+        /// keys while creating the VMs for this job.
+        ///
+        /// Batch allows project-level SSH keys for a job's VMs only if all
+        /// the following are true:
+        ///
+        /// + This field is undefined or set to `false`.
+        /// + The job's VM instance template (if any) doesn't block project-level
+        ///    SSH keys.
+        ///
+        /// Notably, you can override this behavior by manually updating a VM to
+        /// block or allow project-level SSH keys. For more information about
+        /// blocking project-level SSH keys, see the Compute Engine documentation:
+        /// &lt;https://cloud.google.com/compute/docs/connect/restrict-ssh-keys#block-keys&gt;
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>block_project_ssh_keys: bool,
         <span class="attr">#[prost(oneof = <span class="string">"instance_policy_or_template::PolicyTemplate"</span>, tags = <span class="string">"1, 2"</span>)]
         </span><span class="kw">pub </span>policy_template: ::core::option::Option&lt;
             instance_policy_or_template::PolicyTemplate,
@@ -4760,6 +4626,278 @@
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>scopes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
+<span class="doccomment">/// Notification on resource state change.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Notification {
+    <span class="doccomment">/// Required. The Pub/Sub topic where notifications like the resource allowance
+    /// state changes will be published. The topic must exist in the same project
+    /// as the job and billings will be charged to this project. If not specified,
+    /// no Pub/Sub messages will be sent. Topic format:
+    /// `projects/{project}/topics/{topic}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>pubsub_topic: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The Resource Allowance description for Cloud Batch.
+/// Only one Resource Allowance is supported now under a specific location and
+/// project.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ResourceAllowance {
+    <span class="doccomment">/// Identifier. ResourceAllowance name.
+    /// For example:
+    /// "projects/123456/locations/us-central1/resourceAllowances/resource-allowance-1".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. A system generated unique ID (in UUID4 format) for the
+    /// ResourceAllowance.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>uid: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time when the ResourceAllowance was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Labels are attributes that can be set and used by both the
+    /// user and by Batch. Labels must meet the following constraints:
+    ///
+    /// * Keys and values can contain only lowercase letters, numeric characters,
+    /// underscores, and dashes.
+    /// * All characters must use UTF-8 encoding, and international characters are
+    /// allowed.
+    /// * Keys must start with a lowercase letter or international character.
+    /// * Each resource is limited to a maximum of 64 labels.
+    ///
+    /// Both keys and values are additionally constrained to be &lt;= 128 bytes.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Optional. Notification configurations.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>notifications: ::prost::alloc::vec::Vec&lt;Notification&gt;,
+    <span class="doccomment">/// ResourceAllowance detail.
+    </span><span class="attr">#[prost(oneof = <span class="string">"resource_allowance::ResourceAllowance"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>resource_allowance: ::core::option::Option&lt;
+        resource_allowance::ResourceAllowance,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ResourceAllowance`.
+</span><span class="kw">pub mod </span>resource_allowance {
+    <span class="doccomment">/// ResourceAllowance detail.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>ResourceAllowance {
+        <span class="doccomment">/// The detail of usage resource allowance.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>UsageResourceAllowance(<span class="kw">super</span>::UsageResourceAllowance),
+    }
+}
+<span class="doccomment">/// UsageResourceAllowance describes the detail of usage resource allowance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UsageResourceAllowance {
+    <span class="doccomment">/// Required. Spec of a usage ResourceAllowance.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>spec: ::core::option::Option&lt;UsageResourceAllowanceSpec&gt;,
+    <span class="doccomment">/// Output only. Status of a usage ResourceAllowance.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>status: ::core::option::Option&lt;UsageResourceAllowanceStatus&gt;,
+}
+<span class="doccomment">/// Spec of a usage ResourceAllowance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UsageResourceAllowanceSpec {
+    <span class="doccomment">/// Required. Spec type is unique for each usage ResourceAllowance.
+    /// Batch now only supports type as "cpu-core-hours" for CPU usage consumption
+    /// tracking.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>r#type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Threshold of a UsageResourceAllowance limiting how many resources
+    /// can be consumed for each type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>limit: ::core::option::Option&lt;usage_resource_allowance_spec::Limit&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `UsageResourceAllowanceSpec`.
+</span><span class="kw">pub mod </span>usage_resource_allowance_spec {
+    <span class="doccomment">/// UsageResourceAllowance limitation.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Limit {
+        <span class="doccomment">/// Required. Limit value of a UsageResourceAllowance within its one
+        /// duration.
+        ///
+        /// Limit cannot be a negative value. Default is 0.
+        /// For example, you can set `limit` as 10000.0 with duration of the current
+        /// month by setting `calendar_period` field as monthly. That means in your
+        /// current month, 10000.0 is the core hour limitation that your resources
+        /// are allowed to consume.
+        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>limit: ::core::option::Option&lt;f64&gt;,
+        <span class="attr">#[prost(oneof = <span class="string">"limit::Duration"</span>, tags = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>duration: ::core::option::Option&lt;limit::Duration&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Limit`.
+    </span><span class="kw">pub mod </span>limit {
+        <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Duration {
+            <span class="doccomment">/// Optional. A CalendarPeriod represents the abstract concept of a time
+            /// period that has a canonical start.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"super::super::CalendarPeriod"</span>, tag = <span class="string">"1"</span>)]
+            </span>CalendarPeriod(i32),
+        }
+    }
+}
+<span class="doccomment">/// Status of a usage ResourceAllowance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UsageResourceAllowanceStatus {
+    <span class="doccomment">/// Output only. ResourceAllowance state.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ResourceAllowanceState"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. ResourceAllowance consumption status for usage resources.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>limit_status: ::core::option::Option&lt;
+        usage_resource_allowance_status::LimitStatus,
+    &gt;,
+    <span class="doccomment">/// Output only. The report of ResourceAllowance consumptions in a time period.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>report: ::core::option::Option&lt;
+        usage_resource_allowance_status::ConsumptionReport,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `UsageResourceAllowanceStatus`.
+</span><span class="kw">pub mod </span>usage_resource_allowance_status {
+    <span class="doccomment">/// UsageResourceAllowanceStatus detail about usage consumption.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>LimitStatus {
+        <span class="doccomment">/// Output only. The consumption interval.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>consumption_interval: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Interval,
+        &gt;,
+        <span class="doccomment">/// Output only. Limit value of a UsageResourceAllowance within its one
+        /// duration.
+        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>limit: ::core::option::Option&lt;f64&gt;,
+        <span class="doccomment">/// Output only. Accumulated consumption during `consumption_interval`.
+        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>consumed: ::core::option::Option&lt;f64&gt;,
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>PeriodConsumption {
+        <span class="doccomment">/// Output only. The consumption interval.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>consumption_interval: ::core::option::Option&lt;
+            <span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::r#type::Interval,
+        &gt;,
+        <span class="doccomment">/// Output only. Accumulated consumption during `consumption_interval`.
+        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>consumed: ::core::option::Option&lt;f64&gt;,
+    }
+    <span class="doccomment">/// ConsumptionReport is the report of ResourceAllowance consumptions in a time
+    /// period.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ConsumptionReport {
+        <span class="doccomment">/// Output only. ResourceAllowance consumptions in the latest calendar
+        /// period. Key is the calendar period in string format. Batch currently
+        /// supports HOUR, DAY, MONTH and YEAR.
+        </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>latest_period_consumptions: ::prost::alloc::collections::BTreeMap&lt;
+            ::prost::alloc::string::String,
+            PeriodConsumption,
+        &gt;,
+    }
+}
+<span class="doccomment">/// A `CalendarPeriod` represents the abstract concept of a time period that
+/// has a canonical start. All calendar times begin at 12 AM US and Canadian
+/// Pacific Time (UTC-8).
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>CalendarPeriod {
+    <span class="doccomment">/// Unspecified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The month starts on the first date of the month and resets at the beginning
+    /// of each month.
+    </span>Month = <span class="number">1</span>,
+    <span class="doccomment">/// The quarter starts on dates January 1, April 1, July 1, and October 1 of
+    /// each year and resets at the beginning of the next quarter.
+    </span>Quarter = <span class="number">2</span>,
+    <span class="doccomment">/// The year starts on January 1 and resets at the beginning of the next year.
+    </span>Year = <span class="number">3</span>,
+    <span class="doccomment">/// The week period starts and resets every Monday.
+    </span>Week = <span class="number">4</span>,
+    <span class="doccomment">/// The day starts at 12:00am.
+    </span>Day = <span class="number">5</span>,
+}
+<span class="kw">impl </span>CalendarPeriod {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            CalendarPeriod::Unspecified =&gt; <span class="string">"CALENDAR_PERIOD_UNSPECIFIED"</span>,
+            CalendarPeriod::Month =&gt; <span class="string">"MONTH"</span>,
+            CalendarPeriod::Quarter =&gt; <span class="string">"QUARTER"</span>,
+            CalendarPeriod::Year =&gt; <span class="string">"YEAR"</span>,
+            CalendarPeriod::Week =&gt; <span class="string">"WEEK"</span>,
+            CalendarPeriod::Day =&gt; <span class="string">"DAY"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"CALENDAR_PERIOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"MONTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Month),
+            <span class="string">"QUARTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Quarter),
+            <span class="string">"YEAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Year),
+            <span class="string">"WEEK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Week),
+            <span class="string">"DAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Day),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// ResourceAllowance valid state.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>ResourceAllowanceState {
+    <span class="doccomment">/// Unspecified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// ResourceAllowance is active and in use.
+    </span>ResourceAllowanceActive = <span class="number">1</span>,
+    <span class="doccomment">/// ResourceAllowance limit is reached.
+    </span>ResourceAllowanceDepleted = <span class="number">2</span>,
+}
+<span class="kw">impl </span>ResourceAllowanceState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            ResourceAllowanceState::Unspecified =&gt; <span class="string">"RESOURCE_ALLOWANCE_STATE_UNSPECIFIED"</span>,
+            ResourceAllowanceState::ResourceAllowanceActive =&gt; {
+                <span class="string">"RESOURCE_ALLOWANCE_ACTIVE"
+            </span>}
+            ResourceAllowanceState::ResourceAllowanceDepleted =&gt; {
+                <span class="string">"RESOURCE_ALLOWANCE_DEPLETED"
+            </span>}
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"RESOURCE_ALLOWANCE_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"RESOURCE_ALLOWANCE_ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceAllowanceActive),
+            <span class="string">"RESOURCE_ALLOWANCE_DEPLETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceAllowanceDepleted),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
 <span class="doccomment">/// CreateJob Request.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -4832,6 +4970,33 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// CancelJob Request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CancelJobRequest {
+    <span class="doccomment">/// Required. Job name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. An optional request ID to identify requests. Specify a unique
+    /// request ID so that if you must retry your request, the server will know to
+    /// ignore the request if it has already been completed. The server will
+    /// guarantee that for at least 60 minutes after the first request.
+    ///
+    /// For example, consider a situation where you make an initial request and
+    /// the request times out. If you make the request again with the same request
+    /// ID, the server can check if original operation with the same request ID
+    /// was received, and if so, will ignore the second request. This prevents
+    /// clients from accidentally creating duplicate commitments.
+    ///
+    /// The request ID must be a valid UUID with the exception that zero UUID is
+    /// not supported (00000000-0000-0000-0000-000000000000).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>request_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response to the CancelJob request.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CancelJobResponse {}
 <span class="doccomment">/// UpdateJob Request.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -5280,6 +5445,37 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.batch.v1alpha.BatchService"</span>,
                         <span class="string">"DeleteJob"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Cancel a Job.
+        </span><span class="kw">pub async fn </span>cancel_job(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CancelJobRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.batch.v1alpha.BatchService/CancelJob"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.batch.v1alpha.BatchService"</span>,
+                        <span class="string">"CancelJob"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

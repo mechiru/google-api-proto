@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/devtools/testing/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/devtools/testing/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3916,7 +3916,7 @@
 }
 <span class="doccomment">/// Message signifying that the stream is open
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Okay {}
 <span class="doccomment">/// Message signifying that the stream failed to open
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3928,7 +3928,7 @@
 }
 <span class="doccomment">/// Message signifying that the stream closed.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Close {}
 <span class="doccomment">/// TestMatrix captures all details about a test. It contains the environment
 /// configuration, test specification, test executions and overall state and
@@ -4107,7 +4107,7 @@
     }
 }
 <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SystraceSetup {
     <span class="doccomment">/// Systrace duration in seconds.
     /// Should be between 1 and 30 seconds. 0 disables systrace.
@@ -4203,7 +4203,7 @@
 }
 <span class="doccomment">/// Identifies an account and how to log into it.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Account {
     <span class="doccomment">/// Required. The type of account, based what it's for (e.g. Google) and what
     /// its login mechanism is (e.g. username and password).
@@ -4215,7 +4215,7 @@
     <span class="doccomment">/// Required. The type of account, based what it's for (e.g. Google) and what
     /// its login mechanism is (e.g. username and password).
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>AccountType {
         <span class="doccomment">/// An automatic google login account.
         </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -4230,7 +4230,7 @@
 /// present on the device. Logging into the device with these generated accounts
 /// allows testing more functionalities.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GoogleAuto {}
 <span class="doccomment">/// An Android package file to install.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4649,7 +4649,7 @@
 }
 <span class="doccomment">/// Specifies an intent that starts the main launcher activity.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LauncherActivityIntent {}
 <span class="doccomment">/// A starting intent specified by an action, uri, and categories.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4668,7 +4668,7 @@
 }
 <span class="doccomment">/// Skips the starting activity
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NoActivityIntent {}
 <span class="doccomment">/// The matrix of environments in which the test is to be executed.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4943,7 +4943,7 @@
 }
 <span class="doccomment">/// Details behind an invalid request.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InvalidRequestDetail {
     <span class="doccomment">/// The reason behind the error.
     </span><span class="attr">#[prost(enumeration = <span class="string">"invalid_request_detail::Reason"</span>, tag = <span class="string">"1"</span>)]
@@ -5049,7 +5049,7 @@
 /// Based on the sharding mechanism AndroidJUnitRunner uses, there is no
 /// guarantee that test cases will be distributed uniformly across all shards.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UniformSharding {
     <span class="doccomment">/// Required. The total number of shards to create. This must always be a
     /// positive number that is no greater than the total number of test cases.
@@ -5090,7 +5090,7 @@
 }
 <span class="doccomment">/// Shards test based on previous test case timing records.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SmartSharding {
     <span class="doccomment">/// The amount of time tests within a shard should take.
     ///
@@ -5195,7 +5195,7 @@
 }
 <span class="doccomment">/// Response containing the current state of the specified test matrix.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CancelTestMatrixResponse {
     <span class="doccomment">/// The current rolled-up state of the test matrix.
     /// If this state is already final, then the cancelation request will
@@ -5894,6 +5894,498 @@
         </span>}
     }
 }
+<span class="doccomment">/// A Request for the device session from the session service.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateDeviceSessionRequest {
+    <span class="doccomment">/// Required. The Compute Engine project under which this device will be
+    /// allocated. "projects/{project_id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. A device session to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>device_session: ::core::option::Option&lt;DeviceSession&gt;,
+}
+<span class="doccomment">/// Request a list of device sessions in the provided parent matching the given
+/// filter.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListDeviceSessionsRequest {
+    <span class="doccomment">/// Required. The name of the parent to request, e.g. "projects/{project_id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The maximum number of DeviceSessions to return.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// Optional. A continuation token for paging.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. If specified, responses will be filtered by the given filter.
+    /// Allowed fields are: session_state.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A list of device sessions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListDeviceSessionsResponse {
+    <span class="doccomment">/// The sessions matching the specified filter in the given cloud project.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>device_sessions: ::prost::alloc::vec::Vec&lt;DeviceSession&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The request object for a Device Session.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetDeviceSessionRequest {
+    <span class="doccomment">/// Required. Name of the DeviceSession, e.g.
+    /// "projects/{project_id}/deviceSessions/{session_id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The request object for cancelling a Device Session.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CancelDeviceSessionRequest {
+    <span class="doccomment">/// Required. Name of the DeviceSession, e.g.
+    /// "projects/{project_id}/deviceSessions/{session_id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The request object for the UpdateDeviceSession RPC.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateDeviceSessionRequest {
+    <span class="doccomment">/// Required. DeviceSession to update.
+    /// The device session's `name` field is used to identify the session to update
+    /// "projects/{project_id}/deviceSessions/{session_id}"
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>device_session: ::core::option::Option&lt;DeviceSession&gt;,
+    <span class="doccomment">/// Required. The list of fields to update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Protobuf message describing the device message, used from several RPCs.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeviceSession {
+    <span class="doccomment">/// Optional. Name of the DeviceSession, e.g.
+    /// "projects/{project_id}/deviceSessions/{session_id}"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The title of the DeviceSession to be presented in the UI.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Current state of the DeviceSession.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"device_session::SessionState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Output only. The historical state transitions of the session_state message
+    /// including the current session state.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>state_histories: ::prost::alloc::vec::Vec&lt;device_session::SessionStateEvent&gt;,
+    <span class="doccomment">/// Output only. The interval of time that this device must be interacted with
+    /// before it transitions from ACTIVE to TIMEOUT_INACTIVITY.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>inactivity_timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Output only. The time that the Session was created.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The timestamp that the session first became ACTIVE.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>active_start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Required. The requested device
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>android_device: ::core::option::Option&lt;AndroidDevice&gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"device_session::Expiration"</span>, tags = <span class="string">"13, 5"</span>)]
+    </span><span class="kw">pub </span>expiration: ::core::option::Option&lt;device_session::Expiration&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DeviceSession`.
+</span><span class="kw">pub mod </span>device_session {
+    <span class="doccomment">/// A message encapsulating a series of Session states and the time that the
+    /// DeviceSession first entered those states.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>SessionStateEvent {
+        <span class="doccomment">/// Output only. The session_state tracked by this event
+        </span><span class="attr">#[prost(enumeration = <span class="string">"SessionState"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>session_state: i32,
+        <span class="doccomment">/// Output only. The time that the session_state first encountered that
+        /// state.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// Output only. A human-readable message to explain the state.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The state that the device session resides.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SessionState {
+        <span class="doccomment">/// Default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Initial state of a session request. The session is being validated for
+        /// correctness and a device is not yet requested.
+        </span>Requested = <span class="number">1</span>,
+        <span class="doccomment">/// The session has been validated and is in the queue for a device.
+        </span>Pending = <span class="number">2</span>,
+        <span class="doccomment">/// The session has been granted and the device is accepting
+        /// connections.
+        </span>Active = <span class="number">3</span>,
+        <span class="doccomment">/// The session duration exceeded the device’s reservation time period and
+        /// timed out automatically.
+        </span>Expired = <span class="number">4</span>,
+        <span class="doccomment">/// The user is finished with the session and it was canceled by the user
+        /// while the request was still getting allocated or after allocation and
+        /// during device usage period.
+        </span>Finished = <span class="number">5</span>,
+        <span class="doccomment">/// Unable to complete the session because the device was unavailable and
+        /// it failed to allocate through the scheduler. For example, a device not
+        /// in the catalog was requested or the request expired in the allocation
+        /// queue.
+        </span>Unavailable = <span class="number">6</span>,
+        <span class="doccomment">/// Unable to complete the session for an internal reason, such as an
+        /// infrastructure failure.
+        </span>Error = <span class="number">7</span>,
+    }
+    <span class="kw">impl </span>SessionState {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SessionState::Unspecified =&gt; <span class="string">"SESSION_STATE_UNSPECIFIED"</span>,
+                SessionState::Requested =&gt; <span class="string">"REQUESTED"</span>,
+                SessionState::Pending =&gt; <span class="string">"PENDING"</span>,
+                SessionState::Active =&gt; <span class="string">"ACTIVE"</span>,
+                SessionState::Expired =&gt; <span class="string">"EXPIRED"</span>,
+                SessionState::Finished =&gt; <span class="string">"FINISHED"</span>,
+                SessionState::Unavailable =&gt; <span class="string">"UNAVAILABLE"</span>,
+                SessionState::Error =&gt; <span class="string">"ERROR"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SESSION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"REQUESTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Requested),
+                <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
+                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+                <span class="string">"EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Expired),
+                <span class="string">"FINISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finished),
+                <span class="string">"UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unavailable),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Expiration {
+        <span class="doccomment">/// Optional. The amount of time that a device will be initially allocated
+        /// for. This can eventually be extended with the UpdateDeviceSession RPC.
+        /// Default: 15 minutes.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
+        </span>Ttl(::prost_types::Duration),
+        <span class="doccomment">/// Optional. If the device is still in use at this time, any connections
+        /// will be ended and the SessionState will transition from ACTIVE to
+        /// FINISHED.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>ExpireTime(::prost_types::Timestamp),
+    }
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>direct_access_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// A service for allocating devices and interacting with the live-allocated
+    /// devices.
+    ///
+    /// This service is part of Firebase Test Lab. To learn about how to use the
+    /// product, and how to integrate it with your system,
+    /// visit https://firebase.google.com/docs/test-lab.
+    ///
+    /// Each Session will wait for available capacity, at a higher
+    /// priority over Test Execution. When allocated, the session will be exposed
+    /// through a stream for integration.
+    ///
+    /// DirectAccessService is currently available as a preview to select developers.
+    /// You can register today on behalf of you and your team at
+    /// https://developer.android.com/studio/preview/android-device-streaming
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>DirectAccessServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; DirectAccessServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; DirectAccessServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            DirectAccessServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// POST /v1/projects/{project_id}/deviceSessions
+        </span><span class="kw">pub async fn </span>create_device_session(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateDeviceSessionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DeviceSession&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.DirectAccessService/CreateDeviceSession"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
+                        <span class="string">"CreateDeviceSession"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// GET /v1/projects/{project_id}/deviceSessions
+        /// Lists device Sessions owned by the project user.
+        </span><span class="kw">pub async fn </span>list_device_sessions(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListDeviceSessionsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListDeviceSessionsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.DirectAccessService/ListDeviceSessions"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
+                        <span class="string">"ListDeviceSessions"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// GET /v1/projects/{project_id}/deviceSessions/{device_session_id}
+        /// Return a DeviceSession, which documents the allocation status and
+        /// whether the device is allocated. Clients making requests from this API
+        /// must poll GetDeviceSession.
+        </span><span class="kw">pub async fn </span>get_device_session(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetDeviceSessionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DeviceSession&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.DirectAccessService/GetDeviceSession"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
+                        <span class="string">"GetDeviceSession"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// POST
+        /// /v1/projects/{project_id}/deviceSessions/{device_session_id}:cancel
+        /// Changes the DeviceSession to state FINISHED and terminates all connections.
+        /// Canceled sessions are not deleted and can be retrieved or
+        /// listed by the user until they expire based on the 28 day deletion policy.
+        </span><span class="kw">pub async fn </span>cancel_device_session(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CancelDeviceSessionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.DirectAccessService/CancelDeviceSession"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
+                        <span class="string">"CancelDeviceSession"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// PATCH
+        /// /v1/projects/{projectId}/deviceSessions/deviceSessionId}:updateDeviceSession
+        /// Updates the current device session to the fields described by the
+        /// update_mask.
+        </span><span class="kw">pub async fn </span>update_device_session(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateDeviceSessionRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DeviceSession&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.DirectAccessService/UpdateDeviceSession"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
+                        <span class="string">"UpdateDeviceSession"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Exposes ADB connection for use with the Adb Device Forwarder project
+        /// if the reserved device supports ADB.
+        /// gRPC headers are used to authenticate the Connect RPC, as well as
+        /// associate to a particular device session.
+        /// In particular, the user must specify the "X-FTL-Session-Name" header.
+        </span><span class="kw">pub async fn </span>adb_connect(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;Message = <span class="kw">super</span>::AdbMessage&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::DeviceMessage&gt;&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.devtools.testing.v1.DirectAccessService/AdbConnect"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
+                        <span class="string">"AdbConnect"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// A single device IP block
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6191,7 +6683,7 @@
 <span class="doccomment">/// Data about the relative number of devices running a
 /// given configuration of the Android platform.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Distribution {
     <span class="doccomment">/// Output only. The time this distribution was measured.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -6378,7 +6870,7 @@
 }
 <span class="doccomment">/// Network emulation parameters.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TrafficRule {
     <span class="doccomment">/// Packet delay, must be &gt;= 0.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -6937,498 +7429,6 @@
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// A Request for the device session from the session service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateDeviceSessionRequest {
-    <span class="doccomment">/// Required. The Compute Engine project under which this device will be
-    /// allocated. "projects/{project_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. A device session to create.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>device_session: ::core::option::Option&lt;DeviceSession&gt;,
-}
-<span class="doccomment">/// Request a list of device sessions in the provided parent matching the given
-/// filter.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListDeviceSessionsRequest {
-    <span class="doccomment">/// Required. The name of the parent to request, e.g. "projects/{project_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The maximum number of DeviceSessions to return.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// Optional. A continuation token for paging.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. If specified, responses will be filtered by the given filter.
-    /// Allowed fields are: session_state.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A list of device sessions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListDeviceSessionsResponse {
-    <span class="doccomment">/// The sessions matching the specified filter in the given cloud project.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>device_sessions: ::prost::alloc::vec::Vec&lt;DeviceSession&gt;,
-    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
-    /// If this field is omitted, there are no subsequent pages.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The request object for a Device Session.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GetDeviceSessionRequest {
-    <span class="doccomment">/// Required. Name of the DeviceSession, e.g.
-    /// "projects/{project_id}/deviceSessions/{session_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The request object for cancelling a Device Session.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CancelDeviceSessionRequest {
-    <span class="doccomment">/// Required. Name of the DeviceSession, e.g.
-    /// "projects/{project_id}/deviceSessions/{session_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The request object for the UpdateDeviceSession RPC.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>UpdateDeviceSessionRequest {
-    <span class="doccomment">/// Required. DeviceSession to update.
-    /// The device session's `name` field is used to identify the session to update
-    /// "projects/{project_id}/deviceSessions/{session_id}"
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>device_session: ::core::option::Option&lt;DeviceSession&gt;,
-    <span class="doccomment">/// Required. The list of fields to update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
-}
-<span class="doccomment">/// Protobuf message describing the device message, used from several RPCs.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeviceSession {
-    <span class="doccomment">/// Optional. Name of the DeviceSession, e.g.
-    /// "projects/{project_id}/deviceSessions/{session_id}"
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The title of the DeviceSession to be presented in the UI.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Current state of the DeviceSession.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"device_session::SessionState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Output only. The historical state transitions of the session_state message
-    /// including the current session state.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>state_histories: ::prost::alloc::vec::Vec&lt;device_session::SessionStateEvent&gt;,
-    <span class="doccomment">/// Output only. The interval of time that this device must be interacted with
-    /// before it transitions from ACTIVE to TIMEOUT_INACTIVITY.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>inactivity_timeout: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Output only. The time that the Session was created.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The timestamp that the session first became ACTIVE.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>active_start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Required. The requested device
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>android_device: ::core::option::Option&lt;AndroidDevice&gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"device_session::Expiration"</span>, tags = <span class="string">"13, 5"</span>)]
-    </span><span class="kw">pub </span>expiration: ::core::option::Option&lt;device_session::Expiration&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DeviceSession`.
-</span><span class="kw">pub mod </span>device_session {
-    <span class="doccomment">/// A message encapsulating a series of Session states and the time that the
-    /// DeviceSession first entered those states.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>SessionStateEvent {
-        <span class="doccomment">/// Output only. The session_state tracked by this event
-        </span><span class="attr">#[prost(enumeration = <span class="string">"SessionState"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>session_state: i32,
-        <span class="doccomment">/// Output only. The time that the session_state first encountered that
-        /// state.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>event_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// Output only. A human-readable message to explain the state.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>state_message: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// The state that the device session resides.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SessionState {
-        <span class="doccomment">/// Default value. This value is unused.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Initial state of a session request. The session is being validated for
-        /// correctness and a device is not yet requested.
-        </span>Requested = <span class="number">1</span>,
-        <span class="doccomment">/// The session has been validated and is in the queue for a device.
-        </span>Pending = <span class="number">2</span>,
-        <span class="doccomment">/// The session has been granted and the device is accepting
-        /// connections.
-        </span>Active = <span class="number">3</span>,
-        <span class="doccomment">/// The session duration exceeded the device’s reservation time period and
-        /// timed out automatically.
-        </span>Expired = <span class="number">4</span>,
-        <span class="doccomment">/// The user is finished with the session and it was canceled by the user
-        /// while the request was still getting allocated or after allocation and
-        /// during device usage period.
-        </span>Finished = <span class="number">5</span>,
-        <span class="doccomment">/// Unable to complete the session because the device was unavailable and
-        /// it failed to allocate through the scheduler. For example, a device not
-        /// in the catalog was requested or the request expired in the allocation
-        /// queue.
-        </span>Unavailable = <span class="number">6</span>,
-        <span class="doccomment">/// Unable to complete the session for an internal reason, such as an
-        /// infrastructure failure.
-        </span>Error = <span class="number">7</span>,
-    }
-    <span class="kw">impl </span>SessionState {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SessionState::Unspecified =&gt; <span class="string">"SESSION_STATE_UNSPECIFIED"</span>,
-                SessionState::Requested =&gt; <span class="string">"REQUESTED"</span>,
-                SessionState::Pending =&gt; <span class="string">"PENDING"</span>,
-                SessionState::Active =&gt; <span class="string">"ACTIVE"</span>,
-                SessionState::Expired =&gt; <span class="string">"EXPIRED"</span>,
-                SessionState::Finished =&gt; <span class="string">"FINISHED"</span>,
-                SessionState::Unavailable =&gt; <span class="string">"UNAVAILABLE"</span>,
-                SessionState::Error =&gt; <span class="string">"ERROR"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SESSION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"REQUESTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Requested),
-                <span class="string">"PENDING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Pending),
-                <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-                <span class="string">"EXPIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Expired),
-                <span class="string">"FINISHED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Finished),
-                <span class="string">"UNAVAILABLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unavailable),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Expiration {
-        <span class="doccomment">/// Optional. The amount of time that a device will be initially allocated
-        /// for. This can eventually be extended with the UpdateDeviceSession RPC.
-        /// Default: 15 minutes.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"13"</span>)]
-        </span>Ttl(::prost_types::Duration),
-        <span class="doccomment">/// Optional. If the device is still in use at this time, any connections
-        /// will be ended and the SessionState will transition from ACTIVE to
-        /// FINISHED.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>ExpireTime(::prost_types::Timestamp),
-    }
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>direct_access_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// A service for allocating devices and interacting with the live-allocated
-    /// devices.
-    ///
-    /// This service is part of Firebase Test Lab. To learn about how to use the
-    /// product, and how to integrate it with your system,
-    /// visit https://firebase.google.com/docs/test-lab.
-    ///
-    /// Each Session will wait for available capacity, at a higher
-    /// priority over Test Execution. When allocated, the session will be exposed
-    /// through a stream for integration.
-    ///
-    /// DirectAccessService is currently available as a preview to select developers.
-    /// You can register today on behalf of you and your team at
-    /// https://developer.android.com/studio/preview/android-device-streaming
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>DirectAccessServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; DirectAccessServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; DirectAccessServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            DirectAccessServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// POST /v1/projects/{project_id}/deviceSessions
-        </span><span class="kw">pub async fn </span>create_device_session(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateDeviceSessionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DeviceSession&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.DirectAccessService/CreateDeviceSession"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
-                        <span class="string">"CreateDeviceSession"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// GET /v1/projects/{project_id}/deviceSessions
-        /// Lists device Sessions owned by the project user.
-        </span><span class="kw">pub async fn </span>list_device_sessions(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListDeviceSessionsRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListDeviceSessionsResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.DirectAccessService/ListDeviceSessions"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
-                        <span class="string">"ListDeviceSessions"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// GET /v1/projects/{project_id}/deviceSessions/{device_session_id}
-        /// Return a DeviceSession, which documents the allocation status and
-        /// whether the device is allocated. Clients making requests from this API
-        /// must poll GetDeviceSession.
-        </span><span class="kw">pub async fn </span>get_device_session(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetDeviceSessionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DeviceSession&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.DirectAccessService/GetDeviceSession"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
-                        <span class="string">"GetDeviceSession"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// POST
-        /// /v1/projects/{project_id}/deviceSessions/{device_session_id}:cancel
-        /// Changes the DeviceSession to state FINISHED and terminates all connections.
-        /// Canceled sessions are not deleted and can be retrieved or
-        /// listed by the user until they expire based on the 28 day deletion policy.
-        </span><span class="kw">pub async fn </span>cancel_device_session(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CancelDeviceSessionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.DirectAccessService/CancelDeviceSession"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
-                        <span class="string">"CancelDeviceSession"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// PATCH
-        /// /v1/projects/{projectId}/deviceSessions/deviceSessionId}:updateDeviceSession
-        /// Updates the current device session to the fields described by the
-        /// update_mask.
-        </span><span class="kw">pub async fn </span>update_device_session(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateDeviceSessionRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::DeviceSession&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.DirectAccessService/UpdateDeviceSession"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
-                        <span class="string">"UpdateDeviceSession"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Exposes ADB connection for use with the Adb Device Forwarder project
-        /// if the reserved device supports ADB.
-        /// gRPC headers are used to authenticate the Connect RPC, as well as
-        /// associate to a particular device session.
-        /// In particular, the user must specify the "X-FTL-Session-Name" header.
-        </span><span class="kw">pub async fn </span>adb_connect(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoStreamingRequest&lt;Message = <span class="kw">super</span>::AdbMessage&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;tonic::codec::Streaming&lt;<span class="kw">super</span>::DeviceMessage&gt;&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.devtools.testing.v1.DirectAccessService/AdbConnect"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_streaming_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.devtools.testing.v1.DirectAccessService"</span>,
-                        <span class="string">"AdbConnect"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.streaming(req, path, codec).<span class="kw">await
         </span>}
     }
 }

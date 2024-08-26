@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["EnvironmentSpec","ExecutionIdentity","ExecutionSink","NotebookSource"],"struct":["DataformRepositorySource","DirectNotebookSource","GcsNotebookSource"]};

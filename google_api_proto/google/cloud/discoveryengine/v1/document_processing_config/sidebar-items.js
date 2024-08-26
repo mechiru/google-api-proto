@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["parsing_config"],"struct":["ParsingConfig"]};
+window.SIDEBAR_ITEMS = {"mod":["chunking_config","parsing_config"],"struct":["ChunkingConfig","ParsingConfig"]};

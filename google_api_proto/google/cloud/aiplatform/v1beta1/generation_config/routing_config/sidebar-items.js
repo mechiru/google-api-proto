@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["RoutingConfig"],"mod":["auto_routing_mode"],"struct":["AutoRoutingMode","ManualRoutingMode"]};

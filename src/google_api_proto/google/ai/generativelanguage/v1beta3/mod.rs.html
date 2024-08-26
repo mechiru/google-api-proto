@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/ai/generativelanguage/v1beta3/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/ai/generativelanguage/v1beta3/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2305,7 +2305,213 @@
 <a href="#2305" id="2305">2305</a>
 <a href="#2306" id="2306">2306</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// A fine-tuned model created using ModelService.CreateTunedModel.
+</span><span class="doccomment">/// Permission resource grants user, group or the rest of the world access to the
+/// PaLM API resource (e.g. a tuned model, file).
+///
+/// A role is a collection of permitted operations that allows users to perform
+/// specific actions on PaLM API resources. To make them available to users,
+/// groups, or service accounts, you assign roles. When you assign a role, you
+/// grant permissions that the role contains.
+///
+/// There are three concentric roles. Each role is a superset of the previous
+/// role's permitted operations:
+///   - reader can use the resource (e.g. tuned model) for inference
+///   - writer has reader's permissions and additionally can edit and share
+///   - owner has writer's permissions and additionally can delete
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Permission {
+    <span class="doccomment">/// Output only. The permission name. A unique name will be generated on
+    /// create. Example: tunedModels/{tuned_model}permssions/{permission} Output
+    /// only.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. Immutable. The type of the grantee.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::GranteeType"</span>, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>grantee_type: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. Immutable. The email address of the user of group which this
+    /// permission refers. Field is not set when permission's grantee type is
+    /// EVERYONE.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>email_address: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Required. The role granted by this permission.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::Role"</span>, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>role: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Permission`.
+</span><span class="kw">pub mod </span>permission {
+    <span class="doccomment">/// Defines types of the grantee of this permission.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>GranteeType {
+        <span class="doccomment">/// The default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Represents a user. When set, you must provide email_address for the user.
+        </span>User = <span class="number">1</span>,
+        <span class="doccomment">/// Represents a group. When set, you must provide email_address for the
+        /// group.
+        </span>Group = <span class="number">2</span>,
+        <span class="doccomment">/// Represents access to everyone. No extra information is required.
+        </span>Everyone = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>GranteeType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                GranteeType::Unspecified =&gt; <span class="string">"GRANTEE_TYPE_UNSPECIFIED"</span>,
+                GranteeType::User =&gt; <span class="string">"USER"</span>,
+                GranteeType::Group =&gt; <span class="string">"GROUP"</span>,
+                GranteeType::Everyone =&gt; <span class="string">"EVERYONE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"GRANTEE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"USER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::User),
+                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
+                <span class="string">"EVERYONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Everyone),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Defines the role granted by this permission.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Role {
+        <span class="doccomment">/// The default value. This value is unused.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Owner can use, update, share and delete the resource.
+        </span>Owner = <span class="number">1</span>,
+        <span class="doccomment">/// Writer can use, update and share the resource.
+        </span>Writer = <span class="number">2</span>,
+        <span class="doccomment">/// Reader can use the resource.
+        </span>Reader = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Role {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Role::Unspecified =&gt; <span class="string">"ROLE_UNSPECIFIED"</span>,
+                Role::Owner =&gt; <span class="string">"OWNER"</span>,
+                Role::Writer =&gt; <span class="string">"WRITER"</span>,
+                Role::Reader =&gt; <span class="string">"READER"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ROLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"OWNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Owner),
+                <span class="string">"WRITER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Writer),
+                <span class="string">"READER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reader),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information about a Generative Language Model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Model {
+    <span class="doccomment">/// Required. The resource name of the `Model`.
+    ///
+    /// Format: `models/{model}` with a `{model}` naming convention of:
+    ///
+    /// * "{base_model_id}-{version}"
+    ///
+    /// Examples:
+    ///
+    /// * `models/chat-bison-001`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The name of the base model, pass this to the generation request.
+    ///
+    /// Examples:
+    ///
+    /// * `chat-bison`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The version number of the model.
+    ///
+    /// This represents the major version
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    <span class="doccomment">/// The human-readable name of the model. E.g. "Chat Bison".
+    ///
+    /// The name can be up to 128 characters long and can consist of any UTF-8
+    /// characters.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// A short description of the model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Maximum number of input tokens allowed for this model.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>input_token_limit: i32,
+    <span class="doccomment">/// Maximum number of output tokens available for this model.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>output_token_limit: i32,
+    <span class="doccomment">/// The model's supported generation methods.
+    ///
+    /// The method names are defined as Pascal case
+    /// strings, such as `generateMessage` which correspond to API methods.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>supported_generation_methods: ::prost::alloc::vec::Vec&lt;
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Controls the randomness of the output.
+    ///
+    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
+    /// produce responses that are more varied, while a value closer to `0.0` will
+    /// typically result in less surprising responses from the model.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// For Nucleus sampling.
+    ///
+    /// Nucleus sampling considers the smallest set of tokens whose probability
+    /// sum is at least `top_p`.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// For Top-k sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// This value specifies default to be used by the backend while making the
+    /// call to the model.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// A fine-tuned model created using ModelService.CreateTunedModel.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TunedModel {
@@ -2470,7 +2676,7 @@
 }
 <span class="doccomment">/// Hyperparameters controlling the tuning process.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Hyperparameters {
     <span class="doccomment">/// Immutable. The number of training epochs. An epoch is one pass through the
     /// training data. If not set, a default of 10 will be used.
@@ -2539,7 +2745,7 @@
 }
 <span class="doccomment">/// Record for a single tuning step.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TuningSnapshot {
     <span class="doccomment">/// Output only. The tuning step.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -2553,807 +2759,6 @@
     <span class="doccomment">/// Output only. The timestamp when this metric was computed.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>compute_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// A collection of source attributions for a piece of content.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CitationMetadata {
-    <span class="doccomment">/// Citations to sources for a specific response.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>citation_sources: ::prost::alloc::vec::Vec&lt;CitationSource&gt;,
-}
-<span class="doccomment">/// A citation to a source for a portion of a specific response.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CitationSource {
-    <span class="doccomment">/// Optional. Start of segment of the response that is attributed to this
-    /// source.
-    ///
-    /// Index indicates the start of the segment, measured in bytes.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. End of the attributed segment, exclusive.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_index: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. URI that is attributed as a source for a portion of the text.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>uri: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Optional. License for the GitHub project that is attributed as a source for
-    /// segment.
-    ///
-    /// License info is required for code citations.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>license: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Content filtering metadata associated with processing a single request.
-///
-/// ContentFilter contains a reason and an optional supporting string. The reason
-/// may be unspecified.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContentFilter {
-    <span class="doccomment">/// The reason content was blocked during request processing.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"content_filter::BlockedReason"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reason: i32,
-    <span class="doccomment">/// A string that describes the filtering behavior in more detail.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>message: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ContentFilter`.
-</span><span class="kw">pub mod </span>content_filter {
-    <span class="doccomment">/// A list of reasons why content may have been blocked.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>BlockedReason {
-        <span class="doccomment">/// A blocked reason was not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Content was blocked by safety settings.
-        </span>Safety = <span class="number">1</span>,
-        <span class="doccomment">/// Content was blocked, but the reason is uncategorized.
-        </span>Other = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>BlockedReason {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                BlockedReason::Unspecified =&gt; <span class="string">"BLOCKED_REASON_UNSPECIFIED"</span>,
-                BlockedReason::Safety =&gt; <span class="string">"SAFETY"</span>,
-                BlockedReason::Other =&gt; <span class="string">"OTHER"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"BLOCKED_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SAFETY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Safety),
-                <span class="string">"OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Safety feedback for an entire request.
-///
-/// This field is populated if content in the input and/or response is blocked
-/// due to safety settings. SafetyFeedback may not exist for every HarmCategory.
-/// Each SafetyFeedback will return the safety settings used by the request as
-/// well as the lowest HarmProbability that should be allowed in order to return
-/// a result.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SafetyFeedback {
-    <span class="doccomment">/// Safety rating evaluated from content.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>rating: ::core::option::Option&lt;SafetyRating&gt;,
-    <span class="doccomment">/// Safety settings applied to the request.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>setting: ::core::option::Option&lt;SafetySetting&gt;,
-}
-<span class="doccomment">/// Safety rating for a piece of content.
-///
-/// The safety rating contains the category of harm and the
-/// harm probability level in that category for a piece of content.
-/// Content is classified for safety across a number of
-/// harm categories and the probability of the harm classification is included
-/// here.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SafetyRating {
-    <span class="doccomment">/// Required. The category for this rating.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"HarmCategory"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>category: i32,
-    <span class="doccomment">/// Required. The probability of harm for this content.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"safety_rating::HarmProbability"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>probability: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `SafetyRating`.
-</span><span class="kw">pub mod </span>safety_rating {
-    <span class="doccomment">/// The probability that a piece of content is harmful.
-    ///
-    /// The classification system gives the probability of the content being
-    /// unsafe. This does not indicate the severity of harm for a piece of content.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>HarmProbability {
-        <span class="doccomment">/// Probability is unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Content has a negligible chance of being unsafe.
-        </span>Negligible = <span class="number">1</span>,
-        <span class="doccomment">/// Content has a low chance of being unsafe.
-        </span>Low = <span class="number">2</span>,
-        <span class="doccomment">/// Content has a medium chance of being unsafe.
-        </span>Medium = <span class="number">3</span>,
-        <span class="doccomment">/// Content has a high chance of being unsafe.
-        </span>High = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>HarmProbability {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                HarmProbability::Unspecified =&gt; <span class="string">"HARM_PROBABILITY_UNSPECIFIED"</span>,
-                HarmProbability::Negligible =&gt; <span class="string">"NEGLIGIBLE"</span>,
-                HarmProbability::Low =&gt; <span class="string">"LOW"</span>,
-                HarmProbability::Medium =&gt; <span class="string">"MEDIUM"</span>,
-                HarmProbability::High =&gt; <span class="string">"HIGH"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"HARM_PROBABILITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"NEGLIGIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Negligible),
-                <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
-                <span class="string">"MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
-                <span class="string">"HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Safety setting, affecting the safety-blocking behavior.
-///
-/// Passing a safety setting for a category changes the allowed proability that
-/// content is blocked.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SafetySetting {
-    <span class="doccomment">/// Required. The category for this setting.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"HarmCategory"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>category: i32,
-    <span class="doccomment">/// Required. Controls the probability threshold at which harm is blocked.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"safety_setting::HarmBlockThreshold"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>threshold: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `SafetySetting`.
-</span><span class="kw">pub mod </span>safety_setting {
-    <span class="doccomment">/// Block at and beyond a specified harm probability.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>HarmBlockThreshold {
-        <span class="doccomment">/// Threshold is unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Content with NEGLIGIBLE will be allowed.
-        </span>BlockLowAndAbove = <span class="number">1</span>,
-        <span class="doccomment">/// Content with NEGLIGIBLE and LOW will be allowed.
-        </span>BlockMediumAndAbove = <span class="number">2</span>,
-        <span class="doccomment">/// Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed.
-        </span>BlockOnlyHigh = <span class="number">3</span>,
-        <span class="doccomment">/// All content will be allowed.
-        </span>BlockNone = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>HarmBlockThreshold {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                HarmBlockThreshold::Unspecified =&gt; <span class="string">"HARM_BLOCK_THRESHOLD_UNSPECIFIED"</span>,
-                HarmBlockThreshold::BlockLowAndAbove =&gt; <span class="string">"BLOCK_LOW_AND_ABOVE"</span>,
-                HarmBlockThreshold::BlockMediumAndAbove =&gt; <span class="string">"BLOCK_MEDIUM_AND_ABOVE"</span>,
-                HarmBlockThreshold::BlockOnlyHigh =&gt; <span class="string">"BLOCK_ONLY_HIGH"</span>,
-                HarmBlockThreshold::BlockNone =&gt; <span class="string">"BLOCK_NONE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"HARM_BLOCK_THRESHOLD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"BLOCK_LOW_AND_ABOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockLowAndAbove),
-                <span class="string">"BLOCK_MEDIUM_AND_ABOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockMediumAndAbove),
-                <span class="string">"BLOCK_ONLY_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockOnlyHigh),
-                <span class="string">"BLOCK_NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockNone),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The category of a rating.
-///
-/// These categories cover various kinds of harms that developers
-/// may wish to adjust.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>HarmCategory {
-    <span class="doccomment">/// Category is unspecified.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Negative or harmful comments targeting identity and/or protected attribute.
-    </span>Derogatory = <span class="number">1</span>,
-    <span class="doccomment">/// Content that is rude, disrepspectful, or profane.
-    </span>Toxicity = <span class="number">2</span>,
-    <span class="doccomment">/// Describes scenarios depictng violence against an individual or group, or
-    /// general descriptions of gore.
-    </span>Violence = <span class="number">3</span>,
-    <span class="doccomment">/// Contains references to sexual acts or other lewd content.
-    </span>Sexual = <span class="number">4</span>,
-    <span class="doccomment">/// Promotes unchecked medical advice.
-    </span>Medical = <span class="number">5</span>,
-    <span class="doccomment">/// Dangerous content that promotes, facilitates, or encourages harmful acts.
-    </span>Dangerous = <span class="number">6</span>,
-}
-<span class="kw">impl </span>HarmCategory {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            HarmCategory::Unspecified =&gt; <span class="string">"HARM_CATEGORY_UNSPECIFIED"</span>,
-            HarmCategory::Derogatory =&gt; <span class="string">"HARM_CATEGORY_DEROGATORY"</span>,
-            HarmCategory::Toxicity =&gt; <span class="string">"HARM_CATEGORY_TOXICITY"</span>,
-            HarmCategory::Violence =&gt; <span class="string">"HARM_CATEGORY_VIOLENCE"</span>,
-            HarmCategory::Sexual =&gt; <span class="string">"HARM_CATEGORY_SEXUAL"</span>,
-            HarmCategory::Medical =&gt; <span class="string">"HARM_CATEGORY_MEDICAL"</span>,
-            HarmCategory::Dangerous =&gt; <span class="string">"HARM_CATEGORY_DANGEROUS"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"HARM_CATEGORY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"HARM_CATEGORY_DEROGATORY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Derogatory),
-            <span class="string">"HARM_CATEGORY_TOXICITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Toxicity),
-            <span class="string">"HARM_CATEGORY_VIOLENCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Violence),
-            <span class="string">"HARM_CATEGORY_SEXUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sexual),
-            <span class="string">"HARM_CATEGORY_MEDICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medical),
-            <span class="string">"HARM_CATEGORY_DANGEROUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dangerous),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Request to generate a text completion response from the model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateTextRequest {
-    <span class="doccomment">/// Required. The name of the `Model` or `TunedModel` to use for generating the
-    /// completion.
-    /// Examples:
-    ///   models/text-bison-001
-    ///   tunedModels/sentence-translator-u3b7m
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The free-form input text given to the model as a prompt.
-    ///
-    /// Given a prompt, the model will generate a TextCompletion response it
-    /// predicts as the completion of the input text.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;TextPrompt&gt;,
-    <span class="doccomment">/// Optional. Controls the randomness of the output.
-    /// Note: The default value varies by model, see the `Model.temperature`
-    /// attribute of the `Model` returned the `getModel` function.
-    ///
-    /// Values can range from \[0.0,1.0\],
-    /// inclusive. A value closer to 1.0 will produce responses that are more
-    /// varied and creative, while a value closer to 0.0 will typically result in
-    /// more straightforward responses from the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// Optional. Number of generated responses to return.
-    ///
-    /// This value must be between \[1, 8\], inclusive. If unset, this will default
-    /// to 1.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>candidate_count: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. The maximum number of tokens to include in a candidate.
-    ///
-    /// If unset, this will default to output_token_limit specified in the `Model`
-    /// specification.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>max_output_tokens: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. The maximum cumulative probability of tokens to consider when
-    /// sampling.
-    ///
-    /// The model uses combined Top-k and nucleus sampling.
-    ///
-    /// Tokens are sorted based on their assigned probabilities so that only the
-    /// most likely tokens are considered. Top-k sampling directly limits the
-    /// maximum number of tokens to consider, while Nucleus sampling limits number
-    /// of tokens based on the cumulative probability.
-    ///
-    /// Note: The default value varies by model, see the `Model.top_p`
-    /// attribute of the `Model` returned the `getModel` function.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// Optional. The maximum number of tokens to consider when sampling.
-    ///
-    /// The model uses combined Top-k and nucleus sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// Defaults to 40.
-    ///
-    /// Note: The default value varies by model, see the `Model.top_k`
-    /// attribute of the `Model` returned the `getModel` function.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// A list of unique `SafetySetting` instances for blocking unsafe content.
-    ///
-    /// that will be enforced on the `GenerateTextRequest.prompt` and
-    /// `GenerateTextResponse.candidates`. There should not be more than one
-    /// setting for each `SafetyCategory` type. The API will block any prompts and
-    /// responses that fail to meet the thresholds set by these settings. This list
-    /// overrides the default settings for each `SafetyCategory` specified in the
-    /// safety_settings. If there is no `SafetySetting` for a given
-    /// `SafetyCategory` provided in the list, the API will use the default safety
-    /// setting for that category.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>safety_settings: ::prost::alloc::vec::Vec&lt;SafetySetting&gt;,
-    <span class="doccomment">/// The set of character sequences (up to 5) that will stop output generation.
-    /// If specified, the API will stop at the first appearance of a stop
-    /// sequence. The stop sequence will not be included as part of the response.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>stop_sequences: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// The response from the model, including candidate completions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateTextResponse {
-    <span class="doccomment">/// Candidate responses from the model.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>candidates: ::prost::alloc::vec::Vec&lt;TextCompletion&gt;,
-    <span class="doccomment">/// A set of content filtering metadata for the prompt and response
-    /// text.
-    ///
-    /// This indicates which `SafetyCategory`(s) blocked a
-    /// candidate from this response, the lowest `HarmProbability`
-    /// that triggered a block, and the HarmThreshold setting for that category.
-    /// This indicates the smallest change to the `SafetySettings` that would be
-    /// necessary to unblock at least 1 response.
-    ///
-    /// The blocking is configured by the `SafetySettings` in the request (or the
-    /// default `SafetySettings` of the API).
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>filters: ::prost::alloc::vec::Vec&lt;ContentFilter&gt;,
-    <span class="doccomment">/// Returns any safety feedback related to content filtering.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>safety_feedback: ::prost::alloc::vec::Vec&lt;SafetyFeedback&gt;,
-}
-<span class="doccomment">/// Text given to the model as a prompt.
-///
-/// The Model will use this TextPrompt to Generate a text completion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextPrompt {
-    <span class="doccomment">/// Required. The prompt text.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Output text returned from a model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextCompletion {
-    <span class="doccomment">/// Output only. The generated text returned from the model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>output: ::prost::alloc::string::String,
-    <span class="doccomment">/// Ratings for the safety of a response.
-    ///
-    /// There is at most one rating per category.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>safety_ratings: ::prost::alloc::vec::Vec&lt;SafetyRating&gt;,
-    <span class="doccomment">/// Output only. Citation information for model-generated `output` in this
-    /// `TextCompletion`.
-    ///
-    /// This field may be populated with attribution information for any text
-    /// included in the `output`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>citation_metadata: ::core::option::Option&lt;CitationMetadata&gt;,
-}
-<span class="doccomment">/// Request to get a text embedding from the model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EmbedTextRequest {
-    <span class="doccomment">/// Required. The model name to use with the format model=models/{model}.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The free-form input text that the model will turn into an
-    /// embedding.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The response to a EmbedTextRequest.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>EmbedTextResponse {
-    <span class="doccomment">/// Output only. The embedding generated from the input text.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>embedding: ::core::option::Option&lt;Embedding&gt;,
-}
-<span class="doccomment">/// Batch request to get a text embedding from the model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchEmbedTextRequest {
-    <span class="doccomment">/// Required. The name of the `Model` to use for generating the embedding.
-    /// Examples:
-    ///   models/embedding-gecko-001
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The free-form input texts that the model will turn into an
-    /// embedding.  The current limit is 100 texts, over which an error will be
-    /// thrown.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>texts: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// The response to a EmbedTextRequest.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchEmbedTextResponse {
-    <span class="doccomment">/// Output only. The embeddings generated from the input text.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>embeddings: ::prost::alloc::vec::Vec&lt;Embedding&gt;,
-}
-<span class="doccomment">/// A list of floats representing the embedding.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Embedding {
-    <span class="doccomment">/// The embedding values.
-    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: ::prost::alloc::vec::Vec&lt;f32&gt;,
-}
-<span class="doccomment">/// Counts the number of tokens in the `prompt` sent to a model.
-///
-/// Models may tokenize text differently, so each model may return a different
-/// `token_count`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CountTextTokensRequest {
-    <span class="doccomment">/// Required. The model's resource name. This serves as an ID for the Model to
-    /// use.
-    ///
-    /// This name should match a model name returned by the `ListModels` method.
-    ///
-    /// Format: `models/{model}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The free-form input text given to the model as a prompt.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;TextPrompt&gt;,
-}
-<span class="doccomment">/// A response from `CountTextTokens`.
-///
-/// It returns the model's `token_count` for the `prompt`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CountTextTokensResponse {
-    <span class="doccomment">/// The number of tokens that the `model` tokenizes the `prompt` into.
-    ///
-    /// Always non-negative.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>token_count: i32,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>text_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// API for using Generative Language Models (GLMs) trained to generate text.
-    ///
-    /// Also known as Large Language Models (LLM)s, these generate text given an
-    /// input prompt from the user.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>TextServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; TextServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; TextServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            TextServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Generates a response from the model given an input message.
-        </span><span class="kw">pub async fn </span>generate_text(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GenerateTextRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::GenerateTextResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/GenerateText"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
-                        <span class="string">"GenerateText"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Generates an embedding from the model given an input message.
-        </span><span class="kw">pub async fn </span>embed_text(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::EmbedTextRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::EmbedTextResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/EmbedText"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
-                        <span class="string">"EmbedText"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Generates multiple embeddings from the model given input text in a
-        /// synchronous call.
-        </span><span class="kw">pub async fn </span>batch_embed_text(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchEmbedTextRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::BatchEmbedTextResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/BatchEmbedText"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
-                        <span class="string">"BatchEmbedText"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Runs a model's tokenizer on a text and returns the token count.
-        </span><span class="kw">pub async fn </span>count_text_tokens(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CountTextTokensRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::CountTextTokensResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/CountTextTokens"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
-                        <span class="string">"CountTextTokens"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Information about a Generative Language Model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Model {
-    <span class="doccomment">/// Required. The resource name of the `Model`.
-    ///
-    /// Format: `models/{model}` with a `{model}` naming convention of:
-    ///
-    /// * "{base_model_id}-{version}"
-    ///
-    /// Examples:
-    ///
-    /// * `models/chat-bison-001`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The name of the base model, pass this to the generation request.
-    ///
-    /// Examples:
-    ///
-    /// * `chat-bison`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>base_model_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The version number of the model.
-    ///
-    /// This represents the major version
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// The human-readable name of the model. E.g. "Chat Bison".
-    ///
-    /// The name can be up to 128 characters long and can consist of any UTF-8
-    /// characters.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// A short description of the model.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Maximum number of input tokens allowed for this model.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>input_token_limit: i32,
-    <span class="doccomment">/// Maximum number of output tokens available for this model.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>output_token_limit: i32,
-    <span class="doccomment">/// The model's supported generation methods.
-    ///
-    /// The method names are defined as Pascal case
-    /// strings, such as `generateMessage` which correspond to API methods.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>supported_generation_methods: ::prost::alloc::vec::Vec&lt;
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Controls the randomness of the output.
-    ///
-    /// Values can range over `\[0.0,1.0\]`, inclusive. A value closer to `1.0` will
-    /// produce responses that are more varied, while a value closer to `0.0` will
-    /// typically result in less surprising responses from the model.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// For Nucleus sampling.
-    ///
-    /// Nucleus sampling considers the smallest set of tokens whose probability
-    /// sum is at least `top_p`.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// For Top-k sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    /// This value specifies default to be used by the backend while making the
-    /// call to the model.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
 }
 <span class="doccomment">/// Request for getting information about a specific Model.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3790,42 +3195,54 @@
         </span>}
     }
 }
-<span class="doccomment">/// Permission resource grants user, group or the rest of the world access to the
-/// PaLM API resource (e.g. a tuned model, file).
-///
-/// A role is a collection of permitted operations that allows users to perform
-/// specific actions on PaLM API resources. To make them available to users,
-/// groups, or service accounts, you assign roles. When you assign a role, you
-/// grant permissions that the role contains.
-///
-/// There are three concentric roles. Each role is a superset of the previous
-/// role's permitted operations:
-///   - reader can use the resource (e.g. tuned model) for inference
-///   - writer has reader's permissions and additionally can edit and share
-///   - owner has writer's permissions and additionally can delete
+<span class="doccomment">/// A collection of source attributions for a piece of content.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Permission {
-    <span class="doccomment">/// Output only. The permission name. A unique name will be generated on
-    /// create. Example: tunedModels/{tuned_model}permssions/{permission} Output
-    /// only.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. Immutable. The type of the grantee.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::GranteeType"</span>, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>grantee_type: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. Immutable. The email address of the user of group which this
-    /// permission refers. Field is not set when permission's grantee type is
-    /// EVERYONE.
-    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>email_address: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Required. The role granted by this permission.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"permission::Role"</span>, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>role: ::core::option::Option&lt;i32&gt;,
+</span><span class="kw">pub struct </span>CitationMetadata {
+    <span class="doccomment">/// Citations to sources for a specific response.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>citation_sources: ::prost::alloc::vec::Vec&lt;CitationSource&gt;,
 }
-<span class="doccomment">/// Nested message and enum types in `Permission`.
-</span><span class="kw">pub mod </span>permission {
-    <span class="doccomment">/// Defines types of the grantee of this permission.
+<span class="doccomment">/// A citation to a source for a portion of a specific response.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CitationSource {
+    <span class="doccomment">/// Optional. Start of segment of the response that is attributed to this
+    /// source.
+    ///
+    /// Index indicates the start of the segment, measured in bytes.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. End of the attributed segment, exclusive.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_index: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. URI that is attributed as a source for a portion of the text.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>uri: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Optional. License for the GitHub project that is attributed as a source for
+    /// segment.
+    ///
+    /// License info is required for code citations.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>license: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Content filtering metadata associated with processing a single request.
+///
+/// ContentFilter contains a reason and an optional supporting string. The reason
+/// may be unspecified.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContentFilter {
+    <span class="doccomment">/// The reason content was blocked during request processing.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"content_filter::BlockedReason"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reason: i32,
+    <span class="doccomment">/// A string that describes the filtering behavior in more detail.
+    </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>message: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ContentFilter`.
+</span><span class="kw">pub mod </span>content_filter {
+    <span class="doccomment">/// A list of reasons why content may have been blocked.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -3838,42 +3255,77 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>GranteeType {
-        <span class="doccomment">/// The default value. This value is unused.
+    </span><span class="kw">pub enum </span>BlockedReason {
+        <span class="doccomment">/// A blocked reason was not specified.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Represents a user. When set, you must provide email_address for the user.
-        </span>User = <span class="number">1</span>,
-        <span class="doccomment">/// Represents a group. When set, you must provide email_address for the
-        /// group.
-        </span>Group = <span class="number">2</span>,
-        <span class="doccomment">/// Represents access to everyone. No extra information is required.
-        </span>Everyone = <span class="number">3</span>,
+        <span class="doccomment">/// Content was blocked by safety settings.
+        </span>Safety = <span class="number">1</span>,
+        <span class="doccomment">/// Content was blocked, but the reason is uncategorized.
+        </span>Other = <span class="number">2</span>,
     }
-    <span class="kw">impl </span>GranteeType {
+    <span class="kw">impl </span>BlockedReason {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                GranteeType::Unspecified =&gt; <span class="string">"GRANTEE_TYPE_UNSPECIFIED"</span>,
-                GranteeType::User =&gt; <span class="string">"USER"</span>,
-                GranteeType::Group =&gt; <span class="string">"GROUP"</span>,
-                GranteeType::Everyone =&gt; <span class="string">"EVERYONE"</span>,
+                BlockedReason::Unspecified =&gt; <span class="string">"BLOCKED_REASON_UNSPECIFIED"</span>,
+                BlockedReason::Safety =&gt; <span class="string">"SAFETY"</span>,
+                BlockedReason::Other =&gt; <span class="string">"OTHER"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"GRANTEE_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"USER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::User),
-                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
-                <span class="string">"EVERYONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Everyone),
+                <span class="string">"BLOCKED_REASON_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SAFETY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Safety),
+                <span class="string">"OTHER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Other),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
     }
-    <span class="doccomment">/// Defines the role granted by this permission.
+}
+<span class="doccomment">/// Safety feedback for an entire request.
+///
+/// This field is populated if content in the input and/or response is blocked
+/// due to safety settings. SafetyFeedback may not exist for every HarmCategory.
+/// Each SafetyFeedback will return the safety settings used by the request as
+/// well as the lowest HarmProbability that should be allowed in order to return
+/// a result.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SafetyFeedback {
+    <span class="doccomment">/// Safety rating evaluated from content.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>rating: ::core::option::Option&lt;SafetyRating&gt;,
+    <span class="doccomment">/// Safety settings applied to the request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>setting: ::core::option::Option&lt;SafetySetting&gt;,
+}
+<span class="doccomment">/// Safety rating for a piece of content.
+///
+/// The safety rating contains the category of harm and the
+/// harm probability level in that category for a piece of content.
+/// Content is classified for safety across a number of
+/// harm categories and the probability of the harm classification is included
+/// here.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SafetyRating {
+    <span class="doccomment">/// Required. The category for this rating.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"HarmCategory"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>category: i32,
+    <span class="doccomment">/// Required. The probability of harm for this content.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"safety_rating::HarmProbability"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>probability: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `SafetyRating`.
+</span><span class="kw">pub mod </span>safety_rating {
+    <span class="doccomment">/// The probability that a piece of content is harmful.
+    ///
+    /// The classification system gives the probability of the content being
+    /// unsafe. This does not indicate the severity of harm for a piece of content.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -3886,39 +3338,920 @@
         ::prost::Enumeration
     )]
     #[repr(i32)]
-    </span><span class="kw">pub enum </span>Role {
-        <span class="doccomment">/// The default value. This value is unused.
+    </span><span class="kw">pub enum </span>HarmProbability {
+        <span class="doccomment">/// Probability is unspecified.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Owner can use, update, share and delete the resource.
-        </span>Owner = <span class="number">1</span>,
-        <span class="doccomment">/// Writer can use, update and share the resource.
-        </span>Writer = <span class="number">2</span>,
-        <span class="doccomment">/// Reader can use the resource.
-        </span>Reader = <span class="number">3</span>,
+        <span class="doccomment">/// Content has a negligible chance of being unsafe.
+        </span>Negligible = <span class="number">1</span>,
+        <span class="doccomment">/// Content has a low chance of being unsafe.
+        </span>Low = <span class="number">2</span>,
+        <span class="doccomment">/// Content has a medium chance of being unsafe.
+        </span>Medium = <span class="number">3</span>,
+        <span class="doccomment">/// Content has a high chance of being unsafe.
+        </span>High = <span class="number">4</span>,
     }
-    <span class="kw">impl </span>Role {
+    <span class="kw">impl </span>HarmProbability {
         <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
         ///
         /// The values are not transformed in any way and thus are considered stable
         /// (if the ProtoBuf definition does not change) and safe for programmatic use.
         </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
             <span class="kw">match </span><span class="self">self </span>{
-                Role::Unspecified =&gt; <span class="string">"ROLE_UNSPECIFIED"</span>,
-                Role::Owner =&gt; <span class="string">"OWNER"</span>,
-                Role::Writer =&gt; <span class="string">"WRITER"</span>,
-                Role::Reader =&gt; <span class="string">"READER"</span>,
+                HarmProbability::Unspecified =&gt; <span class="string">"HARM_PROBABILITY_UNSPECIFIED"</span>,
+                HarmProbability::Negligible =&gt; <span class="string">"NEGLIGIBLE"</span>,
+                HarmProbability::Low =&gt; <span class="string">"LOW"</span>,
+                HarmProbability::Medium =&gt; <span class="string">"MEDIUM"</span>,
+                HarmProbability::High =&gt; <span class="string">"HIGH"</span>,
             }
         }
         <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
-                <span class="string">"ROLE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"OWNER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Owner),
-                <span class="string">"WRITER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Writer),
-                <span class="string">"READER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Reader),
+                <span class="string">"HARM_PROBABILITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"NEGLIGIBLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Negligible),
+                <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
+                <span class="string">"MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
+                <span class="string">"HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
+    }
+}
+<span class="doccomment">/// Safety setting, affecting the safety-blocking behavior.
+///
+/// Passing a safety setting for a category changes the allowed proability that
+/// content is blocked.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SafetySetting {
+    <span class="doccomment">/// Required. The category for this setting.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"HarmCategory"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>category: i32,
+    <span class="doccomment">/// Required. Controls the probability threshold at which harm is blocked.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"safety_setting::HarmBlockThreshold"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>threshold: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `SafetySetting`.
+</span><span class="kw">pub mod </span>safety_setting {
+    <span class="doccomment">/// Block at and beyond a specified harm probability.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>HarmBlockThreshold {
+        <span class="doccomment">/// Threshold is unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Content with NEGLIGIBLE will be allowed.
+        </span>BlockLowAndAbove = <span class="number">1</span>,
+        <span class="doccomment">/// Content with NEGLIGIBLE and LOW will be allowed.
+        </span>BlockMediumAndAbove = <span class="number">2</span>,
+        <span class="doccomment">/// Content with NEGLIGIBLE, LOW, and MEDIUM will be allowed.
+        </span>BlockOnlyHigh = <span class="number">3</span>,
+        <span class="doccomment">/// All content will be allowed.
+        </span>BlockNone = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>HarmBlockThreshold {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                HarmBlockThreshold::Unspecified =&gt; <span class="string">"HARM_BLOCK_THRESHOLD_UNSPECIFIED"</span>,
+                HarmBlockThreshold::BlockLowAndAbove =&gt; <span class="string">"BLOCK_LOW_AND_ABOVE"</span>,
+                HarmBlockThreshold::BlockMediumAndAbove =&gt; <span class="string">"BLOCK_MEDIUM_AND_ABOVE"</span>,
+                HarmBlockThreshold::BlockOnlyHigh =&gt; <span class="string">"BLOCK_ONLY_HIGH"</span>,
+                HarmBlockThreshold::BlockNone =&gt; <span class="string">"BLOCK_NONE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"HARM_BLOCK_THRESHOLD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"BLOCK_LOW_AND_ABOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockLowAndAbove),
+                <span class="string">"BLOCK_MEDIUM_AND_ABOVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockMediumAndAbove),
+                <span class="string">"BLOCK_ONLY_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockOnlyHigh),
+                <span class="string">"BLOCK_NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BlockNone),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The category of a rating.
+///
+/// These categories cover various kinds of harms that developers
+/// may wish to adjust.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>HarmCategory {
+    <span class="doccomment">/// Category is unspecified.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Negative or harmful comments targeting identity and/or protected attribute.
+    </span>Derogatory = <span class="number">1</span>,
+    <span class="doccomment">/// Content that is rude, disrepspectful, or profane.
+    </span>Toxicity = <span class="number">2</span>,
+    <span class="doccomment">/// Describes scenarios depictng violence against an individual or group, or
+    /// general descriptions of gore.
+    </span>Violence = <span class="number">3</span>,
+    <span class="doccomment">/// Contains references to sexual acts or other lewd content.
+    </span>Sexual = <span class="number">4</span>,
+    <span class="doccomment">/// Promotes unchecked medical advice.
+    </span>Medical = <span class="number">5</span>,
+    <span class="doccomment">/// Dangerous content that promotes, facilitates, or encourages harmful acts.
+    </span>Dangerous = <span class="number">6</span>,
+}
+<span class="kw">impl </span>HarmCategory {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            HarmCategory::Unspecified =&gt; <span class="string">"HARM_CATEGORY_UNSPECIFIED"</span>,
+            HarmCategory::Derogatory =&gt; <span class="string">"HARM_CATEGORY_DEROGATORY"</span>,
+            HarmCategory::Toxicity =&gt; <span class="string">"HARM_CATEGORY_TOXICITY"</span>,
+            HarmCategory::Violence =&gt; <span class="string">"HARM_CATEGORY_VIOLENCE"</span>,
+            HarmCategory::Sexual =&gt; <span class="string">"HARM_CATEGORY_SEXUAL"</span>,
+            HarmCategory::Medical =&gt; <span class="string">"HARM_CATEGORY_MEDICAL"</span>,
+            HarmCategory::Dangerous =&gt; <span class="string">"HARM_CATEGORY_DANGEROUS"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"HARM_CATEGORY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"HARM_CATEGORY_DEROGATORY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Derogatory),
+            <span class="string">"HARM_CATEGORY_TOXICITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Toxicity),
+            <span class="string">"HARM_CATEGORY_VIOLENCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Violence),
+            <span class="string">"HARM_CATEGORY_SEXUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Sexual),
+            <span class="string">"HARM_CATEGORY_MEDICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medical),
+            <span class="string">"HARM_CATEGORY_DANGEROUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dangerous),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Request to generate a text completion response from the model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateTextRequest {
+    <span class="doccomment">/// Required. The name of the `Model` or `TunedModel` to use for generating the
+    /// completion.
+    /// Examples:
+    ///   models/text-bison-001
+    ///   tunedModels/sentence-translator-u3b7m
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The free-form input text given to the model as a prompt.
+    ///
+    /// Given a prompt, the model will generate a TextCompletion response it
+    /// predicts as the completion of the input text.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;TextPrompt&gt;,
+    <span class="doccomment">/// Optional. Controls the randomness of the output.
+    /// Note: The default value varies by model, see the `Model.temperature`
+    /// attribute of the `Model` returned the `getModel` function.
+    ///
+    /// Values can range from \[0.0,1.0\],
+    /// inclusive. A value closer to 1.0 will produce responses that are more
+    /// varied and creative, while a value closer to 0.0 will typically result in
+    /// more straightforward responses from the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// Optional. Number of generated responses to return.
+    ///
+    /// This value must be between \[1, 8\], inclusive. If unset, this will default
+    /// to 1.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>candidate_count: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. The maximum number of tokens to include in a candidate.
+    ///
+    /// If unset, this will default to output_token_limit specified in the `Model`
+    /// specification.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>max_output_tokens: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. The maximum cumulative probability of tokens to consider when
+    /// sampling.
+    ///
+    /// The model uses combined Top-k and nucleus sampling.
+    ///
+    /// Tokens are sorted based on their assigned probabilities so that only the
+    /// most likely tokens are considered. Top-k sampling directly limits the
+    /// maximum number of tokens to consider, while Nucleus sampling limits number
+    /// of tokens based on the cumulative probability.
+    ///
+    /// Note: The default value varies by model, see the `Model.top_p`
+    /// attribute of the `Model` returned the `getModel` function.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// Optional. The maximum number of tokens to consider when sampling.
+    ///
+    /// The model uses combined Top-k and nucleus sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    /// Defaults to 40.
+    ///
+    /// Note: The default value varies by model, see the `Model.top_k`
+    /// attribute of the `Model` returned the `getModel` function.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// A list of unique `SafetySetting` instances for blocking unsafe content.
+    ///
+    /// that will be enforced on the `GenerateTextRequest.prompt` and
+    /// `GenerateTextResponse.candidates`. There should not be more than one
+    /// setting for each `SafetyCategory` type. The API will block any prompts and
+    /// responses that fail to meet the thresholds set by these settings. This list
+    /// overrides the default settings for each `SafetyCategory` specified in the
+    /// safety_settings. If there is no `SafetySetting` for a given
+    /// `SafetyCategory` provided in the list, the API will use the default safety
+    /// setting for that category.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>safety_settings: ::prost::alloc::vec::Vec&lt;SafetySetting&gt;,
+    <span class="doccomment">/// The set of character sequences (up to 5) that will stop output generation.
+    /// If specified, the API will stop at the first appearance of a stop
+    /// sequence. The stop sequence will not be included as part of the response.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>stop_sequences: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// The response from the model, including candidate completions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateTextResponse {
+    <span class="doccomment">/// Candidate responses from the model.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>candidates: ::prost::alloc::vec::Vec&lt;TextCompletion&gt;,
+    <span class="doccomment">/// A set of content filtering metadata for the prompt and response
+    /// text.
+    ///
+    /// This indicates which `SafetyCategory`(s) blocked a
+    /// candidate from this response, the lowest `HarmProbability`
+    /// that triggered a block, and the HarmThreshold setting for that category.
+    /// This indicates the smallest change to the `SafetySettings` that would be
+    /// necessary to unblock at least 1 response.
+    ///
+    /// The blocking is configured by the `SafetySettings` in the request (or the
+    /// default `SafetySettings` of the API).
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>filters: ::prost::alloc::vec::Vec&lt;ContentFilter&gt;,
+    <span class="doccomment">/// Returns any safety feedback related to content filtering.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>safety_feedback: ::prost::alloc::vec::Vec&lt;SafetyFeedback&gt;,
+}
+<span class="doccomment">/// Text given to the model as a prompt.
+///
+/// The Model will use this TextPrompt to Generate a text completion.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextPrompt {
+    <span class="doccomment">/// Required. The prompt text.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Output text returned from a model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextCompletion {
+    <span class="doccomment">/// Output only. The generated text returned from the model.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>output: ::prost::alloc::string::String,
+    <span class="doccomment">/// Ratings for the safety of a response.
+    ///
+    /// There is at most one rating per category.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>safety_ratings: ::prost::alloc::vec::Vec&lt;SafetyRating&gt;,
+    <span class="doccomment">/// Output only. Citation information for model-generated `output` in this
+    /// `TextCompletion`.
+    ///
+    /// This field may be populated with attribution information for any text
+    /// included in the `output`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>citation_metadata: ::core::option::Option&lt;CitationMetadata&gt;,
+}
+<span class="doccomment">/// Request to get a text embedding from the model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EmbedTextRequest {
+    <span class="doccomment">/// Required. The model name to use with the format model=models/{model}.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The free-form input text that the model will turn into an
+    /// embedding.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The response to a EmbedTextRequest.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>EmbedTextResponse {
+    <span class="doccomment">/// Output only. The embedding generated from the input text.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>embedding: ::core::option::Option&lt;Embedding&gt;,
+}
+<span class="doccomment">/// Batch request to get a text embedding from the model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchEmbedTextRequest {
+    <span class="doccomment">/// Required. The name of the `Model` to use for generating the embedding.
+    /// Examples:
+    ///   models/embedding-gecko-001
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The free-form input texts that the model will turn into an
+    /// embedding.  The current limit is 100 texts, over which an error will be
+    /// thrown.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>texts: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// The response to a EmbedTextRequest.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchEmbedTextResponse {
+    <span class="doccomment">/// Output only. The embeddings generated from the input text.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>embeddings: ::prost::alloc::vec::Vec&lt;Embedding&gt;,
+}
+<span class="doccomment">/// A list of floats representing the embedding.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Embedding {
+    <span class="doccomment">/// The embedding values.
+    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: ::prost::alloc::vec::Vec&lt;f32&gt;,
+}
+<span class="doccomment">/// Counts the number of tokens in the `prompt` sent to a model.
+///
+/// Models may tokenize text differently, so each model may return a different
+/// `token_count`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CountTextTokensRequest {
+    <span class="doccomment">/// Required. The model's resource name. This serves as an ID for the Model to
+    /// use.
+    ///
+    /// This name should match a model name returned by the `ListModels` method.
+    ///
+    /// Format: `models/{model}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The free-form input text given to the model as a prompt.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;TextPrompt&gt;,
+}
+<span class="doccomment">/// A response from `CountTextTokens`.
+///
+/// It returns the model's `token_count` for the `prompt`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CountTextTokensResponse {
+    <span class="doccomment">/// The number of tokens that the `model` tokenizes the `prompt` into.
+    ///
+    /// Always non-negative.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>token_count: i32,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>text_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// API for using Generative Language Models (GLMs) trained to generate text.
+    ///
+    /// Also known as Large Language Models (LLM)s, these generate text given an
+    /// input prompt from the user.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>TextServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; TextServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; TextServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            TextServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Generates a response from the model given an input message.
+        </span><span class="kw">pub async fn </span>generate_text(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GenerateTextRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::GenerateTextResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/GenerateText"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
+                        <span class="string">"GenerateText"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Generates an embedding from the model given an input message.
+        </span><span class="kw">pub async fn </span>embed_text(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::EmbedTextRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::EmbedTextResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/EmbedText"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
+                        <span class="string">"EmbedText"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Generates multiple embeddings from the model given input text in a
+        /// synchronous call.
+        </span><span class="kw">pub async fn </span>batch_embed_text(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchEmbedTextRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::BatchEmbedTextResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/BatchEmbedText"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
+                        <span class="string">"BatchEmbedText"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Runs a model's tokenizer on a text and returns the token count.
+        </span><span class="kw">pub async fn </span>count_text_tokens(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CountTextTokensRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::CountTextTokensResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.TextService/CountTextTokens"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.TextService"</span>,
+                        <span class="string">"CountTextTokens"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
+<span class="doccomment">/// Request to generate a message response from the model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateMessageRequest {
+    <span class="doccomment">/// Required. The name of the model to use.
+    ///
+    /// Format: `name=models/{model}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The structured textual input given to the model as a prompt.
+    ///
+    /// Given a
+    /// prompt, the model will return what it predicts is the next message in the
+    /// discussion.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;MessagePrompt&gt;,
+    <span class="doccomment">/// Optional. Controls the randomness of the output.
+    ///
+    /// Values can range over `\[0.0,1.0\]`,
+    /// inclusive. A value closer to `1.0` will produce responses that are more
+    /// varied, while a value closer to `0.0` will typically result in
+    /// less surprising responses from the model.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// Optional. The number of generated response messages to return.
+    ///
+    /// This value must be between
+    /// `\[1, 8\]`, inclusive. If unset, this will default to `1`.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>candidate_count: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. The maximum cumulative probability of tokens to consider when
+    /// sampling.
+    ///
+    /// The model uses combined Top-k and nucleus sampling.
+    ///
+    /// Nucleus sampling considers the smallest set of tokens whose probability
+    /// sum is at least `top_p`.
+    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
+    <span class="doccomment">/// Optional. The maximum number of tokens to consider when sampling.
+    ///
+    /// The model uses combined Top-k and nucleus sampling.
+    ///
+    /// Top-k sampling considers the set of `top_k` most probable tokens.
+    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
+}
+<span class="doccomment">/// The response from the model.
+///
+/// This includes candidate messages and
+/// conversation history in the form of chronologically-ordered messages.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GenerateMessageResponse {
+    <span class="doccomment">/// Candidate response messages from the model.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>candidates: ::prost::alloc::vec::Vec&lt;Message&gt;,
+    <span class="doccomment">/// The conversation history used by the model.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>messages: ::prost::alloc::vec::Vec&lt;Message&gt;,
+    <span class="doccomment">/// A set of content filtering metadata for the prompt and response
+    /// text.
+    ///
+    /// This indicates which `SafetyCategory`(s) blocked a
+    /// candidate from this response, the lowest `HarmProbability`
+    /// that triggered a block, and the HarmThreshold setting for that category.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>filters: ::prost::alloc::vec::Vec&lt;ContentFilter&gt;,
+}
+<span class="doccomment">/// The base unit of structured text.
+///
+/// A `Message` includes an `author` and the `content` of
+/// the `Message`.
+///
+/// The `author` is used to tag messages when they are fed to the
+/// model as text.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Message {
+    <span class="doccomment">/// Optional. The author of this Message.
+    ///
+    /// This serves as a key for tagging
+    /// the content of this Message when it is fed to the model as text.
+    ///
+    /// The author can be any alphanumeric string.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>author: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The text content of the structured `Message`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Citation information for model-generated `content` in this
+    /// `Message`.
+    ///
+    /// If this `Message` was generated as output from the model, this field may be
+    /// populated with attribution information for any text included in the
+    /// `content`. This field is used only on output.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>citation_metadata: ::core::option::Option&lt;CitationMetadata&gt;,
+}
+<span class="doccomment">/// All of the structured input text passed to the model as a prompt.
+///
+/// A `MessagePrompt` contains a structured set of fields that provide context
+/// for the conversation, examples of user input/model output message pairs that
+/// prime the model to respond in different ways, and the conversation history
+/// or list of messages representing the alternating turns of the conversation
+/// between the user and the model.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MessagePrompt {
+    <span class="doccomment">/// Optional. Text that should be provided to the model first to ground the
+    /// response.
+    ///
+    /// If not empty, this `context` will be given to the model first before the
+    /// `examples` and `messages`. When using a `context` be sure to provide it
+    /// with every request to maintain continuity.
+    ///
+    /// This field can be a description of your prompt to the model to help provide
+    /// context and guide the responses. Examples: "Translate the phrase from
+    /// English to French." or "Given a statement, classify the sentiment as happy,
+    /// sad or neutral."
+    ///
+    /// Anything included in this field will take precedence over message history
+    /// if the total input size exceeds the model's `input_token_limit` and the
+    /// input request is truncated.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>context: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Examples of what the model should generate.
+    ///
+    /// This includes both user input and the response that the model should
+    /// emulate.
+    ///
+    /// These `examples` are treated identically to conversation messages except
+    /// that they take precedence over the history in `messages`:
+    /// If the total input size exceeds the model's `input_token_limit` the input
+    /// will be truncated. Items will be dropped from `messages` before `examples`.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>examples: ::prost::alloc::vec::Vec&lt;Example&gt;,
+    <span class="doccomment">/// Required. A snapshot of the recent conversation history sorted
+    /// chronologically.
+    ///
+    /// Turns alternate between two authors.
+    ///
+    /// If the total input size exceeds the model's `input_token_limit` the input
+    /// will be truncated: The oldest items will be dropped from `messages`.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>messages: ::prost::alloc::vec::Vec&lt;Message&gt;,
+}
+<span class="doccomment">/// An input/output example used to instruct the Model.
+///
+/// It demonstrates how the model should respond or format its response.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Example {
+    <span class="doccomment">/// Required. An example of an input `Message` from the user.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>input: ::core::option::Option&lt;Message&gt;,
+    <span class="doccomment">/// Required. An example of what the model should output given the input.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>output: ::core::option::Option&lt;Message&gt;,
+}
+<span class="doccomment">/// Counts the number of tokens in the `prompt` sent to a model.
+///
+/// Models may tokenize text differently, so each model may return a different
+/// `token_count`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CountMessageTokensRequest {
+    <span class="doccomment">/// Required. The model's resource name. This serves as an ID for the Model to
+    /// use.
+    ///
+    /// This name should match a model name returned by the `ListModels` method.
+    ///
+    /// Format: `models/{model}`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The prompt, whose token count is to be returned.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;MessagePrompt&gt;,
+}
+<span class="doccomment">/// A response from `CountMessageTokens`.
+///
+/// It returns the model's `token_count` for the `prompt`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CountMessageTokensResponse {
+    <span class="doccomment">/// The number of tokens that the `model` tokenizes the `prompt` into.
+    ///
+    /// Always non-negative.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>token_count: i32,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>discuss_service_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// An API for using Generative Language Models (GLMs) in dialog applications.
+    ///
+    /// Also known as large language models (LLMs), this API provides models that
+    /// are trained for multi-turn dialog.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>DiscussServiceClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; DiscussServiceClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; DiscussServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            DiscussServiceClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Generates a response from the model given an input `MessagePrompt`.
+        </span><span class="kw">pub async fn </span>generate_message(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GenerateMessageRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::GenerateMessageResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.DiscussService/GenerateMessage"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.DiscussService"</span>,
+                        <span class="string">"GenerateMessage"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Runs a model's tokenizer on a string and returns the token count.
+        </span><span class="kw">pub async fn </span>count_message_tokens(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CountMessageTokensRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::CountMessageTokensResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.ai.generativelanguage.v1beta3.DiscussService/CountMessageTokens"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.ai.generativelanguage.v1beta3.DiscussService"</span>,
+                        <span class="string">"CountMessageTokens"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
     }
 }
 <span class="doccomment">/// Request to create a `Permission`.
@@ -4022,7 +4355,7 @@
 }
 <span class="doccomment">/// Response from `TransferOwnership`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TransferOwnershipResponse {}
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>permission_service_client {
@@ -4271,339 +4604,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.ai.generativelanguage.v1beta3.PermissionService"</span>,
                         <span class="string">"TransferOwnership"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// Request to generate a message response from the model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateMessageRequest {
-    <span class="doccomment">/// Required. The name of the model to use.
-    ///
-    /// Format: `name=models/{model}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The structured textual input given to the model as a prompt.
-    ///
-    /// Given a
-    /// prompt, the model will return what it predicts is the next message in the
-    /// discussion.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;MessagePrompt&gt;,
-    <span class="doccomment">/// Optional. Controls the randomness of the output.
-    ///
-    /// Values can range over `\[0.0,1.0\]`,
-    /// inclusive. A value closer to `1.0` will produce responses that are more
-    /// varied, while a value closer to `0.0` will typically result in
-    /// less surprising responses from the model.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>temperature: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// Optional. The number of generated response messages to return.
-    ///
-    /// This value must be between
-    /// `\[1, 8\]`, inclusive. If unset, this will default to `1`.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>candidate_count: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. The maximum cumulative probability of tokens to consider when
-    /// sampling.
-    ///
-    /// The model uses combined Top-k and nucleus sampling.
-    ///
-    /// Nucleus sampling considers the smallest set of tokens whose probability
-    /// sum is at least `top_p`.
-    </span><span class="attr">#[prost(float, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>top_p: ::core::option::Option&lt;f32&gt;,
-    <span class="doccomment">/// Optional. The maximum number of tokens to consider when sampling.
-    ///
-    /// The model uses combined Top-k and nucleus sampling.
-    ///
-    /// Top-k sampling considers the set of `top_k` most probable tokens.
-    </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>top_k: ::core::option::Option&lt;i32&gt;,
-}
-<span class="doccomment">/// The response from the model.
-///
-/// This includes candidate messages and
-/// conversation history in the form of chronologically-ordered messages.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GenerateMessageResponse {
-    <span class="doccomment">/// Candidate response messages from the model.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>candidates: ::prost::alloc::vec::Vec&lt;Message&gt;,
-    <span class="doccomment">/// The conversation history used by the model.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>messages: ::prost::alloc::vec::Vec&lt;Message&gt;,
-    <span class="doccomment">/// A set of content filtering metadata for the prompt and response
-    /// text.
-    ///
-    /// This indicates which `SafetyCategory`(s) blocked a
-    /// candidate from this response, the lowest `HarmProbability`
-    /// that triggered a block, and the HarmThreshold setting for that category.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>filters: ::prost::alloc::vec::Vec&lt;ContentFilter&gt;,
-}
-<span class="doccomment">/// The base unit of structured text.
-///
-/// A `Message` includes an `author` and the `content` of
-/// the `Message`.
-///
-/// The `author` is used to tag messages when they are fed to the
-/// model as text.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Message {
-    <span class="doccomment">/// Optional. The author of this Message.
-    ///
-    /// This serves as a key for tagging
-    /// the content of this Message when it is fed to the model as text.
-    ///
-    /// The author can be any alphanumeric string.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>author: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The text content of the structured `Message`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>content: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Citation information for model-generated `content` in this
-    /// `Message`.
-    ///
-    /// If this `Message` was generated as output from the model, this field may be
-    /// populated with attribution information for any text included in the
-    /// `content`. This field is used only on output.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>citation_metadata: ::core::option::Option&lt;CitationMetadata&gt;,
-}
-<span class="doccomment">/// All of the structured input text passed to the model as a prompt.
-///
-/// A `MessagePrompt` contains a structured set of fields that provide context
-/// for the conversation, examples of user input/model output message pairs that
-/// prime the model to respond in different ways, and the conversation history
-/// or list of messages representing the alternating turns of the conversation
-/// between the user and the model.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>MessagePrompt {
-    <span class="doccomment">/// Optional. Text that should be provided to the model first to ground the
-    /// response.
-    ///
-    /// If not empty, this `context` will be given to the model first before the
-    /// `examples` and `messages`. When using a `context` be sure to provide it
-    /// with every request to maintain continuity.
-    ///
-    /// This field can be a description of your prompt to the model to help provide
-    /// context and guide the responses. Examples: "Translate the phrase from
-    /// English to French." or "Given a statement, classify the sentiment as happy,
-    /// sad or neutral."
-    ///
-    /// Anything included in this field will take precedence over message history
-    /// if the total input size exceeds the model's `input_token_limit` and the
-    /// input request is truncated.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>context: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Examples of what the model should generate.
-    ///
-    /// This includes both user input and the response that the model should
-    /// emulate.
-    ///
-    /// These `examples` are treated identically to conversation messages except
-    /// that they take precedence over the history in `messages`:
-    /// If the total input size exceeds the model's `input_token_limit` the input
-    /// will be truncated. Items will be dropped from `messages` before `examples`.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>examples: ::prost::alloc::vec::Vec&lt;Example&gt;,
-    <span class="doccomment">/// Required. A snapshot of the recent conversation history sorted
-    /// chronologically.
-    ///
-    /// Turns alternate between two authors.
-    ///
-    /// If the total input size exceeds the model's `input_token_limit` the input
-    /// will be truncated: The oldest items will be dropped from `messages`.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>messages: ::prost::alloc::vec::Vec&lt;Message&gt;,
-}
-<span class="doccomment">/// An input/output example used to instruct the Model.
-///
-/// It demonstrates how the model should respond or format its response.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Example {
-    <span class="doccomment">/// Required. An example of an input `Message` from the user.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>input: ::core::option::Option&lt;Message&gt;,
-    <span class="doccomment">/// Required. An example of what the model should output given the input.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>output: ::core::option::Option&lt;Message&gt;,
-}
-<span class="doccomment">/// Counts the number of tokens in the `prompt` sent to a model.
-///
-/// Models may tokenize text differently, so each model may return a different
-/// `token_count`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CountMessageTokensRequest {
-    <span class="doccomment">/// Required. The model's resource name. This serves as an ID for the Model to
-    /// use.
-    ///
-    /// This name should match a model name returned by the `ListModels` method.
-    ///
-    /// Format: `models/{model}`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>model: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The prompt, whose token count is to be returned.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>prompt: ::core::option::Option&lt;MessagePrompt&gt;,
-}
-<span class="doccomment">/// A response from `CountMessageTokens`.
-///
-/// It returns the model's `token_count` for the `prompt`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CountMessageTokensResponse {
-    <span class="doccomment">/// The number of tokens that the `model` tokenizes the `prompt` into.
-    ///
-    /// Always non-negative.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>token_count: i32,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>discuss_service_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// An API for using Generative Language Models (GLMs) in dialog applications.
-    ///
-    /// Also known as large language models (LLMs), this API provides models that
-    /// are trained for multi-turn dialog.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>DiscussServiceClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; DiscussServiceClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; DiscussServiceClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            DiscussServiceClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Generates a response from the model given an input `MessagePrompt`.
-        </span><span class="kw">pub async fn </span>generate_message(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GenerateMessageRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::GenerateMessageResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.DiscussService/GenerateMessage"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.DiscussService"</span>,
-                        <span class="string">"GenerateMessage"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Runs a model's tokenizer on a string and returns the token count.
-        </span><span class="kw">pub async fn </span>count_message_tokens(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CountMessageTokensRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::CountMessageTokensResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.ai.generativelanguage.v1beta3.DiscussService/CountMessageTokens"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.ai.generativelanguage.v1beta3.DiscussService"</span>,
-                        <span class="string">"CountMessageTokens"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

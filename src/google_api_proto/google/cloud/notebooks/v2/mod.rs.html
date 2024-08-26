@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/notebooks/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/notebooks/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1676,7 +1676,7 @@
 /// Engine](&lt;https://cloud.google.com/compute/docs/gpus/#gpus-list&gt;) to find a
 /// valid combination.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AcceleratorConfig {
     <span class="doccomment">/// Optional. Type of this accelerator.
     </span><span class="attr">#[prost(enumeration = <span class="string">"accelerator_config::AcceleratorType"</span>, tag = <span class="string">"1"</span>)]
@@ -1769,7 +1769,7 @@
 /// features](&lt;https://cloud.google.com/compute/docs/instances/modifying-shielded-vm&gt;).
 /// Not all combinations are valid.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ShieldedInstanceConfig {
     <span class="doccomment">/// Optional. Defines whether the VM instance has Secure Boot enabled.
     ///
@@ -2012,42 +2012,6 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
-}
-<span class="doccomment">/// Defines flags that are used to run the diagnostic tool
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DiagnosticConfig {
-    <span class="doccomment">/// Required. User Cloud Storage bucket location (REQUIRED).
-    /// Must be formatted with path prefix (`gs://$GCS_BUCKET`).
-    ///
-    /// Permissions:
-    /// User Managed Notebooks:
-    /// - storage.buckets.writer: Must be given to the project's service account
-    ///    attached to VM.
-    /// Google Managed Notebooks:
-    /// - storage.buckets.writer: Must be given to the project's service account or
-    ///    user credentials attached to VM depending on authentication mode.
-    ///
-    /// Cloud Storage bucket Log file will be written to
-    /// `gs://$GCS_BUCKET/$RELATIVE_PATH/$VM_DATE_$TIME.tar.gz`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>gcs_bucket: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Defines the relative storage path in the Cloud Storage bucket
-    /// where the diagnostic logs will be written: Default path will be the root
-    /// directory of the Cloud Storage bucket
-    /// (`gs://$GCS_BUCKET/$DATE_$TIME.tar.gz`) Example of full path where Log file
-    /// will be written: `gs://$GCS_BUCKET/$RELATIVE_PATH/`
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>relative_path: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Enables flag to repair service for instance
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>enable_repair_flag: bool,
-    <span class="doccomment">/// Optional. Enables flag to capture packets from the instance for 30 seconds
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>enable_packet_capture_flag: bool,
-    <span class="doccomment">/// Optional. Enables flag to copy all `/home/jupyter` folder contents
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>enable_copy_home_files_flag: bool,
 }
 <span class="doccomment">/// The entry of VM image upgrade history.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -2370,6 +2334,125 @@
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
+}
+<span class="doccomment">/// The definition of an Event for a managed / semi-managed notebook instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Event {
+    <span class="doccomment">/// Optional. Event report time.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>report_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Event type.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"event::EventType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Optional. Event details. This field is used to pass event information.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>details: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Event`.
+</span><span class="kw">pub mod </span>event {
+    <span class="doccomment">/// The definition of the event types.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>EventType {
+        <span class="doccomment">/// Event is not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The instance / runtime is idle
+        </span>Idle = <span class="number">1</span>,
+        <span class="doccomment">/// The instance / runtime is available.
+        /// This event indicates that instance / runtime underlying compute is
+        /// operational.
+        </span>Heartbeat = <span class="number">2</span>,
+        <span class="doccomment">/// The instance / runtime health is available.
+        /// This event indicates that instance / runtime health information.
+        </span>Health = <span class="number">3</span>,
+        <span class="doccomment">/// The instance / runtime is available.
+        /// This event allows instance / runtime to send Host maintenance
+        /// information to Control Plane.
+        /// &lt;https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance&gt;
+        </span>Maintenance = <span class="number">4</span>,
+        <span class="doccomment">/// The instance / runtime is available.
+        /// This event indicates that the instance had metadata that needs to be
+        /// modified.
+        </span>MetadataChange = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>EventType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
+                EventType::Idle =&gt; <span class="string">"IDLE"</span>,
+                EventType::Heartbeat =&gt; <span class="string">"HEARTBEAT"</span>,
+                EventType::Health =&gt; <span class="string">"HEALTH"</span>,
+                EventType::Maintenance =&gt; <span class="string">"MAINTENANCE"</span>,
+                EventType::MetadataChange =&gt; <span class="string">"METADATA_CHANGE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"IDLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Idle),
+                <span class="string">"HEARTBEAT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Heartbeat),
+                <span class="string">"HEALTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Health),
+                <span class="string">"MAINTENANCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Maintenance),
+                <span class="string">"METADATA_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetadataChange),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Defines flags that are used to run the diagnostic tool
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DiagnosticConfig {
+    <span class="doccomment">/// Required. User Cloud Storage bucket location (REQUIRED).
+    /// Must be formatted with path prefix (`gs://$GCS_BUCKET`).
+    ///
+    /// Permissions:
+    /// User Managed Notebooks:
+    /// - storage.buckets.writer: Must be given to the project's service account
+    ///    attached to VM.
+    /// Google Managed Notebooks:
+    /// - storage.buckets.writer: Must be given to the project's service account or
+    ///    user credentials attached to VM depending on authentication mode.
+    ///
+    /// Cloud Storage bucket Log file will be written to
+    /// `gs://$GCS_BUCKET/$RELATIVE_PATH/$VM_DATE_$TIME.tar.gz`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>gcs_bucket: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Defines the relative storage path in the Cloud Storage bucket
+    /// where the diagnostic logs will be written: Default path will be the root
+    /// directory of the Cloud Storage bucket
+    /// (`gs://$GCS_BUCKET/$DATE_$TIME.tar.gz`) Example of full path where Log file
+    /// will be written: `gs://$GCS_BUCKET/$RELATIVE_PATH/`
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>relative_path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Enables flag to repair service for instance
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>enable_repair_flag: bool,
+    <span class="doccomment">/// Optional. Enables flag to capture packets from the instance for 30 seconds
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>enable_packet_capture_flag: bool,
+    <span class="doccomment">/// Optional. Enables flag to copy all `/home/jupyter` folder contents
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>enable_copy_home_files_flag: bool,
 }
 <span class="doccomment">/// Represents the metadata of the long-running operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3037,89 +3120,6 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-    }
-}
-<span class="doccomment">/// The definition of an Event for a managed / semi-managed notebook instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Event {
-    <span class="doccomment">/// Optional. Event report time.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>report_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Event type.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"event::EventType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Optional. Event details. This field is used to pass event information.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>details: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Event`.
-</span><span class="kw">pub mod </span>event {
-    <span class="doccomment">/// The definition of the event types.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>EventType {
-        <span class="doccomment">/// Event is not specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The instance / runtime is idle
-        </span>Idle = <span class="number">1</span>,
-        <span class="doccomment">/// The instance / runtime is available.
-        /// This event indicates that instance / runtime underlying compute is
-        /// operational.
-        </span>Heartbeat = <span class="number">2</span>,
-        <span class="doccomment">/// The instance / runtime health is available.
-        /// This event indicates that instance / runtime health information.
-        </span>Health = <span class="number">3</span>,
-        <span class="doccomment">/// The instance / runtime is available.
-        /// This event allows instance / runtime to send Host maintenance
-        /// information to Control Plane.
-        /// &lt;https://cloud.google.com/compute/docs/gpus/gpu-host-maintenance&gt;
-        </span>Maintenance = <span class="number">4</span>,
-        <span class="doccomment">/// The instance / runtime is available.
-        /// This event indicates that the instance had metadata that needs to be
-        /// modified.
-        </span>MetadataChange = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>EventType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                EventType::Unspecified =&gt; <span class="string">"EVENT_TYPE_UNSPECIFIED"</span>,
-                EventType::Idle =&gt; <span class="string">"IDLE"</span>,
-                EventType::Heartbeat =&gt; <span class="string">"HEARTBEAT"</span>,
-                EventType::Health =&gt; <span class="string">"HEALTH"</span>,
-                EventType::Maintenance =&gt; <span class="string">"MAINTENANCE"</span>,
-                EventType::MetadataChange =&gt; <span class="string">"METADATA_CHANGE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EVENT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"IDLE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Idle),
-                <span class="string">"HEARTBEAT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Heartbeat),
-                <span class="string">"HEALTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Health),
-                <span class="string">"MAINTENANCE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Maintenance),
-                <span class="string">"METADATA_CHANGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetadataChange),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
     }
 }
 </code></pre></div></section></main></body></html>

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/binaryauthorization/v1beta1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/binaryauthorization/v1beta1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1326,327 +1326,7 @@
 <a href="#1326" id="1326">1326</a>
 <a href="#1327" id="1327">1327</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Represents an auditing event from Continuous Validation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ContinuousValidationEvent {
-    <span class="doccomment">/// Type of CV event.
-    </span><span class="attr">#[prost(oneof = <span class="string">"continuous_validation_event::EventType"</span>, tags = <span class="string">"1, 4"</span>)]
-    </span><span class="kw">pub </span>event_type: ::core::option::Option&lt;continuous_validation_event::EventType&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ContinuousValidationEvent`.
-</span><span class="kw">pub mod </span>continuous_validation_event {
-    <span class="doccomment">/// An auditing event for one Pod.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ContinuousValidationPodEvent {
-        <span class="doccomment">/// The k8s namespace of the Pod.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-        </span><span class="kw">pub </span>pod_namespace: ::prost::alloc::string::String,
-        <span class="doccomment">/// The name of the Pod.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>pod: ::prost::alloc::string::String,
-        <span class="doccomment">/// The name of the policy.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-        </span><span class="kw">pub </span>policy_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Deploy time of the Pod from k8s.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>deploy_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// Termination time of the Pod from k8s, or nothing if still running.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// Auditing verdict for this Pod.
-        </span><span class="attr">#[prost(
-            enumeration = <span class="string">"continuous_validation_pod_event::PolicyConformanceVerdict"</span>,
-            tag = <span class="string">"4"
-        </span>)]
-        </span><span class="kw">pub </span>verdict: i32,
-        <span class="doccomment">/// List of images with auditing details.
-        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>images: ::prost::alloc::vec::Vec&lt;
-            continuous_validation_pod_event::ImageDetails,
-        &gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `ContinuousValidationPodEvent`.
-    </span><span class="kw">pub mod </span>continuous_validation_pod_event {
-        <span class="doccomment">/// Container image with auditing details.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>ImageDetails {
-            <span class="doccomment">/// The name of the image.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>image: ::prost::alloc::string::String,
-            <span class="doccomment">/// The name of the container.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-            </span><span class="kw">pub </span>container_name: ::prost::alloc::string::String,
-            <span class="doccomment">/// The container type that this image belongs to.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"image_details::ContainerType"</span>, tag = <span class="string">"6"</span>)]
-            </span><span class="kw">pub </span>container_type: i32,
-            <span class="doccomment">/// The result of the audit for this image.
-            </span><span class="attr">#[prost(enumeration = <span class="string">"image_details::AuditResult"</span>, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>result: i32,
-            <span class="doccomment">/// Description of the above result.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-            <span class="doccomment">/// List of check results.
-            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-            </span><span class="kw">pub </span>check_results: ::prost::alloc::vec::Vec&lt;image_details::CheckResult&gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `ImageDetails`.
-        </span><span class="kw">pub mod </span>image_details {
-            <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>CheckResult {
-                <span class="doccomment">/// The index of the check set.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-                </span><span class="kw">pub </span>check_set_index: ::prost::alloc::string::String,
-                <span class="doccomment">/// The name of the check set.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-                </span><span class="kw">pub </span>check_set_name: ::prost::alloc::string::String,
-                <span class="doccomment">/// The scope of the check set.
-                </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-                </span><span class="kw">pub </span>check_set_scope: ::core::option::Option&lt;check_result::CheckSetScope&gt;,
-                <span class="doccomment">/// The index of the check.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-                </span><span class="kw">pub </span>check_index: ::prost::alloc::string::String,
-                <span class="doccomment">/// The name of the check.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-                </span><span class="kw">pub </span>check_name: ::prost::alloc::string::String,
-                <span class="doccomment">/// The type of the check.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-                </span><span class="kw">pub </span>check_type: ::prost::alloc::string::String,
-                <span class="doccomment">/// The verdict of this check.
-                </span><span class="attr">#[prost(enumeration = <span class="string">"check_result::CheckVerdict"</span>, tag = <span class="string">"7"</span>)]
-                </span><span class="kw">pub </span>verdict: i32,
-                <span class="doccomment">/// User-friendly explanation of this check result.
-                </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-                </span><span class="kw">pub </span>explanation: ::prost::alloc::string::String,
-            }
-            <span class="doccomment">/// Nested message and enum types in `CheckResult`.
-            </span><span class="kw">pub mod </span>check_result {
-                <span class="doccomment">/// A scope specifier for check sets.
-                </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-                #[derive(Clone, PartialEq, ::prost::Message)]
-                </span><span class="kw">pub struct </span>CheckSetScope {
-                    <span class="attr">#[prost(oneof = <span class="string">"check_set_scope::Scope"</span>, tags = <span class="string">"1, 2"</span>)]
-                    </span><span class="kw">pub </span>scope: ::core::option::Option&lt;check_set_scope::Scope&gt;,
-                }
-                <span class="doccomment">/// Nested message and enum types in `CheckSetScope`.
-                </span><span class="kw">pub mod </span>check_set_scope {
-                    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-                    #[derive(Clone, PartialEq, ::prost::Oneof)]
-                    </span><span class="kw">pub enum </span>Scope {
-                        <span class="doccomment">/// Matches a single Kubernetes service account, e.g.
-                        /// 'my-namespace:my-service-account'.
-                        /// `kubernetes_service_account` scope is always more specific than
-                        /// `kubernetes_namespace` scope for the same namespace.
-                        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-                        </span>KubernetesServiceAccount(::prost::alloc::string::String),
-                        <span class="doccomment">/// Matches all Kubernetes service accounts in the provided
-                        /// namespace, unless a more specific `kubernetes_service_account`
-                        /// scope already matched.
-                        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-                        </span>KubernetesNamespace(::prost::alloc::string::String),
-                    }
-                }
-                <span class="doccomment">/// Result of evaluating one check.
-                </span><span class="attr">#[derive(
-                    Clone,
-                    Copy,
-                    Debug,
-                    PartialEq,
-                    Eq,
-                    Hash,
-                    PartialOrd,
-                    Ord,
-                    ::prost::Enumeration
-                )]
-                #[repr(i32)]
-                </span><span class="kw">pub enum </span>CheckVerdict {
-                    <span class="doccomment">/// We should always have a verdict. This is an error.
-                    </span>Unspecified = <span class="number">0</span>,
-                    <span class="doccomment">/// The check was successfully evaluated and the image did not satisfy
-                    /// the check.
-                    </span>NonConformant = <span class="number">1</span>,
-                }
-                <span class="kw">impl </span>CheckVerdict {
-                    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                    ///
-                    /// The values are not transformed in any way and thus are considered stable
-                    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                        <span class="kw">match </span><span class="self">self </span>{
-                            CheckVerdict::Unspecified =&gt; <span class="string">"CHECK_VERDICT_UNSPECIFIED"</span>,
-                            CheckVerdict::NonConformant =&gt; <span class="string">"NON_CONFORMANT"</span>,
-                        }
-                    }
-                    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                        <span class="kw">match </span>value {
-                            <span class="string">"CHECK_VERDICT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                            <span class="string">"NON_CONFORMANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonConformant),
-                            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                        }
-                    }
-                }
-            }
-            <span class="doccomment">/// The container type.
-            </span><span class="attr">#[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            </span><span class="kw">pub enum </span>ContainerType {
-                <span class="doccomment">/// The container type should always be specified. This is an error.
-                </span>Unspecified = <span class="number">0</span>,
-                <span class="doccomment">/// A regular deployment.
-                </span>Container = <span class="number">1</span>,
-                <span class="doccomment">/// Init container defined as specified at
-                /// &lt;https://kubernetes.io/docs/concepts/workloads/pods/init-containers/&gt;
-                </span>InitContainer = <span class="number">2</span>,
-                <span class="doccomment">/// Ephemeral container defined as specified at
-                /// &lt;https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/&gt;
-                </span>EphemeralContainer = <span class="number">3</span>,
-            }
-            <span class="kw">impl </span>ContainerType {
-                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        ContainerType::Unspecified =&gt; <span class="string">"CONTAINER_TYPE_UNSPECIFIED"</span>,
-                        ContainerType::Container =&gt; <span class="string">"CONTAINER"</span>,
-                        ContainerType::InitContainer =&gt; <span class="string">"INIT_CONTAINER"</span>,
-                        ContainerType::EphemeralContainer =&gt; <span class="string">"EPHEMERAL_CONTAINER"</span>,
-                    }
-                }
-                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                    <span class="kw">match </span>value {
-                        <span class="string">"CONTAINER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                        <span class="string">"CONTAINER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Container),
-                        <span class="string">"INIT_CONTAINER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InitContainer),
-                        <span class="string">"EPHEMERAL_CONTAINER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EphemeralContainer),
-                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                    }
-                }
-            }
-            <span class="doccomment">/// Result of the audit.
-            </span><span class="attr">#[derive(
-                Clone,
-                Copy,
-                Debug,
-                PartialEq,
-                Eq,
-                Hash,
-                PartialOrd,
-                Ord,
-                ::prost::Enumeration
-            )]
-            #[repr(i32)]
-            </span><span class="kw">pub enum </span>AuditResult {
-                <span class="doccomment">/// Unspecified result. This is an error.
-                </span>Unspecified = <span class="number">0</span>,
-                <span class="doccomment">/// Image is allowed.
-                </span>Allow = <span class="number">1</span>,
-                <span class="doccomment">/// Image is denied.
-                </span>Deny = <span class="number">2</span>,
-            }
-            <span class="kw">impl </span>AuditResult {
-                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-                ///
-                /// The values are not transformed in any way and thus are considered stable
-                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                    <span class="kw">match </span><span class="self">self </span>{
-                        AuditResult::Unspecified =&gt; <span class="string">"AUDIT_RESULT_UNSPECIFIED"</span>,
-                        AuditResult::Allow =&gt; <span class="string">"ALLOW"</span>,
-                        AuditResult::Deny =&gt; <span class="string">"DENY"</span>,
-                    }
-                }
-                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                    <span class="kw">match </span>value {
-                        <span class="string">"AUDIT_RESULT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                        <span class="string">"ALLOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Allow),
-                        <span class="string">"DENY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deny),
-                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                    }
-                }
-            }
-        }
-        <span class="doccomment">/// Audit time policy conformance verdict.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>PolicyConformanceVerdict {
-            <span class="doccomment">/// We should always have a verdict. This is an error.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The pod violates the policy.
-            </span>ViolatesPolicy = <span class="number">1</span>,
-        }
-        <span class="kw">impl </span>PolicyConformanceVerdict {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    PolicyConformanceVerdict::Unspecified =&gt; {
-                        <span class="string">"POLICY_CONFORMANCE_VERDICT_UNSPECIFIED"
-                    </span>}
-                    PolicyConformanceVerdict::ViolatesPolicy =&gt; <span class="string">"VIOLATES_POLICY"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"POLICY_CONFORMANCE_VERDICT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"VIOLATES_POLICY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ViolatesPolicy),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// An event describing a user-actionable configuration issue that prevents CV
-    /// from auditing.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ConfigErrorEvent {
-        <span class="doccomment">/// A description of the issue.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Type of CV event.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>EventType {
-        <span class="doccomment">/// Pod event.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>PodEvent(ContinuousValidationPodEvent),
-        <span class="doccomment">/// Config error event.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>ConfigErrorEvent(ConfigErrorEvent),
-    }
-}
-<span class="doccomment">/// A [policy][google.cloud.binaryauthorization.v1beta1.Policy] for Binary Authorization.
+</span><span class="doccomment">/// A [policy][google.cloud.binaryauthorization.v1beta1.Policy] for Binary Authorization.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Policy {
@@ -2141,6 +1821,326 @@
         /// encoding of the public key.
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>PkixPublicKey(<span class="kw">super</span>::PkixPublicKey),
+    }
+}
+<span class="doccomment">/// Represents an auditing event from Continuous Validation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ContinuousValidationEvent {
+    <span class="doccomment">/// Type of CV event.
+    </span><span class="attr">#[prost(oneof = <span class="string">"continuous_validation_event::EventType"</span>, tags = <span class="string">"1, 4"</span>)]
+    </span><span class="kw">pub </span>event_type: ::core::option::Option&lt;continuous_validation_event::EventType&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ContinuousValidationEvent`.
+</span><span class="kw">pub mod </span>continuous_validation_event {
+    <span class="doccomment">/// An auditing event for one Pod.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ContinuousValidationPodEvent {
+        <span class="doccomment">/// The k8s namespace of the Pod.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+        </span><span class="kw">pub </span>pod_namespace: ::prost::alloc::string::String,
+        <span class="doccomment">/// The name of the Pod.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>pod: ::prost::alloc::string::String,
+        <span class="doccomment">/// The name of the policy.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+        </span><span class="kw">pub </span>policy_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Deploy time of the Pod from k8s.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>deploy_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// Termination time of the Pod from k8s, or nothing if still running.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// Auditing verdict for this Pod.
+        </span><span class="attr">#[prost(
+            enumeration = <span class="string">"continuous_validation_pod_event::PolicyConformanceVerdict"</span>,
+            tag = <span class="string">"4"
+        </span>)]
+        </span><span class="kw">pub </span>verdict: i32,
+        <span class="doccomment">/// List of images with auditing details.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>images: ::prost::alloc::vec::Vec&lt;
+            continuous_validation_pod_event::ImageDetails,
+        &gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `ContinuousValidationPodEvent`.
+    </span><span class="kw">pub mod </span>continuous_validation_pod_event {
+        <span class="doccomment">/// Container image with auditing details.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>ImageDetails {
+            <span class="doccomment">/// The name of the image.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>image: ::prost::alloc::string::String,
+            <span class="doccomment">/// The name of the container.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+            </span><span class="kw">pub </span>container_name: ::prost::alloc::string::String,
+            <span class="doccomment">/// The container type that this image belongs to.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"image_details::ContainerType"</span>, tag = <span class="string">"6"</span>)]
+            </span><span class="kw">pub </span>container_type: i32,
+            <span class="doccomment">/// The result of the audit for this image.
+            </span><span class="attr">#[prost(enumeration = <span class="string">"image_details::AuditResult"</span>, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>result: i32,
+            <span class="doccomment">/// Description of the above result.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+            <span class="doccomment">/// List of check results.
+            </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+            </span><span class="kw">pub </span>check_results: ::prost::alloc::vec::Vec&lt;image_details::CheckResult&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `ImageDetails`.
+        </span><span class="kw">pub mod </span>image_details {
+            <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>CheckResult {
+                <span class="doccomment">/// The index of the check set.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+                </span><span class="kw">pub </span>check_set_index: ::prost::alloc::string::String,
+                <span class="doccomment">/// The name of the check set.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+                </span><span class="kw">pub </span>check_set_name: ::prost::alloc::string::String,
+                <span class="doccomment">/// The scope of the check set.
+                </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+                </span><span class="kw">pub </span>check_set_scope: ::core::option::Option&lt;check_result::CheckSetScope&gt;,
+                <span class="doccomment">/// The index of the check.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+                </span><span class="kw">pub </span>check_index: ::prost::alloc::string::String,
+                <span class="doccomment">/// The name of the check.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+                </span><span class="kw">pub </span>check_name: ::prost::alloc::string::String,
+                <span class="doccomment">/// The type of the check.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+                </span><span class="kw">pub </span>check_type: ::prost::alloc::string::String,
+                <span class="doccomment">/// The verdict of this check.
+                </span><span class="attr">#[prost(enumeration = <span class="string">"check_result::CheckVerdict"</span>, tag = <span class="string">"7"</span>)]
+                </span><span class="kw">pub </span>verdict: i32,
+                <span class="doccomment">/// User-friendly explanation of this check result.
+                </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+                </span><span class="kw">pub </span>explanation: ::prost::alloc::string::String,
+            }
+            <span class="doccomment">/// Nested message and enum types in `CheckResult`.
+            </span><span class="kw">pub mod </span>check_result {
+                <span class="doccomment">/// A scope specifier for check sets.
+                </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+                #[derive(Clone, PartialEq, ::prost::Message)]
+                </span><span class="kw">pub struct </span>CheckSetScope {
+                    <span class="attr">#[prost(oneof = <span class="string">"check_set_scope::Scope"</span>, tags = <span class="string">"1, 2"</span>)]
+                    </span><span class="kw">pub </span>scope: ::core::option::Option&lt;check_set_scope::Scope&gt;,
+                }
+                <span class="doccomment">/// Nested message and enum types in `CheckSetScope`.
+                </span><span class="kw">pub mod </span>check_set_scope {
+                    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+                    #[derive(Clone, PartialEq, ::prost::Oneof)]
+                    </span><span class="kw">pub enum </span>Scope {
+                        <span class="doccomment">/// Matches a single Kubernetes service account, e.g.
+                        /// 'my-namespace:my-service-account'.
+                        /// `kubernetes_service_account` scope is always more specific than
+                        /// `kubernetes_namespace` scope for the same namespace.
+                        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+                        </span>KubernetesServiceAccount(::prost::alloc::string::String),
+                        <span class="doccomment">/// Matches all Kubernetes service accounts in the provided
+                        /// namespace, unless a more specific `kubernetes_service_account`
+                        /// scope already matched.
+                        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+                        </span>KubernetesNamespace(::prost::alloc::string::String),
+                    }
+                }
+                <span class="doccomment">/// Result of evaluating one check.
+                </span><span class="attr">#[derive(
+                    Clone,
+                    Copy,
+                    Debug,
+                    PartialEq,
+                    Eq,
+                    Hash,
+                    PartialOrd,
+                    Ord,
+                    ::prost::Enumeration
+                )]
+                #[repr(i32)]
+                </span><span class="kw">pub enum </span>CheckVerdict {
+                    <span class="doccomment">/// We should always have a verdict. This is an error.
+                    </span>Unspecified = <span class="number">0</span>,
+                    <span class="doccomment">/// The check was successfully evaluated and the image did not satisfy
+                    /// the check.
+                    </span>NonConformant = <span class="number">1</span>,
+                }
+                <span class="kw">impl </span>CheckVerdict {
+                    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                    ///
+                    /// The values are not transformed in any way and thus are considered stable
+                    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                        <span class="kw">match </span><span class="self">self </span>{
+                            CheckVerdict::Unspecified =&gt; <span class="string">"CHECK_VERDICT_UNSPECIFIED"</span>,
+                            CheckVerdict::NonConformant =&gt; <span class="string">"NON_CONFORMANT"</span>,
+                        }
+                    }
+                    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                        <span class="kw">match </span>value {
+                            <span class="string">"CHECK_VERDICT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                            <span class="string">"NON_CONFORMANT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NonConformant),
+                            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                        }
+                    }
+                }
+            }
+            <span class="doccomment">/// The container type.
+            </span><span class="attr">#[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            </span><span class="kw">pub enum </span>ContainerType {
+                <span class="doccomment">/// The container type should always be specified. This is an error.
+                </span>Unspecified = <span class="number">0</span>,
+                <span class="doccomment">/// A regular deployment.
+                </span>Container = <span class="number">1</span>,
+                <span class="doccomment">/// Init container defined as specified at
+                /// &lt;https://kubernetes.io/docs/concepts/workloads/pods/init-containers/&gt;
+                </span>InitContainer = <span class="number">2</span>,
+                <span class="doccomment">/// Ephemeral container defined as specified at
+                /// &lt;https://kubernetes.io/docs/concepts/workloads/pods/ephemeral-containers/&gt;
+                </span>EphemeralContainer = <span class="number">3</span>,
+            }
+            <span class="kw">impl </span>ContainerType {
+                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                    <span class="kw">match </span><span class="self">self </span>{
+                        ContainerType::Unspecified =&gt; <span class="string">"CONTAINER_TYPE_UNSPECIFIED"</span>,
+                        ContainerType::Container =&gt; <span class="string">"CONTAINER"</span>,
+                        ContainerType::InitContainer =&gt; <span class="string">"INIT_CONTAINER"</span>,
+                        ContainerType::EphemeralContainer =&gt; <span class="string">"EPHEMERAL_CONTAINER"</span>,
+                    }
+                }
+                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                    <span class="kw">match </span>value {
+                        <span class="string">"CONTAINER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                        <span class="string">"CONTAINER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Container),
+                        <span class="string">"INIT_CONTAINER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::InitContainer),
+                        <span class="string">"EPHEMERAL_CONTAINER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EphemeralContainer),
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                    }
+                }
+            }
+            <span class="doccomment">/// Result of the audit.
+            </span><span class="attr">#[derive(
+                Clone,
+                Copy,
+                Debug,
+                PartialEq,
+                Eq,
+                Hash,
+                PartialOrd,
+                Ord,
+                ::prost::Enumeration
+            )]
+            #[repr(i32)]
+            </span><span class="kw">pub enum </span>AuditResult {
+                <span class="doccomment">/// Unspecified result. This is an error.
+                </span>Unspecified = <span class="number">0</span>,
+                <span class="doccomment">/// Image is allowed.
+                </span>Allow = <span class="number">1</span>,
+                <span class="doccomment">/// Image is denied.
+                </span>Deny = <span class="number">2</span>,
+            }
+            <span class="kw">impl </span>AuditResult {
+                <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+                ///
+                /// The values are not transformed in any way and thus are considered stable
+                /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+                </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                    <span class="kw">match </span><span class="self">self </span>{
+                        AuditResult::Unspecified =&gt; <span class="string">"AUDIT_RESULT_UNSPECIFIED"</span>,
+                        AuditResult::Allow =&gt; <span class="string">"ALLOW"</span>,
+                        AuditResult::Deny =&gt; <span class="string">"DENY"</span>,
+                    }
+                }
+                <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+                </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                    <span class="kw">match </span>value {
+                        <span class="string">"AUDIT_RESULT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                        <span class="string">"ALLOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Allow),
+                        <span class="string">"DENY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Deny),
+                        <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                    }
+                }
+            }
+        }
+        <span class="doccomment">/// Audit time policy conformance verdict.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>PolicyConformanceVerdict {
+            <span class="doccomment">/// We should always have a verdict. This is an error.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The pod violates the policy.
+            </span>ViolatesPolicy = <span class="number">1</span>,
+        }
+        <span class="kw">impl </span>PolicyConformanceVerdict {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    PolicyConformanceVerdict::Unspecified =&gt; {
+                        <span class="string">"POLICY_CONFORMANCE_VERDICT_UNSPECIFIED"
+                    </span>}
+                    PolicyConformanceVerdict::ViolatesPolicy =&gt; <span class="string">"VIOLATES_POLICY"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"POLICY_CONFORMANCE_VERDICT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"VIOLATES_POLICY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ViolatesPolicy),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// An event describing a user-actionable configuration issue that prevents CV
+    /// from auditing.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ConfigErrorEvent {
+        <span class="doccomment">/// A description of the issue.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Type of CV event.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>EventType {
+        <span class="doccomment">/// Pod event.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>PodEvent(ContinuousValidationPodEvent),
+        <span class="doccomment">/// Config error event.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>ConfigErrorEvent(ConfigErrorEvent),
     }
 }
 <span class="doccomment">/// Request message for [BinauthzManagementService.GetPolicy][].

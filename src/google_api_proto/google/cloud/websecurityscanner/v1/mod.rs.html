@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/websecurityscanner/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/websecurityscanner/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2016,697 +2016,7 @@
 <a href="#2016" id="2016">2016</a>
 <a href="#2017" id="2017">2017</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// ! Information about a vulnerability with an HTML.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Form {
-    <span class="doccomment">/// ! The URI where to send the form when it's submitted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>action_uri: ::prost::alloc::string::String,
-    <span class="doccomment">/// ! The names of form fields related to the vulnerability.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>fields: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Information reported for an outdated library.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>OutdatedLibrary {
-    <span class="doccomment">/// The name of the outdated library.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>library_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The version number.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-    <span class="doccomment">/// URLs to learn more information about the vulnerabilities in the library.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>learn_more_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Information regarding any resource causing the vulnerability such
-/// as JavaScript sources, image, audio files, etc.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ViolatingResource {
-    <span class="doccomment">/// The MIME type of this resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// URL of this violating resource.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>resource_url: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Information about vulnerable request parameters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VulnerableParameters {
-    <span class="doccomment">/// The vulnerable parameter names.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parameter_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Information about vulnerable or missing HTTP Headers.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>VulnerableHeaders {
-    <span class="doccomment">/// List of vulnerable headers.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>headers: ::prost::alloc::vec::Vec&lt;vulnerable_headers::Header&gt;,
-    <span class="doccomment">/// List of missing headers.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>missing_headers: ::prost::alloc::vec::Vec&lt;vulnerable_headers::Header&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `VulnerableHeaders`.
-</span><span class="kw">pub mod </span>vulnerable_headers {
-    <span class="doccomment">/// Describes a HTTP Header.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Header {
-        <span class="doccomment">/// Header name.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Header value.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-    }
-}
-<span class="doccomment">/// Information reported for an XSS.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Xss {
-    <span class="doccomment">/// Stack traces leading to the point where the XSS occurred.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>stack_traces: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An error message generated by a javascript breakage.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
-    <span class="doccomment">/// The attack vector of the payload triggering this XSS.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"xss::AttackVector"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>attack_vector: i32,
-    <span class="doccomment">/// The reproduction url for the seeding POST request of a Stored XSS.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>stored_xss_seeding_url: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `Xss`.
-</span><span class="kw">pub mod </span>xss {
-    <span class="doccomment">/// Types of XSS attack vector.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>AttackVector {
-        <span class="doccomment">/// Unknown attack vector.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the browser's localStorage.
-        </span>LocalStorage = <span class="number">1</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the browser's sessionStorage.
-        </span>SessionStorage = <span class="number">2</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the window's name property.
-        </span>WindowName = <span class="number">3</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the referrer property.
-        </span>Referrer = <span class="number">4</span>,
-        <span class="doccomment">/// The attack comes from fuzzing an input element.
-        </span>FormInput = <span class="number">5</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the browser's cookies.
-        </span>Cookie = <span class="number">6</span>,
-        <span class="doccomment">/// The attack comes from hijacking the post messaging mechanism.
-        </span>PostMessage = <span class="number">7</span>,
-        <span class="doccomment">/// The attack comes from fuzzing parameters in the url.
-        </span>GetParameters = <span class="number">8</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the fragment in the url.
-        </span>UrlFragment = <span class="number">9</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the HTML comments.
-        </span>HtmlComment = <span class="number">10</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the POST parameters.
-        </span>PostParameters = <span class="number">11</span>,
-        <span class="doccomment">/// The attack comes from fuzzing the protocol.
-        </span>Protocol = <span class="number">12</span>,
-        <span class="doccomment">/// The attack comes from the server side and is stored.
-        </span>StoredXss = <span class="number">13</span>,
-        <span class="doccomment">/// The attack is a Same-Origin Method Execution attack via a GET parameter.
-        </span>SameOrigin = <span class="number">14</span>,
-        <span class="doccomment">/// The attack payload is received from a third-party host via a URL that is
-        /// user-controllable
-        </span>UserControllableUrl = <span class="number">15</span>,
-    }
-    <span class="kw">impl </span>AttackVector {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                AttackVector::Unspecified =&gt; <span class="string">"ATTACK_VECTOR_UNSPECIFIED"</span>,
-                AttackVector::LocalStorage =&gt; <span class="string">"LOCAL_STORAGE"</span>,
-                AttackVector::SessionStorage =&gt; <span class="string">"SESSION_STORAGE"</span>,
-                AttackVector::WindowName =&gt; <span class="string">"WINDOW_NAME"</span>,
-                AttackVector::Referrer =&gt; <span class="string">"REFERRER"</span>,
-                AttackVector::FormInput =&gt; <span class="string">"FORM_INPUT"</span>,
-                AttackVector::Cookie =&gt; <span class="string">"COOKIE"</span>,
-                AttackVector::PostMessage =&gt; <span class="string">"POST_MESSAGE"</span>,
-                AttackVector::GetParameters =&gt; <span class="string">"GET_PARAMETERS"</span>,
-                AttackVector::UrlFragment =&gt; <span class="string">"URL_FRAGMENT"</span>,
-                AttackVector::HtmlComment =&gt; <span class="string">"HTML_COMMENT"</span>,
-                AttackVector::PostParameters =&gt; <span class="string">"POST_PARAMETERS"</span>,
-                AttackVector::Protocol =&gt; <span class="string">"PROTOCOL"</span>,
-                AttackVector::StoredXss =&gt; <span class="string">"STORED_XSS"</span>,
-                AttackVector::SameOrigin =&gt; <span class="string">"SAME_ORIGIN"</span>,
-                AttackVector::UserControllableUrl =&gt; <span class="string">"USER_CONTROLLABLE_URL"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"ATTACK_VECTOR_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"LOCAL_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LocalStorage),
-                <span class="string">"SESSION_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SessionStorage),
-                <span class="string">"WINDOW_NAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::WindowName),
-                <span class="string">"REFERRER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Referrer),
-                <span class="string">"FORM_INPUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FormInput),
-                <span class="string">"COOKIE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cookie),
-                <span class="string">"POST_MESSAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PostMessage),
-                <span class="string">"GET_PARAMETERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GetParameters),
-                <span class="string">"URL_FRAGMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UrlFragment),
-                <span class="string">"HTML_COMMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HtmlComment),
-                <span class="string">"POST_PARAMETERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PostParameters),
-                <span class="string">"PROTOCOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Protocol),
-                <span class="string">"STORED_XSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StoredXss),
-                <span class="string">"SAME_ORIGIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SameOrigin),
-                <span class="string">"USER_CONTROLLABLE_URL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserControllableUrl),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Information reported for an XXE.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Xxe {
-    <span class="doccomment">/// The XML string that triggered the XXE vulnerability. Non-payload values
-    /// might be redacted.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>payload_value: ::prost::alloc::string::String,
-    <span class="doccomment">/// Location within the request where the payload was placed.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"xxe::Location"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>payload_location: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `Xxe`.
-</span><span class="kw">pub mod </span>xxe {
-    <span class="doccomment">/// Locations within a request where XML was substituted.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Location {
-        <span class="doccomment">/// Unknown Location.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The XML payload replaced the complete request body.
-        </span>CompleteRequestBody = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>Location {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Location::Unspecified =&gt; <span class="string">"LOCATION_UNSPECIFIED"</span>,
-                Location::CompleteRequestBody =&gt; <span class="string">"COMPLETE_REQUEST_BODY"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"LOCATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"COMPLETE_REQUEST_BODY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CompleteRequestBody),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A Finding resource represents a vulnerability instance identified during a
-/// ScanRun.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Finding {
-    <span class="doccomment">/// Output only. The resource name of the Finding. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'.
-    /// The finding IDs are generated by the system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The type of the Finding.
-    /// Detailed and up-to-date information on findings can be found here:
-    /// &lt;https://cloud.google.com/security-command-center/docs/how-to-remediate-web-security-scanner-findings&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>finding_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The severity level of the reported vulnerability.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"finding::Severity"</span>, tag = <span class="string">"17"</span>)]
-    </span><span class="kw">pub </span>severity: i32,
-    <span class="doccomment">/// Output only. The http method of the request that triggered the vulnerability, in
-    /// uppercase.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>http_method: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The URL produced by the server-side fuzzer and used in the request that
-    /// triggered the vulnerability.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>fuzzed_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The body of the request that triggered the vulnerability.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The description of the vulnerability.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The URL containing human-readable payload that user can leverage to
-    /// reproduce the vulnerability.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>reproduction_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. If the vulnerability was originated from nested IFrame, the immediate
-    /// parent IFrame is reported.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>frame_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The URL where the browser lands when the vulnerability is detected.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>final_url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The tracking ID uniquely identifies a vulnerability instance across
-    /// multiple ScanRuns.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>tracking_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. An addon containing information reported for a vulnerability with an HTML
-    /// form, if any.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"16"</span>)]
-    </span><span class="kw">pub </span>form: ::core::option::Option&lt;Form&gt;,
-    <span class="doccomment">/// Output only. An addon containing information about outdated libraries.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>outdated_library: ::core::option::Option&lt;OutdatedLibrary&gt;,
-    <span class="doccomment">/// Output only. An addon containing detailed information regarding any resource causing the
-    /// vulnerability such as JavaScript sources, image, audio files, etc.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>violating_resource: ::core::option::Option&lt;ViolatingResource&gt;,
-    <span class="doccomment">/// Output only. An addon containing information about vulnerable or missing HTTP headers.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>vulnerable_headers: ::core::option::Option&lt;VulnerableHeaders&gt;,
-    <span class="doccomment">/// Output only. An addon containing information about request parameters which were found
-    /// to be vulnerable.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>vulnerable_parameters: ::core::option::Option&lt;VulnerableParameters&gt;,
-    <span class="doccomment">/// Output only. An addon containing information reported for an XSS, if any.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>xss: ::core::option::Option&lt;Xss&gt;,
-    <span class="doccomment">/// Output only. An addon containing information reported for an XXE, if any.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"18"</span>)]
-    </span><span class="kw">pub </span>xxe: ::core::option::Option&lt;Xxe&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Finding`.
-</span><span class="kw">pub mod </span>finding {
-    <span class="doccomment">/// The severity level of a vulnerability.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Severity {
-        <span class="doccomment">/// No severity specified. The default value.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Critical severity.
-        </span>Critical = <span class="number">1</span>,
-        <span class="doccomment">/// High severity.
-        </span>High = <span class="number">2</span>,
-        <span class="doccomment">/// Medium severity.
-        </span>Medium = <span class="number">3</span>,
-        <span class="doccomment">/// Low severity.
-        </span>Low = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>Severity {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Severity::Unspecified =&gt; <span class="string">"SEVERITY_UNSPECIFIED"</span>,
-                Severity::Critical =&gt; <span class="string">"CRITICAL"</span>,
-                Severity::High =&gt; <span class="string">"HIGH"</span>,
-                Severity::Medium =&gt; <span class="string">"MEDIUM"</span>,
-                Severity::Low =&gt; <span class="string">"LOW"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SEVERITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CRITICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Critical),
-                <span class="string">"HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
-                <span class="string">"MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
-                <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
-/// Security Scanner Service crawls the web applications, following all links
-/// within the scope of sites, to find the URLs to test against.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CrawledUrl {
-    <span class="doccomment">/// Output only. The http method of the request that was used to visit the URL, in
-    /// uppercase.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>http_method: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The URL that was crawled.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType
-/// of Findings under a given ScanRun.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>FindingTypeStats {
-    <span class="doccomment">/// Output only. The finding type associated with the stats.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>finding_type: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The count of findings belonging to this finding type.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>finding_count: i32,
-}
-<span class="doccomment">/// A ScanConfig resource contains the configurations to launch a scan.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanConfig {
-    <span class="doccomment">/// The resource name of the ScanConfig. The name follows the format of
-    /// 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are
-    /// generated by the system.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The user provided display name of the ScanConfig.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum QPS during scanning. A valid value ranges from 5 to 20
-    /// inclusively. If the field is unspecified or its value is set 0, server will
-    /// default to 15. Other values outside of \[5, 20\] range will be rejected with
-    /// INVALID_ARGUMENT error.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>max_qps: i32,
-    <span class="doccomment">/// Required. The starting URLs from which the scanner finds site pages.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>starting_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The authentication configuration. If specified, service will use the
-    /// authentication configuration during scanning.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;scan_config::Authentication&gt;,
-    <span class="doccomment">/// The user agent used during scanning.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::UserAgent"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>user_agent: i32,
-    <span class="doccomment">/// The excluded URL patterns as described in
-    /// &lt;https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls&gt;
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>blacklist_patterns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The schedule of the ScanConfig.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>schedule: ::core::option::Option&lt;scan_config::Schedule&gt;,
-    <span class="doccomment">/// Controls export of scan configurations and results to Security
-    /// Command Center.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::ExportToSecurityCommandCenter"</span>, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>export_to_security_command_center: i32,
-    <span class="doccomment">/// The risk level selected for the scan
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::RiskLevel"</span>, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>risk_level: i32,
-    <span class="doccomment">/// Whether the scan config is managed by Web Security Scanner, output
-    /// only.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"13"</span>)]
-    </span><span class="kw">pub </span>managed_scan: bool,
-    <span class="doccomment">/// Whether the scan configuration has enabled static IP address scan feature.
-    /// If enabled, the scanner will access applications from static IP addresses.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
-    </span><span class="kw">pub </span>static_ip_scan: bool,
-    <span class="doccomment">/// Whether to keep scanning even if most requests return HTTP error codes.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
-    </span><span class="kw">pub </span>ignore_http_status_errors: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `ScanConfig`.
-</span><span class="kw">pub mod </span>scan_config {
-    <span class="doccomment">/// Scan authentication configuration.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Authentication {
-        <span class="doccomment">/// Required.
-        /// Authentication configuration
-        </span><span class="attr">#[prost(oneof = <span class="string">"authentication::Authentication"</span>, tags = <span class="string">"1, 2, 4"</span>)]
-        </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;authentication::Authentication&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Authentication`.
-    </span><span class="kw">pub mod </span>authentication {
-        <span class="doccomment">/// Describes authentication configuration that uses a Google account.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>GoogleAccount {
-            <span class="doccomment">/// Required. The user name of the Google account.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. Input only. The password of the Google account. The credential is stored encrypted
-            /// and not returned in any response nor included in audit logs.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Describes authentication configuration that uses a custom account.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>CustomAccount {
-            <span class="doccomment">/// Required. The user name of the custom account.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. Input only. The password of the custom account. The credential is stored encrypted
-            /// and not returned in any response nor included in audit logs.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
-            <span class="doccomment">/// Required. The login form URL of the website.
-            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-            </span><span class="kw">pub </span>login_url: ::prost::alloc::string::String,
-        }
-        <span class="doccomment">/// Describes authentication configuration for Identity-Aware-Proxy (IAP).
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
-        </span><span class="kw">pub struct </span>IapCredential {
-            <span class="doccomment">/// Identity-Aware-Proxy (IAP) Authentication Configuration
-            </span><span class="attr">#[prost(oneof = <span class="string">"iap_credential::IapCredentials"</span>, tags = <span class="string">"1"</span>)]
-            </span><span class="kw">pub </span>iap_credentials: ::core::option::Option&lt;iap_credential::IapCredentials&gt;,
-        }
-        <span class="doccomment">/// Nested message and enum types in `IapCredential`.
-        </span><span class="kw">pub mod </span>iap_credential {
-            <span class="doccomment">/// Describes authentication configuration when Web-Security-Scanner
-            /// service account is added in Identity-Aware-Proxy (IAP) access policies.
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>IapTestServiceAccountInfo {
-                <span class="doccomment">/// Required. Describes OAuth2 client id of resources protected by
-                /// Identity-Aware-Proxy (IAP).
-                </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-                </span><span class="kw">pub </span>target_audience_client_id: ::prost::alloc::string::String,
-            }
-            <span class="doccomment">/// Identity-Aware-Proxy (IAP) Authentication Configuration
-            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
-            </span><span class="kw">pub enum </span>IapCredentials {
-                <span class="doccomment">/// Authentication configuration when Web-Security-Scanner service
-                /// account is added in Identity-Aware-Proxy (IAP) access policies.
-                </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-                </span>IapTestServiceAccountInfo(IapTestServiceAccountInfo),
-            }
-        }
-        <span class="doccomment">/// Required.
-        /// Authentication configuration
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
-        </span><span class="kw">pub enum </span>Authentication {
-            <span class="doccomment">/// Authentication using a Google account.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-            </span>GoogleAccount(GoogleAccount),
-            <span class="doccomment">/// Authentication using a custom account.
-            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-            </span>CustomAccount(CustomAccount),
-            <span class="doccomment">/// Authentication using Identity-Aware-Proxy (IAP).
-            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-            </span>IapCredential(IapCredential),
-        }
-    }
-    <span class="doccomment">/// Scan schedule configuration.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Schedule {
-        <span class="doccomment">/// A timestamp indicates when the next run will be scheduled. The value is
-        /// refreshed by the server after each run. If unspecified, it will default
-        /// to current server time, which means the scan will be scheduled to start
-        /// immediately.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-        <span class="doccomment">/// Required. The duration of time between executions in days.
-        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>interval_duration_days: i32,
-    }
-    <span class="doccomment">/// Type of user agents used for scanning.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>UserAgent {
-        <span class="doccomment">/// The user agent is unknown. Service will default to CHROME_LINUX.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Chrome on Linux. This is the service default if unspecified.
-        </span>ChromeLinux = <span class="number">1</span>,
-        <span class="doccomment">/// Chrome on Android.
-        </span>ChromeAndroid = <span class="number">2</span>,
-        <span class="doccomment">/// Safari on IPhone.
-        </span>SafariIphone = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>UserAgent {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                UserAgent::Unspecified =&gt; <span class="string">"USER_AGENT_UNSPECIFIED"</span>,
-                UserAgent::ChromeLinux =&gt; <span class="string">"CHROME_LINUX"</span>,
-                UserAgent::ChromeAndroid =&gt; <span class="string">"CHROME_ANDROID"</span>,
-                UserAgent::SafariIphone =&gt; <span class="string">"SAFARI_IPHONE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"USER_AGENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CHROME_LINUX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeLinux),
-                <span class="string">"CHROME_ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeAndroid),
-                <span class="string">"SAFARI_IPHONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SafariIphone),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Scan risk levels supported by Web Security Scanner. LOW impact
-    /// scanning will minimize requests with the potential to modify data. To
-    /// achieve the maximum scan coverage, NORMAL risk level is recommended.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>RiskLevel {
-        <span class="doccomment">/// Use default, which is NORMAL.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Normal scanning (Recommended)
-        </span>Normal = <span class="number">1</span>,
-        <span class="doccomment">/// Lower impact scanning
-        </span>Low = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>RiskLevel {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                RiskLevel::Unspecified =&gt; <span class="string">"RISK_LEVEL_UNSPECIFIED"</span>,
-                RiskLevel::Normal =&gt; <span class="string">"NORMAL"</span>,
-                RiskLevel::Low =&gt; <span class="string">"LOW"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"RISK_LEVEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"NORMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Normal),
-                <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Controls export of scan configurations and results to Security
-    /// Command Center.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>ExportToSecurityCommandCenter {
-        <span class="doccomment">/// Use default, which is ENABLED.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Export results of this scan to Security Command Center.
-        </span>Enabled = <span class="number">1</span>,
-        <span class="doccomment">/// Do not export results of this scan to Security Command Center.
-        </span>Disabled = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>ExportToSecurityCommandCenter {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                ExportToSecurityCommandCenter::Unspecified =&gt; {
-                    <span class="string">"EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED"
-                </span>}
-                ExportToSecurityCommandCenter::Enabled =&gt; <span class="string">"ENABLED"</span>,
-                ExportToSecurityCommandCenter::Disabled =&gt; <span class="string">"DISABLED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED" </span>=&gt; {
-                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified)
-                }
-                <span class="string">"ENABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enabled),
-                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
+</span><span class="doccomment">/// Defines a custom error message used by CreateScanConfig and UpdateScanConfig
 /// APIs when scan configuration validation fails. It is also reported as part of
 /// a ScanRunErrorTrace message if scan validation fails due to a scan
 /// configuration error.
@@ -3085,7 +2395,7 @@
 /// Defines a warning trace message for ScanRun. Warning traces provide customers
 /// with useful information that helps make the scanning process more effective.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ScanRunWarningTrace {
     <span class="doccomment">/// Output only. Indicates the warning code.
     </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run_warning_trace::Code"</span>, tag = <span class="string">"1"</span>)]
@@ -3305,6 +2615,725 @@
                 <span class="string">"SUCCESS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Success),
                 <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
                 <span class="string">"KILLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Killed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A ScanRunLog is an output-only proto used for Stackdriver customer logging.
+/// It is used for logs covering the start and end of scan pipelines.
+/// Other than an added summary, this is a subset of the ScanRun.
+/// Representation in logs is either a proto Struct, or converted to JSON.
+/// Next id: 9
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanRunLog {
+    <span class="doccomment">/// Human friendly message about the event.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>summary: ::prost::alloc::string::String,
+    <span class="doccomment">/// The resource name of the ScanRun being logged.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The execution state of the ScanRun.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>execution_state: i32,
+    <span class="doccomment">/// The result state of the ScanRun.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>result_state: i32,
+    <span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>urls_crawled_count: i64,
+    <span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>urls_tested_count: i64,
+    <span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>has_findings: bool,
+    <span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>error_trace: ::core::option::Option&lt;ScanRunErrorTrace&gt;,
+}
+<span class="doccomment">/// ! Information about a vulnerability with an HTML.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Form {
+    <span class="doccomment">/// ! The URI where to send the form when it's submitted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>action_uri: ::prost::alloc::string::String,
+    <span class="doccomment">/// ! The names of form fields related to the vulnerability.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>fields: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Information reported for an outdated library.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>OutdatedLibrary {
+    <span class="doccomment">/// The name of the outdated library.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>library_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The version number.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+    <span class="doccomment">/// URLs to learn more information about the vulnerabilities in the library.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>learn_more_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Information regarding any resource causing the vulnerability such
+/// as JavaScript sources, image, audio files, etc.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ViolatingResource {
+    <span class="doccomment">/// The MIME type of this resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>content_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// URL of this violating resource.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>resource_url: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Information about vulnerable request parameters.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VulnerableParameters {
+    <span class="doccomment">/// The vulnerable parameter names.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parameter_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Information about vulnerable or missing HTTP Headers.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>VulnerableHeaders {
+    <span class="doccomment">/// List of vulnerable headers.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>headers: ::prost::alloc::vec::Vec&lt;vulnerable_headers::Header&gt;,
+    <span class="doccomment">/// List of missing headers.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>missing_headers: ::prost::alloc::vec::Vec&lt;vulnerable_headers::Header&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `VulnerableHeaders`.
+</span><span class="kw">pub mod </span>vulnerable_headers {
+    <span class="doccomment">/// Describes a HTTP Header.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Header {
+        <span class="doccomment">/// Header name.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Header value.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+    }
+}
+<span class="doccomment">/// Information reported for an XSS.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Xss {
+    <span class="doccomment">/// Stack traces leading to the point where the XSS occurred.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>stack_traces: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An error message generated by a javascript breakage.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>error_message: ::prost::alloc::string::String,
+    <span class="doccomment">/// The attack vector of the payload triggering this XSS.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"xss::AttackVector"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>attack_vector: i32,
+    <span class="doccomment">/// The reproduction url for the seeding POST request of a Stored XSS.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>stored_xss_seeding_url: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `Xss`.
+</span><span class="kw">pub mod </span>xss {
+    <span class="doccomment">/// Types of XSS attack vector.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>AttackVector {
+        <span class="doccomment">/// Unknown attack vector.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the browser's localStorage.
+        </span>LocalStorage = <span class="number">1</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the browser's sessionStorage.
+        </span>SessionStorage = <span class="number">2</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the window's name property.
+        </span>WindowName = <span class="number">3</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the referrer property.
+        </span>Referrer = <span class="number">4</span>,
+        <span class="doccomment">/// The attack comes from fuzzing an input element.
+        </span>FormInput = <span class="number">5</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the browser's cookies.
+        </span>Cookie = <span class="number">6</span>,
+        <span class="doccomment">/// The attack comes from hijacking the post messaging mechanism.
+        </span>PostMessage = <span class="number">7</span>,
+        <span class="doccomment">/// The attack comes from fuzzing parameters in the url.
+        </span>GetParameters = <span class="number">8</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the fragment in the url.
+        </span>UrlFragment = <span class="number">9</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the HTML comments.
+        </span>HtmlComment = <span class="number">10</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the POST parameters.
+        </span>PostParameters = <span class="number">11</span>,
+        <span class="doccomment">/// The attack comes from fuzzing the protocol.
+        </span>Protocol = <span class="number">12</span>,
+        <span class="doccomment">/// The attack comes from the server side and is stored.
+        </span>StoredXss = <span class="number">13</span>,
+        <span class="doccomment">/// The attack is a Same-Origin Method Execution attack via a GET parameter.
+        </span>SameOrigin = <span class="number">14</span>,
+        <span class="doccomment">/// The attack payload is received from a third-party host via a URL that is
+        /// user-controllable
+        </span>UserControllableUrl = <span class="number">15</span>,
+    }
+    <span class="kw">impl </span>AttackVector {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                AttackVector::Unspecified =&gt; <span class="string">"ATTACK_VECTOR_UNSPECIFIED"</span>,
+                AttackVector::LocalStorage =&gt; <span class="string">"LOCAL_STORAGE"</span>,
+                AttackVector::SessionStorage =&gt; <span class="string">"SESSION_STORAGE"</span>,
+                AttackVector::WindowName =&gt; <span class="string">"WINDOW_NAME"</span>,
+                AttackVector::Referrer =&gt; <span class="string">"REFERRER"</span>,
+                AttackVector::FormInput =&gt; <span class="string">"FORM_INPUT"</span>,
+                AttackVector::Cookie =&gt; <span class="string">"COOKIE"</span>,
+                AttackVector::PostMessage =&gt; <span class="string">"POST_MESSAGE"</span>,
+                AttackVector::GetParameters =&gt; <span class="string">"GET_PARAMETERS"</span>,
+                AttackVector::UrlFragment =&gt; <span class="string">"URL_FRAGMENT"</span>,
+                AttackVector::HtmlComment =&gt; <span class="string">"HTML_COMMENT"</span>,
+                AttackVector::PostParameters =&gt; <span class="string">"POST_PARAMETERS"</span>,
+                AttackVector::Protocol =&gt; <span class="string">"PROTOCOL"</span>,
+                AttackVector::StoredXss =&gt; <span class="string">"STORED_XSS"</span>,
+                AttackVector::SameOrigin =&gt; <span class="string">"SAME_ORIGIN"</span>,
+                AttackVector::UserControllableUrl =&gt; <span class="string">"USER_CONTROLLABLE_URL"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"ATTACK_VECTOR_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"LOCAL_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LocalStorage),
+                <span class="string">"SESSION_STORAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SessionStorage),
+                <span class="string">"WINDOW_NAME" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::WindowName),
+                <span class="string">"REFERRER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Referrer),
+                <span class="string">"FORM_INPUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FormInput),
+                <span class="string">"COOKIE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cookie),
+                <span class="string">"POST_MESSAGE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PostMessage),
+                <span class="string">"GET_PARAMETERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GetParameters),
+                <span class="string">"URL_FRAGMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UrlFragment),
+                <span class="string">"HTML_COMMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HtmlComment),
+                <span class="string">"POST_PARAMETERS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PostParameters),
+                <span class="string">"PROTOCOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Protocol),
+                <span class="string">"STORED_XSS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StoredXss),
+                <span class="string">"SAME_ORIGIN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SameOrigin),
+                <span class="string">"USER_CONTROLLABLE_URL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserControllableUrl),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information reported for an XXE.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Xxe {
+    <span class="doccomment">/// The XML string that triggered the XXE vulnerability. Non-payload values
+    /// might be redacted.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>payload_value: ::prost::alloc::string::String,
+    <span class="doccomment">/// Location within the request where the payload was placed.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"xxe::Location"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>payload_location: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `Xxe`.
+</span><span class="kw">pub mod </span>xxe {
+    <span class="doccomment">/// Locations within a request where XML was substituted.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Location {
+        <span class="doccomment">/// Unknown Location.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The XML payload replaced the complete request body.
+        </span>CompleteRequestBody = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>Location {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Location::Unspecified =&gt; <span class="string">"LOCATION_UNSPECIFIED"</span>,
+                Location::CompleteRequestBody =&gt; <span class="string">"COMPLETE_REQUEST_BODY"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"LOCATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"COMPLETE_REQUEST_BODY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::CompleteRequestBody),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A ScanConfig resource contains the configurations to launch a scan.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ScanConfig {
+    <span class="doccomment">/// The resource name of the ScanConfig. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}'. The ScanConfig IDs are
+    /// generated by the system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The user provided display name of the ScanConfig.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum QPS during scanning. A valid value ranges from 5 to 20
+    /// inclusively. If the field is unspecified or its value is set 0, server will
+    /// default to 15. Other values outside of \[5, 20\] range will be rejected with
+    /// INVALID_ARGUMENT error.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>max_qps: i32,
+    <span class="doccomment">/// Required. The starting URLs from which the scanner finds site pages.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>starting_urls: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The authentication configuration. If specified, service will use the
+    /// authentication configuration during scanning.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;scan_config::Authentication&gt;,
+    <span class="doccomment">/// The user agent used during scanning.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::UserAgent"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>user_agent: i32,
+    <span class="doccomment">/// The excluded URL patterns as described in
+    /// &lt;https://cloud.google.com/security-command-center/docs/how-to-use-web-security-scanner#excluding_urls&gt;
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>blacklist_patterns: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The schedule of the ScanConfig.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>schedule: ::core::option::Option&lt;scan_config::Schedule&gt;,
+    <span class="doccomment">/// Controls export of scan configurations and results to Security
+    /// Command Center.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::ExportToSecurityCommandCenter"</span>, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>export_to_security_command_center: i32,
+    <span class="doccomment">/// The risk level selected for the scan
+    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_config::RiskLevel"</span>, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>risk_level: i32,
+    <span class="doccomment">/// Whether the scan config is managed by Web Security Scanner, output
+    /// only.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>managed_scan: bool,
+    <span class="doccomment">/// Whether the scan configuration has enabled static IP address scan feature.
+    /// If enabled, the scanner will access applications from static IP addresses.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>static_ip_scan: bool,
+    <span class="doccomment">/// Whether to keep scanning even if most requests return HTTP error codes.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>ignore_http_status_errors: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `ScanConfig`.
+</span><span class="kw">pub mod </span>scan_config {
+    <span class="doccomment">/// Scan authentication configuration.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Authentication {
+        <span class="doccomment">/// Required.
+        /// Authentication configuration
+        </span><span class="attr">#[prost(oneof = <span class="string">"authentication::Authentication"</span>, tags = <span class="string">"1, 2, 4"</span>)]
+        </span><span class="kw">pub </span>authentication: ::core::option::Option&lt;authentication::Authentication&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Authentication`.
+    </span><span class="kw">pub mod </span>authentication {
+        <span class="doccomment">/// Describes authentication configuration that uses a Google account.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>GoogleAccount {
+            <span class="doccomment">/// Required. The user name of the Google account.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. Input only. The password of the Google account. The credential is stored encrypted
+            /// and not returned in any response nor included in audit logs.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Describes authentication configuration that uses a custom account.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>CustomAccount {
+            <span class="doccomment">/// Required. The user name of the custom account.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>username: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. Input only. The password of the custom account. The credential is stored encrypted
+            /// and not returned in any response nor included in audit logs.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>password: ::prost::alloc::string::String,
+            <span class="doccomment">/// Required. The login form URL of the website.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+            </span><span class="kw">pub </span>login_url: ::prost::alloc::string::String,
+        }
+        <span class="doccomment">/// Describes authentication configuration for Identity-Aware-Proxy (IAP).
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>IapCredential {
+            <span class="doccomment">/// Identity-Aware-Proxy (IAP) Authentication Configuration
+            </span><span class="attr">#[prost(oneof = <span class="string">"iap_credential::IapCredentials"</span>, tags = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>iap_credentials: ::core::option::Option&lt;iap_credential::IapCredentials&gt;,
+        }
+        <span class="doccomment">/// Nested message and enum types in `IapCredential`.
+        </span><span class="kw">pub mod </span>iap_credential {
+            <span class="doccomment">/// Describes authentication configuration when Web-Security-Scanner
+            /// service account is added in Identity-Aware-Proxy (IAP) access policies.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>IapTestServiceAccountInfo {
+                <span class="doccomment">/// Required. Describes OAuth2 client id of resources protected by
+                /// Identity-Aware-Proxy (IAP).
+                </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+                </span><span class="kw">pub </span>target_audience_client_id: ::prost::alloc::string::String,
+            }
+            <span class="doccomment">/// Identity-Aware-Proxy (IAP) Authentication Configuration
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            </span><span class="kw">pub enum </span>IapCredentials {
+                <span class="doccomment">/// Authentication configuration when Web-Security-Scanner service
+                /// account is added in Identity-Aware-Proxy (IAP) access policies.
+                </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+                </span>IapTestServiceAccountInfo(IapTestServiceAccountInfo),
+            }
+        }
+        <span class="doccomment">/// Required.
+        /// Authentication configuration
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="kw">pub enum </span>Authentication {
+            <span class="doccomment">/// Authentication using a Google account.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+            </span>GoogleAccount(GoogleAccount),
+            <span class="doccomment">/// Authentication using a custom account.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+            </span>CustomAccount(CustomAccount),
+            <span class="doccomment">/// Authentication using Identity-Aware-Proxy (IAP).
+            </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+            </span>IapCredential(IapCredential),
+        }
+    }
+    <span class="doccomment">/// Scan schedule configuration.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Schedule {
+        <span class="doccomment">/// A timestamp indicates when the next run will be scheduled. The value is
+        /// refreshed by the server after each run. If unspecified, it will default
+        /// to current server time, which means the scan will be scheduled to start
+        /// immediately.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>schedule_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+        <span class="doccomment">/// Required. The duration of time between executions in days.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>interval_duration_days: i32,
+    }
+    <span class="doccomment">/// Type of user agents used for scanning.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>UserAgent {
+        <span class="doccomment">/// The user agent is unknown. Service will default to CHROME_LINUX.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Chrome on Linux. This is the service default if unspecified.
+        </span>ChromeLinux = <span class="number">1</span>,
+        <span class="doccomment">/// Chrome on Android.
+        </span>ChromeAndroid = <span class="number">2</span>,
+        <span class="doccomment">/// Safari on IPhone.
+        </span>SafariIphone = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>UserAgent {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                UserAgent::Unspecified =&gt; <span class="string">"USER_AGENT_UNSPECIFIED"</span>,
+                UserAgent::ChromeLinux =&gt; <span class="string">"CHROME_LINUX"</span>,
+                UserAgent::ChromeAndroid =&gt; <span class="string">"CHROME_ANDROID"</span>,
+                UserAgent::SafariIphone =&gt; <span class="string">"SAFARI_IPHONE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"USER_AGENT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CHROME_LINUX" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeLinux),
+                <span class="string">"CHROME_ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ChromeAndroid),
+                <span class="string">"SAFARI_IPHONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SafariIphone),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Scan risk levels supported by Web Security Scanner. LOW impact
+    /// scanning will minimize requests with the potential to modify data. To
+    /// achieve the maximum scan coverage, NORMAL risk level is recommended.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>RiskLevel {
+        <span class="doccomment">/// Use default, which is NORMAL.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Normal scanning (Recommended)
+        </span>Normal = <span class="number">1</span>,
+        <span class="doccomment">/// Lower impact scanning
+        </span>Low = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>RiskLevel {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                RiskLevel::Unspecified =&gt; <span class="string">"RISK_LEVEL_UNSPECIFIED"</span>,
+                RiskLevel::Normal =&gt; <span class="string">"NORMAL"</span>,
+                RiskLevel::Low =&gt; <span class="string">"LOW"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"RISK_LEVEL_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"NORMAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Normal),
+                <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Controls export of scan configurations and results to Security
+    /// Command Center.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>ExportToSecurityCommandCenter {
+        <span class="doccomment">/// Use default, which is ENABLED.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Export results of this scan to Security Command Center.
+        </span>Enabled = <span class="number">1</span>,
+        <span class="doccomment">/// Do not export results of this scan to Security Command Center.
+        </span>Disabled = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>ExportToSecurityCommandCenter {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                ExportToSecurityCommandCenter::Unspecified =&gt; {
+                    <span class="string">"EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED"
+                </span>}
+                ExportToSecurityCommandCenter::Enabled =&gt; <span class="string">"ENABLED"</span>,
+                ExportToSecurityCommandCenter::Disabled =&gt; <span class="string">"DISABLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EXPORT_TO_SECURITY_COMMAND_CENTER_UNSPECIFIED" </span>=&gt; {
+                    <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified)
+                }
+                <span class="string">"ENABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enabled),
+                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A FindingTypeStats resource represents stats regarding a specific FindingType
+/// of Findings under a given ScanRun.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>FindingTypeStats {
+    <span class="doccomment">/// Output only. The finding type associated with the stats.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>finding_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The count of findings belonging to this finding type.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>finding_count: i32,
+}
+<span class="doccomment">/// A CrawledUrl resource represents a URL that was crawled during a ScanRun. Web
+/// Security Scanner Service crawls the web applications, following all links
+/// within the scope of sites, to find the URLs to test against.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CrawledUrl {
+    <span class="doccomment">/// Output only. The http method of the request that was used to visit the URL, in
+    /// uppercase.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>http_method: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The URL that was crawled.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The body of the request that was used to visit the URL.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A Finding resource represents a vulnerability instance identified during a
+/// ScanRun.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Finding {
+    <span class="doccomment">/// Output only. The resource name of the Finding. The name follows the format of
+    /// 'projects/{projectId}/scanConfigs/{scanConfigId}/scanruns/{scanRunId}/findings/{findingId}'.
+    /// The finding IDs are generated by the system.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The type of the Finding.
+    /// Detailed and up-to-date information on findings can be found here:
+    /// &lt;https://cloud.google.com/security-command-center/docs/how-to-remediate-web-security-scanner-findings&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>finding_type: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The severity level of the reported vulnerability.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"finding::Severity"</span>, tag = <span class="string">"17"</span>)]
+    </span><span class="kw">pub </span>severity: i32,
+    <span class="doccomment">/// Output only. The http method of the request that triggered the vulnerability, in
+    /// uppercase.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>http_method: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The URL produced by the server-side fuzzer and used in the request that
+    /// triggered the vulnerability.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>fuzzed_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The body of the request that triggered the vulnerability.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>body: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The description of the vulnerability.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The URL containing human-readable payload that user can leverage to
+    /// reproduce the vulnerability.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>reproduction_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. If the vulnerability was originated from nested IFrame, the immediate
+    /// parent IFrame is reported.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>frame_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The URL where the browser lands when the vulnerability is detected.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>final_url: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The tracking ID uniquely identifies a vulnerability instance across
+    /// multiple ScanRuns.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>tracking_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. An addon containing information reported for a vulnerability with an HTML
+    /// form, if any.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"16"</span>)]
+    </span><span class="kw">pub </span>form: ::core::option::Option&lt;Form&gt;,
+    <span class="doccomment">/// Output only. An addon containing information about outdated libraries.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>outdated_library: ::core::option::Option&lt;OutdatedLibrary&gt;,
+    <span class="doccomment">/// Output only. An addon containing detailed information regarding any resource causing the
+    /// vulnerability such as JavaScript sources, image, audio files, etc.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>violating_resource: ::core::option::Option&lt;ViolatingResource&gt;,
+    <span class="doccomment">/// Output only. An addon containing information about vulnerable or missing HTTP headers.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"15"</span>)]
+    </span><span class="kw">pub </span>vulnerable_headers: ::core::option::Option&lt;VulnerableHeaders&gt;,
+    <span class="doccomment">/// Output only. An addon containing information about request parameters which were found
+    /// to be vulnerable.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>vulnerable_parameters: ::core::option::Option&lt;VulnerableParameters&gt;,
+    <span class="doccomment">/// Output only. An addon containing information reported for an XSS, if any.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"14"</span>)]
+    </span><span class="kw">pub </span>xss: ::core::option::Option&lt;Xss&gt;,
+    <span class="doccomment">/// Output only. An addon containing information reported for an XXE, if any.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"18"</span>)]
+    </span><span class="kw">pub </span>xxe: ::core::option::Option&lt;Xxe&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Finding`.
+</span><span class="kw">pub mod </span>finding {
+    <span class="doccomment">/// The severity level of a vulnerability.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Severity {
+        <span class="doccomment">/// No severity specified. The default value.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Critical severity.
+        </span>Critical = <span class="number">1</span>,
+        <span class="doccomment">/// High severity.
+        </span>High = <span class="number">2</span>,
+        <span class="doccomment">/// Medium severity.
+        </span>Medium = <span class="number">3</span>,
+        <span class="doccomment">/// Low severity.
+        </span>Low = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>Severity {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Severity::Unspecified =&gt; <span class="string">"SEVERITY_UNSPECIFIED"</span>,
+                Severity::Critical =&gt; <span class="string">"CRITICAL"</span>,
+                Severity::High =&gt; <span class="string">"HIGH"</span>,
+                Severity::Medium =&gt; <span class="string">"MEDIUM"</span>,
+                Severity::Low =&gt; <span class="string">"LOW"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SEVERITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CRITICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Critical),
+                <span class="string">"HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
+                <span class="string">"MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
+                <span class="string">"LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -4002,34 +4031,5 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
-}
-<span class="doccomment">/// A ScanRunLog is an output-only proto used for Stackdriver customer logging.
-/// It is used for logs covering the start and end of scan pipelines.
-/// Other than an added summary, this is a subset of the ScanRun.
-/// Representation in logs is either a proto Struct, or converted to JSON.
-/// Next id: 9
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ScanRunLog {
-    <span class="doccomment">/// Human friendly message about the event.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>summary: ::prost::alloc::string::String,
-    <span class="doccomment">/// The resource name of the ScanRun being logged.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The execution state of the ScanRun.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ExecutionState"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>execution_state: i32,
-    <span class="doccomment">/// The result state of the ScanRun.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"scan_run::ResultState"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>result_state: i32,
-    <span class="attr">#[prost(int64, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>urls_crawled_count: i64,
-    <span class="attr">#[prost(int64, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>urls_tested_count: i64,
-    <span class="attr">#[prost(bool, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>has_findings: bool,
-    <span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>error_trace: ::core::option::Option&lt;ScanRunErrorTrace&gt;,
 }
 </code></pre></div></section></main></body></html>

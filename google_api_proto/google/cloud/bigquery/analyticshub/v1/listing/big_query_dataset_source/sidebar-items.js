@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["selected_resource"],"struct":["SelectedResource"]};
+window.SIDEBAR_ITEMS = {"mod":["selected_resource"],"struct":["RestrictedExportPolicy","SelectedResource"]};

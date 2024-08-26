@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Area"],"mod":["circle","custom_area","region"],"struct":["Circle","CustomArea","Region"]};

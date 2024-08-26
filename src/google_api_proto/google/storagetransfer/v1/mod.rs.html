@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/storagetransfer/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/storagetransfer/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../" data-static-root-path="../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../src-files.js"></script><script defer src="../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2831,6 +2831,54 @@
 <a href="#2831" id="2831">2831</a>
 <a href="#2832" id="2832">2832</a>
 <a href="#2833" id="2833">2833</a>
+<a href="#2834" id="2834">2834</a>
+<a href="#2835" id="2835">2835</a>
+<a href="#2836" id="2836">2836</a>
+<a href="#2837" id="2837">2837</a>
+<a href="#2838" id="2838">2838</a>
+<a href="#2839" id="2839">2839</a>
+<a href="#2840" id="2840">2840</a>
+<a href="#2841" id="2841">2841</a>
+<a href="#2842" id="2842">2842</a>
+<a href="#2843" id="2843">2843</a>
+<a href="#2844" id="2844">2844</a>
+<a href="#2845" id="2845">2845</a>
+<a href="#2846" id="2846">2846</a>
+<a href="#2847" id="2847">2847</a>
+<a href="#2848" id="2848">2848</a>
+<a href="#2849" id="2849">2849</a>
+<a href="#2850" id="2850">2850</a>
+<a href="#2851" id="2851">2851</a>
+<a href="#2852" id="2852">2852</a>
+<a href="#2853" id="2853">2853</a>
+<a href="#2854" id="2854">2854</a>
+<a href="#2855" id="2855">2855</a>
+<a href="#2856" id="2856">2856</a>
+<a href="#2857" id="2857">2857</a>
+<a href="#2858" id="2858">2858</a>
+<a href="#2859" id="2859">2859</a>
+<a href="#2860" id="2860">2860</a>
+<a href="#2861" id="2861">2861</a>
+<a href="#2862" id="2862">2862</a>
+<a href="#2863" id="2863">2863</a>
+<a href="#2864" id="2864">2864</a>
+<a href="#2865" id="2865">2865</a>
+<a href="#2866" id="2866">2866</a>
+<a href="#2867" id="2867">2867</a>
+<a href="#2868" id="2868">2868</a>
+<a href="#2869" id="2869">2869</a>
+<a href="#2870" id="2870">2870</a>
+<a href="#2871" id="2871">2871</a>
+<a href="#2872" id="2872">2872</a>
+<a href="#2873" id="2873">2873</a>
+<a href="#2874" id="2874">2874</a>
+<a href="#2875" id="2875">2875</a>
+<a href="#2876" id="2876">2876</a>
+<a href="#2877" id="2877">2877</a>
+<a href="#2878" id="2878">2878</a>
+<a href="#2879" id="2879">2879</a>
+<a href="#2880" id="2880">2880</a>
+<a href="#2881" id="2881">2881</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Google service account
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3020,6 +3068,21 @@
     /// [Object Name Requirements](/storage/docs/naming#objectnames).
     </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
+    <span class="doccomment">/// Preview. Enables the transfer of managed folders between Cloud Storage
+    /// buckets. Set this option on the gcs_data_source.
+    ///
+    /// If set to true:
+    ///
+    /// - Managed folders in the source bucket are transferred to the
+    ///    destination bucket.
+    /// - Managed folders in the destination bucket are overwritten. Other
+    ///    OVERWRITE options are not supported.
+    ///
+    /// See
+    /// [Transfer Cloud Storage managed
+    /// folders](/storage-transfer/docs/managed-folders).
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>managed_folder_transfer_enabled: bool,
 }
 <span class="doccomment">/// An AwsS3Data resource can be a data source, but not a data sink.
 /// In an AwsS3Data resource, an object's name is the S3 object's key name.
@@ -3058,27 +3121,54 @@
     /// this project.
     </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>role_arn: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. The CloudFront distribution domain name pointing to this bucket,
+    /// to use when fetching.
+    ///
+    /// See
+    /// [Transfer from S3 via
+    /// CloudFront](&lt;https://cloud.google.com/storage-transfer/docs/s3-cloudfront&gt;)
+    /// for more information.
+    ///
+    /// Format: `&lt;https://{id}.cloudfront.net`&gt; or any valid custom domain. Must
+    /// begin with `&lt;https://`.&gt;
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>cloudfront_domain: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. The Resource name of a secret in Secret Manager.
     ///
-    /// The Azure SAS token must be stored in Secret Manager in JSON format:
-    /// &lt;pre&gt;{
-    ///   "sas_token" : "&lt;var&gt;SAS_TOKEN&lt;/var&gt;"
-    /// }&lt;/pre&gt;
+    /// AWS credentials must be stored in Secret Manager in JSON format:
+    ///
+    /// {
+    ///   "access_key_id": "ACCESS_KEY_ID",
+    ///   "secret_access_key": "SECRET_ACCESS_KEY"
+    /// }
+    ///
     /// [GoogleServiceAccount][google.storagetransfer.v1.GoogleServiceAccount] must
     /// be granted `roles/secretmanager.secretAccessor` for the resource.
     ///
-    /// See \[Configure access to a source: Microsoft Azure Blob Storage\]
-    /// (&lt;https://cloud.google.com/storage-transfer/docs/source-microsoft-azure#secret_manager&gt;)
+    /// See \[Configure access to a source: Amazon S3\]
+    /// (&lt;https://cloud.google.com/storage-transfer/docs/source-amazon-s3#secret_manager&gt;)
     /// for more information.
     ///
-    /// If `credentials_secret` is specified, do not specify [azure_credentials][].
-    ///
-    /// This feature is in
-    /// [preview](&lt;https://cloud.google.com/terms/service-terms#1&gt;).
+    /// If `credentials_secret` is specified, do not specify
+    /// [role_arn][google.storagetransfer.v1.AwsS3Data.role_arn] or
+    /// [aws_access_key][google.storagetransfer.v1.AwsS3Data.aws_access_key].
     ///
     /// Format: `projects/{project_number}/secrets/{secret_name}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
     </span><span class="kw">pub </span>credentials_secret: ::prost::alloc::string::String,
+    <span class="attr">#[prost(oneof = <span class="string">"aws_s3_data::PrivateNetwork"</span>, tags = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>private_network: ::core::option::Option&lt;aws_s3_data::PrivateNetwork&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AwsS3Data`.
+</span><span class="kw">pub mod </span>aws_s3_data {
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>PrivateNetwork {
+        <span class="doccomment">/// Egress bytes over a Google-managed private network.
+        /// This network is shared between other users of Storage Transfer Service.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"8"</span>)]
+        </span>ManagedPrivateNetwork(bool),
+    }
 }
 <span class="doccomment">/// An AzureBlobStorageData resource can be a data source, but not a data sink.
 /// An AzureBlobStorageData resource represents one Azure container. The storage
@@ -3113,9 +3203,11 @@
     <span class="doccomment">/// Optional. The Resource name of a secret in Secret Manager.
     ///
     /// The Azure SAS token must be stored in Secret Manager in JSON format:
-    /// &lt;pre&gt;{
-    ///   "sas_token" : "&lt;var&gt;SAS_TOKEN&lt;/var&gt;"
-    /// }&lt;/pre&gt;
+    ///
+    /// {
+    ///   "sas_token" : "SAS_TOKEN"
+    /// }
+    ///
     /// [GoogleServiceAccount][google.storagetransfer.v1.GoogleServiceAccount] must
     /// be granted `roles/secretmanager.secretAccessor` for the resource.
     ///
@@ -3125,9 +3217,6 @@
     ///
     /// If `credentials_secret` is specified, do not specify
     /// [azure_credentials][google.storagetransfer.v1.AzureBlobStorageData.azure_credentials].
-    ///
-    /// This feature is in
-    /// [preview](&lt;https://cloud.google.com/terms/service-terms#1&gt;).
     ///
     /// Format: `projects/{project_number}/secrets/{secret_name}`
     </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
@@ -3190,6 +3279,17 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>root_directory: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// An HdfsData resource specifies a path within an HDFS entity (e.g. a cluster).
+/// All cluster-specific settings, such as namenodes and ports, are configured on
+/// the transfer agents servicing requests, so HdfsData only contains the root
+/// path to the data in our transfer.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>HdfsData {
+    <span class="doccomment">/// Root path to transfer files.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// An AwsS3CompatibleData resource.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3223,7 +3323,7 @@
     /// may contain some attributes that do not apply to all S3-compatible data
     /// providers. When not specified, S3CompatibleMetadata is used by default.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>DataProvider {
         <span class="doccomment">/// A S3 compatible metadata.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -3233,7 +3333,7 @@
 <span class="doccomment">/// S3CompatibleMetadata contains the metadata fields that apply to the basic
 /// types of S3-compatible data providers.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>S3CompatibleMetadata {
     <span class="doccomment">/// Specifies the authentication and authorization method used by the storage
     /// service. When not specified, Transfer Service will attempt to determine
@@ -3433,7 +3533,7 @@
         }
     }
 }
-<span class="doccomment">/// Represents an On-Premises Agent pool.
+<span class="doccomment">/// Represents an agent pool.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AgentPool {
@@ -3457,7 +3557,7 @@
 </span><span class="kw">pub mod </span>agent_pool {
     <span class="doccomment">/// Specifies a bandwidth limit for an agent pool.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>BandwidthLimit {
         <span class="doccomment">/// Bandwidth rate in megabytes per second, distributed across all the agents
         /// in the pool.
@@ -3480,8 +3580,8 @@
     </span><span class="kw">pub enum </span>State {
         <span class="doccomment">/// Default value. This value is unused.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// This is an initialization state. During this stage, the resources such as
-        /// Pub/Sub topics are allocated for the AgentPool.
+        <span class="doccomment">/// This is an initialization state. During this stage, resources are
+        /// allocated for the AgentPool.
         </span>Creating = <span class="number">1</span>,
         <span class="doccomment">/// Determines that the AgentPool is created for use. At this state, Agents
         /// can join the AgentPool and participate in the transfer jobs in that pool.
@@ -3517,7 +3617,7 @@
 }
 <span class="doccomment">/// TransferOptions define the actions to be performed on objects in a transfer.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TransferOptions {
     <span class="doccomment">/// When to overwrite objects that already exist in the sink. The default is
     /// that only objects that are different from the source are ovewritten. If
@@ -3636,7 +3736,7 @@
     </span><span class="attr">#[prost(oneof = <span class="string">"transfer_spec::DataSink"</span>, tags = <span class="string">"4, 13"</span>)]
     </span><span class="kw">pub </span>data_sink: ::core::option::Option&lt;transfer_spec::DataSink&gt;,
     <span class="doccomment">/// The read source of the data.
-    </span><span class="attr">#[prost(oneof = <span class="string">"transfer_spec::DataSource"</span>, tags = <span class="string">"1, 2, 3, 14, 8, 19"</span>)]
+    </span><span class="attr">#[prost(oneof = <span class="string">"transfer_spec::DataSource"</span>, tags = <span class="string">"1, 2, 3, 14, 8, 19, 20"</span>)]
     </span><span class="kw">pub </span>data_source: ::core::option::Option&lt;transfer_spec::DataSource&gt;,
     <span class="attr">#[prost(oneof = <span class="string">"transfer_spec::IntermediateDataLocation"</span>, tags = <span class="string">"16"</span>)]
     </span><span class="kw">pub </span>intermediate_data_location: ::core::option::Option&lt;
@@ -3678,6 +3778,9 @@
         <span class="doccomment">/// An AWS S3 compatible data source.
         </span><span class="attr">#[prost(message, tag = <span class="string">"19"</span>)]
         </span>AwsS3CompatibleDataSource(<span class="kw">super</span>::AwsS3CompatibleData),
+        <span class="doccomment">/// An HDFS cluster data source.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"20"</span>)]
+        </span>HdfsDataSource(<span class="kw">super</span>::HdfsData),
     }
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
     #[derive(Clone, PartialEq, ::prost::Oneof)]
@@ -3694,7 +3797,7 @@
 }
 <span class="doccomment">/// Specifies the metadata options for running a transfer.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MetadataOptions {
     <span class="doccomment">/// Specifies how symlinks should be handled by the transfer. By default,
     /// symlinks are not preserved. Only applicable to transfers involving
@@ -3739,9 +3842,10 @@
     </span><span class="attr">#[prost(enumeration = <span class="string">"metadata_options::KmsKey"</span>, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>kms_key: i32,
     <span class="doccomment">/// Specifies how each object's `timeCreated` metadata is preserved for
-    /// transfers between Google Cloud Storage buckets.  If unspecified, the
-    /// default behavior is the same as
+    /// transfers. If unspecified, the default behavior is the same as
     /// [TIME_CREATED_SKIP][google.storagetransfer.v1.MetadataOptions.TimeCreated.TIME_CREATED_SKIP].
+    /// This behavior is supported for transfers to Cloud Storage buckets from
+    /// Cloud Storage, Amazon S3, S3-compatible storage, and Azure sources.
     </span><span class="attr">#[prost(enumeration = <span class="string">"metadata_options::TimeCreated"</span>, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>time_created: i32,
 }
@@ -4141,10 +4245,10 @@
         </span>Unspecified = <span class="number">0</span>,
         <span class="doccomment">/// Do not preserve the `timeCreated` metadata from the source object.
         </span>Skip = <span class="number">1</span>,
-        <span class="doccomment">/// Preserves the source object's `timeCreated` metadata in the `customTime`
-        /// field in the destination object.  Note that any value stored in the
-        /// source object's `customTime` field will not be propagated to the
-        /// destination object.
+        <span class="doccomment">/// Preserves the source object's `timeCreated` or `lastModified` metadata in
+        /// the `customTime` field in the destination object.  Note that any value
+        /// stored in the source object's `customTime` field will not be propagated
+        /// to the destination object.
         </span>PreserveAsCustomTime = <span class="number">2</span>,
     }
     <span class="kw">impl </span>TimeCreated {
@@ -4187,7 +4291,7 @@
 }
 <span class="doccomment">/// Transfers can be scheduled to recur or to run just once.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Schedule {
     <span class="doccomment">/// Required. The start date of a transfer. Date boundaries are determined
     /// relative to UTC time. If `schedule_start_date` and
@@ -4325,8 +4429,7 @@
     <span class="doccomment">/// Transfer specification.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>transfer_spec: ::core::option::Option&lt;TransferSpec&gt;,
-    <span class="doccomment">/// Notification configuration. This is not supported for transfers involving
-    /// PosixFilesystem.
+    <span class="doccomment">/// Notification configuration.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>notification_config: ::core::option::Option&lt;NotificationConfig&gt;,
     <span class="doccomment">/// Logging configuration.
@@ -4452,7 +4555,7 @@
 }
 <span class="doccomment">/// A collection of counters that report the progress of a transfer operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TransferCounters {
     <span class="doccomment">/// Objects found in the data source that are scheduled to be transferred,
     /// excluding any that are filtered based on object conditions or skipped due
@@ -4682,33 +4785,26 @@
 }
 <span class="doccomment">/// Specifies the logging behavior for transfer operations.
 ///
-/// For cloud-to-cloud transfers, logs are sent to Cloud Logging. See
+/// Logs can be sent to Cloud Logging for all transfer types. See
 /// [Read transfer
 /// logs](&lt;https://cloud.google.com/storage-transfer/docs/read-transfer-logs&gt;) for
 /// details.
-///
-/// For transfers to or from a POSIX file system, logs are stored in the
-/// Cloud Storage bucket that is the source or sink of the transfer.
-/// See \[Managing Transfer for on-premises jobs\]
-/// (&lt;https://cloud.google.com/storage-transfer/docs/managing-on-prem-jobs#viewing-logs&gt;)
-/// for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LoggingConfig {
     <span class="doccomment">/// Specifies the actions to be logged. If empty, no logs are generated.
-    /// Not supported for transfers with PosixFilesystem data sources; use
-    /// [enable_onprem_gcs_transfer_logs][google.storagetransfer.v1.LoggingConfig.enable_onprem_gcs_transfer_logs]
-    /// instead.
     </span><span class="attr">#[prost(enumeration = <span class="string">"logging_config::LoggableAction"</span>, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>log_actions: ::prost::alloc::vec::Vec&lt;i32&gt;,
     <span class="doccomment">/// States in which `log_actions` are logged. If empty, no logs are generated.
-    /// Not supported for transfers with PosixFilesystem data sources; use
-    /// [enable_onprem_gcs_transfer_logs][google.storagetransfer.v1.LoggingConfig.enable_onprem_gcs_transfer_logs]
-    /// instead.
     </span><span class="attr">#[prost(enumeration = <span class="string">"logging_config::LoggableActionState"</span>, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>log_action_states: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// For transfers with a PosixFilesystem source, this option enables the Cloud
-    /// Storage transfer logs for this transfer.
+    <span class="doccomment">/// For PosixFilesystem transfers, enables
+    /// [file system transfer
+    /// logs](&lt;https://cloud.google.com/storage-transfer/docs/on-prem-transfer-log-format&gt;)
+    /// instead of, or in addition to, Cloud Logging.
+    ///
+    /// This option ignores \[LoggableAction\] and \[LoggableActionState\]. If these
+    /// are set, Cloud Logging will also be enabled for this transfer.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>enable_onprem_gcs_transfer_logs: bool,
 }

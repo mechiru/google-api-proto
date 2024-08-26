@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["summary_spec"],"struct":["ExtractiveContentSpec","SnippetSpec","SummarySpec"]};
+window.SIDEBAR_ITEMS = {"enum":["SearchResultMode"],"mod":["summary_spec"],"struct":["ChunkSpec","ExtractiveContentSpec","SnippetSpec","SummarySpec"]};

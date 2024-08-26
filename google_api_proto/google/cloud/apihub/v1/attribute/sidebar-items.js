@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["DataType","DefinitionType","Scope"],"struct":["AllowedValue"]};

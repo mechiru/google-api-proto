@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/paymentgateway/issuerswitch/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/paymentgateway/issuerswitch/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -6698,6 +6698,536 @@
         }
     }
 }
+<span class="doccomment">/// A rule that is executed by the issuer switch while processing an
+/// API transaction.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Rule {
+    <span class="doccomment">/// The unique identifier for this resource.
+    /// Format: projects/{project}/rules/{rule}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the rule.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>rule_description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The API Type for which this rule gets executed. A value of
+    /// `API_TYPE_UNSPECIFIED` indicates that the rule is executed for all API
+    /// transactions.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"ApiType"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>api_type: i32,
+    <span class="doccomment">/// The transaction type for which this rule gets executed. A value of
+    /// `TRANSACTION_TYPE_UNSPECIFIED` indicates that the rule is executed for
+    /// all transaction types.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TransactionType"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>transaction_type: i32,
+}
+<span class="doccomment">/// The metadata associated with a rule. This defines data that are used by the
+/// rule during execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RuleMetadata {
+    <span class="doccomment">/// The unique identifier for this resource.
+    /// Format: projects/{project}/rules/{rule}/metadata/{metadata}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The description of the rule metadata.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Type of rule metadata.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"rule_metadata::Type"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `RuleMetadata`.
+</span><span class="kw">pub mod </span>rule_metadata {
+    <span class="doccomment">/// The type of metadata.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// Unspecified type.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// List type. Indicates that the metadata contains a list of values which
+        /// the rule requires for execution.
+        </span>List = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::List =&gt; <span class="string">"LIST"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"LIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::List),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Represent a single value in a rule's metadata.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RuleMetadataValue {
+    <span class="doccomment">/// Output only. The unique identifier for this resource.
+    /// Format: projects/{project}/rules/{rule}/metadata/{metadata}/values/{value}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// The value of the resource which could be of type string or
+    /// AccountReference. The metadata values for rules
+    /// BlockedPayeeAccountReqPayDebitRule, BlockedPayerAccountReqPayDebitRule,
+    /// BlockedPayeeAccountReqPayCreditRule and BlockedPayerAccountReqPayCreditRule
+    /// should be of type AccountReference. For all other rules, metadata values
+    /// should be of type string.
+    ///
+    /// The length of the `value` field depends on the type of
+    /// the value being used for the rule metadata. The following are the minimum
+    /// and maximum lengths for the different types of values.
+    ///
+    /// Value Type | Minimum Length | Maximum Length |
+    /// -------- | -------- | -------- |
+    /// Bank account IFSC   | 11   | 11   |
+    /// Bank account number   | 1   | 255  |
+    /// Device identifier   | 1   | 255   |
+    /// Mobile number   | 12   | 12  |
+    /// Virtual private address (VPA)   | 3   | 255   |
+    </span><span class="attr">#[prost(oneof = <span class="string">"rule_metadata_value::Value"</span>, tags = <span class="string">"2, 3"</span>)]
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;rule_metadata_value::Value&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `RuleMetadataValue`.
+</span><span class="kw">pub mod </span>rule_metadata_value {
+    <span class="doccomment">/// The value of the resource which could be of type string or
+    /// AccountReference. The metadata values for rules
+    /// BlockedPayeeAccountReqPayDebitRule, BlockedPayerAccountReqPayDebitRule,
+    /// BlockedPayeeAccountReqPayCreditRule and BlockedPayerAccountReqPayCreditRule
+    /// should be of type AccountReference. For all other rules, metadata values
+    /// should be of type string.
+    ///
+    /// The length of the `value` field depends on the type of
+    /// the value being used for the rule metadata. The following are the minimum
+    /// and maximum lengths for the different types of values.
+    ///
+    /// Value Type | Minimum Length | Maximum Length |
+    /// -------- | -------- | -------- |
+    /// Bank account IFSC   | 11   | 11   |
+    /// Bank account number   | 1   | 255  |
+    /// Device identifier   | 1   | 255   |
+    /// Mobile number   | 12   | 12  |
+    /// Virtual private address (VPA)   | 3   | 255   |
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Value {
+        <span class="doccomment">/// The value for string metadata.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span>Id(::prost::alloc::string::String),
+        <span class="doccomment">/// The value for account reference metadata.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>AccountReference(<span class="kw">super</span>::AccountReference),
+    }
+}
+<span class="doccomment">/// Request body for the `ListRules` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRulesRequest {
+    <span class="doccomment">/// Required. The parent resource must have the format of `projects/{project}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of rules to return. The service may return fewer
+    /// than this value. If unspecified or if the specified value is less than 50,
+    /// at most 50 rules will be returned. The maximum value is 1000; values above
+    /// 1000 will be coerced to 1000.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListRulesRequest` call.
+    /// Specify this parameter to retrieve the next page of rules.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response body for the `ListRules` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRulesResponse {
+    <span class="doccomment">/// List of rules satisfying the specified filter criteria.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;Rule&gt;,
+    <span class="doccomment">/// Pass this token in a subsequent `ListRulesRequest` call to continue to list
+    /// results. If all results have been returned, this field is an empty string
+    /// or not present in the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Total number of rules matching request criteria across all pages.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_size: i64,
+}
+<span class="doccomment">/// Request body for the `ListRuleMetadata` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRuleMetadataRequest {
+    <span class="doccomment">/// Required. The parent resource. The format is
+    /// `projects/{project}/rules/{rule}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of rule metadata to return. The service may return fewer
+    /// than this value. If unspecified or if the specified value is less than 50,
+    /// at most 50 rule metadata will be returned. The maximum value is 1000;
+    /// values above 1000 will be coerced to 1000.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListRuleMetadataRequest` call.
+    /// Specify this parameter to retrieve the next page of rule metadata.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response body for the `ListRuleMetadata` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRuleMetadataResponse {
+    <span class="doccomment">/// List of rule metadata associated with the rule.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>rule_metadata: ::prost::alloc::vec::Vec&lt;RuleMetadata&gt;,
+    <span class="doccomment">/// Pass this token in a subsequent `ListRuleMetadataRequest` call to continue
+    /// to list results. If all results have been returned, this field is an empty
+    /// string or not present in the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+    <span class="doccomment">/// Total number of rule metadata matching request criteria across all pages.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>total_size: i64,
+}
+<span class="doccomment">/// Request body for the `ListRuleMetadataValues` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRuleMetadataValuesRequest {
+    <span class="doccomment">/// Required. The parent resource. The format is
+    /// `projects/{project}/rules/{rule}/metadata/{metadata}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of metadata values to return. The service may return
+    /// fewer than this value. If unspecified or if the specified value is less
+    /// than 1, at most 50 rule metadata values will be returned. The maximum
+    /// value is 1000; values above 1000 will be coerced to 1000.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token received from a previous `ListRuleMetadataValuesRequest`
+    /// call. Specify this parameter to retrieve the next page of rule metadata
+    /// values.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response body for ListRuleMetadataValues. Contains a List of values for a
+/// given rule metadata resource.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListRuleMetadataValuesResponse {
+    <span class="doccomment">/// List of values for a given rule metadata resource identifier.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>rule_metadata_values: ::prost::alloc::vec::Vec&lt;RuleMetadataValue&gt;,
+    <span class="doccomment">/// Pass this token in a subsequent `ListRuleMetadataValuesRequest` call to
+    /// continue to list results. If all results have been returned, this field is
+    /// an empty string or not present in the response.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request body for the `BatchCreateRuleMetadataValues` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchCreateRuleMetadataValuesRequest {
+    <span class="doccomment">/// The parent resource shared by all ruleMetadataValue being created. The
+    /// format is `projects/{project}/rules/{rule}/metadata/{metadata}`. The
+    /// [CreateRuleMetadataValueRequest.parent][google.cloud.paymentgateway.issuerswitch.v1.CreateRuleMetadataValueRequest.parent]
+    /// field in the
+    /// [CreateRuleMetadataValueRequest][google.cloud.paymentgateway.issuerswitch.v1.CreateRuleMetadataValueRequest]
+    /// messages contained in this request must match this field.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The request message specifying the resources to create.
+    /// A maximum of 1000 RuleMetadataValues can be created in a batch.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>requests: ::prost::alloc::vec::Vec&lt;CreateRuleMetadataValueRequest&gt;,
+}
+<span class="doccomment">/// Response body for the `BatchCreateRuleMetadataValues` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchCreateRuleMetadataValuesResponse {
+    <span class="doccomment">/// List of RuleMetadataValue created.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>rule_metadata_value: ::prost::alloc::vec::Vec&lt;RuleMetadataValue&gt;,
+}
+<span class="doccomment">/// Request for creating a single `RuleMetadataValue`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateRuleMetadataValueRequest {
+    <span class="doccomment">/// Required. The parent resource where this RuleMetadataValue will be created.
+    /// The format is `projects/{project}/rules/{rule}/metadata/{metadata}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The rule metadata value to create or add to a list.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>rule_metadata_value: ::core::option::Option&lt;RuleMetadataValue&gt;,
+}
+<span class="doccomment">/// Request body for the `BatchDeleteRuleMetadataValues` method.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>BatchDeleteRuleMetadataValuesRequest {
+    <span class="doccomment">/// The parent resource shared by all RuleMetadataValues being deleted. The
+    /// format is `projects/{project}/rules/{rule}/metadata/{metadata}`. If this is
+    /// set, the parent of all of the RuleMetadataValues specified in the
+    /// list of names must match this field.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The names of the rule metadata values to delete.
+    /// A maximum of 1000 RuleMetadataValue can be deleted in a batch.
+    /// Format: projects/{project}/rules/{rule}/metadata/{metadata}/values/{value}
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Generated client implementations.
+</span><span class="kw">pub mod </span>issuer_switch_rules_client {
+    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
+    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
+    <span class="kw">use </span>tonic::codegen::http::Uri;
+    <span class="doccomment">/// Manages rules used by the issuer switch's rules engine.
+    </span><span class="attr">#[derive(Debug, Clone)]
+    </span><span class="kw">pub struct </span>IssuerSwitchRulesClient&lt;T&gt; {
+        inner: tonic::client::Grpc&lt;T&gt;,
+    }
+    <span class="kw">impl</span>&lt;T&gt; IssuerSwitchRulesClient&lt;T&gt;
+    <span class="kw">where
+        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
+        T::Error: Into&lt;StdError&gt;,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+    {
+        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
+            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
+            <span class="self">Self </span>{ inner }
+        }
+        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
+            inner: T,
+            interceptor: F,
+        ) -&gt; IssuerSwitchRulesClient&lt;InterceptedService&lt;T, F&gt;&gt;
+        <span class="kw">where
+            </span>F: tonic::service::Interceptor,
+            T::ResponseBody: Default,
+            T: tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+                Response = http::Response&lt;
+                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
+                &gt;,
+            &gt;,
+            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
+                http::Request&lt;tonic::body::BoxBody&gt;,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+        {
+            IssuerSwitchRulesClient::new(InterceptedService::new(inner, interceptor))
+        }
+        <span class="doccomment">/// Compress requests with the given encoding.
+        ///
+        /// This requires the server to support it otherwise it might respond with an
+        /// error.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Enable decompressing responses.
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of a decoded message.
+        ///
+        /// Default: `4MB`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// Limits the maximum size of an encoded message.
+        ///
+        /// Default: `usize::MAX`
+        </span><span class="attr">#[must_use]
+        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
+            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
+            <span class="self">self
+        </span>}
+        <span class="doccomment">/// List all rules that are applied on transactions by the issuer switch. Rules
+        /// can be filtered on API type and transaction type.
+        </span><span class="kw">pub async fn </span>list_rules(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRulesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListRulesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/ListRules"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
+                        <span class="string">"ListRules"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// List all rule metadata for a given rule identifier.
+        </span><span class="kw">pub async fn </span>list_rule_metadata(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRuleMetadataRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListRuleMetadataResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/ListRuleMetadata"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
+                        <span class="string">"ListRuleMetadata"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// List all metadata values for a rule metadata identifier.
+        </span><span class="kw">pub async fn </span>list_rule_metadata_values(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRuleMetadataValuesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListRuleMetadataValuesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/ListRuleMetadataValues"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
+                        <span class="string">"ListRuleMetadataValues"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Create (add) multiple values to the list of values under the specified rule
+        /// metadata resource.
+        </span><span class="kw">pub async fn </span>batch_create_rule_metadata_values(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchCreateRuleMetadataValuesRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::BatchCreateRuleMetadataValuesResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/BatchCreateRuleMetadataValues"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
+                        <span class="string">"BatchCreateRuleMetadataValues"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Delete (remove) multiple values from the list of values under the specified
+        /// rules metadata resource.
+        </span><span class="kw">pub async fn </span>batch_delete_rule_metadata_values(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchDeleteRuleMetadataValuesRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/BatchDeleteRuleMetadataValues"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
+                        <span class="string">"BatchDeleteRuleMetadataValues"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+    }
+}
 <span class="doccomment">/// A complaint processed by the issuer switch.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6942,7 +7472,7 @@
 }
 <span class="doccomment">/// The adjusment flag and reason code for raising complaint.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RaiseComplaintAdjustment {
     <span class="doccomment">/// Required. The adjustment flag in URCS for the complaint transaction. This
     /// maps to `reqAdjFlag` in complaint request and `respAdjFlag` in complaint
@@ -7091,7 +7621,7 @@
 }
 <span class="doccomment">/// The adjusment flag and reason code for resolving the complaint.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResolveComplaintAdjustment {
     <span class="doccomment">/// Required. The adjustment flag in URCS for the complaint transaction. This
     /// maps to `reqAdjFlag` in complaint request and `respAdjFlag` in complaint
@@ -7289,7 +7819,7 @@
 }
 <span class="doccomment">/// The adjusment flag and reason code for raising dispute.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RaiseDisputeAdjustment {
     <span class="doccomment">/// Required. The adjustment flag in URCS for the complaint transaction. This
     /// maps to `reqAdjFlag` in dispute request and `respAdjFlag` in dispute
@@ -7561,7 +8091,7 @@
 }
 <span class="doccomment">/// The adjusment flag and reason code for resolving the dispute.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResolveDisputeAdjustment {
     <span class="doccomment">/// Required. The adjustment flag in URCS for the complaint transaction. This
     /// maps to `reqAdjFlag` in dispute request and `respAdjFlag` in dispute
@@ -8123,19 +8653,19 @@
 }
 <span class="doccomment">/// Metadata for CreateComplaint.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateComplaintMetadata {}
 <span class="doccomment">/// Metadata for ResolveComplaint.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResolveComplaintMetadata {}
 <span class="doccomment">/// Metadata for CreateDispute.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateDisputeMetadata {}
 <span class="doccomment">/// Metadata for ResolveDispute.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResolveDisputeMetadata {}
 <span class="doccomment">/// The subtype of the complaint or dispute.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
@@ -9509,7 +10039,7 @@
 }
 <span class="doccomment">/// Metadata for ExportFinancialTransactions.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportFinancialTransactionsMetadata {
     <span class="doccomment">/// Output only. The time at which the operation was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9517,7 +10047,7 @@
 }
 <span class="doccomment">/// Metadata for ExportMandateTransactions.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportMandateTransactionsMetadata {
     <span class="doccomment">/// Output only. The time at which the operation was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9525,7 +10055,7 @@
 }
 <span class="doccomment">/// Metadata for ExportMetadataTransactions.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportMetadataTransactionsMetadata {
     <span class="doccomment">/// Output only. The time at which the operation was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -9533,7 +10063,7 @@
 }
 <span class="doccomment">/// Metadata for ExportComplaintTransactions.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExportComplaintTransactionsMetadata {
     <span class="doccomment">/// Output only. The time at which the operation was created.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -11154,536 +11684,6 @@
                     GrpcMethod::new(
                         <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchParticipants"</span>,
                         <span class="string">"MobileNumberChanged"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-    }
-}
-<span class="doccomment">/// A rule that is executed by the issuer switch while processing an
-/// API transaction.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Rule {
-    <span class="doccomment">/// The unique identifier for this resource.
-    /// Format: projects/{project}/rules/{rule}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the rule.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>rule_description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The API Type for which this rule gets executed. A value of
-    /// `API_TYPE_UNSPECIFIED` indicates that the rule is executed for all API
-    /// transactions.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"ApiType"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>api_type: i32,
-    <span class="doccomment">/// The transaction type for which this rule gets executed. A value of
-    /// `TRANSACTION_TYPE_UNSPECIFIED` indicates that the rule is executed for
-    /// all transaction types.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TransactionType"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>transaction_type: i32,
-}
-<span class="doccomment">/// The metadata associated with a rule. This defines data that are used by the
-/// rule during execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RuleMetadata {
-    <span class="doccomment">/// The unique identifier for this resource.
-    /// Format: projects/{project}/rules/{rule}/metadata/{metadata}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The description of the rule metadata.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Type of rule metadata.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"rule_metadata::Type"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `RuleMetadata`.
-</span><span class="kw">pub mod </span>rule_metadata {
-    <span class="doccomment">/// The type of metadata.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// Unspecified type.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// List type. Indicates that the metadata contains a list of values which
-        /// the rule requires for execution.
-        </span>List = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::List =&gt; <span class="string">"LIST"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"LIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::List),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Represent a single value in a rule's metadata.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RuleMetadataValue {
-    <span class="doccomment">/// Output only. The unique identifier for this resource.
-    /// Format: projects/{project}/rules/{rule}/metadata/{metadata}/values/{value}
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// The value of the resource which could be of type string or
-    /// AccountReference. The metadata values for rules
-    /// BlockedPayeeAccountReqPayDebitRule, BlockedPayerAccountReqPayDebitRule,
-    /// BlockedPayeeAccountReqPayCreditRule and BlockedPayerAccountReqPayCreditRule
-    /// should be of type AccountReference. For all other rules, metadata values
-    /// should be of type string.
-    ///
-    /// The length of the `value` field depends on the type of
-    /// the value being used for the rule metadata. The following are the minimum
-    /// and maximum lengths for the different types of values.
-    ///
-    /// Value Type | Minimum Length | Maximum Length |
-    /// -------- | -------- | -------- |
-    /// Bank account IFSC   | 11   | 11   |
-    /// Bank account number   | 1   | 255  |
-    /// Device identifier   | 1   | 255   |
-    /// Mobile number   | 12   | 12  |
-    /// Virtual private address (VPA)   | 3   | 255   |
-    </span><span class="attr">#[prost(oneof = <span class="string">"rule_metadata_value::Value"</span>, tags = <span class="string">"2, 3"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;rule_metadata_value::Value&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `RuleMetadataValue`.
-</span><span class="kw">pub mod </span>rule_metadata_value {
-    <span class="doccomment">/// The value of the resource which could be of type string or
-    /// AccountReference. The metadata values for rules
-    /// BlockedPayeeAccountReqPayDebitRule, BlockedPayerAccountReqPayDebitRule,
-    /// BlockedPayeeAccountReqPayCreditRule and BlockedPayerAccountReqPayCreditRule
-    /// should be of type AccountReference. For all other rules, metadata values
-    /// should be of type string.
-    ///
-    /// The length of the `value` field depends on the type of
-    /// the value being used for the rule metadata. The following are the minimum
-    /// and maximum lengths for the different types of values.
-    ///
-    /// Value Type | Minimum Length | Maximum Length |
-    /// -------- | -------- | -------- |
-    /// Bank account IFSC   | 11   | 11   |
-    /// Bank account number   | 1   | 255  |
-    /// Device identifier   | 1   | 255   |
-    /// Mobile number   | 12   | 12  |
-    /// Virtual private address (VPA)   | 3   | 255   |
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Value {
-        <span class="doccomment">/// The value for string metadata.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span>Id(::prost::alloc::string::String),
-        <span class="doccomment">/// The value for account reference metadata.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>AccountReference(<span class="kw">super</span>::AccountReference),
-    }
-}
-<span class="doccomment">/// Request body for the `ListRules` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRulesRequest {
-    <span class="doccomment">/// Required. The parent resource must have the format of `projects/{project}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of rules to return. The service may return fewer
-    /// than this value. If unspecified or if the specified value is less than 50,
-    /// at most 50 rules will be returned. The maximum value is 1000; values above
-    /// 1000 will be coerced to 1000.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListRulesRequest` call.
-    /// Specify this parameter to retrieve the next page of rules.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response body for the `ListRules` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRulesResponse {
-    <span class="doccomment">/// List of rules satisfying the specified filter criteria.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;Rule&gt;,
-    <span class="doccomment">/// Pass this token in a subsequent `ListRulesRequest` call to continue to list
-    /// results. If all results have been returned, this field is an empty string
-    /// or not present in the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Total number of rules matching request criteria across all pages.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_size: i64,
-}
-<span class="doccomment">/// Request body for the `ListRuleMetadata` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRuleMetadataRequest {
-    <span class="doccomment">/// Required. The parent resource. The format is
-    /// `projects/{project}/rules/{rule}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of rule metadata to return. The service may return fewer
-    /// than this value. If unspecified or if the specified value is less than 50,
-    /// at most 50 rule metadata will be returned. The maximum value is 1000;
-    /// values above 1000 will be coerced to 1000.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token, received from a previous `ListRuleMetadataRequest` call.
-    /// Specify this parameter to retrieve the next page of rule metadata.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response body for the `ListRuleMetadata` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRuleMetadataResponse {
-    <span class="doccomment">/// List of rule metadata associated with the rule.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>rule_metadata: ::prost::alloc::vec::Vec&lt;RuleMetadata&gt;,
-    <span class="doccomment">/// Pass this token in a subsequent `ListRuleMetadataRequest` call to continue
-    /// to list results. If all results have been returned, this field is an empty
-    /// string or not present in the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-    <span class="doccomment">/// Total number of rule metadata matching request criteria across all pages.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>total_size: i64,
-}
-<span class="doccomment">/// Request body for the `ListRuleMetadataValues` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRuleMetadataValuesRequest {
-    <span class="doccomment">/// Required. The parent resource. The format is
-    /// `projects/{project}/rules/{rule}/metadata/{metadata}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// The maximum number of metadata values to return. The service may return
-    /// fewer than this value. If unspecified or if the specified value is less
-    /// than 1, at most 50 rule metadata values will be returned. The maximum
-    /// value is 1000; values above 1000 will be coerced to 1000.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>page_size: i32,
-    <span class="doccomment">/// A page token received from a previous `ListRuleMetadataValuesRequest`
-    /// call. Specify this parameter to retrieve the next page of rule metadata
-    /// values.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Response body for ListRuleMetadataValues. Contains a List of values for a
-/// given rule metadata resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ListRuleMetadataValuesResponse {
-    <span class="doccomment">/// List of values for a given rule metadata resource identifier.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>rule_metadata_values: ::prost::alloc::vec::Vec&lt;RuleMetadataValue&gt;,
-    <span class="doccomment">/// Pass this token in a subsequent `ListRuleMetadataValuesRequest` call to
-    /// continue to list results. If all results have been returned, this field is
-    /// an empty string or not present in the response.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Request body for the `BatchCreateRuleMetadataValues` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchCreateRuleMetadataValuesRequest {
-    <span class="doccomment">/// The parent resource shared by all ruleMetadataValue being created. The
-    /// format is `projects/{project}/rules/{rule}/metadata/{metadata}`. The
-    /// [CreateRuleMetadataValueRequest.parent][google.cloud.paymentgateway.issuerswitch.v1.CreateRuleMetadataValueRequest.parent]
-    /// field in the
-    /// [CreateRuleMetadataValueRequest][google.cloud.paymentgateway.issuerswitch.v1.CreateRuleMetadataValueRequest]
-    /// messages contained in this request must match this field.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The request message specifying the resources to create.
-    /// A maximum of 1000 RuleMetadataValues can be created in a batch.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>requests: ::prost::alloc::vec::Vec&lt;CreateRuleMetadataValueRequest&gt;,
-}
-<span class="doccomment">/// Response body for the `BatchCreateRuleMetadataValues` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchCreateRuleMetadataValuesResponse {
-    <span class="doccomment">/// List of RuleMetadataValue created.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>rule_metadata_value: ::prost::alloc::vec::Vec&lt;RuleMetadataValue&gt;,
-}
-<span class="doccomment">/// Request for creating a single `RuleMetadataValue`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CreateRuleMetadataValueRequest {
-    <span class="doccomment">/// Required. The parent resource where this RuleMetadataValue will be created.
-    /// The format is `projects/{project}/rules/{rule}/metadata/{metadata}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The rule metadata value to create or add to a list.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>rule_metadata_value: ::core::option::Option&lt;RuleMetadataValue&gt;,
-}
-<span class="doccomment">/// Request body for the `BatchDeleteRuleMetadataValues` method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>BatchDeleteRuleMetadataValuesRequest {
-    <span class="doccomment">/// The parent resource shared by all RuleMetadataValues being deleted. The
-    /// format is `projects/{project}/rules/{rule}/metadata/{metadata}`. If this is
-    /// set, the parent of all of the RuleMetadataValues specified in the
-    /// list of names must match this field.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The names of the rule metadata values to delete.
-    /// A maximum of 1000 RuleMetadataValue can be deleted in a batch.
-    /// Format: projects/{project}/rules/{rule}/metadata/{metadata}/values/{value}
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Generated client implementations.
-</span><span class="kw">pub mod </span>issuer_switch_rules_client {
-    <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
-    </span><span class="kw">use </span>tonic::codegen::<span class="kw-2">*</span>;
-    <span class="kw">use </span>tonic::codegen::http::Uri;
-    <span class="doccomment">/// Manages rules used by the issuer switch's rules engine.
-    </span><span class="attr">#[derive(Debug, Clone)]
-    </span><span class="kw">pub struct </span>IssuerSwitchRulesClient&lt;T&gt; {
-        inner: tonic::client::Grpc&lt;T&gt;,
-    }
-    <span class="kw">impl</span>&lt;T&gt; IssuerSwitchRulesClient&lt;T&gt;
-    <span class="kw">where
-        </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
-        T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
-    {
-        <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_origin(inner: T, origin: Uri) -&gt; <span class="self">Self </span>{
-            <span class="kw">let </span>inner = tonic::client::Grpc::with_origin(inner, origin);
-            <span class="self">Self </span>{ inner }
-        }
-        <span class="kw">pub fn </span>with_interceptor&lt;F&gt;(
-            inner: T,
-            interceptor: F,
-        ) -&gt; IssuerSwitchRulesClient&lt;InterceptedService&lt;T, F&gt;&gt;
-        <span class="kw">where
-            </span>F: tonic::service::Interceptor,
-            T::ResponseBody: Default,
-            T: tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-                Response = http::Response&lt;
-                    &lt;T <span class="kw">as </span>tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;&gt;::ResponseBody,
-                &gt;,
-            &gt;,
-            &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
-                http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
-        {
-            IssuerSwitchRulesClient::new(InterceptedService::new(inner, interceptor))
-        }
-        <span class="doccomment">/// Compress requests with the given encoding.
-        ///
-        /// This requires the server to support it otherwise it might respond with an
-        /// error.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>send_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.send_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Enable decompressing responses.
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>accept_compressed(<span class="kw-2">mut </span><span class="self">self</span>, encoding: CompressionEncoding) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.accept_compressed(encoding);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of a decoded message.
-        ///
-        /// Default: `4MB`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_decoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_decoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// Limits the maximum size of an encoded message.
-        ///
-        /// Default: `usize::MAX`
-        </span><span class="attr">#[must_use]
-        </span><span class="kw">pub fn </span>max_encoding_message_size(<span class="kw-2">mut </span><span class="self">self</span>, limit: usize) -&gt; <span class="self">Self </span>{
-            <span class="self">self</span>.inner = <span class="self">self</span>.inner.max_encoding_message_size(limit);
-            <span class="self">self
-        </span>}
-        <span class="doccomment">/// List all rules that are applied on transactions by the issuer switch. Rules
-        /// can be filtered on API type and transaction type.
-        </span><span class="kw">pub async fn </span>list_rules(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRulesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListRulesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/ListRules"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
-                        <span class="string">"ListRules"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// List all rule metadata for a given rule identifier.
-        </span><span class="kw">pub async fn </span>list_rule_metadata(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRuleMetadataRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListRuleMetadataResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/ListRuleMetadata"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
-                        <span class="string">"ListRuleMetadata"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// List all metadata values for a rule metadata identifier.
-        </span><span class="kw">pub async fn </span>list_rule_metadata_values(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListRuleMetadataValuesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::ListRuleMetadataValuesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/ListRuleMetadataValues"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
-                        <span class="string">"ListRuleMetadataValues"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Create (add) multiple values to the list of values under the specified rule
-        /// metadata resource.
-        </span><span class="kw">pub async fn </span>batch_create_rule_metadata_values(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchCreateRuleMetadataValuesRequest&gt;,
-        ) -&gt; std::result::Result&lt;
-            tonic::Response&lt;<span class="kw">super</span>::BatchCreateRuleMetadataValuesResponse&gt;,
-            tonic::Status,
-        &gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/BatchCreateRuleMetadataValues"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
-                        <span class="string">"BatchCreateRuleMetadataValues"</span>,
-                    ),
-                );
-            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
-        </span>}
-        <span class="doccomment">/// Delete (remove) multiple values from the list of values under the specified
-        /// rules metadata resource.
-        </span><span class="kw">pub async fn </span>batch_delete_rule_metadata_values(
-            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
-            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::BatchDeleteRuleMetadataValuesRequest&gt;,
-        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
-            <span class="self">self</span>.inner
-                .ready()
-                .<span class="kw">await
-                </span>.map_err(|e| {
-                    tonic::Status::new(
-                        tonic::Code::Unknown,
-                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
-                    )
-                })<span class="question-mark">?</span>;
-            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
-            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
-                <span class="string">"/google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules/BatchDeleteRuleMetadataValues"</span>,
-            );
-            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
-            req.extensions_mut()
-                .insert(
-                    GrpcMethod::new(
-                        <span class="string">"google.cloud.paymentgateway.issuerswitch.v1.IssuerSwitchRules"</span>,
-                        <span class="string">"BatchDeleteRuleMetadataValues"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

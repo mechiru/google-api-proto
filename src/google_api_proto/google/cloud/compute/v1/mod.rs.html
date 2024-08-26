@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/compute/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/compute/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -77554,7 +77554,7 @@
 }
 <span class="doccomment">/// Specifies options for controlling advanced machine features. Options that would traditionally be configured in a BIOS belong here. Features that require operating system support may have corresponding entries in the GuestOsFeatures of an Image (e.g., whether or not the OS in the Image supports nested virtualization being enabled or disabled).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AdvancedMachineFeatures {
     <span class="doccomment">/// Whether to enable nested virtualization or not (default is false).
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"16639365"</span>)]
@@ -80443,7 +80443,7 @@
 }
 <span class="doccomment">/// Configuration parameters of autoscaling based on load balancing.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AutoscalingPolicyLoadBalancingUtilization {
     <span class="doccomment">/// Fraction of backend capacity utilization (set in HTTP(S) load balancing configuration) that the autoscaler maintains. Must be a positive float value. If not defined, the default is 0.8.
     </span><span class="attr">#[prost(double, optional, tag = <span class="string">"215905870"</span>)]
@@ -80451,7 +80451,7 @@
 }
 <span class="doccomment">/// Configuration that allows for slower scale in so that even if Autoscaler recommends an abrupt scale in of a MIG, it will be throttled as specified by the parameters below.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AutoscalingPolicyScaleInControl {
     <span class="doccomment">/// Maximum allowed number (or %) of VMs that can be deducted from the peak recommendation during the window autoscaler looks at when computing recommendations. Possibly all these VMs can be deleted at once so user service needs to be prepared to lose that many VMs in one step.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"180710123"</span>)]
@@ -80836,7 +80836,7 @@
 }
 <span class="doccomment">/// Specify CDN TTLs for response error codes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BackendBucketCdnPolicyNegativeCachingPolicy {
     <span class="doccomment">/// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 are can be specified as values, and you cannot specify a status code more than once.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"3059181"</span>)]
@@ -81457,7 +81457,7 @@
 }
 <span class="doccomment">/// Specify CDN TTLs for response error codes.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BackendServiceCdnPolicyNegativeCachingPolicy {
     <span class="doccomment">/// The HTTP status code to define a TTL against. Only HTTP status codes 300, 301, 302, 307, 308, 404, 405, 410, 421, 451 and 501 are can be specified as values, and you cannot specify a status code more than once.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"3059181"</span>)]
@@ -81588,7 +81588,7 @@
 }
 <span class="doccomment">/// For load balancers that have configurable failover: [Internal passthrough Network Load Balancers](&lt;https://cloud.google.com/load-balancing/docs/internal/failover-overview&gt;) and [external passthrough Network Load Balancers](&lt;https://cloud.google.com/load-balancing/docs/network/networklb-failover-overview&gt;). On failover or failback, this field indicates whether connection draining will be honored. Google Cloud has a fixed connection draining timeout of 10 minutes. A setting of true terminates existing TCP connections to the active pool during failover and failback, immediately draining traffic. A setting of false allows existing TCP connections to persist, even on VMs no longer in the active pool, for up to the duration of the connection draining timeout (10 minutes).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BackendServiceFailoverPolicy {
     <span class="doccomment">/// This can be set to true only if the protocol is TCP. The default is false.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"182150753"</span>)]
@@ -82282,7 +82282,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BfdStatusPacketCounts {
     <span class="doccomment">/// Number of packets received since the beginning of the current BFD session.
     </span><span class="attr">#[prost(uint32, optional, tag = <span class="string">"39375263"</span>)]
@@ -82572,7 +82572,7 @@
 }
 <span class="doccomment">/// Settings controlling the volume of requests, connections and retries to this backend service.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CircuitBreakers {
     <span class="doccomment">/// The maximum number of connections to the backend service. If not specified, there is no limit. Not supported when the backend service is referenced by a URL map that is bound to target gRPC proxy that has validateForProxyless field set to true.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"110652154"</span>)]
@@ -83217,7 +83217,7 @@
 }
 <span class="doccomment">/// A set of Confidential Instance options.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConfidentialInstanceConfig {
     <span class="doccomment">/// Defines whether the instance should have confidential compute enabled.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"102135228"</span>)]
@@ -83225,7 +83225,7 @@
 }
 <span class="doccomment">/// Message containing connection draining configuration.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConnectionDraining {
     <span class="doccomment">/// Configures a duration timeout for existing requests on a removed backend instance. For supported load balancers and protocols, as described in Enabling connection draining.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"225127070"</span>)]
@@ -83632,7 +83632,7 @@
 }
 <span class="doccomment">/// A response message for GlobalOperations.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteGlobalOperationResponse {}
 <span class="doccomment">/// A request message for GlobalOrganizationOperations.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -83647,7 +83647,7 @@
 }
 <span class="doccomment">/// A response message for GlobalOrganizationOperations.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteGlobalOrganizationOperationResponse {}
 <span class="doccomment">/// A request message for GlobalPublicDelegatedPrefixes.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -84320,7 +84320,7 @@
 }
 <span class="doccomment">/// A response message for RegionOperations.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteRegionOperationResponse {}
 <span class="doccomment">/// A request message for RegionSecurityPolicies.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -84832,7 +84832,7 @@
 }
 <span class="doccomment">/// A response message for ZoneOperations.Delete. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteZoneOperationResponse {}
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -85706,7 +85706,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DisksResizeRequest {
     <span class="doccomment">/// The new size of the persistent disk, which is specified in GB.
     </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"494929369"</span>)]
@@ -85741,7 +85741,7 @@
 }
 <span class="doccomment">/// A set of Display Device options
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DisplayDevice {
     <span class="doccomment">/// Defines whether the instance has Display enabled.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"14266886"</span>)]
@@ -85823,7 +85823,7 @@
 }
 <span class="doccomment">/// A Duration represents a fixed-length span of time represented as a count of seconds and fractions of seconds at nanosecond resolution. It is independent of any calendar and concepts like "day" or "month". Range is approximately 10,000 years.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Duration {
     <span class="doccomment">/// Span of time that's a fraction of a second at nanosecond resolution. Durations less than one second are represented with a 0 `seconds` field and a positive `nanos` field. Must be from 0 to 999,999,999 inclusive.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"104586303"</span>)]
@@ -86742,7 +86742,7 @@
 }
 <span class="doccomment">/// Encapsulates numeric value that can be either absolute or relative.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FixedOrPercent {
     <span class="doccomment">/// \[Output Only\] Absolute value of VM instances calculated based on the specific mode. - If the value is fixed, then the calculated value is equal to the fixed value. - If the value is a percent, then the calculated value is percent/100 * targetSize. For example, the calculated value of a 80% of a managed instance group with 150 instances would be (80/100 * 150) = 120 VM instances. If there is a remainder, the number is rounded.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"472082878"</span>)]
@@ -90020,7 +90020,7 @@
 }
 <span class="doccomment">/// Configuration of logging on a health check. If logging is enabled, logs will be exported to Stackdriver.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HealthCheckLogConfig {
     <span class="doccomment">/// Indicates whether or not to export logs. This is false by default, which means no health check logging will be done.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"311764355"</span>)]
@@ -90440,7 +90440,7 @@
 }
 <span class="doccomment">/// Specification for how requests are aborted as part of fault injection.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HttpFaultAbort {
     <span class="doccomment">/// The HTTP status code used to abort the request. The value must be from 200 to 599 inclusive. For gRPC protocol, the gRPC status code is mapped to HTTP status code according to this mapping table. HTTP status 200 is mapped to gRPC status UNKNOWN. Injecting an OK status is currently not supported by Traffic Director.
     </span><span class="attr">#[prost(uint32, optional, tag = <span class="string">"468949897"</span>)]
@@ -90451,7 +90451,7 @@
 }
 <span class="doccomment">/// Specifies the delay introduced by the load balancer before forwarding the request to the backend service as part of fault injection.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HttpFaultDelay {
     <span class="doccomment">/// Specifies the value of the fixed delay interval.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"317037816"</span>)]
@@ -90462,7 +90462,7 @@
 }
 <span class="doccomment">/// The specification for fault injection introduced into traffic to test the resiliency of clients to backend service failure. As part of fault injection, when clients send requests to a backend service, delays can be introduced by the load balancer on a percentage of requests before sending those request to the backend service. Similarly requests from clients can be aborted by the load balancer for a percentage of requests.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HttpFaultInjection {
     <span class="doccomment">/// The specification for how client requests are aborted as part of fault injection.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"92611376"</span>)]
@@ -92672,7 +92672,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InstanceConsumptionInfo {
     <span class="doccomment">/// The number of virtual CPUs that are available to the instance.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"393356754"</span>)]
@@ -92924,7 +92924,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InstanceGroupManagerActionsSummary {
     <span class="doccomment">/// \[Output Only\] The total number of instances in the managed instance group that are scheduled to be abandoned. Abandoning an instance removes it from the managed instance group without deleting it.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"440023373"</span>)]
@@ -93330,7 +93330,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InstanceGroupManagerStatusStateful {
     <span class="doccomment">/// \[Output Only\] A bit indicating whether the managed instance group has stateful configuration, that is, if you have configured any items in a stateful policy or in per-instance configs. The group might report that it has no stateful configuration even when there is still some preserved state on a managed instance, for example, if you have deleted all PICs but not yet applied those deletions.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"110474224"</span>)]
@@ -93343,7 +93343,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InstanceGroupManagerStatusStatefulPerInstanceConfigs {
     <span class="doccomment">/// A bit indicating if all of the group's per-instance configurations (listed in the output of a listPerInstanceConfigs API call) have status EFFECTIVE or there are no per-instance-configs.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"516540553"</span>)]
@@ -93351,7 +93351,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InstanceGroupManagerStatusVersionTarget {
     <span class="doccomment">/// \[Output Only\] A bit indicating whether version target has been reached in this managed instance group, i.e. all instances are in their target version. Instances' target version are specified by version field on Instance Group Manager.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"433209149"</span>)]
@@ -95037,7 +95037,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InstantSnapshotResourceStatus {
     <span class="doccomment">/// \[Output Only\] The storage size of this instant snapshot.
     </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"387548913"</span>)]
@@ -95056,7 +95056,7 @@
 }
 <span class="doccomment">/// HttpRouteRuleMatch criteria for field values that must stay within the specified integer range.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Int64RangeMatch {
     <span class="doccomment">/// The end of the range (exclusive) in signed long integer format.
     </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"322439897"</span>)]
@@ -96054,7 +96054,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InterconnectAttachmentConfigurationConstraintsBgpPeerAsnRange {
     <span class="attr">#[prost(uint32, optional, tag = <span class="string">"107876"</span>)]
     </span><span class="kw">pub </span>max: ::core::option::Option&lt;u32&gt;,
@@ -96100,7 +96100,7 @@
 }
 <span class="doccomment">/// Information for an interconnect attachment when this belongs to an interconnect of type DEDICATED.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InterconnectAttachmentPrivateInfo {
     <span class="doccomment">/// \[Output Only\] 802.1q encapsulation tag to be used for traffic between Google and the customer, going to and from this network and region.
     </span><span class="attr">#[prost(uint32, optional, tag = <span class="string">"271820992"</span>)]
@@ -97440,7 +97440,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>InterconnectRemoteLocationConstraintsSubnetLengthRange {
     <span class="attr">#[prost(int32, optional, tag = <span class="string">"107876"</span>)]
     </span><span class="kw">pub </span>max: ::core::option::Option&lt;i32&gt;,
@@ -97674,7 +97674,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LicenseResourceRequirements {
     <span class="doccomment">/// Minimum number of guest cpus required to use the Instance. Enforced at Instance creation and Instance start.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"477964836"</span>)]
@@ -100801,7 +100801,7 @@
 }
 <span class="doccomment">/// Per-zone constraints on location policy for this zone.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LocationPolicyLocationConstraints {
     <span class="doccomment">/// Maximum number of items that are allowed to be placed in this zone. The value must be non-negative.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"287620724"</span>)]
@@ -103767,7 +103767,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NodeGroupsAddNodesRequest {
     <span class="doccomment">/// Count of additional nodes to be added to the node group.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"134997930"</span>)]
@@ -104446,7 +104446,7 @@
 }
 <span class="doccomment">/// Settings controlling the eviction of unhealthy hosts from the load balancing pool for the backend service.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OutlierDetection {
     <span class="doccomment">/// The base time that a backend endpoint is ejected for. Defaults to 30000ms or 30s. After a backend endpoint is returned back to the load balancing pool, it can be ejected again in another ejection analysis. Thus, the total ejection time is equal to the base ejection time multiplied by the number of times the backend endpoint has been ejected. Defaults to 30000ms or 30s.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"80997255"</span>)]
@@ -108584,7 +108584,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RegionDisksResizeRequest {
     <span class="doccomment">/// The new size of the regional persistent disk, which is specified in GB.
     </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"494929369"</span>)]
@@ -109654,7 +109654,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReservationsResizeRequest {
     <span class="doccomment">/// Number of allocated resources can be resized with minimum = 1 and maximum = 1000.
     </span><span class="attr">#[prost(int64, optional, tag = <span class="string">"13890720"</span>)]
@@ -110034,7 +110034,7 @@
 }
 <span class="doccomment">/// Resource policy for disk consistency groups.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResourcePolicyDiskConsistencyGroupPolicy {}
 <span class="doccomment">/// A GroupPlacementPolicy specifies resource placement configuration. It specifies the failure bucket separation
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -113027,7 +113027,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ScratchDisks {
     <span class="doccomment">/// Size of the scratch disk, defined in GB.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"60990141"</span>)]
@@ -114003,7 +114003,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SecurityPolicyRuleRateLimitOptionsThreshold {
     <span class="doccomment">/// Number of HTTP(S) requests for calculating the threshold.
     </span><span class="attr">#[prost(int32, optional, tag = <span class="string">"94851343"</span>)]
@@ -114169,7 +114169,7 @@
 }
 <span class="doccomment">/// A response message for Instances.SendDiagnosticInterrupt. See the method description for details.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SendDiagnosticInterruptInstanceResponse {}
 <span class="doccomment">/// An instance serial console output.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -116445,7 +116445,7 @@
 }
 <span class="doccomment">/// A set of Shielded Instance options.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ShieldedInstanceConfig {
     <span class="doccomment">/// Defines whether the instance has integrity monitoring enabled. Enabled by default.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"409071030"</span>)]
@@ -116484,7 +116484,7 @@
 }
 <span class="doccomment">/// The policy describes the baseline against which Instance boot integrity is measured.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ShieldedInstanceIntegrityPolicy {
     <span class="doccomment">/// Updates the integrity policy baseline using the measurements from the VM instance's most recent boot.
     </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"245490215"</span>)]
@@ -119096,7 +119096,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SubnetworksSetPrivateIpGoogleAccessRequest {
     <span class="attr">#[prost(bool, optional, tag = <span class="string">"421491790"</span>)]
     </span><span class="kw">pub </span>private_ip_google_access: ::core::option::Option&lt;bool&gt;,
@@ -121204,7 +121204,7 @@
 }
 <span class="doccomment">///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Uint128 {
     <span class="attr">#[prost(uint64, optional, tag = <span class="string">"3202466"</span>)]
     </span><span class="kw">pub </span>high: ::core::option::Option&lt;u64&gt;,

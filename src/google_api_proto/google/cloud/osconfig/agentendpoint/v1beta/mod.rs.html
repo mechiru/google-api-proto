@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/osconfig/agentendpoint/v1beta/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/osconfig/agentendpoint/v1beta/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2031,7 +2031,812 @@
 <a href="#2031" id="2031">2031</a>
 <a href="#2032" id="2032">2032</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Package is a reference to the software package to be installed or removed.
+</span><span class="doccomment">/// Patch configuration specifications. Contains details on how to
+/// apply patches to a VM instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>PatchConfig {
+    <span class="doccomment">/// Post-patch reboot settings.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_config::RebootConfig"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>reboot_config: i32,
+    <span class="doccomment">/// Retry strategy can be defined to have the agent retry patching
+    /// during the window if patching fails. If omitted, the agent will use its
+    /// default retry strategy.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>retry_strategy: ::core::option::Option&lt;RetryStrategy&gt;,
+    <span class="doccomment">/// Apt update settings. Use this override the default apt patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>apt: ::core::option::Option&lt;AptSettings&gt;,
+    <span class="doccomment">/// Yum update settings. Use this override the default yum patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>yum: ::core::option::Option&lt;YumSettings&gt;,
+    <span class="doccomment">/// Goo update settings. Use this override the default goo patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>goo: ::core::option::Option&lt;GooSettings&gt;,
+    <span class="doccomment">/// Zypper update settings. Use this override the default zypper patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>zypper: ::core::option::Option&lt;ZypperSettings&gt;,
+    <span class="doccomment">/// Windows update settings. Use this override the default windows patch rules.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>windows_update: ::core::option::Option&lt;WindowsUpdateSettings&gt;,
+    <span class="doccomment">/// The ExecStep to run before the patch update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>pre_step: ::core::option::Option&lt;ExecStep&gt;,
+    <span class="doccomment">/// The ExecStep to run after the patch update.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>post_step: ::core::option::Option&lt;ExecStep&gt;,
+    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>mig_instances_allowed: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `PatchConfig`.
+</span><span class="kw">pub mod </span>patch_config {
+    <span class="doccomment">/// Post-patch reboot settings.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>RebootConfig {
+        <span class="doccomment">/// The default behavior is DEFAULT.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The agent decides if a reboot is necessary by checking
+        /// signals such as registry keys on Windows or `/var/run/reboot-required` on
+        /// APT based systems. On RPM based systems, a set of core system package
+        /// install times are compared with system boot time.
+        </span>Default = <span class="number">1</span>,
+        <span class="doccomment">/// Always reboot the machine after the update completes.
+        </span>Always = <span class="number">2</span>,
+        <span class="doccomment">/// Never reboot the machine after the update completes.
+        </span>Never = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>RebootConfig {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                RebootConfig::Unspecified =&gt; <span class="string">"REBOOT_CONFIG_UNSPECIFIED"</span>,
+                RebootConfig::Default =&gt; <span class="string">"DEFAULT"</span>,
+                RebootConfig::Always =&gt; <span class="string">"ALWAYS"</span>,
+                RebootConfig::Never =&gt; <span class="string">"NEVER"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"REBOOT_CONFIG_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DEFAULT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Default),
+                <span class="string">"ALWAYS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Always),
+                <span class="string">"NEVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Never),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Apt patching will be performed by executing `apt-get update &amp;&amp; apt-get
+/// upgrade`. Additional options can be set to control how this is executed.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AptSettings {
+    <span class="doccomment">/// By changing the type to DIST, the patching will be performed
+    /// using `apt-get dist-upgrade` instead.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"apt_settings::Type"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// List of packages to exclude from update.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field cannot be specified with any other patch configuration
+    /// fields.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AptSettings`.
+</span><span class="kw">pub mod </span>apt_settings {
+    <span class="doccomment">/// Apt patch type.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// By default, upgrade will be performed.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Runs `apt-get dist-upgrade`.
+        </span>Dist = <span class="number">1</span>,
+        <span class="doccomment">/// Runs `apt-get upgrade`.
+        </span>Upgrade = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Dist =&gt; <span class="string">"DIST"</span>,
+                Type::Upgrade =&gt; <span class="string">"UPGRADE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"DIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dist),
+                <span class="string">"UPGRADE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Upgrade),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Yum patching will be performed by executing `yum update`. Additional options
+/// can be set to control how this is executed.
+///
+/// Note that not all settings are supported on all platforms.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>YumSettings {
+    <span class="doccomment">/// Adds the `--security` flag to `yum update`. Not supported on
+    /// all platforms.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>security: bool,
+    <span class="doccomment">/// Will cause patch to run `yum update-minimal` instead.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>minimal: bool,
+    <span class="doccomment">/// List of packages to exclude from update. These packages will be excluded by
+    /// using the yum `--exclude` flag.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
+    /// that will be updated. If these packages are not installed, they will be
+    /// ignored. This field must not be specified with any other patch
+    /// configuration fields.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Googet patching is performed by running `googet update`.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GooSettings {}
+<span class="doccomment">/// Zypper patching is performed by running `zypper patch`.
+/// See also &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ZypperSettings {
+    <span class="doccomment">/// Adds the `--with-optional` flag to `zypper patch`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>with_optional: bool,
+    <span class="doccomment">/// Adds the `--with-update` flag, to `zypper patch`.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>with_update: bool,
+    <span class="doccomment">/// Install only patches with these categories.
+    /// Common categories include security, recommended, and feature.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>categories: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// Install only patches with these severities.
+    /// Common severities include critical, important, moderate, and low.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>severities: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// List of patches to exclude from update.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of patches to be updated. These are the only patches
+    /// that will be installed using 'zypper patch patch:&lt;patch_name&gt;' command.
+    /// This field must not be used with any other patch configuration fields.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Windows patching is performed using the Windows Update Agent.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>WindowsUpdateSettings {
+    <span class="doccomment">/// Only apply updates of these windows update classifications. If empty, all
+    /// updates will be applied.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"windows_update_settings::Classification"</span>,
+        repeated,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>classifications: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// List of KBs to exclude from update.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// An exclusive list of kbs to be updated. These are the only patches
+    /// that will be updated. This field must not be used with other
+    /// patch configurations.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `WindowsUpdateSettings`.
+</span><span class="kw">pub mod </span>windows_update_settings {
+    <span class="doccomment">/// Microsoft Windows update classifications as defined in
+    /// \[1\]
+    /// &lt;https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro&gt;
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Classification {
+        <span class="doccomment">/// Invalid. If classifications are included, they must be specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// "A widely released fix for a specific problem that addresses a critical,
+        /// non-security-related bug." \[1\]
+        </span>Critical = <span class="number">1</span>,
+        <span class="doccomment">/// "A widely released fix for a product-specific, security-related
+        /// vulnerability. Security vulnerabilities are rated by their severity. The
+        /// severity rating is indicated in the Microsoft security bulletin as
+        /// critical, important, moderate, or low." \[1\]
+        </span>Security = <span class="number">2</span>,
+        <span class="doccomment">/// "A widely released and frequent software update that contains additions
+        /// to a product’s definition database. Definition databases are often used
+        /// to detect objects that have specific attributes, such as malicious code,
+        /// phishing websites, or junk mail." \[1\]
+        </span>Definition = <span class="number">3</span>,
+        <span class="doccomment">/// "Software that controls the input and output of a device." \[1\]
+        </span>Driver = <span class="number">4</span>,
+        <span class="doccomment">/// "New product functionality that is first distributed outside the context
+        /// of a product release and that is typically included in the next full
+        /// product release." \[1\]
+        </span>FeaturePack = <span class="number">5</span>,
+        <span class="doccomment">/// "A tested, cumulative set of all hotfixes, security updates, critical
+        /// updates, and updates. Additionally, service packs may contain additional
+        /// fixes for problems that are found internally since the release of the
+        /// product. Service packs my also contain a limited number of
+        /// customer-requested design changes or features." \[1\]
+        </span>ServicePack = <span class="number">6</span>,
+        <span class="doccomment">/// "A utility or feature that helps complete a task or set of tasks." \[1\]
+        </span>Tool = <span class="number">7</span>,
+        <span class="doccomment">/// "A tested, cumulative set of hotfixes, security updates, critical
+        /// updates, and updates that are packaged together for easy deployment. A
+        /// rollup generally targets a specific area, such as security, or a
+        /// component of a product, such as Internet Information Services (IIS)." \[1\]
+        </span>UpdateRollup = <span class="number">8</span>,
+        <span class="doccomment">/// "A widely released fix for a specific problem. An update addresses a
+        /// noncritical, non-security-related bug." \[1\]
+        </span>Update = <span class="number">9</span>,
+    }
+    <span class="kw">impl </span>Classification {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Classification::Unspecified =&gt; <span class="string">"CLASSIFICATION_UNSPECIFIED"</span>,
+                Classification::Critical =&gt; <span class="string">"CRITICAL"</span>,
+                Classification::Security =&gt; <span class="string">"SECURITY"</span>,
+                Classification::Definition =&gt; <span class="string">"DEFINITION"</span>,
+                Classification::Driver =&gt; <span class="string">"DRIVER"</span>,
+                Classification::FeaturePack =&gt; <span class="string">"FEATURE_PACK"</span>,
+                Classification::ServicePack =&gt; <span class="string">"SERVICE_PACK"</span>,
+                Classification::Tool =&gt; <span class="string">"TOOL"</span>,
+                Classification::UpdateRollup =&gt; <span class="string">"UPDATE_ROLLUP"</span>,
+                Classification::Update =&gt; <span class="string">"UPDATE"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CLASSIFICATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CRITICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Critical),
+                <span class="string">"SECURITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Security),
+                <span class="string">"DEFINITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Definition),
+                <span class="string">"DRIVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Driver),
+                <span class="string">"FEATURE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FeaturePack),
+                <span class="string">"SERVICE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServicePack),
+                <span class="string">"TOOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tool),
+                <span class="string">"UPDATE_ROLLUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UpdateRollup),
+                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The strategy for retrying failed patches during the patch window.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>RetryStrategy {
+    <span class="doccomment">/// If true, the agent will continue to try and patch until the window has
+    /// ended.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>enabled: bool,
+}
+<span class="doccomment">/// A step that runs an executable for a PatchJob.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStep {
+    <span class="doccomment">/// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>linux_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
+    <span class="doccomment">/// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>windows_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
+}
+<span class="doccomment">/// Common configurations for an ExecStep.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStepConfig {
+    <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the
+    /// execution can return to indicate a success.
+    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>allowed_success_codes: ::prost::alloc::vec::Vec&lt;i32&gt;,
+    <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is
+    /// specified the script will be executed directly, which will likely
+    /// only succeed for scripts with shebang lines.
+    /// [Wikipedia shebang](&lt;https://en.wikipedia.org/wiki/Shebang_(Unix&gt;)).
+    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_config::Interpreter"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>interpreter: i32,
+    <span class="doccomment">/// Location of the executable.
+    </span><span class="attr">#[prost(oneof = <span class="string">"exec_step_config::Executable"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>executable: ::core::option::Option&lt;exec_step_config::Executable&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecStepConfig`.
+</span><span class="kw">pub mod </span>exec_step_config {
+    <span class="doccomment">/// The interpreter used to execute the a file.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Interpreter {
+        <span class="doccomment">/// Deprecated, defaults to NONE for compatibility reasons.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
+        /// interpreter will be parsed from the shebang line of the script if
+        /// unspecified.
+        </span><span class="prelude-val">None </span>= <span class="number">3</span>,
+        <span class="doccomment">/// Indicates that the script will be run with /bin/sh on Linux and cmd
+        /// on windows.
+        </span>Shell = <span class="number">1</span>,
+        <span class="doccomment">/// Indicates that the file will be run with PowerShell.
+        </span>Powershell = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Interpreter {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Interpreter::Unspecified =&gt; <span class="string">"INTERPRETER_UNSPECIFIED"</span>,
+                Interpreter::None =&gt; <span class="string">"NONE"</span>,
+                Interpreter::Shell =&gt; <span class="string">"SHELL"</span>,
+                Interpreter::Powershell =&gt; <span class="string">"POWERSHELL"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"INTERPRETER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::None),
+                <span class="string">"SHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Shell),
+                <span class="string">"POWERSHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Powershell),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// Location of the executable.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Executable {
+        <span class="doccomment">/// An absolute path to the executable on the VM.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>LocalPath(::prost::alloc::string::String),
+        <span class="doccomment">/// A GCS object containing the executable.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>GcsObject(<span class="kw">super</span>::GcsObject),
+    }
+}
+<span class="doccomment">/// GCS object representation.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GcsObject {
+    <span class="doccomment">/// Bucket of the GCS object.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>bucket: ::prost::alloc::string::String,
+    <span class="doccomment">/// Name of the GCS object.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>object: ::prost::alloc::string::String,
+    <span class="doccomment">/// Generation number of the GCS object. This is used to ensure that the
+    /// ExecStep specified by this PatchJob does not change.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>generation_number: i64,
+}
+<span class="doccomment">/// A unit of work to be performed by the agent.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Task {
+    <span class="doccomment">/// Unique task id.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>task_id: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of task to perform.
+    ///
+    /// Task details must include the appropriate message based on this enum as
+    /// specified below:
+    /// APPLY_PATCHES = ApplyPatchesTask
+    /// EXEC_STEP = ExecStepTask;
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TaskType"</span>, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>task_type: i32,
+    <span class="doccomment">/// Current directive to the agent.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"TaskDirective"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>task_directive: i32,
+    <span class="doccomment">/// Labels describing the task.  Used for logging by the agent.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>service_labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Specific details about the current task to perform.
+    </span><span class="attr">#[prost(oneof = <span class="string">"task::TaskDetails"</span>, tags = <span class="string">"4, 5"</span>)]
+    </span><span class="kw">pub </span>task_details: ::core::option::Option&lt;task::TaskDetails&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Task`.
+</span><span class="kw">pub mod </span>task {
+    <span class="doccomment">/// Specific details about the current task to perform.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>TaskDetails {
+        <span class="doccomment">/// Details about the apply patches task to perform.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>ApplyPatchesTask(<span class="kw">super</span>::ApplyPatchesTask),
+        <span class="doccomment">/// Details about the exec step task to perform.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>ExecStepTask(<span class="kw">super</span>::ExecStepTask),
+    }
+}
+<span class="doccomment">/// Message which instructs agent to apply patches.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ApplyPatchesTask {
+    <span class="doccomment">/// Specific information about how patches should be applied.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>patch_config: ::core::option::Option&lt;PatchConfig&gt;,
+    <span class="doccomment">/// If true, the agent will report its status as it goes through the motions
+    /// but won't actually run any updates or perform any reboots.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>dry_run: bool,
+}
+<span class="doccomment">/// Information reported from the agent about applying patches execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ApplyPatchesTaskProgress {
+    <span class="doccomment">/// Required. The current state of this patch execution.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"apply_patches_task_progress::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ApplyPatchesTaskProgress`.
+</span><span class="kw">pub mod </span>apply_patches_task_progress {
+    <span class="doccomment">/// The intermediate states of applying patches.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified is invalid.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The agent has started the patch task.
+        </span>Started = <span class="number">4</span>,
+        <span class="doccomment">/// The agent is currently downloading patches.
+        </span>DownloadingPatches = <span class="number">1</span>,
+        <span class="doccomment">/// The agent is currently applying patches.
+        </span>ApplyingPatches = <span class="number">2</span>,
+        <span class="doccomment">/// The agent is currently rebooting the VM instance.
+        </span>Rebooting = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Started =&gt; <span class="string">"STARTED"</span>,
+                State::DownloadingPatches =&gt; <span class="string">"DOWNLOADING_PATCHES"</span>,
+                State::ApplyingPatches =&gt; <span class="string">"APPLYING_PATCHES"</span>,
+                State::Rebooting =&gt; <span class="string">"REBOOTING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
+                <span class="string">"DOWNLOADING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DownloadingPatches),
+                <span class="string">"APPLYING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyingPatches),
+                <span class="string">"REBOOTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rebooting),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information reported from the agent about applying patches execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ApplyPatchesTaskOutput {
+    <span class="doccomment">/// Required. The final state of this task.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"apply_patches_task_output::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ApplyPatchesTaskOutput`.
+</span><span class="kw">pub mod </span>apply_patches_task_output {
+    <span class="doccomment">/// The final states of applying patches.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified is invalid.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Applying patches completed successfully.
+        </span>Succeeded = <span class="number">1</span>,
+        <span class="doccomment">/// Applying patches completed successfully, but a reboot is required.
+        </span>SucceededRebootRequired = <span class="number">2</span>,
+        <span class="doccomment">/// Applying patches failed.
+        </span>Failed = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
+                State::SucceededRebootRequired =&gt; <span class="string">"SUCCEEDED_REBOOT_REQUIRED"</span>,
+                State::Failed =&gt; <span class="string">"FAILED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
+                <span class="string">"SUCCEEDED_REBOOT_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SucceededRebootRequired),
+                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Message which instructs agent to execute the following command.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStepTask {
+    <span class="doccomment">/// Details of the exec step to run.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>exec_step: ::core::option::Option&lt;ExecStep&gt;,
+}
+<span class="doccomment">/// Information reported from the agent about the exec step execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStepTaskProgress {
+    <span class="doccomment">/// Required. The current state of this exec step.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_task_progress::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecStepTaskProgress`.
+</span><span class="kw">pub mod </span>exec_step_task_progress {
+    <span class="doccomment">/// The intermediate states of exec steps.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified is invalid.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The agent has started the exec step task.
+        </span>Started = <span class="number">1</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Started =&gt; <span class="string">"STARTED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Information reported from the agent about the exec step execution.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ExecStepTaskOutput {
+    <span class="doccomment">/// Required. The final state of the exec step.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_task_output::State"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// Required. The exit code received from the script which ran as part of the exec step.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>exit_code: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ExecStepTaskOutput`.
+</span><span class="kw">pub mod </span>exec_step_task_output {
+    <span class="doccomment">/// The final states of exec steps.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// Unspecified is invalid.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The exec step completed normally.
+        </span>Completed = <span class="number">1</span>,
+        <span class="doccomment">/// The exec step was terminated because it took too long.
+        </span>TimedOut = <span class="number">2</span>,
+        <span class="doccomment">/// The exec step task was cancelled before it started.
+        </span>Cancelled = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
+                State::Completed =&gt; <span class="string">"COMPLETED"</span>,
+                State::TimedOut =&gt; <span class="string">"TIMED_OUT"</span>,
+                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"COMPLETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Completed),
+                <span class="string">"TIMED_OUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOut),
+                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Specifies the current agent behavior.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TaskDirective {
+    <span class="doccomment">/// Unspecified is invalid.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The task should continue to progress.
+    </span>Continue = <span class="number">1</span>,
+    <span class="doccomment">/// Task should not be started, or if already in progress, should stop
+    /// at first safe stopping point.  Task should be considered done and will
+    /// never repeat.
+    </span>Stop = <span class="number">2</span>,
+}
+<span class="kw">impl </span>TaskDirective {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TaskDirective::Unspecified =&gt; <span class="string">"TASK_DIRECTIVE_UNSPECIFIED"</span>,
+            TaskDirective::Continue =&gt; <span class="string">"CONTINUE"</span>,
+            TaskDirective::Stop =&gt; <span class="string">"STOP"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TASK_DIRECTIVE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"CONTINUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Continue),
+            <span class="string">"STOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stop),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Specifies the type of task to perform.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>TaskType {
+    <span class="doccomment">/// Unspecified is invalid.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// The apply patches task.
+    </span>ApplyPatches = <span class="number">1</span>,
+    <span class="doccomment">/// The exec step task.
+    </span>ExecStepTask = <span class="number">2</span>,
+}
+<span class="kw">impl </span>TaskType {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            TaskType::Unspecified =&gt; <span class="string">"TASK_TYPE_UNSPECIFIED"</span>,
+            TaskType::ApplyPatches =&gt; <span class="string">"APPLY_PATCHES"</span>,
+            TaskType::ExecStepTask =&gt; <span class="string">"EXEC_STEP_TASK"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"TASK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"APPLY_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyPatches),
+            <span class="string">"EXEC_STEP_TASK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ExecStepTask),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Package is a reference to the software package to be installed or removed.
 /// The agent on the VM instance uses the system package manager to apply the
 /// config.
 ///
@@ -2822,811 +3627,6 @@
         }
     }
 }
-<span class="doccomment">/// Patch configuration specifications. Contains details on how to
-/// apply patches to a VM instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PatchConfig {
-    <span class="doccomment">/// Post-patch reboot settings.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"patch_config::RebootConfig"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>reboot_config: i32,
-    <span class="doccomment">/// Retry strategy can be defined to have the agent retry patching
-    /// during the window if patching fails. If omitted, the agent will use its
-    /// default retry strategy.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>retry_strategy: ::core::option::Option&lt;RetryStrategy&gt;,
-    <span class="doccomment">/// Apt update settings. Use this override the default apt patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>apt: ::core::option::Option&lt;AptSettings&gt;,
-    <span class="doccomment">/// Yum update settings. Use this override the default yum patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>yum: ::core::option::Option&lt;YumSettings&gt;,
-    <span class="doccomment">/// Goo update settings. Use this override the default goo patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>goo: ::core::option::Option&lt;GooSettings&gt;,
-    <span class="doccomment">/// Zypper update settings. Use this override the default zypper patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>zypper: ::core::option::Option&lt;ZypperSettings&gt;,
-    <span class="doccomment">/// Windows update settings. Use this override the default windows patch rules.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>windows_update: ::core::option::Option&lt;WindowsUpdateSettings&gt;,
-    <span class="doccomment">/// The ExecStep to run before the patch update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>pre_step: ::core::option::Option&lt;ExecStep&gt;,
-    <span class="doccomment">/// The ExecStep to run after the patch update.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>post_step: ::core::option::Option&lt;ExecStep&gt;,
-    <span class="doccomment">/// Allows the patch job to run on Managed instance groups (MIGs).
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>mig_instances_allowed: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `PatchConfig`.
-</span><span class="kw">pub mod </span>patch_config {
-    <span class="doccomment">/// Post-patch reboot settings.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>RebootConfig {
-        <span class="doccomment">/// The default behavior is DEFAULT.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The agent decides if a reboot is necessary by checking
-        /// signals such as registry keys on Windows or `/var/run/reboot-required` on
-        /// APT based systems. On RPM based systems, a set of core system package
-        /// install times are compared with system boot time.
-        </span>Default = <span class="number">1</span>,
-        <span class="doccomment">/// Always reboot the machine after the update completes.
-        </span>Always = <span class="number">2</span>,
-        <span class="doccomment">/// Never reboot the machine after the update completes.
-        </span>Never = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>RebootConfig {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                RebootConfig::Unspecified =&gt; <span class="string">"REBOOT_CONFIG_UNSPECIFIED"</span>,
-                RebootConfig::Default =&gt; <span class="string">"DEFAULT"</span>,
-                RebootConfig::Always =&gt; <span class="string">"ALWAYS"</span>,
-                RebootConfig::Never =&gt; <span class="string">"NEVER"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"REBOOT_CONFIG_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DEFAULT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Default),
-                <span class="string">"ALWAYS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Always),
-                <span class="string">"NEVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Never),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Apt patching will be performed by executing `apt-get update &amp;&amp; apt-get
-/// upgrade`. Additional options can be set to control how this is executed.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AptSettings {
-    <span class="doccomment">/// By changing the type to DIST, the patching will be performed
-    /// using `apt-get dist-upgrade` instead.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"apt_settings::Type"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// List of packages to exclude from update.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field cannot be specified with any other patch configuration
-    /// fields.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AptSettings`.
-</span><span class="kw">pub mod </span>apt_settings {
-    <span class="doccomment">/// Apt patch type.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// By default, upgrade will be performed.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Runs `apt-get dist-upgrade`.
-        </span>Dist = <span class="number">1</span>,
-        <span class="doccomment">/// Runs `apt-get upgrade`.
-        </span>Upgrade = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Dist =&gt; <span class="string">"DIST"</span>,
-                Type::Upgrade =&gt; <span class="string">"UPGRADE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"DIST" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Dist),
-                <span class="string">"UPGRADE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Upgrade),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Yum patching will be performed by executing `yum update`. Additional options
-/// can be set to control how this is executed.
-///
-/// Note that not all settings are supported on all platforms.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>YumSettings {
-    <span class="doccomment">/// Adds the `--security` flag to `yum update`. Not supported on
-    /// all platforms.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>security: bool,
-    <span class="doccomment">/// Will cause patch to run `yum update-minimal` instead.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>minimal: bool,
-    <span class="doccomment">/// List of packages to exclude from update. These packages will be excluded by
-    /// using the yum `--exclude` flag.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of packages to be updated. These are the only packages
-    /// that will be updated. If these packages are not installed, they will be
-    /// ignored. This field must not be specified with any other patch
-    /// configuration fields.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>exclusive_packages: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Googet patching is performed by running `googet update`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GooSettings {}
-<span class="doccomment">/// Zypper patching is performed by running `zypper patch`.
-/// See also &lt;https://en.opensuse.org/SDB:Zypper_manual.&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ZypperSettings {
-    <span class="doccomment">/// Adds the `--with-optional` flag to `zypper patch`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>with_optional: bool,
-    <span class="doccomment">/// Adds the `--with-update` flag, to `zypper patch`.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>with_update: bool,
-    <span class="doccomment">/// Install only patches with these categories.
-    /// Common categories include security, recommended, and feature.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>categories: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Install only patches with these severities.
-    /// Common severities include critical, important, moderate, and low.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>severities: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// List of patches to exclude from update.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of patches to be updated. These are the only patches
-    /// that will be installed using 'zypper patch patch:&lt;patch_name&gt;' command.
-    /// This field must not be used with any other patch configuration fields.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Windows patching is performed using the Windows Update Agent.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>WindowsUpdateSettings {
-    <span class="doccomment">/// Only apply updates of these windows update classifications. If empty, all
-    /// updates will be applied.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"windows_update_settings::Classification"</span>,
-        repeated,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>classifications: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// List of KBs to exclude from update.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>excludes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// An exclusive list of kbs to be updated. These are the only patches
-    /// that will be updated. This field must not be used with other
-    /// patch configurations.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>exclusive_patches: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `WindowsUpdateSettings`.
-</span><span class="kw">pub mod </span>windows_update_settings {
-    <span class="doccomment">/// Microsoft Windows update classifications as defined in
-    /// \[1\]
-    /// &lt;https://support.microsoft.com/en-us/help/824684/description-of-the-standard-terminology-that-is-used-to-describe-micro&gt;
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Classification {
-        <span class="doccomment">/// Invalid. If classifications are included, they must be specified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// "A widely released fix for a specific problem that addresses a critical,
-        /// non-security-related bug." \[1\]
-        </span>Critical = <span class="number">1</span>,
-        <span class="doccomment">/// "A widely released fix for a product-specific, security-related
-        /// vulnerability. Security vulnerabilities are rated by their severity. The
-        /// severity rating is indicated in the Microsoft security bulletin as
-        /// critical, important, moderate, or low." \[1\]
-        </span>Security = <span class="number">2</span>,
-        <span class="doccomment">/// "A widely released and frequent software update that contains additions
-        /// to a product’s definition database. Definition databases are often used
-        /// to detect objects that have specific attributes, such as malicious code,
-        /// phishing websites, or junk mail." \[1\]
-        </span>Definition = <span class="number">3</span>,
-        <span class="doccomment">/// "Software that controls the input and output of a device." \[1\]
-        </span>Driver = <span class="number">4</span>,
-        <span class="doccomment">/// "New product functionality that is first distributed outside the context
-        /// of a product release and that is typically included in the next full
-        /// product release." \[1\]
-        </span>FeaturePack = <span class="number">5</span>,
-        <span class="doccomment">/// "A tested, cumulative set of all hotfixes, security updates, critical
-        /// updates, and updates. Additionally, service packs may contain additional
-        /// fixes for problems that are found internally since the release of the
-        /// product. Service packs my also contain a limited number of
-        /// customer-requested design changes or features." \[1\]
-        </span>ServicePack = <span class="number">6</span>,
-        <span class="doccomment">/// "A utility or feature that helps complete a task or set of tasks." \[1\]
-        </span>Tool = <span class="number">7</span>,
-        <span class="doccomment">/// "A tested, cumulative set of hotfixes, security updates, critical
-        /// updates, and updates that are packaged together for easy deployment. A
-        /// rollup generally targets a specific area, such as security, or a
-        /// component of a product, such as Internet Information Services (IIS)." \[1\]
-        </span>UpdateRollup = <span class="number">8</span>,
-        <span class="doccomment">/// "A widely released fix for a specific problem. An update addresses a
-        /// noncritical, non-security-related bug." \[1\]
-        </span>Update = <span class="number">9</span>,
-    }
-    <span class="kw">impl </span>Classification {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Classification::Unspecified =&gt; <span class="string">"CLASSIFICATION_UNSPECIFIED"</span>,
-                Classification::Critical =&gt; <span class="string">"CRITICAL"</span>,
-                Classification::Security =&gt; <span class="string">"SECURITY"</span>,
-                Classification::Definition =&gt; <span class="string">"DEFINITION"</span>,
-                Classification::Driver =&gt; <span class="string">"DRIVER"</span>,
-                Classification::FeaturePack =&gt; <span class="string">"FEATURE_PACK"</span>,
-                Classification::ServicePack =&gt; <span class="string">"SERVICE_PACK"</span>,
-                Classification::Tool =&gt; <span class="string">"TOOL"</span>,
-                Classification::UpdateRollup =&gt; <span class="string">"UPDATE_ROLLUP"</span>,
-                Classification::Update =&gt; <span class="string">"UPDATE"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CLASSIFICATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CRITICAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Critical),
-                <span class="string">"SECURITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Security),
-                <span class="string">"DEFINITION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Definition),
-                <span class="string">"DRIVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Driver),
-                <span class="string">"FEATURE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FeaturePack),
-                <span class="string">"SERVICE_PACK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ServicePack),
-                <span class="string">"TOOL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Tool),
-                <span class="string">"UPDATE_ROLLUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UpdateRollup),
-                <span class="string">"UPDATE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Update),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The strategy for retrying failed patches during the patch window.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>RetryStrategy {
-    <span class="doccomment">/// If true, the agent will continue to try and patch until the window has
-    /// ended.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>enabled: bool,
-}
-<span class="doccomment">/// A step that runs an executable for a PatchJob.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStep {
-    <span class="doccomment">/// The ExecStepConfig for all Linux VMs targeted by the PatchJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>linux_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
-    <span class="doccomment">/// The ExecStepConfig for all Windows VMs targeted by the PatchJob.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>windows_exec_step_config: ::core::option::Option&lt;ExecStepConfig&gt;,
-}
-<span class="doccomment">/// Common configurations for an ExecStep.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStepConfig {
-    <span class="doccomment">/// Defaults to \[0\]. A list of possible return values that the
-    /// execution can return to indicate a success.
-    </span><span class="attr">#[prost(int32, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>allowed_success_codes: ::prost::alloc::vec::Vec&lt;i32&gt;,
-    <span class="doccomment">/// The script interpreter to use to run the script. If no interpreter is
-    /// specified the script will be executed directly, which will likely
-    /// only succeed for scripts with shebang lines.
-    /// [Wikipedia shebang](&lt;https://en.wikipedia.org/wiki/Shebang_(Unix&gt;)).
-    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_config::Interpreter"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>interpreter: i32,
-    <span class="doccomment">/// Location of the executable.
-    </span><span class="attr">#[prost(oneof = <span class="string">"exec_step_config::Executable"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>executable: ::core::option::Option&lt;exec_step_config::Executable&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecStepConfig`.
-</span><span class="kw">pub mod </span>exec_step_config {
-    <span class="doccomment">/// The interpreter used to execute the a file.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Interpreter {
-        <span class="doccomment">/// Deprecated, defaults to NONE for compatibility reasons.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Invalid for a Windows ExecStepConfig. For a Linux ExecStepConfig, the
-        /// interpreter will be parsed from the shebang line of the script if
-        /// unspecified.
-        </span><span class="prelude-val">None </span>= <span class="number">3</span>,
-        <span class="doccomment">/// Indicates that the script will be run with /bin/sh on Linux and cmd
-        /// on windows.
-        </span>Shell = <span class="number">1</span>,
-        <span class="doccomment">/// Indicates that the file will be run with PowerShell.
-        </span>Powershell = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Interpreter {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Interpreter::Unspecified =&gt; <span class="string">"INTERPRETER_UNSPECIFIED"</span>,
-                Interpreter::None =&gt; <span class="string">"NONE"</span>,
-                Interpreter::Shell =&gt; <span class="string">"SHELL"</span>,
-                Interpreter::Powershell =&gt; <span class="string">"POWERSHELL"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"INTERPRETER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"NONE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::None),
-                <span class="string">"SHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Shell),
-                <span class="string">"POWERSHELL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Powershell),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// Location of the executable.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Executable {
-        <span class="doccomment">/// An absolute path to the executable on the VM.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>LocalPath(::prost::alloc::string::String),
-        <span class="doccomment">/// A GCS object containing the executable.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>GcsObject(<span class="kw">super</span>::GcsObject),
-    }
-}
-<span class="doccomment">/// GCS object representation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>GcsObject {
-    <span class="doccomment">/// Bucket of the GCS object.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>bucket: ::prost::alloc::string::String,
-    <span class="doccomment">/// Name of the GCS object.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>object: ::prost::alloc::string::String,
-    <span class="doccomment">/// Generation number of the GCS object. This is used to ensure that the
-    /// ExecStep specified by this PatchJob does not change.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>generation_number: i64,
-}
-<span class="doccomment">/// A unit of work to be performed by the agent.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Task {
-    <span class="doccomment">/// Unique task id.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>task_id: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of task to perform.
-    ///
-    /// Task details must include the appropriate message based on this enum as
-    /// specified below:
-    /// APPLY_PATCHES = ApplyPatchesTask
-    /// EXEC_STEP = ExecStepTask;
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TaskType"</span>, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>task_type: i32,
-    <span class="doccomment">/// Current directive to the agent.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"TaskDirective"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>task_directive: i32,
-    <span class="doccomment">/// Labels describing the task.  Used for logging by the agent.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>service_labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Specific details about the current task to perform.
-    </span><span class="attr">#[prost(oneof = <span class="string">"task::TaskDetails"</span>, tags = <span class="string">"4, 5"</span>)]
-    </span><span class="kw">pub </span>task_details: ::core::option::Option&lt;task::TaskDetails&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Task`.
-</span><span class="kw">pub mod </span>task {
-    <span class="doccomment">/// Specific details about the current task to perform.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>TaskDetails {
-        <span class="doccomment">/// Details about the apply patches task to perform.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>ApplyPatchesTask(<span class="kw">super</span>::ApplyPatchesTask),
-        <span class="doccomment">/// Details about the exec step task to perform.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>ExecStepTask(<span class="kw">super</span>::ExecStepTask),
-    }
-}
-<span class="doccomment">/// Message which instructs agent to apply patches.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ApplyPatchesTask {
-    <span class="doccomment">/// Specific information about how patches should be applied.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>patch_config: ::core::option::Option&lt;PatchConfig&gt;,
-    <span class="doccomment">/// If true, the agent will report its status as it goes through the motions
-    /// but won't actually run any updates or perform any reboots.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>dry_run: bool,
-}
-<span class="doccomment">/// Information reported from the agent about applying patches execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ApplyPatchesTaskProgress {
-    <span class="doccomment">/// Required. The current state of this patch execution.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"apply_patches_task_progress::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ApplyPatchesTaskProgress`.
-</span><span class="kw">pub mod </span>apply_patches_task_progress {
-    <span class="doccomment">/// The intermediate states of applying patches.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified is invalid.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The agent has started the patch task.
-        </span>Started = <span class="number">4</span>,
-        <span class="doccomment">/// The agent is currently downloading patches.
-        </span>DownloadingPatches = <span class="number">1</span>,
-        <span class="doccomment">/// The agent is currently applying patches.
-        </span>ApplyingPatches = <span class="number">2</span>,
-        <span class="doccomment">/// The agent is currently rebooting the VM instance.
-        </span>Rebooting = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Started =&gt; <span class="string">"STARTED"</span>,
-                State::DownloadingPatches =&gt; <span class="string">"DOWNLOADING_PATCHES"</span>,
-                State::ApplyingPatches =&gt; <span class="string">"APPLYING_PATCHES"</span>,
-                State::Rebooting =&gt; <span class="string">"REBOOTING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
-                <span class="string">"DOWNLOADING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::DownloadingPatches),
-                <span class="string">"APPLYING_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyingPatches),
-                <span class="string">"REBOOTING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Rebooting),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Information reported from the agent about applying patches execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ApplyPatchesTaskOutput {
-    <span class="doccomment">/// Required. The final state of this task.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"apply_patches_task_output::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ApplyPatchesTaskOutput`.
-</span><span class="kw">pub mod </span>apply_patches_task_output {
-    <span class="doccomment">/// The final states of applying patches.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified is invalid.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Applying patches completed successfully.
-        </span>Succeeded = <span class="number">1</span>,
-        <span class="doccomment">/// Applying patches completed successfully, but a reboot is required.
-        </span>SucceededRebootRequired = <span class="number">2</span>,
-        <span class="doccomment">/// Applying patches failed.
-        </span>Failed = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Succeeded =&gt; <span class="string">"SUCCEEDED"</span>,
-                State::SucceededRebootRequired =&gt; <span class="string">"SUCCEEDED_REBOOT_REQUIRED"</span>,
-                State::Failed =&gt; <span class="string">"FAILED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"SUCCEEDED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Succeeded),
-                <span class="string">"SUCCEEDED_REBOOT_REQUIRED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SucceededRebootRequired),
-                <span class="string">"FAILED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Failed),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Message which instructs agent to execute the following command.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStepTask {
-    <span class="doccomment">/// Details of the exec step to run.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>exec_step: ::core::option::Option&lt;ExecStep&gt;,
-}
-<span class="doccomment">/// Information reported from the agent about the exec step execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStepTaskProgress {
-    <span class="doccomment">/// Required. The current state of this exec step.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_task_progress::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecStepTaskProgress`.
-</span><span class="kw">pub mod </span>exec_step_task_progress {
-    <span class="doccomment">/// The intermediate states of exec steps.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified is invalid.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The agent has started the exec step task.
-        </span>Started = <span class="number">1</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Started =&gt; <span class="string">"STARTED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"STARTED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Started),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Information reported from the agent about the exec step execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ExecStepTaskOutput {
-    <span class="doccomment">/// Required. The final state of the exec step.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"exec_step_task_output::State"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// Required. The exit code received from the script which ran as part of the exec step.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>exit_code: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ExecStepTaskOutput`.
-</span><span class="kw">pub mod </span>exec_step_task_output {
-    <span class="doccomment">/// The final states of exec steps.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// Unspecified is invalid.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The exec step completed normally.
-        </span>Completed = <span class="number">1</span>,
-        <span class="doccomment">/// The exec step was terminated because it took too long.
-        </span>TimedOut = <span class="number">2</span>,
-        <span class="doccomment">/// The exec step task was cancelled before it started.
-        </span>Cancelled = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::Unspecified =&gt; <span class="string">"STATE_UNSPECIFIED"</span>,
-                State::Completed =&gt; <span class="string">"COMPLETED"</span>,
-                State::TimedOut =&gt; <span class="string">"TIMED_OUT"</span>,
-                State::Cancelled =&gt; <span class="string">"CANCELLED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"COMPLETED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Completed),
-                <span class="string">"TIMED_OUT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TimedOut),
-                <span class="string">"CANCELLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Cancelled),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// Specifies the current agent behavior.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TaskDirective {
-    <span class="doccomment">/// Unspecified is invalid.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The task should continue to progress.
-    </span>Continue = <span class="number">1</span>,
-    <span class="doccomment">/// Task should not be started, or if already in progress, should stop
-    /// at first safe stopping point.  Task should be considered done and will
-    /// never repeat.
-    </span>Stop = <span class="number">2</span>,
-}
-<span class="kw">impl </span>TaskDirective {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TaskDirective::Unspecified =&gt; <span class="string">"TASK_DIRECTIVE_UNSPECIFIED"</span>,
-            TaskDirective::Continue =&gt; <span class="string">"CONTINUE"</span>,
-            TaskDirective::Stop =&gt; <span class="string">"STOP"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TASK_DIRECTIVE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"CONTINUE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Continue),
-            <span class="string">"STOP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stop),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Specifies the type of task to perform.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>TaskType {
-    <span class="doccomment">/// Unspecified is invalid.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// The apply patches task.
-    </span>ApplyPatches = <span class="number">1</span>,
-    <span class="doccomment">/// The exec step task.
-    </span>ExecStepTask = <span class="number">2</span>,
-}
-<span class="kw">impl </span>TaskType {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            TaskType::Unspecified =&gt; <span class="string">"TASK_TYPE_UNSPECIFIED"</span>,
-            TaskType::ApplyPatches =&gt; <span class="string">"APPLY_PATCHES"</span>,
-            TaskType::ExecStepTask =&gt; <span class="string">"EXEC_STEP_TASK"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"TASK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"APPLY_PATCHES" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ApplyPatches),
-            <span class="string">"EXEC_STEP_TASK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ExecStepTask),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
 <span class="doccomment">/// A request message to receive task notifications.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3643,7 +3643,7 @@
 <span class="doccomment">/// The streaming rpc message that notifies the agent when it has a task
 /// that it needs to perform on the VM instance.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReceiveTaskNotificationResponse {}
 <span class="doccomment">/// A request message for signaling the start of a task execution.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3693,7 +3693,7 @@
 </span><span class="kw">pub mod </span>report_task_progress_request {
     <span class="doccomment">/// Intermediate progress of the current task.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Progress {
         <span class="doccomment">/// Details about the progress of the apply patches task.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -3705,7 +3705,7 @@
 }
 <span class="doccomment">/// The response message after the agent reported the current task progress.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReportTaskProgressResponse {
     <span class="doccomment">/// Instructs agent to continue or not.
     </span><span class="attr">#[prost(enumeration = <span class="string">"TaskDirective"</span>, tag = <span class="string">"1"</span>)]
@@ -3743,7 +3743,7 @@
 </span><span class="kw">pub mod </span>report_task_complete_request {
     <span class="doccomment">/// Final output details of the current task.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Output {
         <span class="doccomment">/// Final output details of the apply patches task;
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
@@ -3755,7 +3755,7 @@
 }
 <span class="doccomment">/// The response message after the agent signaled the current task complete.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReportTaskCompleteResponse {}
 <span class="doccomment">/// The request message for registering the agent.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3793,7 +3793,7 @@
 }
 <span class="doccomment">/// The response message after the agent registered.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RegisterAgentResponse {}
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>agent_endpoint_service_client {

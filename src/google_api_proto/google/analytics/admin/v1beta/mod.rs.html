@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/analytics/admin/v1beta/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/analytics/admin/v1beta/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -4345,8 +4345,884 @@
 <a href="#4345" id="4345">4345</a>
 <a href="#4346" id="4346">4346</a>
 <a href="#4347" id="4347">4347</a>
+<a href="#4348" id="4348">4348</a>
+<a href="#4349" id="4349">4349</a>
+<a href="#4350" id="4350">4350</a>
+<a href="#4351" id="4351">4351</a>
+<a href="#4352" id="4352">4352</a>
+<a href="#4353" id="4353">4353</a>
+<a href="#4354" id="4354">4354</a>
+<a href="#4355" id="4355">4355</a>
+<a href="#4356" id="4356">4356</a>
+<a href="#4357" id="4357">4357</a>
+<a href="#4358" id="4358">4358</a>
+<a href="#4359" id="4359">4359</a>
+<a href="#4360" id="4360">4360</a>
+<a href="#4361" id="4361">4361</a>
+<a href="#4362" id="4362">4362</a>
+<a href="#4363" id="4363">4363</a>
+<a href="#4364" id="4364">4364</a>
+<a href="#4365" id="4365">4365</a>
+<a href="#4366" id="4366">4366</a>
+<a href="#4367" id="4367">4367</a>
+<a href="#4368" id="4368">4368</a>
+<a href="#4369" id="4369">4369</a>
+<a href="#4370" id="4370">4370</a>
+<a href="#4371" id="4371">4371</a>
+<a href="#4372" id="4372">4372</a>
+<a href="#4373" id="4373">4373</a>
+<a href="#4374" id="4374">4374</a>
+<a href="#4375" id="4375">4375</a>
+<a href="#4376" id="4376">4376</a>
+<a href="#4377" id="4377">4377</a>
+<a href="#4378" id="4378">4378</a>
+<a href="#4379" id="4379">4379</a>
+<a href="#4380" id="4380">4380</a>
+<a href="#4381" id="4381">4381</a>
+<a href="#4382" id="4382">4382</a>
+<a href="#4383" id="4383">4383</a>
+<a href="#4384" id="4384">4384</a>
+<a href="#4385" id="4385">4385</a>
+<a href="#4386" id="4386">4386</a>
+<a href="#4387" id="4387">4387</a>
+<a href="#4388" id="4388">4388</a>
+<a href="#4389" id="4389">4389</a>
+<a href="#4390" id="4390">4390</a>
+<a href="#4391" id="4391">4391</a>
+<a href="#4392" id="4392">4392</a>
+<a href="#4393" id="4393">4393</a>
+<a href="#4394" id="4394">4394</a>
+<a href="#4395" id="4395">4395</a>
+<a href="#4396" id="4396">4396</a>
+<a href="#4397" id="4397">4397</a>
+<a href="#4398" id="4398">4398</a>
+<a href="#4399" id="4399">4399</a>
+<a href="#4400" id="4400">4400</a>
+<a href="#4401" id="4401">4401</a>
+<a href="#4402" id="4402">4402</a>
+<a href="#4403" id="4403">4403</a>
+<a href="#4404" id="4404">4404</a>
+<a href="#4405" id="4405">4405</a>
+<a href="#4406" id="4406">4406</a>
+<a href="#4407" id="4407">4407</a>
+<a href="#4408" id="4408">4408</a>
+<a href="#4409" id="4409">4409</a>
+<a href="#4410" id="4410">4410</a>
+<a href="#4411" id="4411">4411</a>
+<a href="#4412" id="4412">4412</a>
+<a href="#4413" id="4413">4413</a>
+<a href="#4414" id="4414">4414</a>
+<a href="#4415" id="4415">4415</a>
+<a href="#4416" id="4416">4416</a>
+<a href="#4417" id="4417">4417</a>
+<a href="#4418" id="4418">4418</a>
+<a href="#4419" id="4419">4419</a>
+<a href="#4420" id="4420">4420</a>
+<a href="#4421" id="4421">4421</a>
+<a href="#4422" id="4422">4422</a>
+<a href="#4423" id="4423">4423</a>
+<a href="#4424" id="4424">4424</a>
+<a href="#4425" id="4425">4425</a>
+<a href="#4426" id="4426">4426</a>
+<a href="#4427" id="4427">4427</a>
+<a href="#4428" id="4428">4428</a>
+<a href="#4429" id="4429">4429</a>
+<a href="#4430" id="4430">4430</a>
+<a href="#4431" id="4431">4431</a>
+<a href="#4432" id="4432">4432</a>
+<a href="#4433" id="4433">4433</a>
+<a href="#4434" id="4434">4434</a>
+<a href="#4435" id="4435">4435</a>
+<a href="#4436" id="4436">4436</a>
+<a href="#4437" id="4437">4437</a>
+<a href="#4438" id="4438">4438</a>
+<a href="#4439" id="4439">4439</a>
+<a href="#4440" id="4440">4440</a>
+<a href="#4441" id="4441">4441</a>
+<a href="#4442" id="4442">4442</a>
+<a href="#4443" id="4443">4443</a>
+<a href="#4444" id="4444">4444</a>
+<a href="#4445" id="4445">4445</a>
+<a href="#4446" id="4446">4446</a>
+<a href="#4447" id="4447">4447</a>
+<a href="#4448" id="4448">4448</a>
+<a href="#4449" id="4449">4449</a>
+<a href="#4450" id="4450">4450</a>
+<a href="#4451" id="4451">4451</a>
+<a href="#4452" id="4452">4452</a>
+<a href="#4453" id="4453">4453</a>
+<a href="#4454" id="4454">4454</a>
+<a href="#4455" id="4455">4455</a>
+<a href="#4456" id="4456">4456</a>
+<a href="#4457" id="4457">4457</a>
+<a href="#4458" id="4458">4458</a>
+<a href="#4459" id="4459">4459</a>
+<a href="#4460" id="4460">4460</a>
+<a href="#4461" id="4461">4461</a>
+<a href="#4462" id="4462">4462</a>
+<a href="#4463" id="4463">4463</a>
+<a href="#4464" id="4464">4464</a>
+<a href="#4465" id="4465">4465</a>
+<a href="#4466" id="4466">4466</a>
+<a href="#4467" id="4467">4467</a>
+<a href="#4468" id="4468">4468</a>
+<a href="#4469" id="4469">4469</a>
+<a href="#4470" id="4470">4470</a>
+<a href="#4471" id="4471">4471</a>
+<a href="#4472" id="4472">4472</a>
+<a href="#4473" id="4473">4473</a>
+<a href="#4474" id="4474">4474</a>
+<a href="#4475" id="4475">4475</a>
+<a href="#4476" id="4476">4476</a>
+<a href="#4477" id="4477">4477</a>
+<a href="#4478" id="4478">4478</a>
+<a href="#4479" id="4479">4479</a>
+<a href="#4480" id="4480">4480</a>
+<a href="#4481" id="4481">4481</a>
+<a href="#4482" id="4482">4482</a>
+<a href="#4483" id="4483">4483</a>
+<a href="#4484" id="4484">4484</a>
+<a href="#4485" id="4485">4485</a>
+<a href="#4486" id="4486">4486</a>
+<a href="#4487" id="4487">4487</a>
+<a href="#4488" id="4488">4488</a>
+<a href="#4489" id="4489">4489</a>
+<a href="#4490" id="4490">4490</a>
+<a href="#4491" id="4491">4491</a>
+<a href="#4492" id="4492">4492</a>
+<a href="#4493" id="4493">4493</a>
+<a href="#4494" id="4494">4494</a>
+<a href="#4495" id="4495">4495</a>
+<a href="#4496" id="4496">4496</a>
+<a href="#4497" id="4497">4497</a>
+<a href="#4498" id="4498">4498</a>
+<a href="#4499" id="4499">4499</a>
+<a href="#4500" id="4500">4500</a>
+<a href="#4501" id="4501">4501</a>
+<a href="#4502" id="4502">4502</a>
+<a href="#4503" id="4503">4503</a>
+<a href="#4504" id="4504">4504</a>
+<a href="#4505" id="4505">4505</a>
+<a href="#4506" id="4506">4506</a>
+<a href="#4507" id="4507">4507</a>
+<a href="#4508" id="4508">4508</a>
+<a href="#4509" id="4509">4509</a>
+<a href="#4510" id="4510">4510</a>
+<a href="#4511" id="4511">4511</a>
+<a href="#4512" id="4512">4512</a>
+<a href="#4513" id="4513">4513</a>
+<a href="#4514" id="4514">4514</a>
+<a href="#4515" id="4515">4515</a>
+<a href="#4516" id="4516">4516</a>
+<a href="#4517" id="4517">4517</a>
+<a href="#4518" id="4518">4518</a>
+<a href="#4519" id="4519">4519</a>
+<a href="#4520" id="4520">4520</a>
+<a href="#4521" id="4521">4521</a>
+<a href="#4522" id="4522">4522</a>
+<a href="#4523" id="4523">4523</a>
+<a href="#4524" id="4524">4524</a>
+<a href="#4525" id="4525">4525</a>
+<a href="#4526" id="4526">4526</a>
+<a href="#4527" id="4527">4527</a>
+<a href="#4528" id="4528">4528</a>
+<a href="#4529" id="4529">4529</a>
+<a href="#4530" id="4530">4530</a>
+<a href="#4531" id="4531">4531</a>
+<a href="#4532" id="4532">4532</a>
+<a href="#4533" id="4533">4533</a>
+<a href="#4534" id="4534">4534</a>
+<a href="#4535" id="4535">4535</a>
+<a href="#4536" id="4536">4536</a>
+<a href="#4537" id="4537">4537</a>
+<a href="#4538" id="4538">4538</a>
+<a href="#4539" id="4539">4539</a>
+<a href="#4540" id="4540">4540</a>
+<a href="#4541" id="4541">4541</a>
+<a href="#4542" id="4542">4542</a>
+<a href="#4543" id="4543">4543</a>
+<a href="#4544" id="4544">4544</a>
+<a href="#4545" id="4545">4545</a>
+<a href="#4546" id="4546">4546</a>
+<a href="#4547" id="4547">4547</a>
+<a href="#4548" id="4548">4548</a>
+<a href="#4549" id="4549">4549</a>
+<a href="#4550" id="4550">4550</a>
+<a href="#4551" id="4551">4551</a>
+<a href="#4552" id="4552">4552</a>
+<a href="#4553" id="4553">4553</a>
+<a href="#4554" id="4554">4554</a>
+<a href="#4555" id="4555">4555</a>
+<a href="#4556" id="4556">4556</a>
+<a href="#4557" id="4557">4557</a>
+<a href="#4558" id="4558">4558</a>
+<a href="#4559" id="4559">4559</a>
+<a href="#4560" id="4560">4560</a>
+<a href="#4561" id="4561">4561</a>
+<a href="#4562" id="4562">4562</a>
+<a href="#4563" id="4563">4563</a>
+<a href="#4564" id="4564">4564</a>
+<a href="#4565" id="4565">4565</a>
+<a href="#4566" id="4566">4566</a>
+<a href="#4567" id="4567">4567</a>
+<a href="#4568" id="4568">4568</a>
+<a href="#4569" id="4569">4569</a>
+<a href="#4570" id="4570">4570</a>
+<a href="#4571" id="4571">4571</a>
+<a href="#4572" id="4572">4572</a>
+<a href="#4573" id="4573">4573</a>
+<a href="#4574" id="4574">4574</a>
+<a href="#4575" id="4575">4575</a>
+<a href="#4576" id="4576">4576</a>
+<a href="#4577" id="4577">4577</a>
+<a href="#4578" id="4578">4578</a>
+<a href="#4579" id="4579">4579</a>
+<a href="#4580" id="4580">4580</a>
+<a href="#4581" id="4581">4581</a>
+<a href="#4582" id="4582">4582</a>
+<a href="#4583" id="4583">4583</a>
+<a href="#4584" id="4584">4584</a>
+<a href="#4585" id="4585">4585</a>
+<a href="#4586" id="4586">4586</a>
+<a href="#4587" id="4587">4587</a>
+<a href="#4588" id="4588">4588</a>
+<a href="#4589" id="4589">4589</a>
+<a href="#4590" id="4590">4590</a>
+<a href="#4591" id="4591">4591</a>
+<a href="#4592" id="4592">4592</a>
+<a href="#4593" id="4593">4593</a>
+<a href="#4594" id="4594">4594</a>
+<a href="#4595" id="4595">4595</a>
+<a href="#4596" id="4596">4596</a>
+<a href="#4597" id="4597">4597</a>
+<a href="#4598" id="4598">4598</a>
+<a href="#4599" id="4599">4599</a>
+<a href="#4600" id="4600">4600</a>
+<a href="#4601" id="4601">4601</a>
+<a href="#4602" id="4602">4602</a>
+<a href="#4603" id="4603">4603</a>
+<a href="#4604" id="4604">4604</a>
+<a href="#4605" id="4605">4605</a>
+<a href="#4606" id="4606">4606</a>
+<a href="#4607" id="4607">4607</a>
+<a href="#4608" id="4608">4608</a>
+<a href="#4609" id="4609">4609</a>
+<a href="#4610" id="4610">4610</a>
+<a href="#4611" id="4611">4611</a>
+<a href="#4612" id="4612">4612</a>
+<a href="#4613" id="4613">4613</a>
+<a href="#4614" id="4614">4614</a>
+<a href="#4615" id="4615">4615</a>
+<a href="#4616" id="4616">4616</a>
+<a href="#4617" id="4617">4617</a>
+<a href="#4618" id="4618">4618</a>
+<a href="#4619" id="4619">4619</a>
+<a href="#4620" id="4620">4620</a>
+<a href="#4621" id="4621">4621</a>
+<a href="#4622" id="4622">4622</a>
+<a href="#4623" id="4623">4623</a>
+<a href="#4624" id="4624">4624</a>
+<a href="#4625" id="4625">4625</a>
+<a href="#4626" id="4626">4626</a>
+<a href="#4627" id="4627">4627</a>
+<a href="#4628" id="4628">4628</a>
+<a href="#4629" id="4629">4629</a>
+<a href="#4630" id="4630">4630</a>
+<a href="#4631" id="4631">4631</a>
+<a href="#4632" id="4632">4632</a>
+<a href="#4633" id="4633">4633</a>
+<a href="#4634" id="4634">4634</a>
+<a href="#4635" id="4635">4635</a>
+<a href="#4636" id="4636">4636</a>
+<a href="#4637" id="4637">4637</a>
+<a href="#4638" id="4638">4638</a>
+<a href="#4639" id="4639">4639</a>
+<a href="#4640" id="4640">4640</a>
+<a href="#4641" id="4641">4641</a>
+<a href="#4642" id="4642">4642</a>
+<a href="#4643" id="4643">4643</a>
+<a href="#4644" id="4644">4644</a>
+<a href="#4645" id="4645">4645</a>
+<a href="#4646" id="4646">4646</a>
+<a href="#4647" id="4647">4647</a>
+<a href="#4648" id="4648">4648</a>
+<a href="#4649" id="4649">4649</a>
+<a href="#4650" id="4650">4650</a>
+<a href="#4651" id="4651">4651</a>
+<a href="#4652" id="4652">4652</a>
+<a href="#4653" id="4653">4653</a>
+<a href="#4654" id="4654">4654</a>
+<a href="#4655" id="4655">4655</a>
+<a href="#4656" id="4656">4656</a>
+<a href="#4657" id="4657">4657</a>
+<a href="#4658" id="4658">4658</a>
+<a href="#4659" id="4659">4659</a>
+<a href="#4660" id="4660">4660</a>
+<a href="#4661" id="4661">4661</a>
+<a href="#4662" id="4662">4662</a>
+<a href="#4663" id="4663">4663</a>
+<a href="#4664" id="4664">4664</a>
+<a href="#4665" id="4665">4665</a>
+<a href="#4666" id="4666">4666</a>
+<a href="#4667" id="4667">4667</a>
+<a href="#4668" id="4668">4668</a>
+<a href="#4669" id="4669">4669</a>
+<a href="#4670" id="4670">4670</a>
+<a href="#4671" id="4671">4671</a>
+<a href="#4672" id="4672">4672</a>
+<a href="#4673" id="4673">4673</a>
+<a href="#4674" id="4674">4674</a>
+<a href="#4675" id="4675">4675</a>
+<a href="#4676" id="4676">4676</a>
+<a href="#4677" id="4677">4677</a>
+<a href="#4678" id="4678">4678</a>
+<a href="#4679" id="4679">4679</a>
+<a href="#4680" id="4680">4680</a>
+<a href="#4681" id="4681">4681</a>
+<a href="#4682" id="4682">4682</a>
+<a href="#4683" id="4683">4683</a>
+<a href="#4684" id="4684">4684</a>
+<a href="#4685" id="4685">4685</a>
+<a href="#4686" id="4686">4686</a>
+<a href="#4687" id="4687">4687</a>
+<a href="#4688" id="4688">4688</a>
+<a href="#4689" id="4689">4689</a>
+<a href="#4690" id="4690">4690</a>
+<a href="#4691" id="4691">4691</a>
+<a href="#4692" id="4692">4692</a>
+<a href="#4693" id="4693">4693</a>
+<a href="#4694" id="4694">4694</a>
+<a href="#4695" id="4695">4695</a>
+<a href="#4696" id="4696">4696</a>
+<a href="#4697" id="4697">4697</a>
+<a href="#4698" id="4698">4698</a>
+<a href="#4699" id="4699">4699</a>
+<a href="#4700" id="4700">4700</a>
+<a href="#4701" id="4701">4701</a>
+<a href="#4702" id="4702">4702</a>
+<a href="#4703" id="4703">4703</a>
+<a href="#4704" id="4704">4704</a>
+<a href="#4705" id="4705">4705</a>
+<a href="#4706" id="4706">4706</a>
+<a href="#4707" id="4707">4707</a>
+<a href="#4708" id="4708">4708</a>
+<a href="#4709" id="4709">4709</a>
+<a href="#4710" id="4710">4710</a>
+<a href="#4711" id="4711">4711</a>
+<a href="#4712" id="4712">4712</a>
+<a href="#4713" id="4713">4713</a>
+<a href="#4714" id="4714">4714</a>
+<a href="#4715" id="4715">4715</a>
+<a href="#4716" id="4716">4716</a>
+<a href="#4717" id="4717">4717</a>
+<a href="#4718" id="4718">4718</a>
+<a href="#4719" id="4719">4719</a>
+<a href="#4720" id="4720">4720</a>
+<a href="#4721" id="4721">4721</a>
+<a href="#4722" id="4722">4722</a>
+<a href="#4723" id="4723">4723</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// A resource message representing a Google Analytics account.
+</span><span class="doccomment">/// Dimensions are attributes of your data. For example, the dimension
+/// `userEmail` indicates the email of the user that accessed reporting data.
+/// Dimension values in report responses are strings.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessDimension {
+    <span class="doccomment">/// The API name of the dimension. See [Data Access
+    /// Schema](&lt;https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema&gt;)
+    /// for the list of dimensions supported in this API.
+    ///
+    /// Dimensions are referenced by name in `dimensionFilter` and `orderBys`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dimension_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The quantitative measurements of a report. For example, the metric
+/// `accessCount` is the total number of data access records.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessMetric {
+    <span class="doccomment">/// The API name of the metric. See [Data Access
+    /// Schema](&lt;https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema&gt;)
+    /// for the list of metrics supported in this API.
+    ///
+    /// Metrics are referenced by name in `metricFilter` &amp; `orderBys`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>metric_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A contiguous range of days: startDate, startDate + 1, ..., endDate.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessDateRange {
+    <span class="doccomment">/// The inclusive start date for the query in the format `YYYY-MM-DD`. Cannot
+    /// be after `endDate`. The format `NdaysAgo`, `yesterday`, or `today` is also
+    /// accepted, and in that case, the date is inferred based on the current time
+    /// in the request's time zone.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
+    <span class="doccomment">/// The inclusive end date for the query in the format `YYYY-MM-DD`. Cannot
+    /// be before `startDate`. The format `NdaysAgo`, `yesterday`, or `today` is
+    /// also accepted, and in that case, the date is inferred based on the current
+    /// time in the request's time zone.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Expresses dimension or metric filters. The fields in the same expression need
+/// to be either all dimensions or all metrics.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessFilterExpression {
+    <span class="doccomment">/// Specify one type of filter expression for `FilterExpression`.
+    </span><span class="attr">#[prost(oneof = <span class="string">"access_filter_expression::OneExpression"</span>, tags = <span class="string">"1, 2, 3, 4"</span>)]
+    </span><span class="kw">pub </span>one_expression: ::core::option::Option&lt;access_filter_expression::OneExpression&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessFilterExpression`.
+</span><span class="kw">pub mod </span>access_filter_expression {
+    <span class="doccomment">/// Specify one type of filter expression for `FilterExpression`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>OneExpression {
+        <span class="doccomment">/// Each of the FilterExpressions in the and_group has an AND relationship.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>AndGroup(<span class="kw">super</span>::AccessFilterExpressionList),
+        <span class="doccomment">/// Each of the FilterExpressions in the or_group has an OR relationship.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>OrGroup(<span class="kw">super</span>::AccessFilterExpressionList),
+        <span class="doccomment">/// The FilterExpression is NOT of not_expression.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>NotExpression(::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::AccessFilterExpression&gt;),
+        <span class="doccomment">/// A primitive filter. In the same FilterExpression, all of the filter's
+        /// field names need to be either all dimensions or all metrics.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>AccessFilter(<span class="kw">super</span>::AccessFilter),
+    }
+}
+<span class="doccomment">/// A list of filter expressions.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessFilterExpressionList {
+    <span class="doccomment">/// A list of filter expressions.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>expressions: ::prost::alloc::vec::Vec&lt;AccessFilterExpression&gt;,
+}
+<span class="doccomment">/// An expression to filter dimension or metric values.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessFilter {
+    <span class="doccomment">/// The dimension name or metric name.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Specify one type of filter for `Filter`.
+    </span><span class="attr">#[prost(oneof = <span class="string">"access_filter::OneFilter"</span>, tags = <span class="string">"2, 3, 4, 5"</span>)]
+    </span><span class="kw">pub </span>one_filter: ::core::option::Option&lt;access_filter::OneFilter&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessFilter`.
+</span><span class="kw">pub mod </span>access_filter {
+    <span class="doccomment">/// Specify one type of filter for `Filter`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>OneFilter {
+        <span class="doccomment">/// Strings related filter.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>StringFilter(<span class="kw">super</span>::AccessStringFilter),
+        <span class="doccomment">/// A filter for in list values.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>InListFilter(<span class="kw">super</span>::AccessInListFilter),
+        <span class="doccomment">/// A filter for numeric or date values.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>NumericFilter(<span class="kw">super</span>::AccessNumericFilter),
+        <span class="doccomment">/// A filter for two values.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>BetweenFilter(<span class="kw">super</span>::AccessBetweenFilter),
+    }
+}
+<span class="doccomment">/// The filter for strings.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessStringFilter {
+    <span class="doccomment">/// The match type for this filter.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"access_string_filter::MatchType"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>match_type: i32,
+    <span class="doccomment">/// The string value used for the matching.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+    <span class="doccomment">/// If true, the string value is case sensitive.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>case_sensitive: bool,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessStringFilter`.
+</span><span class="kw">pub mod </span>access_string_filter {
+    <span class="doccomment">/// The match type of a string filter.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>MatchType {
+        <span class="doccomment">/// Unspecified
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Exact match of the string value.
+        </span>Exact = <span class="number">1</span>,
+        <span class="doccomment">/// Begins with the string value.
+        </span>BeginsWith = <span class="number">2</span>,
+        <span class="doccomment">/// Ends with the string value.
+        </span>EndsWith = <span class="number">3</span>,
+        <span class="doccomment">/// Contains the string value.
+        </span>Contains = <span class="number">4</span>,
+        <span class="doccomment">/// Full match for the regular expression with the string value.
+        </span>FullRegexp = <span class="number">5</span>,
+        <span class="doccomment">/// Partial match for the regular expression with the string value.
+        </span>PartialRegexp = <span class="number">6</span>,
+    }
+    <span class="kw">impl </span>MatchType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                MatchType::Unspecified =&gt; <span class="string">"MATCH_TYPE_UNSPECIFIED"</span>,
+                MatchType::Exact =&gt; <span class="string">"EXACT"</span>,
+                MatchType::BeginsWith =&gt; <span class="string">"BEGINS_WITH"</span>,
+                MatchType::EndsWith =&gt; <span class="string">"ENDS_WITH"</span>,
+                MatchType::Contains =&gt; <span class="string">"CONTAINS"</span>,
+                MatchType::FullRegexp =&gt; <span class="string">"FULL_REGEXP"</span>,
+                MatchType::PartialRegexp =&gt; <span class="string">"PARTIAL_REGEXP"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MATCH_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
+                <span class="string">"BEGINS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BeginsWith),
+                <span class="string">"ENDS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EndsWith),
+                <span class="string">"CONTAINS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Contains),
+                <span class="string">"FULL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FullRegexp),
+                <span class="string">"PARTIAL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PartialRegexp),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The result needs to be in a list of string values.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessInListFilter {
+    <span class="doccomment">/// The list of string values. Must be non-empty.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// If true, the string value is case sensitive.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>case_sensitive: bool,
+}
+<span class="doccomment">/// Filters for numeric or date values.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessNumericFilter {
+    <span class="doccomment">/// The operation type for this filter.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"access_numeric_filter::Operation"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>operation: i32,
+    <span class="doccomment">/// A numeric value or a date value.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>value: ::core::option::Option&lt;NumericValue&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessNumericFilter`.
+</span><span class="kw">pub mod </span>access_numeric_filter {
+    <span class="doccomment">/// The operation applied to a numeric filter.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Operation {
+        <span class="doccomment">/// Unspecified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Equal
+        </span>Equal = <span class="number">1</span>,
+        <span class="doccomment">/// Less than
+        </span>LessThan = <span class="number">2</span>,
+        <span class="doccomment">/// Less than or equal
+        </span>LessThanOrEqual = <span class="number">3</span>,
+        <span class="doccomment">/// Greater than
+        </span>GreaterThan = <span class="number">4</span>,
+        <span class="doccomment">/// Greater than or equal
+        </span>GreaterThanOrEqual = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>Operation {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Operation::Unspecified =&gt; <span class="string">"OPERATION_UNSPECIFIED"</span>,
+                Operation::Equal =&gt; <span class="string">"EQUAL"</span>,
+                Operation::LessThan =&gt; <span class="string">"LESS_THAN"</span>,
+                Operation::LessThanOrEqual =&gt; <span class="string">"LESS_THAN_OR_EQUAL"</span>,
+                Operation::GreaterThan =&gt; <span class="string">"GREATER_THAN"</span>,
+                Operation::GreaterThanOrEqual =&gt; <span class="string">"GREATER_THAN_OR_EQUAL"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"OPERATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"EQUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Equal),
+                <span class="string">"LESS_THAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LessThan),
+                <span class="string">"LESS_THAN_OR_EQUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LessThanOrEqual),
+                <span class="string">"GREATER_THAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GreaterThan),
+                <span class="string">"GREATER_THAN_OR_EQUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GreaterThanOrEqual),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// To express that the result needs to be between two numbers (inclusive).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessBetweenFilter {
+    <span class="doccomment">/// Begins with this number.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>from_value: ::core::option::Option&lt;NumericValue&gt;,
+    <span class="doccomment">/// Ends with this number.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>to_value: ::core::option::Option&lt;NumericValue&gt;,
+}
+<span class="doccomment">/// To represent a number.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>NumericValue {
+    <span class="doccomment">/// One of a numeric value
+    </span><span class="attr">#[prost(oneof = <span class="string">"numeric_value::OneValue"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>one_value: ::core::option::Option&lt;numeric_value::OneValue&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `NumericValue`.
+</span><span class="kw">pub mod </span>numeric_value {
+    <span class="doccomment">/// One of a numeric value
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>OneValue {
+        <span class="doccomment">/// Integer value
+        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+        </span>Int64Value(i64),
+        <span class="doccomment">/// Double value
+        </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+        </span>DoubleValue(f64),
+    }
+}
+<span class="doccomment">/// Order bys define how rows will be sorted in the response. For example,
+/// ordering rows by descending access count is one ordering, and ordering rows
+/// by the country string is a different ordering.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessOrderBy {
+    <span class="doccomment">/// If true, sorts by descending order. If false or unspecified, sorts in
+    /// ascending order.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>desc: bool,
+    <span class="doccomment">/// Specify one type of order by for `OrderBy`.
+    </span><span class="attr">#[prost(oneof = <span class="string">"access_order_by::OneOrderBy"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>one_order_by: ::core::option::Option&lt;access_order_by::OneOrderBy&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AccessOrderBy`.
+</span><span class="kw">pub mod </span>access_order_by {
+    <span class="doccomment">/// Sorts by metric values.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>MetricOrderBy {
+        <span class="doccomment">/// A metric name in the request to order by.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>metric_name: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Sorts by dimension values.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DimensionOrderBy {
+        <span class="doccomment">/// A dimension name in the request to order by.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>dimension_name: ::prost::alloc::string::String,
+        <span class="doccomment">/// Controls the rule for dimension value ordering.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"dimension_order_by::OrderType"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>order_type: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `DimensionOrderBy`.
+    </span><span class="kw">pub mod </span>dimension_order_by {
+        <span class="doccomment">/// Rule to order the string dimension values by.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>OrderType {
+            <span class="doccomment">/// Unspecified.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Alphanumeric sort by Unicode code point. For example, "2" &lt; "A" &lt; "X" &lt;
+            /// "b" &lt; "z".
+            </span>Alphanumeric = <span class="number">1</span>,
+            <span class="doccomment">/// Case insensitive alphanumeric sort by lower case Unicode code point.
+            /// For example, "2" &lt; "A" &lt; "b" &lt; "X" &lt; "z".
+            </span>CaseInsensitiveAlphanumeric = <span class="number">2</span>,
+            <span class="doccomment">/// Dimension values are converted to numbers before sorting. For example
+            /// in NUMERIC sort, "25" &lt; "100", and in `ALPHANUMERIC` sort, "100" &lt;
+            /// "25". Non-numeric dimension values all have equal ordering value below
+            /// all numeric values.
+            </span>Numeric = <span class="number">3</span>,
+        }
+        <span class="kw">impl </span>OrderType {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    OrderType::Unspecified =&gt; <span class="string">"ORDER_TYPE_UNSPECIFIED"</span>,
+                    OrderType::Alphanumeric =&gt; <span class="string">"ALPHANUMERIC"</span>,
+                    OrderType::CaseInsensitiveAlphanumeric =&gt; {
+                        <span class="string">"CASE_INSENSITIVE_ALPHANUMERIC"
+                    </span>}
+                    OrderType::Numeric =&gt; <span class="string">"NUMERIC"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"ORDER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"ALPHANUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Alphanumeric),
+                    <span class="string">"CASE_INSENSITIVE_ALPHANUMERIC" </span>=&gt; {
+                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaseInsensitiveAlphanumeric)
+                    }
+                    <span class="string">"NUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Numeric),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Specify one type of order by for `OrderBy`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>OneOrderBy {
+        <span class="doccomment">/// Sorts results by a metric's values.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
+        </span>Metric(MetricOrderBy),
+        <span class="doccomment">/// Sorts results by a dimension's values.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>Dimension(DimensionOrderBy),
+    }
+}
+<span class="doccomment">/// Describes a dimension column in the report. Dimensions requested in a report
+/// produce column entries within rows and DimensionHeaders. However, dimensions
+/// used exclusively within filters or expressions do not produce columns in a
+/// report; correspondingly, those dimensions do not produce headers.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessDimensionHeader {
+    <span class="doccomment">/// The dimension's name; for example 'userEmail'.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dimension_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Describes a metric column in the report. Visible metrics requested in a
+/// report produce column entries within rows and MetricHeaders. However,
+/// metrics used exclusively within filters or expressions do not produce columns
+/// in a report; correspondingly, those metrics do not produce headers.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessMetricHeader {
+    <span class="doccomment">/// The metric's name; for example 'accessCount'.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>metric_name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Access report data for each row.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessRow {
+    <span class="doccomment">/// List of dimension values. These values are in the same order as specified
+    /// in the request.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>dimension_values: ::prost::alloc::vec::Vec&lt;AccessDimensionValue&gt;,
+    <span class="doccomment">/// List of metric values. These values are in the same order as specified
+    /// in the request.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>metric_values: ::prost::alloc::vec::Vec&lt;AccessMetricValue&gt;,
+}
+<span class="doccomment">/// The value of a dimension.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessDimensionValue {
+    <span class="doccomment">/// The dimension value. For example, this value may be 'France' for the
+    /// 'country' dimension.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The value of a metric.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessMetricValue {
+    <span class="doccomment">/// The measurement value. For example, this value may be '13'.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Current state of all quotas for this Analytics property. If any quota for a
+/// property is exhausted, all requests to that property will return Resource
+/// Exhausted errors.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessQuota {
+    <span class="doccomment">/// Properties can use 250,000 tokens per day. Most requests consume fewer than
+    /// 10 tokens.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>tokens_per_day: ::core::option::Option&lt;AccessQuotaStatus&gt;,
+    <span class="doccomment">/// Properties can use 50,000 tokens per hour. An API request consumes a single
+    /// number of tokens, and that number is deducted from all of the hourly,
+    /// daily, and per project hourly quotas.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>tokens_per_hour: ::core::option::Option&lt;AccessQuotaStatus&gt;,
+    <span class="doccomment">/// Properties can use up to 50 concurrent requests.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>concurrent_requests: ::core::option::Option&lt;AccessQuotaStatus&gt;,
+    <span class="doccomment">/// Properties and cloud project pairs can have up to 50 server errors per
+    /// hour.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>server_errors_per_project_per_hour: ::core::option::Option&lt;AccessQuotaStatus&gt;,
+    <span class="doccomment">/// Properties can use up to 25% of their tokens per project per hour. This
+    /// amounts to Analytics 360 Properties can use 12,500 tokens per project per
+    /// hour. An API request consumes a single number of tokens, and that number is
+    /// deducted from all of the hourly, daily, and per project hourly quotas.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>tokens_per_project_per_hour: ::core::option::Option&lt;AccessQuotaStatus&gt;,
+}
+<span class="doccomment">/// Current state for a particular quota group.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AccessQuotaStatus {
+    <span class="doccomment">/// Quota consumed by this request.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>consumed: i32,
+    <span class="doccomment">/// Quota remaining after this request.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>remaining: i32,
+}
+<span class="doccomment">/// A resource message representing a Google Analytics account.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Account {
@@ -4371,6 +5247,11 @@
     /// accounts are excluded from List results unless specifically requested.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>deleted: bool,
+    <span class="doccomment">/// Output only. The URI for a Google Marketing Platform organization resource.
+    /// Only set when this account is connected to a GMP organization.
+    /// Format: marketingplatformadmin.googleapis.com/organizations/{org_id}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>gmp_organization: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A resource message representing a Google Analytics GA4 property.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4383,8 +5264,7 @@
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Immutable. The property type for this Property resource. When creating a
     /// property, if the type is "PROPERTY_TYPE_UNSPECIFIED", then
-    /// "ORDINARY_PROPERTY" will be implied. "SUBPROPERTY" and "ROLLUP_PROPERTY"
-    /// types cannot yet be created with the Google Analytics Admin API.
+    /// "ORDINARY_PROPERTY" will be implied.
     </span><span class="attr">#[prost(enumeration = <span class="string">"PropertyType"</span>, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>property_type: i32,
     <span class="doccomment">/// Output only. Time when the entity was originally created.
@@ -4864,9 +5744,30 @@
     /// `ONCE_PER_EVENT`.
     </span><span class="attr">#[prost(enumeration = <span class="string">"conversion_event::ConversionCountingMethod"</span>, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>counting_method: i32,
+    <span class="doccomment">/// Optional. Defines a default value/currency for a conversion event.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>default_conversion_value: ::core::option::Option&lt;
+        conversion_event::DefaultConversionValue,
+    &gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `ConversionEvent`.
 </span><span class="kw">pub mod </span>conversion_event {
+    <span class="doccomment">/// Defines a default value/currency for a conversion event. Both value and
+    /// currency must be provided.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DefaultConversionValue {
+        <span class="doccomment">/// This value will be used to populate the value for all conversions
+        /// of the specified event_name where the event "value" parameter is unset.
+        </span><span class="attr">#[prost(double, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>value: ::core::option::Option&lt;f64&gt;,
+        <span class="doccomment">/// When a conversion event for this event_name has no set currency,
+        /// this currency will be applied as the default. Must be in ISO 4217
+        /// currency code format. See &lt;https://en.wikipedia.org/wiki/ISO_4217&gt; for
+        /// more information.
+        </span><span class="attr">#[prost(string, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>currency_code: ::core::option::Option&lt;::prost::alloc::string::String&gt;,
+    }
     <span class="doccomment">/// The method by which conversions will be counted across multiple events
     /// within a session.
     </span><span class="attr">#[derive(
@@ -4908,6 +5809,105 @@
         </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
             <span class="kw">match </span>value {
                 <span class="string">"CONVERSION_COUNTING_METHOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ONCE_PER_EVENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OncePerEvent),
+                <span class="string">"ONCE_PER_SESSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OncePerSession),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A key event in a Google Analytics property.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>KeyEvent {
+    <span class="doccomment">/// Output only. Resource name of this key event.
+    /// Format: properties/{property}/keyEvents/{key_event}
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Immutable. The event name for this key event.
+    /// Examples: 'click', 'purchase'
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>event_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. Time when this key event was created in the property.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. If set to true, this event can be deleted.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>deletable: bool,
+    <span class="doccomment">/// Output only. If set to true, this key event refers to a custom event.  If
+    /// set to false, this key event refers to a default event in GA. Default
+    /// events typically have special meaning in GA. Default events are usually
+    /// created for you by the GA system, but in some cases can be created by
+    /// property admins. Custom events count towards the maximum number of
+    /// custom key events that may be created per property.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>custom: bool,
+    <span class="doccomment">/// Required. The method by which Key Events will be counted across multiple
+    /// events within a session.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"key_event::CountingMethod"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>counting_method: i32,
+    <span class="doccomment">/// Optional. Defines a default value/currency for a key event.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;key_event::DefaultValue&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `KeyEvent`.
+</span><span class="kw">pub mod </span>key_event {
+    <span class="doccomment">/// Defines a default value/currency for a key event.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DefaultValue {
+        <span class="doccomment">/// Required. This will be used to populate the "value" parameter for all
+        /// occurrences of this Key Event (specified by event_name) where that
+        /// parameter is unset.
+        </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>numeric_value: f64,
+        <span class="doccomment">/// Required. When an occurrence of this Key Event (specified by event_name)
+        /// has no set currency this currency will be applied as the default. Must be
+        /// in ISO 4217 currency code format.
+        ///
+        /// See &lt;https://en.wikipedia.org/wiki/ISO_4217&gt; for more information.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>currency_code: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// The method by which Key Events will be counted across multiple events
+    /// within a session.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>CountingMethod {
+        <span class="doccomment">/// Counting method not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Each Event instance is considered a Key Event.
+        </span>OncePerEvent = <span class="number">1</span>,
+        <span class="doccomment">/// An Event instance is considered a Key Event at most once per session per
+        /// user.
+        </span>OncePerSession = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>CountingMethod {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                CountingMethod::Unspecified =&gt; <span class="string">"COUNTING_METHOD_UNSPECIFIED"</span>,
+                CountingMethod::OncePerEvent =&gt; <span class="string">"ONCE_PER_EVENT"</span>,
+                CountingMethod::OncePerSession =&gt; <span class="string">"ONCE_PER_SESSION"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"COUNTING_METHOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"ONCE_PER_EVENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OncePerEvent),
                 <span class="string">"ONCE_PER_SESSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::OncePerSession),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
@@ -5655,506 +6655,6 @@
         }
     }
 }
-<span class="doccomment">/// Dimensions are attributes of your data. For example, the dimension
-/// `userEmail` indicates the email of the user that accessed reporting data.
-/// Dimension values in report responses are strings.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessDimension {
-    <span class="doccomment">/// The API name of the dimension. See [Data Access
-    /// Schema](&lt;https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema&gt;)
-    /// for the list of dimensions supported in this API.
-    ///
-    /// Dimensions are referenced by name in `dimensionFilter` and `orderBys`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dimension_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The quantitative measurements of a report. For example, the metric
-/// `accessCount` is the total number of data access records.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessMetric {
-    <span class="doccomment">/// The API name of the metric. See [Data Access
-    /// Schema](&lt;https://developers.google.com/analytics/devguides/config/admin/v1/access-api-schema&gt;)
-    /// for the list of metrics supported in this API.
-    ///
-    /// Metrics are referenced by name in `metricFilter` &amp; `orderBys`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>metric_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A contiguous range of days: startDate, startDate + 1, ..., endDate.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessDateRange {
-    <span class="doccomment">/// The inclusive start date for the query in the format `YYYY-MM-DD`. Cannot
-    /// be after `endDate`. The format `NdaysAgo`, `yesterday`, or `today` is also
-    /// accepted, and in that case, the date is inferred based on the current time
-    /// in the request's time zone.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_date: ::prost::alloc::string::String,
-    <span class="doccomment">/// The inclusive end date for the query in the format `YYYY-MM-DD`. Cannot
-    /// be before `startDate`. The format `NdaysAgo`, `yesterday`, or `today` is
-    /// also accepted, and in that case, the date is inferred based on the current
-    /// time in the request's time zone.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_date: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Expresses dimension or metric filters. The fields in the same expression need
-/// to be either all dimensions or all metrics.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessFilterExpression {
-    <span class="doccomment">/// Specify one type of filter expression for `FilterExpression`.
-    </span><span class="attr">#[prost(oneof = <span class="string">"access_filter_expression::OneExpression"</span>, tags = <span class="string">"1, 2, 3, 4"</span>)]
-    </span><span class="kw">pub </span>one_expression: ::core::option::Option&lt;access_filter_expression::OneExpression&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AccessFilterExpression`.
-</span><span class="kw">pub mod </span>access_filter_expression {
-    <span class="doccomment">/// Specify one type of filter expression for `FilterExpression`.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>OneExpression {
-        <span class="doccomment">/// Each of the FilterExpressions in the and_group has an AND relationship.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>AndGroup(<span class="kw">super</span>::AccessFilterExpressionList),
-        <span class="doccomment">/// Each of the FilterExpressions in the or_group has an OR relationship.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>OrGroup(<span class="kw">super</span>::AccessFilterExpressionList),
-        <span class="doccomment">/// The FilterExpression is NOT of not_expression.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>NotExpression(::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::AccessFilterExpression&gt;),
-        <span class="doccomment">/// A primitive filter. In the same FilterExpression, all of the filter's
-        /// field names need to be either all dimensions or all metrics.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>AccessFilter(<span class="kw">super</span>::AccessFilter),
-    }
-}
-<span class="doccomment">/// A list of filter expressions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessFilterExpressionList {
-    <span class="doccomment">/// A list of filter expressions.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>expressions: ::prost::alloc::vec::Vec&lt;AccessFilterExpression&gt;,
-}
-<span class="doccomment">/// An expression to filter dimension or metric values.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessFilter {
-    <span class="doccomment">/// The dimension name or metric name.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Specify one type of filter for `Filter`.
-    </span><span class="attr">#[prost(oneof = <span class="string">"access_filter::OneFilter"</span>, tags = <span class="string">"2, 3, 4, 5"</span>)]
-    </span><span class="kw">pub </span>one_filter: ::core::option::Option&lt;access_filter::OneFilter&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AccessFilter`.
-</span><span class="kw">pub mod </span>access_filter {
-    <span class="doccomment">/// Specify one type of filter for `Filter`.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>OneFilter {
-        <span class="doccomment">/// Strings related filter.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>StringFilter(<span class="kw">super</span>::AccessStringFilter),
-        <span class="doccomment">/// A filter for in list values.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
-        </span>InListFilter(<span class="kw">super</span>::AccessInListFilter),
-        <span class="doccomment">/// A filter for numeric or date values.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
-        </span>NumericFilter(<span class="kw">super</span>::AccessNumericFilter),
-        <span class="doccomment">/// A filter for two values.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>BetweenFilter(<span class="kw">super</span>::AccessBetweenFilter),
-    }
-}
-<span class="doccomment">/// The filter for strings.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessStringFilter {
-    <span class="doccomment">/// The match type for this filter.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"access_string_filter::MatchType"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>match_type: i32,
-    <span class="doccomment">/// The string value used for the matching.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-    <span class="doccomment">/// If true, the string value is case sensitive.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>case_sensitive: bool,
-}
-<span class="doccomment">/// Nested message and enum types in `AccessStringFilter`.
-</span><span class="kw">pub mod </span>access_string_filter {
-    <span class="doccomment">/// The match type of a string filter.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>MatchType {
-        <span class="doccomment">/// Unspecified
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Exact match of the string value.
-        </span>Exact = <span class="number">1</span>,
-        <span class="doccomment">/// Begins with the string value.
-        </span>BeginsWith = <span class="number">2</span>,
-        <span class="doccomment">/// Ends with the string value.
-        </span>EndsWith = <span class="number">3</span>,
-        <span class="doccomment">/// Contains the string value.
-        </span>Contains = <span class="number">4</span>,
-        <span class="doccomment">/// Full match for the regular expression with the string value.
-        </span>FullRegexp = <span class="number">5</span>,
-        <span class="doccomment">/// Partial match for the regular expression with the string value.
-        </span>PartialRegexp = <span class="number">6</span>,
-    }
-    <span class="kw">impl </span>MatchType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                MatchType::Unspecified =&gt; <span class="string">"MATCH_TYPE_UNSPECIFIED"</span>,
-                MatchType::Exact =&gt; <span class="string">"EXACT"</span>,
-                MatchType::BeginsWith =&gt; <span class="string">"BEGINS_WITH"</span>,
-                MatchType::EndsWith =&gt; <span class="string">"ENDS_WITH"</span>,
-                MatchType::Contains =&gt; <span class="string">"CONTAINS"</span>,
-                MatchType::FullRegexp =&gt; <span class="string">"FULL_REGEXP"</span>,
-                MatchType::PartialRegexp =&gt; <span class="string">"PARTIAL_REGEXP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MATCH_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"EXACT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Exact),
-                <span class="string">"BEGINS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::BeginsWith),
-                <span class="string">"ENDS_WITH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EndsWith),
-                <span class="string">"CONTAINS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Contains),
-                <span class="string">"FULL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::FullRegexp),
-                <span class="string">"PARTIAL_REGEXP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::PartialRegexp),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The result needs to be in a list of string values.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessInListFilter {
-    <span class="doccomment">/// The list of string values. Must be non-empty.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>values: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// If true, the string value is case sensitive.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>case_sensitive: bool,
-}
-<span class="doccomment">/// Filters for numeric or date values.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessNumericFilter {
-    <span class="doccomment">/// The operation type for this filter.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"access_numeric_filter::Operation"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>operation: i32,
-    <span class="doccomment">/// A numeric value or a date value.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>value: ::core::option::Option&lt;NumericValue&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AccessNumericFilter`.
-</span><span class="kw">pub mod </span>access_numeric_filter {
-    <span class="doccomment">/// The operation applied to a numeric filter.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Operation {
-        <span class="doccomment">/// Unspecified.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Equal
-        </span>Equal = <span class="number">1</span>,
-        <span class="doccomment">/// Less than
-        </span>LessThan = <span class="number">2</span>,
-        <span class="doccomment">/// Less than or equal
-        </span>LessThanOrEqual = <span class="number">3</span>,
-        <span class="doccomment">/// Greater than
-        </span>GreaterThan = <span class="number">4</span>,
-        <span class="doccomment">/// Greater than or equal
-        </span>GreaterThanOrEqual = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>Operation {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Operation::Unspecified =&gt; <span class="string">"OPERATION_UNSPECIFIED"</span>,
-                Operation::Equal =&gt; <span class="string">"EQUAL"</span>,
-                Operation::LessThan =&gt; <span class="string">"LESS_THAN"</span>,
-                Operation::LessThanOrEqual =&gt; <span class="string">"LESS_THAN_OR_EQUAL"</span>,
-                Operation::GreaterThan =&gt; <span class="string">"GREATER_THAN"</span>,
-                Operation::GreaterThanOrEqual =&gt; <span class="string">"GREATER_THAN_OR_EQUAL"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"OPERATION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"EQUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Equal),
-                <span class="string">"LESS_THAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LessThan),
-                <span class="string">"LESS_THAN_OR_EQUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::LessThanOrEqual),
-                <span class="string">"GREATER_THAN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GreaterThan),
-                <span class="string">"GREATER_THAN_OR_EQUAL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::GreaterThanOrEqual),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// To express that the result needs to be between two numbers (inclusive).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessBetweenFilter {
-    <span class="doccomment">/// Begins with this number.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>from_value: ::core::option::Option&lt;NumericValue&gt;,
-    <span class="doccomment">/// Ends with this number.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>to_value: ::core::option::Option&lt;NumericValue&gt;,
-}
-<span class="doccomment">/// To represent a number.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>NumericValue {
-    <span class="doccomment">/// One of a numeric value
-    </span><span class="attr">#[prost(oneof = <span class="string">"numeric_value::OneValue"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>one_value: ::core::option::Option&lt;numeric_value::OneValue&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `NumericValue`.
-</span><span class="kw">pub mod </span>numeric_value {
-    <span class="doccomment">/// One of a numeric value
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>OneValue {
-        <span class="doccomment">/// Integer value
-        </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-        </span>Int64Value(i64),
-        <span class="doccomment">/// Double value
-        </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-        </span>DoubleValue(f64),
-    }
-}
-<span class="doccomment">/// Order bys define how rows will be sorted in the response. For example,
-/// ordering rows by descending access count is one ordering, and ordering rows
-/// by the country string is a different ordering.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessOrderBy {
-    <span class="doccomment">/// If true, sorts by descending order. If false or unspecified, sorts in
-    /// ascending order.
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>desc: bool,
-    <span class="doccomment">/// Specify one type of order by for `OrderBy`.
-    </span><span class="attr">#[prost(oneof = <span class="string">"access_order_by::OneOrderBy"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>one_order_by: ::core::option::Option&lt;access_order_by::OneOrderBy&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AccessOrderBy`.
-</span><span class="kw">pub mod </span>access_order_by {
-    <span class="doccomment">/// Sorts by metric values.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>MetricOrderBy {
-        <span class="doccomment">/// A metric name in the request to order by.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>metric_name: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Sorts by dimension values.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>DimensionOrderBy {
-        <span class="doccomment">/// A dimension name in the request to order by.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>dimension_name: ::prost::alloc::string::String,
-        <span class="doccomment">/// Controls the rule for dimension value ordering.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"dimension_order_by::OrderType"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>order_type: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `DimensionOrderBy`.
-    </span><span class="kw">pub mod </span>dimension_order_by {
-        <span class="doccomment">/// Rule to order the string dimension values by.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>OrderType {
-            <span class="doccomment">/// Unspecified.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Alphanumeric sort by Unicode code point. For example, "2" &lt; "A" &lt; "X" &lt;
-            /// "b" &lt; "z".
-            </span>Alphanumeric = <span class="number">1</span>,
-            <span class="doccomment">/// Case insensitive alphanumeric sort by lower case Unicode code point.
-            /// For example, "2" &lt; "A" &lt; "b" &lt; "X" &lt; "z".
-            </span>CaseInsensitiveAlphanumeric = <span class="number">2</span>,
-            <span class="doccomment">/// Dimension values are converted to numbers before sorting. For example
-            /// in NUMERIC sort, "25" &lt; "100", and in `ALPHANUMERIC` sort, "100" &lt;
-            /// "25". Non-numeric dimension values all have equal ordering value below
-            /// all numeric values.
-            </span>Numeric = <span class="number">3</span>,
-        }
-        <span class="kw">impl </span>OrderType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    OrderType::Unspecified =&gt; <span class="string">"ORDER_TYPE_UNSPECIFIED"</span>,
-                    OrderType::Alphanumeric =&gt; <span class="string">"ALPHANUMERIC"</span>,
-                    OrderType::CaseInsensitiveAlphanumeric =&gt; {
-                        <span class="string">"CASE_INSENSITIVE_ALPHANUMERIC"
-                    </span>}
-                    OrderType::Numeric =&gt; <span class="string">"NUMERIC"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"ORDER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"ALPHANUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Alphanumeric),
-                    <span class="string">"CASE_INSENSITIVE_ALPHANUMERIC" </span>=&gt; {
-                        <span class="prelude-val">Some</span>(<span class="self">Self</span>::CaseInsensitiveAlphanumeric)
-                    }
-                    <span class="string">"NUMERIC" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Numeric),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Specify one type of order by for `OrderBy`.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>OneOrderBy {
-        <span class="doccomment">/// Sorts results by a metric's values.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
-        </span>Metric(MetricOrderBy),
-        <span class="doccomment">/// Sorts results by a dimension's values.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>Dimension(DimensionOrderBy),
-    }
-}
-<span class="doccomment">/// Describes a dimension column in the report. Dimensions requested in a report
-/// produce column entries within rows and DimensionHeaders. However, dimensions
-/// used exclusively within filters or expressions do not produce columns in a
-/// report; correspondingly, those dimensions do not produce headers.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessDimensionHeader {
-    <span class="doccomment">/// The dimension's name; for example 'userEmail'.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dimension_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Describes a metric column in the report. Visible metrics requested in a
-/// report produce column entries within rows and MetricHeaders. However,
-/// metrics used exclusively within filters or expressions do not produce columns
-/// in a report; correspondingly, those metrics do not produce headers.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessMetricHeader {
-    <span class="doccomment">/// The metric's name; for example 'accessCount'.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>metric_name: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Access report data for each row.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessRow {
-    <span class="doccomment">/// List of dimension values. These values are in the same order as specified
-    /// in the request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>dimension_values: ::prost::alloc::vec::Vec&lt;AccessDimensionValue&gt;,
-    <span class="doccomment">/// List of metric values. These values are in the same order as specified
-    /// in the request.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>metric_values: ::prost::alloc::vec::Vec&lt;AccessMetricValue&gt;,
-}
-<span class="doccomment">/// The value of a dimension.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessDimensionValue {
-    <span class="doccomment">/// The dimension value. For example, this value may be 'France' for the
-    /// 'country' dimension.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// The value of a metric.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessMetricValue {
-    <span class="doccomment">/// The measurement value. For example, this value may be '13'.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Current state of all quotas for this Analytics property. If any quota for a
-/// property is exhausted, all requests to that property will return Resource
-/// Exhausted errors.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessQuota {
-    <span class="doccomment">/// Properties can use 250,000 tokens per day. Most requests consume fewer than
-    /// 10 tokens.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>tokens_per_day: ::core::option::Option&lt;AccessQuotaStatus&gt;,
-    <span class="doccomment">/// Properties can use 50,000 tokens per hour. An API request consumes a single
-    /// number of tokens, and that number is deducted from all of the hourly,
-    /// daily, and per project hourly quotas.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>tokens_per_hour: ::core::option::Option&lt;AccessQuotaStatus&gt;,
-    <span class="doccomment">/// Properties can use up to 50 concurrent requests.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>concurrent_requests: ::core::option::Option&lt;AccessQuotaStatus&gt;,
-    <span class="doccomment">/// Properties and cloud project pairs can have up to 50 server errors per
-    /// hour.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>server_errors_per_project_per_hour: ::core::option::Option&lt;AccessQuotaStatus&gt;,
-    <span class="doccomment">/// Properties can use up to 25% of their tokens per project per hour. This
-    /// amounts to Analytics 360 Properties can use 12,500 tokens per project per
-    /// hour. An API request consumes a single number of tokens, and that number is
-    /// deducted from all of the hourly, daily, and per project hourly quotas.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>tokens_per_project_per_hour: ::core::option::Option&lt;AccessQuotaStatus&gt;,
-}
-<span class="doccomment">/// Current state for a particular quota group.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AccessQuotaStatus {
-    <span class="doccomment">/// Quota consumed by this request.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>consumed: i32,
-    <span class="doccomment">/// Quota remaining after this request.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>remaining: i32,
-}
 <span class="doccomment">/// The request for a Data Access Record Report.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -6236,6 +6736,19 @@
     /// requests, this field must be false.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>return_entity_quota: bool,
+    <span class="doccomment">/// Optional. Determines whether to include users who have never made an API
+    /// call in the response. If true, all users with access to the specified
+    /// property or account are included in the response, regardless of whether
+    /// they have made an API call or not. If false, only the users who have made
+    /// an API call will be included.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>include_all_users: bool,
+    <span class="doccomment">/// Optional. Decides whether to return the users within user groups. This
+    /// field works only when include_all_users is set to true. If true, it will
+    /// return all users with access to the specified property or account.
+    /// If false, only the users with direct access will be returned.
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"13"</span>)]
+    </span><span class="kw">pub </span>expand_groups: bool,
 }
 <span class="doccomment">/// The customized Data Access Record Report response.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -6460,7 +6973,8 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateFirebaseLinkRequest {
     <span class="doccomment">/// Required. Format: properties/{property_id}
-    /// Example: properties/1234
+    ///
+    /// Example: `properties/1234`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The Firebase link to create.
@@ -6472,7 +6986,8 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeleteFirebaseLinkRequest {
     <span class="doccomment">/// Required. Format: properties/{property_id}/firebaseLinks/{firebase_link_id}
-    /// Example: properties/1234/firebaseLinks/5678
+    ///
+    /// Example: `properties/1234/firebaseLinks/5678`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
@@ -6481,7 +6996,8 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListFirebaseLinksRequest {
     <span class="doccomment">/// Required. Format: properties/{property_id}
-    /// Example: properties/1234
+    ///
+    /// Example: `properties/1234`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
     <span class="doccomment">/// The maximum number of resources to return. The service may return
@@ -6582,7 +7098,8 @@
 </span><span class="kw">pub struct </span>GetDataSharingSettingsRequest {
     <span class="doccomment">/// Required. The name of the settings to lookup.
     /// Format: accounts/{account}/dataSharingSettings
-    /// Example: "accounts/1000/dataSharingSettings"
+    ///
+    /// Example: `accounts/1000/dataSharingSettings`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
@@ -6635,18 +7152,23 @@
 }
 <span class="doccomment">/// Response message for AcknowledgeUserDataCollection RPC.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AcknowledgeUserDataCollectionResponse {}
 <span class="doccomment">/// Request message for SearchChangeHistoryEvents RPC.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SearchChangeHistoryEventsRequest {
     <span class="doccomment">/// Required. The account resource for which to return change history
-    /// resources.
+    /// resources. Format: accounts/{account}
+    ///
+    /// Example: `accounts/100`
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>account: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. Resource name for a child property. If set, only return changes
     /// made to this property or its child resources.
+    /// Format: properties/{propertyId}
+    ///
+    /// Example: `properties/100`
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>property: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. If set, only return changes if they are for a resource that
@@ -6851,6 +7373,85 @@
     <span class="doccomment">/// The requested conversion events
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>conversion_events: ::prost::alloc::vec::Vec&lt;ConversionEvent&gt;,
+    <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
+    /// If this field is omitted, there are no subsequent pages.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for CreateKeyEvent RPC
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CreateKeyEventRequest {
+    <span class="doccomment">/// Required. The Key Event to create.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>key_event: ::core::option::Option&lt;KeyEvent&gt;,
+    <span class="doccomment">/// Required. The resource name of the parent property where this Key Event
+    /// will be created. Format: properties/123
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for UpdateKeyEvent RPC
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>UpdateKeyEventRequest {
+    <span class="doccomment">/// Required. The Key Event to update.
+    /// The `name` field is used to identify the settings to be updated.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>key_event: ::core::option::Option&lt;KeyEvent&gt;,
+    <span class="doccomment">/// Required. The list of fields to be updated. Field names must be in snake
+    /// case (e.g., "field_to_update"). Omitted fields will not be updated. To
+    /// replace the entire entity, use one path with the string "*" to match all
+    /// fields.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
+}
+<span class="doccomment">/// Request message for GetKeyEvent RPC
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>GetKeyEventRequest {
+    <span class="doccomment">/// Required. The resource name of the Key Event to retrieve.
+    /// Format: properties/{property}/keyEvents/{key_event}
+    /// Example: "properties/123/keyEvents/456"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for DeleteKeyEvent RPC
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeleteKeyEventRequest {
+    <span class="doccomment">/// Required. The resource name of the Key Event to delete.
+    /// Format: properties/{property}/keyEvents/{key_event}
+    /// Example: "properties/123/keyEvents/456"
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Request message for ListKeyEvents RPC
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListKeyEventsRequest {
+    <span class="doccomment">/// Required. The resource name of the parent property.
+    /// Example: 'properties/123'
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
+    <span class="doccomment">/// The maximum number of resources to return.
+    /// If unspecified, at most 50 resources will be returned.
+    /// The maximum value is 200; (higher values will be coerced to the maximum)
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>page_size: i32,
+    <span class="doccomment">/// A page token, received from a previous `ListKeyEvents` call.
+    /// Provide this to retrieve the subsequent page.
+    /// When paginating, all other parameters provided to `ListKeyEvents`
+    /// must match the call that provided the page token.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Response message for ListKeyEvents RPC.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ListKeyEventsResponse {
+    <span class="doccomment">/// The requested Key Events
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>key_events: ::prost::alloc::vec::Vec&lt;KeyEvent&gt;,
     <span class="doccomment">/// A token, which can be sent as `page_token` to retrieve the next page.
     /// If this field is omitted, there are no subsequent pages.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
@@ -7249,7 +7850,7 @@
         ///
         /// If the accounts are not restored before the expiration time, the account
         /// and all child resources (eg: Properties, GoogleAdsLinks, Streams,
-        /// UserLinks) will be permanently purged.
+        /// AccessBindings) will be permanently purged.
         /// https://support.google.com/analytics/answer/6154772
         ///
         /// Returns an error if the target is not found.
@@ -7468,7 +8069,7 @@
         /// However, they can be restored using the Trash Can UI.
         ///
         /// If the properties are not restored before the expiration time, the Property
-        /// and all child resources (eg: GoogleAdsLinks, Streams, UserLinks)
+        /// and all child resources (eg: GoogleAdsLinks, Streams, AccessBindings)
         /// will be permanently purged.
         /// https://support.google.com/analytics/answer/6154772
         ///
@@ -7993,7 +8594,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Creates a conversion event with the specified attributes.
+        <span class="doccomment">/// Deprecated: Use `CreateKeyEvent` instead.
+        /// Creates a conversion event with the specified attributes.
         </span><span class="kw">pub async fn </span>create_conversion_event(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateConversionEventRequest&gt;,
@@ -8024,7 +8626,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Updates a conversion event with the specified attributes.
+        <span class="doccomment">/// Deprecated: Use `UpdateKeyEvent` instead.
+        /// Updates a conversion event with the specified attributes.
         </span><span class="kw">pub async fn </span>update_conversion_event(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateConversionEventRequest&gt;,
@@ -8055,7 +8658,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Retrieve a single conversion event.
+        <span class="doccomment">/// Deprecated: Use `GetKeyEvent` instead.
+        /// Retrieve a single conversion event.
         </span><span class="kw">pub async fn </span>get_conversion_event(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetConversionEventRequest&gt;,
@@ -8086,7 +8690,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Deletes a conversion event in a property.
+        <span class="doccomment">/// Deprecated: Use `DeleteKeyEvent` instead.
+        /// Deletes a conversion event in a property.
         </span><span class="kw">pub async fn </span>delete_conversion_event(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteConversionEventRequest&gt;,
@@ -8114,7 +8719,8 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Returns a list of conversion events in the specified parent property.
+        <span class="doccomment">/// Deprecated: Use `ListKeyEvents` instead.
+        /// Returns a list of conversion events in the specified parent property.
         ///
         /// Returns an empty list if no conversion events are found.
         </span><span class="kw">pub async fn </span>list_conversion_events(
@@ -8143,6 +8749,150 @@
                     GrpcMethod::new(
                         <span class="string">"google.analytics.admin.v1beta.AnalyticsAdminService"</span>,
                         <span class="string">"ListConversionEvents"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Creates a Key Event.
+        </span><span class="kw">pub async fn </span>create_key_event(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::CreateKeyEventRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::KeyEvent&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.analytics.admin.v1beta.AnalyticsAdminService/CreateKeyEvent"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.analytics.admin.v1beta.AnalyticsAdminService"</span>,
+                        <span class="string">"CreateKeyEvent"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Updates a Key Event.
+        </span><span class="kw">pub async fn </span>update_key_event(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::UpdateKeyEventRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::KeyEvent&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.analytics.admin.v1beta.AnalyticsAdminService/UpdateKeyEvent"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.analytics.admin.v1beta.AnalyticsAdminService"</span>,
+                        <span class="string">"UpdateKeyEvent"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Retrieve a single Key Event.
+        </span><span class="kw">pub async fn </span>get_key_event(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::GetKeyEventRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;<span class="kw">super</span>::KeyEvent&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.analytics.admin.v1beta.AnalyticsAdminService/GetKeyEvent"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.analytics.admin.v1beta.AnalyticsAdminService"</span>,
+                        <span class="string">"GetKeyEvent"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Deletes a Key Event.
+        </span><span class="kw">pub async fn </span>delete_key_event(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::DeleteKeyEventRequest&gt;,
+        ) -&gt; std::result::Result&lt;tonic::Response&lt;()&gt;, tonic::Status&gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.analytics.admin.v1beta.AnalyticsAdminService/DeleteKeyEvent"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.analytics.admin.v1beta.AnalyticsAdminService"</span>,
+                        <span class="string">"DeleteKeyEvent"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Returns a list of Key Events in the specified parent property.
+        /// Returns an empty list if no Key Events are found.
+        </span><span class="kw">pub async fn </span>list_key_events(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::ListKeyEventsRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::ListKeyEventsResponse&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.analytics.admin.v1beta.AnalyticsAdminService/ListKeyEvents"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.analytics.admin.v1beta.AnalyticsAdminService"</span>,
+                        <span class="string">"ListKeyEvents"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
@@ -8651,8 +9401,10 @@
         /// records of each time a user reads Google Analytics reporting data. Access
         /// records are retained for up to 2 years.
         ///
-        /// Data Access Reports can be requested for a property. The property must be
-        /// in Google Analytics 360. This method is only available to Administrators.
+        /// Data Access Reports can be requested for a property. Reports may be
+        /// requested for any property, but dimensions that aren't related to quota can
+        /// only be requested on Google Analytics 360 properties. This method is only
+        /// available to Administrators.
         ///
         /// These data access records include GA4 UI Reporting, GA4 UI Explorations,
         /// GA4 Data API, and other products like Firebase &amp; Admob that can retrieve

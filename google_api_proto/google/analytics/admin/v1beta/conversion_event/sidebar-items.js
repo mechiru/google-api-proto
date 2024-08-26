@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ConversionCountingMethod"]};
+window.SIDEBAR_ITEMS = {"enum":["ConversionCountingMethod"],"struct":["DefaultConversionValue"]};

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/video/transcoder/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/video/transcoder/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2565,7 +2565,7 @@
 }
 <span class="doccomment">/// Ad break.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AdBreak {
     <span class="doccomment">/// Start time in seconds for the ad break, relative to the output file
     /// timeline. The default is `0s`.
@@ -2669,7 +2669,7 @@
 </span><span class="kw">pub mod </span>manifest {
     <span class="doccomment">/// `DASH` manifest configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DashConfig {
         <span class="doccomment">/// The segment reference scheme for a `DASH` manifest. The default is
         /// `SEGMENT_LIST`.
@@ -2771,7 +2771,7 @@
     }
     <span class="doccomment">/// Specifies the manifest configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ManifestConfig {
         <span class="doccomment">/// `DASH` manifest configuration.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -2864,7 +2864,7 @@
 </span><span class="kw">pub mod </span>sprite_sheet {
     <span class="doccomment">/// Specify either total number of sprites or interval to create sprites.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ExtractionStrategy {
         <span class="doccomment">/// Total number of sprites. Create the specified number of sprites
         /// distributed evenly across the timeline of the output media. The default
@@ -2893,7 +2893,7 @@
 </span><span class="kw">pub mod </span>overlay {
     <span class="doccomment">/// 2D normalized coordinates. Default: `{0.0, 0.0}`
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>NormalizedCoordinate {
         <span class="doccomment">/// Normalized x coordinate.
         </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
@@ -2923,7 +2923,7 @@
     }
     <span class="doccomment">/// Display static overlay object.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AnimationStatic {
         <span class="doccomment">/// Normalized coordinates based on output video resolution. Valid
         /// values: `0.0`–`1.0`. `xy` is the upper-left coordinate of the overlay
@@ -2938,7 +2938,7 @@
     }
     <span class="doccomment">/// Display overlay object with fade animation.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AnimationFade {
         <span class="doccomment">/// Required. Type of fade animation: `FADE_IN` or `FADE_OUT`.
         </span><span class="attr">#[prost(enumeration = <span class="string">"FadeType"</span>, tag = <span class="string">"1"</span>)]
@@ -2962,7 +2962,7 @@
     /// overlay object will keep the state of previous animation until the end of
     /// the video.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AnimationEnd {
         <span class="doccomment">/// The time to end overlay object, in seconds. Default: 0
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -2970,7 +2970,7 @@
     }
     <span class="doccomment">/// Animation types.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Animation {
         <span class="doccomment">/// Animations can be static or fade, or they can end the previous animation.
         </span><span class="attr">#[prost(oneof = <span class="string">"animation::AnimationType"</span>, tags = <span class="string">"1, 2, 3"</span>)]
@@ -2980,7 +2980,7 @@
     </span><span class="kw">pub mod </span>animation {
         <span class="doccomment">/// Animations can be static or fade, or they can end the previous animation.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>AnimationType {
             <span class="doccomment">/// Display static overlay object.
             </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -3069,7 +3069,7 @@
     ///
     /// **Note:** This configuration is not supported.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Color {
         <span class="doccomment">/// Control color saturation of the video. Enter a value between -1 and 1,
         /// where -1 is fully desaturated and 1 is maximum saturation. 0 is no
@@ -3110,7 +3110,7 @@
     ///
     /// **Note:** This configuration is not supported.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Deblock {
         <span class="doccomment">/// Set strength of the deblocker. Enter a value between 0 and 1. The higher
         /// the value, the stronger the block removal. 0 is no deblocking. The
@@ -3123,7 +3123,7 @@
     }
     <span class="doccomment">/// Audio preprocessing configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Audio {
         <span class="doccomment">/// Specify audio loudness normalization in loudness units relative to full
         /// scale (LUFS). Enter a value between -24 and 0 (the default), where:
@@ -3152,7 +3152,7 @@
     <span class="doccomment">/// Video cropping configuration for the input video. The cropped input video
     /// is scaled to match the output resolution.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Crop {
         <span class="doccomment">/// The number of pixels to crop from the top. The default is 0.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -3170,7 +3170,7 @@
     <span class="doccomment">/// Pad filter configuration for the input video. The padded input video
     /// is scaled after padding with black to match the output resolution.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Pad {
         <span class="doccomment">/// The number of pixels to add to the top. The default is 0.
         </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -3416,7 +3416,7 @@
     </span><span class="kw">pub mod </span>h264_codec_settings {
         <span class="doccomment">/// GOP mode can be either by frame count or duration.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>GopMode {
             <span class="doccomment">/// Select the GOP size based on the specified frame count. Must be greater
             /// than zero.
@@ -3578,7 +3578,7 @@
     </span><span class="kw">pub mod </span>h265_codec_settings {
         <span class="doccomment">/// GOP mode can be either by frame count or duration.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>GopMode {
             <span class="doccomment">/// Select the GOP size based on the specified frame count. Must be greater
             /// than zero.
@@ -3681,7 +3681,7 @@
     </span><span class="kw">pub mod </span>vp9_codec_settings {
         <span class="doccomment">/// GOP mode can be either by frame count or duration.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>GopMode {
             <span class="doccomment">/// Select the GOP size based on the specified frame count. Must be greater
             /// than zero.
@@ -3842,7 +3842,7 @@
 }
 <span class="doccomment">/// Segment settings for `ts`, `fmp4` and `vtt`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SegmentSettings {
     <span class="doccomment">/// Duration of the segments in seconds. The default is `6.0s`. Note that
     /// `segmentDuration` must be greater than or equal to
@@ -3876,11 +3876,11 @@
 </span><span class="kw">pub mod </span>encryption {
     <span class="doccomment">/// Configuration for AES-128 encryption.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Aes128Encryption {}
     <span class="doccomment">/// Configuration for SAMPLE-AES encryption.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>SampleAesEncryption {}
     <span class="doccomment">/// Configuration for MPEG Common Encryption (MPEG-CENC).
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3910,23 +3910,23 @@
     }
     <span class="doccomment">/// Widevine configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Widevine {}
     <span class="doccomment">/// Fairplay configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Fairplay {}
     <span class="doccomment">/// Playready configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Playready {}
     <span class="doccomment">/// Clearkey configuration.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Clearkey {}
     <span class="doccomment">/// Defines configuration for DRM systems in use.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>DrmSystems {
         <span class="doccomment">/// Widevine configuration.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]

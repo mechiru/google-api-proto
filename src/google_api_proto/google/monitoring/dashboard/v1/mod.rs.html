@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/monitoring/dashboard/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/monitoring/dashboard/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2661,22 +2661,7 @@
 <a href="#2661" id="2661">2661</a>
 <a href="#2662" id="2662">2662</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// A widget that displays a stream of log.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LogsPanel {
-    <span class="doccomment">/// A filter that chooses which log entries to return.  See [Advanced Logs
-    /// Queries](&lt;https://cloud.google.com/logging/docs/view/advanced-queries&gt;).
-    /// Only log entries that match the filter are returned.  An empty filter
-    /// matches all log entries.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
-    <span class="doccomment">/// The names of logging resources to collect logs for. Currently only projects
-    /// are supported. If empty, the widget will default to the host project.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>resource_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-}
-<span class="doccomment">/// Describes how to combine multiple time series to provide a different view of
+</span><span class="doccomment">/// Describes how to combine multiple time series to provide a different view of
 /// the data.  Aggregation of time series is done in two steps. First, each time
 /// series in the set is _aligned_ to the same time interval boundaries, then the
 /// set of time series is optionally _reduced_ in number.
@@ -3124,7 +3109,7 @@
 /// and `num_time_series` is 3, then the 3 times series with the lowest mean
 /// values will pass through the filter.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PickTimeSeriesFilter {
     <span class="doccomment">/// `ranking_method` is applied to each time series independently to produce
     /// the value which will be used to compare the time series to other time
@@ -3248,7 +3233,7 @@
 /// streams in a request.
 /// Note: This field is deprecated and completely ignored by the API.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StatisticalTimeSeriesFilter {
     <span class="doccomment">/// `rankingMethod` is applied to a set of time series, and then the produced
     /// value for each individual time series is used to compare a given time
@@ -3302,16 +3287,6 @@
             }
         }
     }
-}
-<span class="doccomment">/// A chart that displays alert policy data.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AlertChart {
-    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:
-    ///
-    ///      projects/\[PROJECT_ID_OR_NUMBER\]/alertPolicies/\[ALERT_POLICY_ID\]
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// TimeSeriesQuery collects the set of supported methods for querying time
 /// series data from the Stackdriver metrics API.
@@ -3386,7 +3361,7 @@
 </span><span class="kw">pub mod </span>time_series_filter {
     <span class="doccomment">/// Selects an optional time series filter.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>OutputFilter {
         <span class="doccomment">/// Ranking based time series filter.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -3438,7 +3413,7 @@
     <span class="doccomment">/// Selects an optional filter that is applied to the time series after
     /// computing the ratio.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>OutputFilter {
         <span class="doccomment">/// Ranking based time series filter.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -3642,22 +3617,389 @@
         }
     }
 }
-<span class="doccomment">/// A widget that defines a new section header. Sections populate a table of
-/// contents and allow easier navigation of long-form content.
+<span class="doccomment">/// A chart that displays data on a 2D (X and Y axes) plane.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>SectionHeader {
-    <span class="doccomment">/// The subtitle of the section
+</span><span class="kw">pub struct </span>XyChart {
+    <span class="doccomment">/// Required. The data displayed in this chart.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>data_sets: ::prost::alloc::vec::Vec&lt;xy_chart::DataSet&gt;,
+    <span class="doccomment">/// The duration used to display a comparison chart. A comparison chart
+    /// simultaneously shows values from two similar-length time periods
+    /// (e.g., week-over-week metrics).
+    /// The duration must be positive, and it can only be applied to charts with
+    /// data sets of LINE plot type.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>timeshift_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
+    <span class="doccomment">/// Threshold lines drawn horizontally across the chart.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>thresholds: ::prost::alloc::vec::Vec&lt;Threshold&gt;,
+    <span class="doccomment">/// The properties applied to the x-axis.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>x_axis: ::core::option::Option&lt;xy_chart::Axis&gt;,
+    <span class="doccomment">/// The properties applied to the y-axis.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>y_axis: ::core::option::Option&lt;xy_chart::Axis&gt;,
+    <span class="doccomment">/// The properties applied to the y2-axis.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>y2_axis: ::core::option::Option&lt;xy_chart::Axis&gt;,
+    <span class="doccomment">/// Display options for the chart.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>chart_options: ::core::option::Option&lt;ChartOptions&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `XyChart`.
+</span><span class="kw">pub mod </span>xy_chart {
+    <span class="doccomment">/// Groups a time series query definition with charting options.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DataSet {
+        <span class="doccomment">/// Required. Fields for querying time series data from the
+        /// Stackdriver metrics API.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>time_series_query: ::core::option::Option&lt;<span class="kw">super</span>::TimeSeriesQuery&gt;,
+        <span class="doccomment">/// How this data should be plotted on the chart.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"data_set::PlotType"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>plot_type: i32,
+        <span class="doccomment">/// A template string for naming `TimeSeries` in the resulting data set.
+        /// This should be a string with interpolations of the form `${label_name}`,
+        /// which will resolve to the label's value.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>legend_template: ::prost::alloc::string::String,
+        <span class="doccomment">/// Optional. The lower bound on data point frequency for this data set,
+        /// implemented by specifying the minimum alignment period to use in a time
+        /// series query For example, if the data is published once every 10 minutes,
+        /// the `min_alignment_period` should be at least 10 minutes. It would not
+        /// make sense to fetch and align data at one minute intervals.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>min_alignment_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
+        <span class="doccomment">/// Optional. The target axis to use for plotting the metric.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"data_set::TargetAxis"</span>, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>target_axis: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `DataSet`.
+    </span><span class="kw">pub mod </span>data_set {
+        <span class="doccomment">/// The types of plotting strategies for data sets.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>PlotType {
+            <span class="doccomment">/// Plot type is unspecified. The view will default to `LINE`.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The data is plotted as a set of lines (one line per series).
+            </span>Line = <span class="number">1</span>,
+            <span class="doccomment">/// The data is plotted as a set of filled areas (one area per series),
+            /// with the areas stacked vertically (the base of each area is the top of
+            /// its predecessor, and the base of the first area is the x-axis). Since
+            /// the areas do not overlap, each is filled with a different opaque color.
+            </span>StackedArea = <span class="number">2</span>,
+            <span class="doccomment">/// The data is plotted as a set of rectangular boxes (one box per series),
+            /// with the boxes stacked vertically (the base of each box is the top of
+            /// its predecessor, and the base of the first box is the x-axis). Since
+            /// the boxes do not overlap, each is filled with a different opaque color.
+            </span>StackedBar = <span class="number">3</span>,
+            <span class="doccomment">/// The data is plotted as a heatmap. The series being plotted must have a
+            /// `DISTRIBUTION` value type. The value of each bucket in the distribution
+            /// is displayed as a color. This type is not currently available in the
+            /// Stackdriver Monitoring application.
+            </span>Heatmap = <span class="number">4</span>,
+        }
+        <span class="kw">impl </span>PlotType {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    PlotType::Unspecified =&gt; <span class="string">"PLOT_TYPE_UNSPECIFIED"</span>,
+                    PlotType::Line =&gt; <span class="string">"LINE"</span>,
+                    PlotType::StackedArea =&gt; <span class="string">"STACKED_AREA"</span>,
+                    PlotType::StackedBar =&gt; <span class="string">"STACKED_BAR"</span>,
+                    PlotType::Heatmap =&gt; <span class="string">"HEATMAP"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"PLOT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"LINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Line),
+                    <span class="string">"STACKED_AREA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StackedArea),
+                    <span class="string">"STACKED_BAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StackedBar),
+                    <span class="string">"HEATMAP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Heatmap),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+        <span class="doccomment">/// An axis identifier.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>TargetAxis {
+            <span class="doccomment">/// The target axis was not specified. Defaults to Y1.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The y_axis (the right axis of chart).
+            </span>Y1 = <span class="number">1</span>,
+            <span class="doccomment">/// The y2_axis (the left axis of chart).
+            </span>Y2 = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>TargetAxis {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    TargetAxis::Unspecified =&gt; <span class="string">"TARGET_AXIS_UNSPECIFIED"</span>,
+                    TargetAxis::Y1 =&gt; <span class="string">"Y1"</span>,
+                    TargetAxis::Y2 =&gt; <span class="string">"Y2"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"TARGET_AXIS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"Y1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Y1),
+                    <span class="string">"Y2" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Y2),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// A chart axis.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Axis {
+        <span class="doccomment">/// The label of the axis.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>label: ::prost::alloc::string::String,
+        <span class="doccomment">/// The axis scale. By default, a linear scale is used.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"axis::Scale"</span>, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>scale: i32,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Axis`.
+    </span><span class="kw">pub mod </span>axis {
+        <span class="doccomment">/// Types of scales used in axes.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>Scale {
+            <span class="doccomment">/// Scale is unspecified. The view will default to `LINEAR`.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// Linear scale.
+            </span>Linear = <span class="number">1</span>,
+            <span class="doccomment">/// Logarithmic scale (base 10).
+            </span>Log10 = <span class="number">2</span>,
+        }
+        <span class="kw">impl </span>Scale {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    Scale::Unspecified =&gt; <span class="string">"SCALE_UNSPECIFIED"</span>,
+                    Scale::Linear =&gt; <span class="string">"LINEAR"</span>,
+                    Scale::Log10 =&gt; <span class="string">"LOG10"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"SCALE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"LINEAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Linear),
+                    <span class="string">"LOG10" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Log10),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+}
+<span class="doccomment">/// Options to control visual rendering of a chart.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ChartOptions {
+    <span class="doccomment">/// The chart mode.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"chart_options::Mode"</span>, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>mode: i32,
+}
+<span class="doccomment">/// Nested message and enum types in `ChartOptions`.
+</span><span class="kw">pub mod </span>chart_options {
+    <span class="doccomment">/// Chart mode options.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Mode {
+        <span class="doccomment">/// Mode is unspecified. The view will default to `COLOR`.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The chart distinguishes data series using different color. Line
+        /// colors may get reused when there are many lines in the chart.
+        </span>Color = <span class="number">1</span>,
+        <span class="doccomment">/// The chart uses the Stackdriver x-ray mode, in which each
+        /// data set is plotted using the same semi-transparent color.
+        </span>XRay = <span class="number">2</span>,
+        <span class="doccomment">/// The chart displays statistics such as average, median, 95th percentile,
+        /// and more.
+        </span>Stats = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Mode {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
+                Mode::Color =&gt; <span class="string">"COLOR"</span>,
+                Mode::XRay =&gt; <span class="string">"X_RAY"</span>,
+                Mode::Stats =&gt; <span class="string">"STATS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"COLOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Color),
+                <span class="string">"X_RAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::XRay),
+                <span class="string">"STATS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stats),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DashboardFilter {
+    <span class="doccomment">/// Required. The key for the label
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>subtitle: ::prost::alloc::string::String,
-    <span class="doccomment">/// Whether to insert a divider below the section in the table of contents
-    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>divider_below: bool,
+    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
+    /// query. If omitted, the dashboard filter will be applied to all relevant
+    /// widgets in the dashboard.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
+    <span class="doccomment">/// The specified filter type
+    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>filter_type: i32,
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
+</span><span class="kw">pub mod </span>dashboard_filter {
+    <span class="doccomment">/// The type for the dashboard filter
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>FilterType {
+        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Filter on a resource label value
+        </span>ResourceLabel = <span class="number">1</span>,
+        <span class="doccomment">/// Filter on a metrics label value
+        </span>MetricLabel = <span class="number">2</span>,
+        <span class="doccomment">/// Filter on a user metadata label value
+        </span>UserMetadataLabel = <span class="number">3</span>,
+        <span class="doccomment">/// Filter on a system metadata label value
+        </span>SystemMetadataLabel = <span class="number">4</span>,
+        <span class="doccomment">/// Filter on a group id
+        </span>Group = <span class="number">5</span>,
+    }
+    <span class="kw">impl </span>FilterType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
+                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
+                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
+                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
+                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
+                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
+                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
+                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
+                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
+                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The default value used in the filter comparison
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>DefaultValue {
+        <span class="doccomment">/// A variable-length string value.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+        </span>StringValue(::prost::alloc::string::String),
+    }
+}
+<span class="doccomment">/// A chart that displays alert policy data.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AlertChart {
+    <span class="doccomment">/// Required. The resource name of the alert policy. The format is:
+    ///
+    ///      projects/\[PROJECT_ID_OR_NUMBER\]/alertPolicies/\[ALERT_POLICY_ID\]
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A widget that groups the other widgets. All widgets that are within
 /// the area spanned by the grouping widget are considered member widgets.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CollapsibleGroup {
     <span class="doccomment">/// The collapsed state of the widget on first page load.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -3708,6 +4050,21 @@
     /// example, use `alertPolicies/utilization`.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>policy_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+}
+<span class="doccomment">/// A widget that displays a stream of log.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LogsPanel {
+    <span class="doccomment">/// A filter that chooses which log entries to return.  See [Advanced Logs
+    /// Queries](&lt;https://cloud.google.com/logging/docs/view/advanced-queries&gt;).
+    /// Only log entries that match the filter are returned.  An empty filter
+    /// matches all log entries.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>filter: ::prost::alloc::string::String,
+    <span class="doccomment">/// The names of logging resources to collect logs for. Currently only projects
+    /// are supported. If empty, the widget will default to the host project.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>resource_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// A widget that displays timeseries data as a pie or a donut.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -3853,7 +4210,7 @@
     /// range. The upper and lower bounds should define the possible range of
     /// values for the scorecard's query (inclusive).
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>GaugeView {
         <span class="doccomment">/// The lower bound for this gauge chart. The value of the chart should
         /// always be greater than or equal to this.
@@ -3869,7 +4226,7 @@
     /// to show up on a Scorecard, showing recent trends of the scorecard's
     /// timeseries.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>SparkChartView {
         <span class="doccomment">/// Required. The type of sparkchart to show in this chartView.
         </span><span class="attr">#[prost(enumeration = <span class="string">"super::SparkChartType"</span>, tag = <span class="string">"1"</span>)]
@@ -3885,7 +4242,7 @@
     <span class="doccomment">/// Defines the optional additional chart shown on the scorecard. If
     /// neither is included - then a default scorecard is shown.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>DataView {
         <span class="doccomment">/// Will cause the scorecard to show a gauge chart.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -3899,11 +4256,23 @@
         </span>BlankView(()),
     }
 }
+<span class="doccomment">/// A widget that defines a new section header. Sections populate a table of
+/// contents and allow easier navigation of long-form content.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>SectionHeader {
+    <span class="doccomment">/// The subtitle of the section
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>subtitle: ::prost::alloc::string::String,
+    <span class="doccomment">/// Whether to insert a divider below the section in the table of contents
+    </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>divider_below: bool,
+}
 <span class="doccomment">/// A widget that groups the other widgets by using a dropdown menu. All widgets
 /// that are within the area spanned by the grouping widget are considered
 /// member widgets.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SingleViewGroup {}
 <span class="doccomment">/// Table display options that can be reused.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4392,290 +4761,6 @@
         }
     }
 }
-<span class="doccomment">/// A chart that displays data on a 2D (X and Y axes) plane.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>XyChart {
-    <span class="doccomment">/// Required. The data displayed in this chart.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>data_sets: ::prost::alloc::vec::Vec&lt;xy_chart::DataSet&gt;,
-    <span class="doccomment">/// The duration used to display a comparison chart. A comparison chart
-    /// simultaneously shows values from two similar-length time periods
-    /// (e.g., week-over-week metrics).
-    /// The duration must be positive, and it can only be applied to charts with
-    /// data sets of LINE plot type.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>timeshift_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
-    <span class="doccomment">/// Threshold lines drawn horizontally across the chart.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>thresholds: ::prost::alloc::vec::Vec&lt;Threshold&gt;,
-    <span class="doccomment">/// The properties applied to the x-axis.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>x_axis: ::core::option::Option&lt;xy_chart::Axis&gt;,
-    <span class="doccomment">/// The properties applied to the y-axis.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>y_axis: ::core::option::Option&lt;xy_chart::Axis&gt;,
-    <span class="doccomment">/// The properties applied to the y2-axis.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>y2_axis: ::core::option::Option&lt;xy_chart::Axis&gt;,
-    <span class="doccomment">/// Display options for the chart.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>chart_options: ::core::option::Option&lt;ChartOptions&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `XyChart`.
-</span><span class="kw">pub mod </span>xy_chart {
-    <span class="doccomment">/// Groups a time series query definition with charting options.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>DataSet {
-        <span class="doccomment">/// Required. Fields for querying time series data from the
-        /// Stackdriver metrics API.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>time_series_query: ::core::option::Option&lt;<span class="kw">super</span>::TimeSeriesQuery&gt;,
-        <span class="doccomment">/// How this data should be plotted on the chart.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"data_set::PlotType"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>plot_type: i32,
-        <span class="doccomment">/// A template string for naming `TimeSeries` in the resulting data set.
-        /// This should be a string with interpolations of the form `${label_name}`,
-        /// which will resolve to the label's value.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-        </span><span class="kw">pub </span>legend_template: ::prost::alloc::string::String,
-        <span class="doccomment">/// Optional. The lower bound on data point frequency for this data set,
-        /// implemented by specifying the minimum alignment period to use in a time
-        /// series query For example, if the data is published once every 10 minutes,
-        /// the `min_alignment_period` should be at least 10 minutes. It would not
-        /// make sense to fetch and align data at one minute intervals.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-        </span><span class="kw">pub </span>min_alignment_period: ::core::option::Option&lt;::prost_types::Duration&gt;,
-        <span class="doccomment">/// Optional. The target axis to use for plotting the metric.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"data_set::TargetAxis"</span>, tag = <span class="string">"5"</span>)]
-        </span><span class="kw">pub </span>target_axis: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `DataSet`.
-    </span><span class="kw">pub mod </span>data_set {
-        <span class="doccomment">/// The types of plotting strategies for data sets.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>PlotType {
-            <span class="doccomment">/// Plot type is unspecified. The view will default to `LINE`.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The data is plotted as a set of lines (one line per series).
-            </span>Line = <span class="number">1</span>,
-            <span class="doccomment">/// The data is plotted as a set of filled areas (one area per series),
-            /// with the areas stacked vertically (the base of each area is the top of
-            /// its predecessor, and the base of the first area is the x-axis). Since
-            /// the areas do not overlap, each is filled with a different opaque color.
-            </span>StackedArea = <span class="number">2</span>,
-            <span class="doccomment">/// The data is plotted as a set of rectangular boxes (one box per series),
-            /// with the boxes stacked vertically (the base of each box is the top of
-            /// its predecessor, and the base of the first box is the x-axis). Since
-            /// the boxes do not overlap, each is filled with a different opaque color.
-            </span>StackedBar = <span class="number">3</span>,
-            <span class="doccomment">/// The data is plotted as a heatmap. The series being plotted must have a
-            /// `DISTRIBUTION` value type. The value of each bucket in the distribution
-            /// is displayed as a color. This type is not currently available in the
-            /// Stackdriver Monitoring application.
-            </span>Heatmap = <span class="number">4</span>,
-        }
-        <span class="kw">impl </span>PlotType {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    PlotType::Unspecified =&gt; <span class="string">"PLOT_TYPE_UNSPECIFIED"</span>,
-                    PlotType::Line =&gt; <span class="string">"LINE"</span>,
-                    PlotType::StackedArea =&gt; <span class="string">"STACKED_AREA"</span>,
-                    PlotType::StackedBar =&gt; <span class="string">"STACKED_BAR"</span>,
-                    PlotType::Heatmap =&gt; <span class="string">"HEATMAP"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"PLOT_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"LINE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Line),
-                    <span class="string">"STACKED_AREA" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StackedArea),
-                    <span class="string">"STACKED_BAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::StackedBar),
-                    <span class="string">"HEATMAP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Heatmap),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-        <span class="doccomment">/// An axis identifier.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>TargetAxis {
-            <span class="doccomment">/// The target axis was not specified. Defaults to Y1.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The y_axis (the right axis of chart).
-            </span>Y1 = <span class="number">1</span>,
-            <span class="doccomment">/// The y2_axis (the left axis of chart).
-            </span>Y2 = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>TargetAxis {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    TargetAxis::Unspecified =&gt; <span class="string">"TARGET_AXIS_UNSPECIFIED"</span>,
-                    TargetAxis::Y1 =&gt; <span class="string">"Y1"</span>,
-                    TargetAxis::Y2 =&gt; <span class="string">"Y2"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"TARGET_AXIS_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"Y1" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Y1),
-                    <span class="string">"Y2" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Y2),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// A chart axis.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>Axis {
-        <span class="doccomment">/// The label of the axis.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>label: ::prost::alloc::string::String,
-        <span class="doccomment">/// The axis scale. By default, a linear scale is used.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"axis::Scale"</span>, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>scale: i32,
-    }
-    <span class="doccomment">/// Nested message and enum types in `Axis`.
-    </span><span class="kw">pub mod </span>axis {
-        <span class="doccomment">/// Types of scales used in axes.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>Scale {
-            <span class="doccomment">/// Scale is unspecified. The view will default to `LINEAR`.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// Linear scale.
-            </span>Linear = <span class="number">1</span>,
-            <span class="doccomment">/// Logarithmic scale (base 10).
-            </span>Log10 = <span class="number">2</span>,
-        }
-        <span class="kw">impl </span>Scale {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    Scale::Unspecified =&gt; <span class="string">"SCALE_UNSPECIFIED"</span>,
-                    Scale::Linear =&gt; <span class="string">"LINEAR"</span>,
-                    Scale::Log10 =&gt; <span class="string">"LOG10"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"SCALE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"LINEAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Linear),
-                    <span class="string">"LOG10" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Log10),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-}
-<span class="doccomment">/// Options to control visual rendering of a chart.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ChartOptions {
-    <span class="doccomment">/// The chart mode.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"chart_options::Mode"</span>, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>mode: i32,
-}
-<span class="doccomment">/// Nested message and enum types in `ChartOptions`.
-</span><span class="kw">pub mod </span>chart_options {
-    <span class="doccomment">/// Chart mode options.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Mode {
-        <span class="doccomment">/// Mode is unspecified. The view will default to `COLOR`.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The chart distinguishes data series using different color. Line
-        /// colors may get reused when there are many lines in the chart.
-        </span>Color = <span class="number">1</span>,
-        <span class="doccomment">/// The chart uses the Stackdriver x-ray mode, in which each
-        /// data set is plotted using the same semi-transparent color.
-        </span>XRay = <span class="number">2</span>,
-        <span class="doccomment">/// The chart displays statistics such as average, median, 95th percentile,
-        /// and more.
-        </span>Stats = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Mode {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Mode::Unspecified =&gt; <span class="string">"MODE_UNSPECIFIED"</span>,
-                Mode::Color =&gt; <span class="string">"COLOR"</span>,
-                Mode::XRay =&gt; <span class="string">"X_RAY"</span>,
-                Mode::Stats =&gt; <span class="string">"STATS"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"MODE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"COLOR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Color),
-                <span class="string">"X_RAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::XRay),
-                <span class="string">"STATS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Stats),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// Widget contains a single dashboard component and configuration of how to
 /// present the component in the dashboard.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -4850,91 +4935,6 @@
         <span class="doccomment">/// The display widgets arranged vertically in this column.
         </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>widgets: ::prost::alloc::vec::Vec&lt;<span class="kw">super</span>::Widget&gt;,
-    }
-}
-<span class="doccomment">/// A filter to reduce the amount of data charted in relevant widgets.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DashboardFilter {
-    <span class="doccomment">/// Required. The key for the label
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>label_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// The placeholder text that can be referenced in a filter string or MQL
-    /// query. If omitted, the dashboard filter will be applied to all relevant
-    /// widgets in the dashboard.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>template_variable: ::prost::alloc::string::String,
-    <span class="doccomment">/// The specified filter type
-    </span><span class="attr">#[prost(enumeration = <span class="string">"dashboard_filter::FilterType"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>filter_type: i32,
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[prost(oneof = <span class="string">"dashboard_filter::DefaultValue"</span>, tags = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>default_value: ::core::option::Option&lt;dashboard_filter::DefaultValue&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DashboardFilter`.
-</span><span class="kw">pub mod </span>dashboard_filter {
-    <span class="doccomment">/// The type for the dashboard filter
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>FilterType {
-        <span class="doccomment">/// Filter type is unspecified. This is not valid in a well-formed request.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// Filter on a resource label value
-        </span>ResourceLabel = <span class="number">1</span>,
-        <span class="doccomment">/// Filter on a metrics label value
-        </span>MetricLabel = <span class="number">2</span>,
-        <span class="doccomment">/// Filter on a user metadata label value
-        </span>UserMetadataLabel = <span class="number">3</span>,
-        <span class="doccomment">/// Filter on a system metadata label value
-        </span>SystemMetadataLabel = <span class="number">4</span>,
-        <span class="doccomment">/// Filter on a group id
-        </span>Group = <span class="number">5</span>,
-    }
-    <span class="kw">impl </span>FilterType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                FilterType::Unspecified =&gt; <span class="string">"FILTER_TYPE_UNSPECIFIED"</span>,
-                FilterType::ResourceLabel =&gt; <span class="string">"RESOURCE_LABEL"</span>,
-                FilterType::MetricLabel =&gt; <span class="string">"METRIC_LABEL"</span>,
-                FilterType::UserMetadataLabel =&gt; <span class="string">"USER_METADATA_LABEL"</span>,
-                FilterType::SystemMetadataLabel =&gt; <span class="string">"SYSTEM_METADATA_LABEL"</span>,
-                FilterType::Group =&gt; <span class="string">"GROUP"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"FILTER_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"RESOURCE_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::ResourceLabel),
-                <span class="string">"METRIC_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::MetricLabel),
-                <span class="string">"USER_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::UserMetadataLabel),
-                <span class="string">"SYSTEM_METADATA_LABEL" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::SystemMetadataLabel),
-                <span class="string">"GROUP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Group),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The default value used in the filter comparison
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>DefaultValue {
-        <span class="doccomment">/// A variable-length string value.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-        </span>StringValue(::prost::alloc::string::String),
     }
 }
 <span class="doccomment">/// A Google Stackdriver dashboard. Dashboards define the content and layout

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/maps/fleetengine/delivery/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/maps/fleetengine/delivery/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1959,6 +1959,7 @@
 <a href="#1959" id="1959">1959</a>
 <a href="#1960" id="1960">1960</a>
 <a href="#1961" id="1961">1961</a>
+<a href="#1962" id="1962">1962</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Describes a vehicle attribute as a key-value pair. The "key:value" string
 /// length cannot exceed 256 characters.
@@ -2005,7 +2006,7 @@
 }
 <span class="doccomment">/// The location, speed, and heading of a vehicle at a point in time.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeliveryVehicleLocation {
     <span class="doccomment">/// The location of the vehicle.
     /// When it is sent to Fleet Engine, the vehicle's location is a GPS location.
@@ -2118,7 +2119,7 @@
 }
 <span class="doccomment">/// A time range.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TimeWindow {
     <span class="doccomment">/// Required. The start time of the time window (inclusive).
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -2439,7 +2440,7 @@
 }
 <span class="doccomment">/// A location with any additional identifiers.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LocationInfo {
     <span class="doccomment">/// The location's coordinates.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -2586,157 +2587,6 @@
                 <span class="string">"NEW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::New),
                 <span class="string">"ENROUTE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enroute),
                 <span class="string">"ARRIVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Arrived),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// A RequestHeader contains fields common to all Delivery RPC requests.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DeliveryRequestHeader {
-    <span class="doccomment">/// The BCP-47 language code, such as en-US or sr-Latn. For more information,
-    /// see &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; If none
-    /// is specified, the response may be in any language, with a preference for
-    /// English if such a name exists. Field value example: `en-US`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. CLDR region code of the region where the request originates.
-    /// Field value example: `US`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// Version of the calling SDK, if applicable.
-    /// The version format is "major.minor.patch", example: `1.1.2`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>sdk_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Version of the operating system on which the calling SDK is running.
-    /// Field value examples: `4.4.1`, `12.1`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>os_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Model of the device on which the calling SDK is running.
-    /// Field value examples: `iPhone12,1`, `SM-G920F`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>device_model: ::prost::alloc::string::String,
-    <span class="doccomment">/// The type of SDK sending the request.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"delivery_request_header::SdkType"</span>, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>sdk_type: i32,
-    <span class="doccomment">/// Version of the MapSDK which the calling SDK depends on, if applicable.
-    /// The version format is "major.minor.patch", example: `5.2.1`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>maps_sdk_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Version of the NavSDK which the calling SDK depends on, if applicable.
-    /// The version format is "major.minor.patch", example: `2.1.0`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>nav_sdk_version: ::prost::alloc::string::String,
-    <span class="doccomment">/// Platform of the calling SDK.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"delivery_request_header::Platform"</span>, tag = <span class="string">"9"</span>)]
-    </span><span class="kw">pub </span>platform: i32,
-    <span class="doccomment">/// Manufacturer of the Android device from the calling SDK, only applicable
-    /// for the Android SDKs.
-    /// Field value example: `Samsung`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
-    </span><span class="kw">pub </span>manufacturer: ::prost::alloc::string::String,
-    <span class="doccomment">/// Android API level of the calling SDK, only applicable for the Android SDKs.
-    /// Field value example: `23`.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"11"</span>)]
-    </span><span class="kw">pub </span>android_api_level: i32,
-    <span class="doccomment">/// Optional ID that can be provided for logging purposes in order to identify
-    /// the request.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
-    </span><span class="kw">pub </span>trace_id: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// Nested message and enum types in `DeliveryRequestHeader`.
-</span><span class="kw">pub mod </span>delivery_request_header {
-    <span class="doccomment">/// Possible types of SDK.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>SdkType {
-        <span class="doccomment">/// The default value. This value is used if the `sdk_type` is omitted.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The calling SDK is Consumer.
-        </span>Consumer = <span class="number">1</span>,
-        <span class="doccomment">/// The calling SDK is Driver.
-        </span>Driver = <span class="number">2</span>,
-        <span class="doccomment">/// The calling SDK is JavaScript.
-        </span>Javascript = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>SdkType {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                SdkType::Unspecified =&gt; <span class="string">"SDK_TYPE_UNSPECIFIED"</span>,
-                SdkType::Consumer =&gt; <span class="string">"CONSUMER"</span>,
-                SdkType::Driver =&gt; <span class="string">"DRIVER"</span>,
-                SdkType::Javascript =&gt; <span class="string">"JAVASCRIPT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"SDK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"CONSUMER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Consumer),
-                <span class="string">"DRIVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Driver),
-                <span class="string">"JAVASCRIPT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Javascript),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The platform of the calling SDK.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Platform {
-        <span class="doccomment">/// The default value. This value is used if the platform is omitted.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The request is coming from Android.
-        </span>Android = <span class="number">1</span>,
-        <span class="doccomment">/// The request is coming from iOS.
-        </span>Ios = <span class="number">2</span>,
-        <span class="doccomment">/// The request is coming from the web.
-        </span>Web = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Platform {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Platform::Unspecified =&gt; <span class="string">"PLATFORM_UNSPECIFIED"</span>,
-                Platform::Android =&gt; <span class="string">"ANDROID"</span>,
-                Platform::Ios =&gt; <span class="string">"IOS"</span>,
-                Platform::Web =&gt; <span class="string">"WEB"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PLATFORM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Android),
-                <span class="string">"IOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ios),
-                <span class="string">"WEB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Web),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -3064,7 +2914,7 @@
 <span class="doccomment">/// The configuration message that defines when a data element of a Task should
 /// be visible to the end users.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TaskTrackingViewConfig {
     <span class="doccomment">/// The field that specifies when route polyline points can be visible. If this
     /// field is not specified, the project level default visibility configuration
@@ -3114,7 +2964,7 @@
     <span class="doccomment">/// The option message that defines when a data element should be visible to
     /// the end users.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>VisibilityOption {
         <span class="doccomment">/// The specific visibility option chosen.
         </span><span class="attr">#[prost(oneof = <span class="string">"visibility_option::VisibilityOption"</span>, tags = <span class="string">"1, 2, 3, 4, 5"</span>)]
@@ -3126,7 +2976,7 @@
     </span><span class="kw">pub mod </span>visibility_option {
         <span class="doccomment">/// The specific visibility option chosen.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>VisibilityOption {
             <span class="doccomment">/// This data element is visible to the end users if the remaining stop
             /// count &lt;= remaining_stop_count_threshold.
@@ -3216,6 +3066,157 @@
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>attributes: ::prost::alloc::vec::Vec&lt;TaskAttribute&gt;,
 }
+<span class="doccomment">/// A RequestHeader contains fields common to all Delivery RPC requests.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DeliveryRequestHeader {
+    <span class="doccomment">/// The BCP-47 language code, such as en-US or sr-Latn. For more information,
+    /// see &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt; If none
+    /// is specified, the response may be in any language, with a preference for
+    /// English if such a name exists. Field value example: `en-US`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. CLDR region code of the region where the request originates.
+    /// Field value example: `US`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// Version of the calling SDK, if applicable.
+    /// The version format is "major.minor.patch", example: `1.1.2`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>sdk_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Version of the operating system on which the calling SDK is running.
+    /// Field value examples: `4.4.1`, `12.1`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>os_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Model of the device on which the calling SDK is running.
+    /// Field value examples: `iPhone12,1`, `SM-G920F`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>device_model: ::prost::alloc::string::String,
+    <span class="doccomment">/// The type of SDK sending the request.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"delivery_request_header::SdkType"</span>, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>sdk_type: i32,
+    <span class="doccomment">/// Version of the MapSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `5.2.1`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>maps_sdk_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Version of the NavSDK which the calling SDK depends on, if applicable.
+    /// The version format is "major.minor.patch", example: `2.1.0`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>nav_sdk_version: ::prost::alloc::string::String,
+    <span class="doccomment">/// Platform of the calling SDK.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"delivery_request_header::Platform"</span>, tag = <span class="string">"9"</span>)]
+    </span><span class="kw">pub </span>platform: i32,
+    <span class="doccomment">/// Manufacturer of the Android device from the calling SDK, only applicable
+    /// for the Android SDKs.
+    /// Field value example: `Samsung`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
+    </span><span class="kw">pub </span>manufacturer: ::prost::alloc::string::String,
+    <span class="doccomment">/// Android API level of the calling SDK, only applicable for the Android SDKs.
+    /// Field value example: `23`.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>android_api_level: i32,
+    <span class="doccomment">/// Optional ID that can be provided for logging purposes in order to identify
+    /// the request.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>trace_id: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Nested message and enum types in `DeliveryRequestHeader`.
+</span><span class="kw">pub mod </span>delivery_request_header {
+    <span class="doccomment">/// Possible types of SDK.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>SdkType {
+        <span class="doccomment">/// The default value. This value is used if the `sdk_type` is omitted.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The calling SDK is Consumer.
+        </span>Consumer = <span class="number">1</span>,
+        <span class="doccomment">/// The calling SDK is Driver.
+        </span>Driver = <span class="number">2</span>,
+        <span class="doccomment">/// The calling SDK is JavaScript.
+        </span>Javascript = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>SdkType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                SdkType::Unspecified =&gt; <span class="string">"SDK_TYPE_UNSPECIFIED"</span>,
+                SdkType::Consumer =&gt; <span class="string">"CONSUMER"</span>,
+                SdkType::Driver =&gt; <span class="string">"DRIVER"</span>,
+                SdkType::Javascript =&gt; <span class="string">"JAVASCRIPT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"SDK_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"CONSUMER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Consumer),
+                <span class="string">"DRIVER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Driver),
+                <span class="string">"JAVASCRIPT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Javascript),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The platform of the calling SDK.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Platform {
+        <span class="doccomment">/// The default value. This value is used if the platform is omitted.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The request is coming from Android.
+        </span>Android = <span class="number">1</span>,
+        <span class="doccomment">/// The request is coming from iOS.
+        </span>Ios = <span class="number">2</span>,
+        <span class="doccomment">/// The request is coming from the web.
+        </span>Web = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Platform {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Platform::Unspecified =&gt; <span class="string">"PLATFORM_UNSPECIFIED"</span>,
+                Platform::Android =&gt; <span class="string">"ANDROID"</span>,
+                Platform::Ios =&gt; <span class="string">"IOS"</span>,
+                Platform::Web =&gt; <span class="string">"WEB"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PLATFORM_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"ANDROID" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Android),
+                <span class="string">"IOS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ios),
+                <span class="string">"WEB" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Web),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
 <span class="doccomment">/// The `CreateDeliveryVehicle` request message.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -3241,6 +3242,7 @@
     <span class="doccomment">/// Required. The `DeliveryVehicle` entity to create. When creating a new
     /// delivery vehicle, you may set the following optional fields:
     ///
+    /// * type
     /// * last_location
     /// * attributes
     ///
@@ -3675,9 +3677,9 @@
         </span>}
         <span class="doccomment">/// Writes updated `DeliveryVehicle` data to Fleet Engine, and assigns
         /// `Tasks` to the `DeliveryVehicle`. You cannot update the name of the
-        /// `DeliveryVehicle`. You *can* update `remaining_vehicle_journey_segments`
-        /// though, but it must contain all of the `VehicleJourneySegment`s currently
-        /// on the `DeliveryVehicle`. The `task_id`s are retrieved from
+        /// `DeliveryVehicle`. You *can* update `remaining_vehicle_journey_segments`,
+        /// but it must contain all of the `VehicleJourneySegment`s to be persisted on
+        /// the `DeliveryVehicle`. The `task_id`s are retrieved from
         /// `remaining_vehicle_journey_segments`, and their corresponding `Tasks` are
         /// assigned to the `DeliveryVehicle` if they have not yet been assigned.
         </span><span class="kw">pub async fn </span>update_delivery_vehicle(

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/integrations/v1alpha/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/integrations/v1alpha/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1184,7 +1184,119 @@
 <a href="#1184" id="1184">1184</a>
 <a href="#1185" id="1185">1185</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// The type of the parameter.
+</span><span class="doccomment">/// Cloud Logging details for execution info
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>CloudLoggingDetails {
+    <span class="doccomment">/// Optional. Severity selected by the customer for the logs to be sent to
+    /// Cloud Logging, for the integration version getting executed.
+    </span><span class="attr">#[prost(
+        enumeration = <span class="string">"cloud_logging_details::CloudLoggingSeverity"</span>,
+        optional,
+        tag = <span class="string">"1"
+    </span>)]
+    </span><span class="kw">pub </span>cloud_logging_severity: ::core::option::Option&lt;i32&gt;,
+    <span class="doccomment">/// Optional. Status of whether Cloud Logging is enabled or not for the
+    /// integration version getting executed.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>enable_cloud_logging: ::core::option::Option&lt;bool&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `CloudLoggingDetails`.
+</span><span class="kw">pub mod </span>cloud_logging_details {
+    <span class="doccomment">/// The severity will be mapped to the Integration Execution State.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>CloudLoggingSeverity {
+        <span class="doccomment">/// Unspecified
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// If Severity selected is `INFO`, then all the Integration Execution States
+        /// (`IN_PROCESS`, `ON_HOLD`, `SUCCEEDED`, `SUSPENDED`, `ERROR`, `CANCELLED`)
+        /// will be sent to Cloud Logging.
+        </span>Info = <span class="number">2</span>,
+        <span class="doccomment">/// If Severity selected is `ERROR`, then only the following Integration
+        /// Execution States (`ERROR`, `CANCELLED`) will be sent to Cloud Logging.
+        </span>Error = <span class="number">3</span>,
+        <span class="doccomment">/// If Severity selected is `WARNING`, then only the following Integration
+        /// Execution States (`ERROR`, `CANCELLED`) will be sent to Cloud Logging.
+        </span>Warning = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>CloudLoggingSeverity {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                CloudLoggingSeverity::Unspecified =&gt; <span class="string">"CLOUD_LOGGING_SEVERITY_UNSPECIFIED"</span>,
+                CloudLoggingSeverity::Info =&gt; <span class="string">"INFO"</span>,
+                CloudLoggingSeverity::Error =&gt; <span class="string">"ERROR"</span>,
+                CloudLoggingSeverity::Warning =&gt; <span class="string">"WARNING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"CLOUD_LOGGING_SEVERITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"INFO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Info),
+                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
+                <span class="string">"WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Warning),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// Indicates the status of the integration.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>IntegrationState {
+    <span class="doccomment">/// Default.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// Draft.
+    </span>Draft = <span class="number">1</span>,
+    <span class="doccomment">/// Active.
+    </span>Active = <span class="number">2</span>,
+    <span class="doccomment">/// Archived.
+    </span>Archived = <span class="number">3</span>,
+    <span class="doccomment">/// Snapshot.
+    </span>Snapshot = <span class="number">4</span>,
+}
+<span class="kw">impl </span>IntegrationState {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            IntegrationState::Unspecified =&gt; <span class="string">"INTEGRATION_STATE_UNSPECIFIED"</span>,
+            IntegrationState::Draft =&gt; <span class="string">"DRAFT"</span>,
+            IntegrationState::Active =&gt; <span class="string">"ACTIVE"</span>,
+            IntegrationState::Archived =&gt; <span class="string">"ARCHIVED"</span>,
+            IntegrationState::Snapshot =&gt; <span class="string">"SNAPSHOT"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"INTEGRATION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"DRAFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Draft),
+            <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
+            <span class="string">"ARCHIVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Archived),
+            <span class="string">"SNAPSHOT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Snapshot),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// The type of the parameter.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ValueType {
@@ -1257,77 +1369,6 @@
     </span><span class="attr">#[prost(bool, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>boolean_values: ::prost::alloc::vec::Vec&lt;bool&gt;,
 }
-<span class="doccomment">/// Cloud Logging details for execution info
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>CloudLoggingDetails {
-    <span class="doccomment">/// Optional. Severity selected by the customer for the logs to be sent to
-    /// Cloud Logging, for the integration version getting executed.
-    </span><span class="attr">#[prost(
-        enumeration = <span class="string">"cloud_logging_details::CloudLoggingSeverity"</span>,
-        optional,
-        tag = <span class="string">"1"
-    </span>)]
-    </span><span class="kw">pub </span>cloud_logging_severity: ::core::option::Option&lt;i32&gt;,
-    <span class="doccomment">/// Optional. Status of whether Cloud Logging is enabled or not for the
-    /// integration version getting executed.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>enable_cloud_logging: ::core::option::Option&lt;bool&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `CloudLoggingDetails`.
-</span><span class="kw">pub mod </span>cloud_logging_details {
-    <span class="doccomment">/// The severity will be mapped to the Integration Execution State.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>CloudLoggingSeverity {
-        <span class="doccomment">/// Unspecified
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// If Severity selected is `INFO`, then all the Integration Execution States
-        /// (`IN_PROCESS`, `ON_HOLD`, `SUCCEEDED`, `SUSPENDED`, `ERROR`, `CANCELLED`)
-        /// will be sent to Cloud Logging.
-        </span>Info = <span class="number">2</span>,
-        <span class="doccomment">/// If Severity selected is `ERROR`, then only the following Integration
-        /// Execution States (`ERROR`, `CANCELLED`) will be sent to Cloud Logging.
-        </span>Error = <span class="number">3</span>,
-        <span class="doccomment">/// If Severity selected is `WARNING`, then only the following Integration
-        /// Execution States (`ERROR`, `CANCELLED`) will be sent to Cloud Logging.
-        </span>Warning = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>CloudLoggingSeverity {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                CloudLoggingSeverity::Unspecified =&gt; <span class="string">"CLOUD_LOGGING_SEVERITY_UNSPECIFIED"</span>,
-                CloudLoggingSeverity::Info =&gt; <span class="string">"INFO"</span>,
-                CloudLoggingSeverity::Error =&gt; <span class="string">"ERROR"</span>,
-                CloudLoggingSeverity::Warning =&gt; <span class="string">"WARNING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"CLOUD_LOGGING_SEVERITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"INFO" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Info),
-                <span class="string">"ERROR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Error),
-                <span class="string">"WARNING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Warning),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
 <span class="doccomment">/// This message is used for processing and persisting (when applicable) key
 /// value pair parameters for each event in the event bus.
 /// Next available id: 4
@@ -1347,50 +1388,46 @@
     </span><span class="attr">#[prost(bool, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>masked: bool,
 }
-<span class="doccomment">/// Indicates the status of the integration.
+<span class="doccomment">/// Enum Product.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
-</span><span class="kw">pub enum </span>IntegrationState {
-    <span class="doccomment">/// Default.
+</span><span class="kw">pub enum </span>Product {
+    <span class="doccomment">/// Default value.
     </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Draft.
-    </span>Draft = <span class="number">1</span>,
-    <span class="doccomment">/// Active.
-    </span>Active = <span class="number">2</span>,
-    <span class="doccomment">/// Archived.
-    </span>Archived = <span class="number">3</span>,
-    <span class="doccomment">/// Snapshot.
-    </span>Snapshot = <span class="number">4</span>,
+    <span class="doccomment">/// Integration Platform.
+    </span>Ip = <span class="number">1</span>,
+    <span class="doccomment">/// Apigee.
+    </span>Apigee = <span class="number">2</span>,
+    <span class="doccomment">/// Security Command Center.
+    </span>Security = <span class="number">3</span>,
 }
-<span class="kw">impl </span>IntegrationState {
+<span class="kw">impl </span>Product {
     <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
     ///
     /// The values are not transformed in any way and thus are considered stable
     /// (if the ProtoBuf definition does not change) and safe for programmatic use.
     </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
         <span class="kw">match </span><span class="self">self </span>{
-            IntegrationState::Unspecified =&gt; <span class="string">"INTEGRATION_STATE_UNSPECIFIED"</span>,
-            IntegrationState::Draft =&gt; <span class="string">"DRAFT"</span>,
-            IntegrationState::Active =&gt; <span class="string">"ACTIVE"</span>,
-            IntegrationState::Archived =&gt; <span class="string">"ARCHIVED"</span>,
-            IntegrationState::Snapshot =&gt; <span class="string">"SNAPSHOT"</span>,
+            Product::Unspecified =&gt; <span class="string">"PRODUCT_UNSPECIFIED"</span>,
+            Product::Ip =&gt; <span class="string">"IP"</span>,
+            Product::Apigee =&gt; <span class="string">"APIGEE"</span>,
+            Product::Security =&gt; <span class="string">"SECURITY"</span>,
         }
     }
     <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
     </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
         <span class="kw">match </span>value {
-            <span class="string">"INTEGRATION_STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"DRAFT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Draft),
-            <span class="string">"ACTIVE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Active),
-            <span class="string">"ARCHIVED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Archived),
-            <span class="string">"SNAPSHOT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Snapshot),
+            <span class="string">"PRODUCT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"IP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ip),
+            <span class="string">"APIGEE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Apigee),
+            <span class="string">"SECURITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Security),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }
 }
 <span class="doccomment">/// Configuration detail of coordinate, it used for UI
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Coordinate {
     <span class="doccomment">/// Required. X axis of the coordinate
     </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -1672,7 +1709,7 @@
 <span class="doccomment">/// Policy that dictates the behavior for the task after it completes
 /// successfully.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SuccessPolicy {
     <span class="doccomment">/// State to which the execution snapshot status will be set if the task
     /// succeeds.
@@ -1731,7 +1768,7 @@
 /// FailurePolicy is defined for a task, all its dependent tasks will not be
 /// executed (i.e, a `retry_strategy` of NONE will be applied).
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FailurePolicy {
     <span class="doccomment">/// Defines what happens to the task upon failure.
     </span><span class="attr">#[prost(enumeration = <span class="string">"failure_policy::RetryStrategy"</span>, tag = <span class="string">"1"</span>)]
@@ -2259,7 +2296,7 @@
 }
 <span class="doccomment">/// Status for the execution attempt.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AttemptStats {
     <span class="doccomment">/// The start time of the integration execution for current attempt. This could
     /// be in the future if it's been scheduled.
@@ -2327,43 +2364,6 @@
             <span class="string">"EXECUTION_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
             <span class="string">"INTEGRATION_VERSION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::IntegrationVersion),
             <span class="string">"TEST_CASE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::TestCase),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
-    }
-}
-<span class="doccomment">/// Enum Product.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>Product {
-    <span class="doccomment">/// Default value.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// Integration Platform.
-    </span>Ip = <span class="number">1</span>,
-    <span class="doccomment">/// Apigee.
-    </span>Apigee = <span class="number">2</span>,
-    <span class="doccomment">/// Security Command Center.
-    </span>Security = <span class="number">3</span>,
-}
-<span class="kw">impl </span>Product {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-    ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            Product::Unspecified =&gt; <span class="string">"PRODUCT_UNSPECIFIED"</span>,
-            Product::Ip =&gt; <span class="string">"IP"</span>,
-            Product::Apigee =&gt; <span class="string">"APIGEE"</span>,
-            Product::Security =&gt; <span class="string">"SECURITY"</span>,
-        }
-    }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"PRODUCT_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"IP" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ip),
-            <span class="string">"APIGEE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Apigee),
-            <span class="string">"SECURITY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Security),
             <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
         }
     }

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/spanner/admin/instance/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/spanner/admin/instance/v1/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../" data-static-root-path="../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../src-files.js"></script><script defer src="../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2371,11 +2371,198 @@
 <a href="#2371" id="2371">2371</a>
 <a href="#2372" id="2372">2372</a>
 <a href="#2373" id="2373">2373</a>
+<a href="#2374" id="2374">2374</a>
+<a href="#2375" id="2375">2375</a>
+<a href="#2376" id="2376">2376</a>
+<a href="#2377" id="2377">2377</a>
+<a href="#2378" id="2378">2378</a>
+<a href="#2379" id="2379">2379</a>
+<a href="#2380" id="2380">2380</a>
+<a href="#2381" id="2381">2381</a>
+<a href="#2382" id="2382">2382</a>
+<a href="#2383" id="2383">2383</a>
+<a href="#2384" id="2384">2384</a>
+<a href="#2385" id="2385">2385</a>
+<a href="#2386" id="2386">2386</a>
+<a href="#2387" id="2387">2387</a>
+<a href="#2388" id="2388">2388</a>
+<a href="#2389" id="2389">2389</a>
+<a href="#2390" id="2390">2390</a>
+<a href="#2391" id="2391">2391</a>
+<a href="#2392" id="2392">2392</a>
+<a href="#2393" id="2393">2393</a>
+<a href="#2394" id="2394">2394</a>
+<a href="#2395" id="2395">2395</a>
+<a href="#2396" id="2396">2396</a>
+<a href="#2397" id="2397">2397</a>
+<a href="#2398" id="2398">2398</a>
+<a href="#2399" id="2399">2399</a>
+<a href="#2400" id="2400">2400</a>
+<a href="#2401" id="2401">2401</a>
+<a href="#2402" id="2402">2402</a>
+<a href="#2403" id="2403">2403</a>
+<a href="#2404" id="2404">2404</a>
+<a href="#2405" id="2405">2405</a>
+<a href="#2406" id="2406">2406</a>
+<a href="#2407" id="2407">2407</a>
+<a href="#2408" id="2408">2408</a>
+<a href="#2409" id="2409">2409</a>
+<a href="#2410" id="2410">2410</a>
+<a href="#2411" id="2411">2411</a>
+<a href="#2412" id="2412">2412</a>
+<a href="#2413" id="2413">2413</a>
+<a href="#2414" id="2414">2414</a>
+<a href="#2415" id="2415">2415</a>
+<a href="#2416" id="2416">2416</a>
+<a href="#2417" id="2417">2417</a>
+<a href="#2418" id="2418">2418</a>
+<a href="#2419" id="2419">2419</a>
+<a href="#2420" id="2420">2420</a>
+<a href="#2421" id="2421">2421</a>
+<a href="#2422" id="2422">2422</a>
+<a href="#2423" id="2423">2423</a>
+<a href="#2424" id="2424">2424</a>
+<a href="#2425" id="2425">2425</a>
+<a href="#2426" id="2426">2426</a>
+<a href="#2427" id="2427">2427</a>
+<a href="#2428" id="2428">2428</a>
+<a href="#2429" id="2429">2429</a>
+<a href="#2430" id="2430">2430</a>
+<a href="#2431" id="2431">2431</a>
+<a href="#2432" id="2432">2432</a>
+<a href="#2433" id="2433">2433</a>
+<a href="#2434" id="2434">2434</a>
+<a href="#2435" id="2435">2435</a>
+<a href="#2436" id="2436">2436</a>
+<a href="#2437" id="2437">2437</a>
+<a href="#2438" id="2438">2438</a>
+<a href="#2439" id="2439">2439</a>
+<a href="#2440" id="2440">2440</a>
+<a href="#2441" id="2441">2441</a>
+<a href="#2442" id="2442">2442</a>
+<a href="#2443" id="2443">2443</a>
+<a href="#2444" id="2444">2444</a>
+<a href="#2445" id="2445">2445</a>
+<a href="#2446" id="2446">2446</a>
+<a href="#2447" id="2447">2447</a>
+<a href="#2448" id="2448">2448</a>
+<a href="#2449" id="2449">2449</a>
+<a href="#2450" id="2450">2450</a>
+<a href="#2451" id="2451">2451</a>
+<a href="#2452" id="2452">2452</a>
+<a href="#2453" id="2453">2453</a>
+<a href="#2454" id="2454">2454</a>
+<a href="#2455" id="2455">2455</a>
+<a href="#2456" id="2456">2456</a>
+<a href="#2457" id="2457">2457</a>
+<a href="#2458" id="2458">2458</a>
+<a href="#2459" id="2459">2459</a>
+<a href="#2460" id="2460">2460</a>
+<a href="#2461" id="2461">2461</a>
+<a href="#2462" id="2462">2462</a>
+<a href="#2463" id="2463">2463</a>
+<a href="#2464" id="2464">2464</a>
+<a href="#2465" id="2465">2465</a>
+<a href="#2466" id="2466">2466</a>
+<a href="#2467" id="2467">2467</a>
+<a href="#2468" id="2468">2468</a>
+<a href="#2469" id="2469">2469</a>
+<a href="#2470" id="2470">2470</a>
+<a href="#2471" id="2471">2471</a>
+<a href="#2472" id="2472">2472</a>
+<a href="#2473" id="2473">2473</a>
+<a href="#2474" id="2474">2474</a>
+<a href="#2475" id="2475">2475</a>
+<a href="#2476" id="2476">2476</a>
+<a href="#2477" id="2477">2477</a>
+<a href="#2478" id="2478">2478</a>
+<a href="#2479" id="2479">2479</a>
+<a href="#2480" id="2480">2480</a>
+<a href="#2481" id="2481">2481</a>
+<a href="#2482" id="2482">2482</a>
+<a href="#2483" id="2483">2483</a>
+<a href="#2484" id="2484">2484</a>
+<a href="#2485" id="2485">2485</a>
+<a href="#2486" id="2486">2486</a>
+<a href="#2487" id="2487">2487</a>
+<a href="#2488" id="2488">2488</a>
+<a href="#2489" id="2489">2489</a>
+<a href="#2490" id="2490">2490</a>
+<a href="#2491" id="2491">2491</a>
+<a href="#2492" id="2492">2492</a>
+<a href="#2493" id="2493">2493</a>
+<a href="#2494" id="2494">2494</a>
+<a href="#2495" id="2495">2495</a>
+<a href="#2496" id="2496">2496</a>
+<a href="#2497" id="2497">2497</a>
+<a href="#2498" id="2498">2498</a>
+<a href="#2499" id="2499">2499</a>
+<a href="#2500" id="2500">2500</a>
+<a href="#2501" id="2501">2501</a>
+<a href="#2502" id="2502">2502</a>
+<a href="#2503" id="2503">2503</a>
+<a href="#2504" id="2504">2504</a>
+<a href="#2505" id="2505">2505</a>
+<a href="#2506" id="2506">2506</a>
+<a href="#2507" id="2507">2507</a>
+<a href="#2508" id="2508">2508</a>
+<a href="#2509" id="2509">2509</a>
+<a href="#2510" id="2510">2510</a>
+<a href="#2511" id="2511">2511</a>
+<a href="#2512" id="2512">2512</a>
+<a href="#2513" id="2513">2513</a>
+<a href="#2514" id="2514">2514</a>
+<a href="#2515" id="2515">2515</a>
+<a href="#2516" id="2516">2516</a>
+<a href="#2517" id="2517">2517</a>
+<a href="#2518" id="2518">2518</a>
+<a href="#2519" id="2519">2519</a>
+<a href="#2520" id="2520">2520</a>
+<a href="#2521" id="2521">2521</a>
+<a href="#2522" id="2522">2522</a>
+<a href="#2523" id="2523">2523</a>
+<a href="#2524" id="2524">2524</a>
+<a href="#2525" id="2525">2525</a>
+<a href="#2526" id="2526">2526</a>
+<a href="#2527" id="2527">2527</a>
+<a href="#2528" id="2528">2528</a>
+<a href="#2529" id="2529">2529</a>
+<a href="#2530" id="2530">2530</a>
+<a href="#2531" id="2531">2531</a>
+<a href="#2532" id="2532">2532</a>
+<a href="#2533" id="2533">2533</a>
+<a href="#2534" id="2534">2534</a>
+<a href="#2535" id="2535">2535</a>
+<a href="#2536" id="2536">2536</a>
+<a href="#2537" id="2537">2537</a>
+<a href="#2538" id="2538">2538</a>
+<a href="#2539" id="2539">2539</a>
+<a href="#2540" id="2540">2540</a>
+<a href="#2541" id="2541">2541</a>
+<a href="#2542" id="2542">2542</a>
+<a href="#2543" id="2543">2543</a>
+<a href="#2544" id="2544">2544</a>
+<a href="#2545" id="2545">2545</a>
+<a href="#2546" id="2546">2546</a>
+<a href="#2547" id="2547">2547</a>
+<a href="#2548" id="2548">2548</a>
+<a href="#2549" id="2549">2549</a>
+<a href="#2550" id="2550">2550</a>
+<a href="#2551" id="2551">2551</a>
+<a href="#2552" id="2552">2552</a>
+<a href="#2553" id="2553">2553</a>
+<a href="#2554" id="2554">2554</a>
+<a href="#2555" id="2555">2555</a>
+<a href="#2556" id="2556">2556</a>
+<a href="#2557" id="2557">2557</a>
+<a href="#2558" id="2558">2558</a>
+<a href="#2559" id="2559">2559</a>
+<a href="#2560" id="2560">2560</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Encapsulates progress related information for a Cloud Spanner long
 /// running instance operations.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OperationProgress {
     <span class="doccomment">/// Percent completion of the operation.
     /// Values are between 0 and 100 inclusive.
@@ -2517,13 +2704,15 @@
     <span class="doccomment">/// A unique identifier for the instance configuration.  Values
     /// are of the form
     /// `projects/&lt;project&gt;/instanceConfigs/[a-z][-a-z0-9]*`.
+    ///
+    /// User instance configuration must start with `custom-`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// The name of this instance configuration as it appears in UIs.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. Whether this instance config is a Google or User Managed
-    /// Configuration.
+    <span class="doccomment">/// Output only. Whether this instance configuration is a Google-managed or
+    /// user-managed configuration.
     </span><span class="attr">#[prost(enumeration = <span class="string">"instance_config::Type"</span>, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>config_type: i32,
     <span class="doccomment">/// The geographic placement of nodes in this instance configuration and their
@@ -2567,26 +2756,29 @@
         ::prost::alloc::string::String,
     &gt;,
     <span class="doccomment">/// etag is used for optimistic concurrency control as a way
-    /// to help prevent simultaneous updates of a instance config from overwriting
-    /// each other. It is strongly suggested that systems make use of the etag in
-    /// the read-modify-write cycle to perform instance config updates in order to
-    /// avoid race conditions: An etag is returned in the response which contains
-    /// instance configs, and systems are expected to put that etag in the request
-    /// to update instance config to ensure that their change will be applied to
-    /// the same version of the instance config.
-    /// If no etag is provided in the call to update instance config, then the
-    /// existing instance config is overwritten blindly.
+    /// to help prevent simultaneous updates of a instance configuration from
+    /// overwriting each other. It is strongly suggested that systems make use of
+    /// the etag in the read-modify-write cycle to perform instance configuration
+    /// updates in order to avoid race conditions: An etag is returned in the
+    /// response which contains instance configurations, and systems are expected
+    /// to put that etag in the request to update instance configuration to ensure
+    /// that their change is applied to the same version of the instance
+    /// configuration. If no etag is provided in the call to update the instance
+    /// configuration, then the existing instance configuration is overwritten
+    /// blindly.
     </span><span class="attr">#[prost(string, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
     <span class="doccomment">/// Allowed values of the "default_leader" schema option for databases in
     /// instances that use this instance configuration.
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>leader_options: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// Output only. If true, the instance config is being created or updated. If
-    /// false, there are no ongoing operations for the instance config.
+    <span class="doccomment">/// Output only. If true, the instance configuration is being created or
+    /// updated. If false, there are no ongoing operations for the instance
+    /// configuration.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>reconciling: bool,
-    <span class="doccomment">/// Output only. The current instance config state.
+    <span class="doccomment">/// Output only. The current instance configuration state. Applicable only for
+    /// `USER_MANAGED` configurations.
     </span><span class="attr">#[prost(enumeration = <span class="string">"instance_config::State"</span>, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>state: i32,
 }
@@ -2635,7 +2827,7 @@
             }
         }
     }
-    <span class="doccomment">/// Indicates the current state of the instance config.
+    <span class="doccomment">/// Indicates the current state of the instance configuration.
     </span><span class="attr">#[derive(
         Clone,
         Copy,
@@ -2651,10 +2843,10 @@
     </span><span class="kw">pub enum </span>State {
         <span class="doccomment">/// Not specified.
         </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// The instance config is still being created.
+        <span class="doccomment">/// The instance configuration is still being created.
         </span>Creating = <span class="number">1</span>,
-        <span class="doccomment">/// The instance config is fully created and ready to be used to create
-        /// instances.
+        <span class="doccomment">/// The instance configuration is fully created and ready to be used to
+        /// create instances.
         </span>Ready = <span class="number">2</span>,
     }
     <span class="kw">impl </span>State {
@@ -2680,9 +2872,9 @@
         }
     }
 }
-<span class="doccomment">/// Autoscaling config for an instance.
+<span class="doccomment">/// Autoscaling configuration for an instance.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AutoscalingConfig {
     <span class="doccomment">/// Required. Autoscaling limits for an instance.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -2703,7 +2895,7 @@
     /// units to specify the limits, but should use the same unit to set both the
     /// min_limit and max_limit.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AutoscalingLimits {
         <span class="doccomment">/// The minimum compute capacity for the instance.
         </span><span class="attr">#[prost(oneof = <span class="string">"autoscaling_limits::MinLimit"</span>, tags = <span class="string">"1, 2"</span>)]
@@ -2718,7 +2910,7 @@
     </span><span class="kw">pub mod </span>autoscaling_limits {
         <span class="doccomment">/// The minimum compute capacity for the instance.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>MinLimit {
             <span class="doccomment">/// Minimum number of nodes allocated to the instance. If set, this number
             /// should be greater than or equal to 1.
@@ -2733,7 +2925,7 @@
         /// capacity should be less than or equal to 10X the minimum compute
         /// capacity.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>MaxLimit {
             <span class="doccomment">/// Maximum number of nodes allocated to the instance. If set, this number
             /// should be greater than or equal to min_nodes.
@@ -2748,7 +2940,7 @@
     }
     <span class="doccomment">/// The autoscaling targets for an instance.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AutoscalingTargets {
         <span class="doccomment">/// Required. The target high priority cpu utilization percentage that the
         /// autoscaler should be trying to achieve for the instance. This number is
@@ -2860,6 +3052,9 @@
     <span class="doccomment">/// Output only. The time at which the instance was most recently updated.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. The `Edition` of the current instance.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::Edition"</span>, tag = <span class="string">"20"</span>)]
+    </span><span class="kw">pub </span>edition: i32,
 }
 <span class="doccomment">/// Nested message and enum types in `Instance`.
 </span><span class="kw">pub mod </span>instance {
@@ -2905,6 +3100,54 @@
                 <span class="string">"STATE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
                 <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
                 <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The edition selected for this instance. Different editions provide
+    /// different capabilities at different price points.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Edition {
+        <span class="doccomment">/// Edition not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// Standard edition.
+        </span>Standard = <span class="number">1</span>,
+        <span class="doccomment">/// Enterprise edition.
+        </span>Enterprise = <span class="number">2</span>,
+        <span class="doccomment">/// Enterprise Plus edition.
+        </span>EnterprisePlus = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Edition {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Edition::Unspecified =&gt; <span class="string">"EDITION_UNSPECIFIED"</span>,
+                Edition::Standard =&gt; <span class="string">"STANDARD"</span>,
+                Edition::Enterprise =&gt; <span class="string">"ENTERPRISE"</span>,
+                Edition::EnterprisePlus =&gt; <span class="string">"ENTERPRISE_PLUS"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"EDITION_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STANDARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Standard),
+                <span class="string">"ENTERPRISE" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Enterprise),
+                <span class="string">"ENTERPRISE_PLUS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::EnterprisePlus),
                 <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
             }
         }
@@ -2960,14 +3203,14 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateInstanceConfigRequest {
-    <span class="doccomment">/// Required. The name of the project in which to create the instance config.
-    /// Values are of the form `projects/&lt;project&gt;`.
+    <span class="doccomment">/// Required. The name of the project in which to create the instance
+    /// configuration. Values are of the form `projects/&lt;project&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The ID of the instance config to create.  Valid identifiers are
-    /// of the form `custom-\[-a-z0-9\]*[a-z0-9]` and must be between 2 and 64
+    <span class="doccomment">/// Required. The ID of the instance configuration to create. Valid identifiers
+    /// are of the form `custom-\[-a-z0-9\]*[a-z0-9]` and must be between 2 and 64
     /// characters in length. The `custom-` prefix is required to avoid name
-    /// conflicts with Google managed configurations.
+    /// conflicts with Google-managed configurations.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>instance_config_id: ::prost::alloc::string::String,
     <span class="doccomment">/// Required. The InstanceConfig proto of the configuration to create.
@@ -2987,8 +3230,9 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UpdateInstanceConfigRequest {
-    <span class="doccomment">/// Required. The user instance config to update, which must always include the
-    /// instance config name. Otherwise, only fields mentioned in
+    <span class="doccomment">/// Required. The user instance configuration to update, which must always
+    /// include the instance configuration name. Otherwise, only fields mentioned
+    /// in
     /// [update_mask][google.spanner.admin.instance.v1.UpdateInstanceConfigRequest.update_mask]
     /// need be included. To prevent conflicts of concurrent updates,
     /// [etag][google.spanner.admin.instance.v1.InstanceConfig.reconciling] can
@@ -3019,12 +3263,12 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     <span class="doccomment">/// Used for optimistic concurrency control as a way to help prevent
-    /// simultaneous deletes of an instance config from overwriting each
+    /// simultaneous deletes of an instance configuration from overwriting each
     /// other. If not empty, the API
-    /// only deletes the instance config when the etag provided matches the current
-    /// status of the requested instance config. Otherwise, deletes the instance
-    /// config without checking the current status of the requested instance
-    /// config.
+    /// only deletes the instance configuration when the etag provided matches the
+    /// current status of the requested instance configuration. Otherwise, deletes
+    /// the instance configuration without checking the current status of the
+    /// requested instance configuration.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
     <span class="doccomment">/// An option to validate, but not actually execute, a request,
@@ -3037,7 +3281,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListInstanceConfigOperationsRequest {
-    <span class="doccomment">/// Required. The project of the instance config operations.
+    <span class="doccomment">/// Required. The project of the instance configuration operations.
     /// Values are of the form `projects/&lt;project&gt;`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
@@ -3081,7 +3325,7 @@
     ///      `(error:*)` - Return operations where:
     ///      * The operation's metadata type is
     ///      [CreateInstanceConfigMetadata][google.spanner.admin.instance.v1.CreateInstanceConfigMetadata].
-    ///      * The instance config name contains "custom-config".
+    ///      * The instance configuration name contains "custom-config".
     ///      * The operation started before 2021-03-28T14:50:00Z.
     ///      * The operation resulted in an error.
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
@@ -3103,9 +3347,9 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListInstanceConfigOperationsResponse {
-    <span class="doccomment">/// The list of matching instance config [long-running
+    <span class="doccomment">/// The list of matching instance configuration [long-running
     /// operations][google.longrunning.Operation]. Each operation's name will be
-    /// prefixed by the instance config's name. The operation's
+    /// prefixed by the name of the instance configuration. The operation's
     /// [metadata][google.longrunning.Operation.metadata] field type
     /// `metadata.type_url` describes the type of the metadata.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -3306,7 +3550,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateInstanceConfigMetadata {
-    <span class="doccomment">/// The target instance config end state.
+    <span class="doccomment">/// The target instance configuration end state.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>instance_config: ::core::option::Option&lt;InstanceConfig&gt;,
     <span class="doccomment">/// The progress of the
@@ -3323,7 +3567,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UpdateInstanceConfigMetadata {
-    <span class="doccomment">/// The desired instance config after updating.
+    <span class="doccomment">/// The desired instance configuration after updating.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>instance_config: ::core::option::Option&lt;InstanceConfig&gt;,
     <span class="doccomment">/// The progress of the
@@ -3454,7 +3698,7 @@
     /// documentation](&lt;https://cloud.google.com/spanner/docs/compute-capacity&gt;)
     /// for more information about nodes and processing units.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>ComputeCapacity {
         <span class="doccomment">/// The number of nodes allocated to this instance partition.
         ///
@@ -3738,6 +3982,45 @@
         ::prost::alloc::string::String,
     &gt;,
 }
+<span class="doccomment">/// The request for
+/// [MoveInstance][google.spanner.admin.instance.v1.InstanceAdmin.MoveInstance].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MoveInstanceRequest {
+    <span class="doccomment">/// Required. The instance to move.
+    /// Values are of the form `projects/&lt;project&gt;/instances/&lt;instance&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The target instance configuration where to move the instance.
+    /// Values are of the form `projects/&lt;project&gt;/instanceConfigs/&lt;config&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>target_config: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// The response for
+/// [MoveInstance][google.spanner.admin.instance.v1.InstanceAdmin.MoveInstance].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MoveInstanceResponse {}
+<span class="doccomment">/// Metadata type for the operation returned by
+/// [MoveInstance][google.spanner.admin.instance.v1.InstanceAdmin.MoveInstance].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>MoveInstanceMetadata {
+    <span class="doccomment">/// The target instance configuration where to move the instance.
+    /// Values are of the form `projects/&lt;project&gt;/instanceConfigs/&lt;config&gt;`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>target_config: ::prost::alloc::string::String,
+    <span class="doccomment">/// The progress of the
+    /// [MoveInstance][google.spanner.admin.instance.v1.InstanceAdmin.MoveInstance]
+    /// operation.
+    /// [progress_percent][google.spanner.admin.instance.v1.OperationProgress.progress_percent]
+    /// is reset when cancellation is requested.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>progress: ::core::option::Option&lt;OperationProgress&gt;,
+    <span class="doccomment">/// The time at which this operation was cancelled.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>cancel_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
 <span class="doccomment">/// Generated client implementations.
 </span><span class="kw">pub mod </span>instance_admin_client {
     <span class="attr">#![allow(unused_variables, dead_code, missing_docs, clippy::let_unit_value)]
@@ -3892,38 +4175,38 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Creates an instance config and begins preparing it to be used. The
+        <span class="doccomment">/// Creates an instance configuration and begins preparing it to be used. The
         /// returned [long-running operation][google.longrunning.Operation]
         /// can be used to track the progress of preparing the new
-        /// instance config. The instance config name is assigned by the caller. If the
-        /// named instance config already exists, `CreateInstanceConfig` returns
-        /// `ALREADY_EXISTS`.
+        /// instance configuration. The instance configuration name is assigned by the
+        /// caller. If the named instance configuration already exists,
+        /// `CreateInstanceConfig` returns `ALREADY_EXISTS`.
         ///
         /// Immediately after the request returns:
         ///
-        ///   * The instance config is readable via the API, with all requested
-        ///     attributes. The instance config's
+        ///   * The instance configuration is readable via the API, with all requested
+        ///     attributes. The instance configuration's
         ///     [reconciling][google.spanner.admin.instance.v1.InstanceConfig.reconciling]
         ///     field is set to true. Its state is `CREATING`.
         ///
         /// While the operation is pending:
         ///
-        ///   * Cancelling the operation renders the instance config immediately
+        ///   * Cancelling the operation renders the instance configuration immediately
         ///     unreadable via the API.
         ///   * Except for deleting the creating resource, all other attempts to modify
-        ///     the instance config are rejected.
+        ///     the instance configuration are rejected.
         ///
         /// Upon completion of the returned operation:
         ///
         ///   * Instances can be created using the instance configuration.
-        ///   * The instance config's
+        ///   * The instance configuration's
         ///   [reconciling][google.spanner.admin.instance.v1.InstanceConfig.reconciling]
         ///   field becomes false. Its state becomes `READY`.
         ///
         /// The returned [long-running operation][google.longrunning.Operation] will
         /// have a name of the format
         /// `&lt;instance_config_name&gt;/operations/&lt;operation_id&gt;` and can be used to track
-        /// creation of the instance config. The
+        /// creation of the instance configuration. The
         /// [metadata][google.longrunning.Operation.metadata] field type is
         /// [CreateInstanceConfigMetadata][google.spanner.admin.instance.v1.CreateInstanceConfigMetadata].
         /// The [response][google.longrunning.Operation.response] field type is
@@ -3963,16 +4246,16 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Updates an instance config. The returned
+        <span class="doccomment">/// Updates an instance configuration. The returned
         /// [long-running operation][google.longrunning.Operation] can be used to track
-        /// the progress of updating the instance. If the named instance config does
-        /// not exist, returns `NOT_FOUND`.
+        /// the progress of updating the instance. If the named instance configuration
+        /// does not exist, returns `NOT_FOUND`.
         ///
-        /// Only user managed configurations can be updated.
+        /// Only user-managed configurations can be updated.
         ///
         /// Immediately after the request returns:
         ///
-        ///   * The instance config's
+        ///   * The instance configuration's
         ///     [reconciling][google.spanner.admin.instance.v1.InstanceConfig.reconciling]
         ///     field is set to true.
         ///
@@ -3982,23 +4265,23 @@
         ///     [cancel_time][google.spanner.admin.instance.v1.UpdateInstanceConfigMetadata.cancel_time].
         ///     The operation is guaranteed to succeed at undoing all changes, after
         ///     which point it terminates with a `CANCELLED` status.
-        ///   * All other attempts to modify the instance config are rejected.
-        ///   * Reading the instance config via the API continues to give the
+        ///   * All other attempts to modify the instance configuration are rejected.
+        ///   * Reading the instance configuration via the API continues to give the
         ///     pre-request values.
         ///
         /// Upon completion of the returned operation:
         ///
         ///   * Creating instances using the instance configuration uses the new
         ///     values.
-        ///   * The instance config's new values are readable via the API.
-        ///   * The instance config's
+        ///   * The new values of the instance configuration are readable via the API.
+        ///   * The instance configuration's
         ///   [reconciling][google.spanner.admin.instance.v1.InstanceConfig.reconciling]
         ///   field becomes false.
         ///
         /// The returned [long-running operation][google.longrunning.Operation] will
         /// have a name of the format
         /// `&lt;instance_config_name&gt;/operations/&lt;operation_id&gt;` and can be used to track
-        /// the instance config modification.  The
+        /// the instance configuration modification.  The
         /// [metadata][google.longrunning.Operation.metadata] field type is
         /// [UpdateInstanceConfigMetadata][google.spanner.admin.instance.v1.UpdateInstanceConfigMetadata].
         /// The [response][google.longrunning.Operation.response] field type is
@@ -4037,11 +4320,11 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Deletes the instance config. Deletion is only allowed when no
+        <span class="doccomment">/// Deletes the instance configuration. Deletion is only allowed when no
         /// instances are using the configuration. If any instances are using
-        /// the config, returns `FAILED_PRECONDITION`.
+        /// the configuration, returns `FAILED_PRECONDITION`.
         ///
-        /// Only user managed configurations can be deleted.
+        /// Only user-managed configurations can be deleted.
         ///
         /// Authorization requires `spanner.instanceConfigs.delete` permission on
         /// the resource [name][google.spanner.admin.instance.v1.InstanceConfig.name].
@@ -4072,9 +4355,9 @@
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
-        <span class="doccomment">/// Lists the user-managed instance config [long-running
+        <span class="doccomment">/// Lists the user-managed instance configuration [long-running
         /// operations][google.longrunning.Operation] in the given project. An instance
-        /// config operation has a name of the form
+        /// configuration operation has a name of the form
         /// `projects/&lt;project&gt;/instanceConfigs/&lt;instance_config&gt;/operations/&lt;operation&gt;`.
         /// The long-running operation
         /// [metadata][google.longrunning.Operation.metadata] field type
@@ -4738,6 +5021,97 @@
                     GrpcMethod::new(
                         <span class="string">"google.spanner.admin.instance.v1.InstanceAdmin"</span>,
                         <span class="string">"ListInstancePartitionOperations"</span>,
+                    ),
+                );
+            <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
+        </span>}
+        <span class="doccomment">/// Moves an instance to the target instance configuration. You can use the
+        /// returned [long-running operation][google.longrunning.Operation] to track
+        /// the progress of moving the instance.
+        ///
+        /// `MoveInstance` returns `FAILED_PRECONDITION` if the instance meets any of
+        /// the following criteria:
+        ///
+        ///   * Is undergoing a move to a different instance configuration
+        ///   * Has backups
+        ///   * Has an ongoing update
+        ///   * Contains any CMEK-enabled databases
+        ///   * Is a free trial instance
+        ///
+        /// While the operation is pending:
+        ///
+        ///   * All other attempts to modify the instance, including changes to its
+        ///     compute capacity, are rejected.
+        ///   * The following database and backup admin operations are rejected:
+        ///
+        ///     * `DatabaseAdmin.CreateDatabase`
+        ///     * `DatabaseAdmin.UpdateDatabaseDdl` (disabled if default_leader is
+        ///        specified in the request.)
+        ///     * `DatabaseAdmin.RestoreDatabase`
+        ///     * `DatabaseAdmin.CreateBackup`
+        ///     * `DatabaseAdmin.CopyBackup`
+        ///
+        ///   * Both the source and target instance configurations are subject to
+        ///     hourly compute and storage charges.
+        ///   * The instance might experience higher read-write latencies and a higher
+        ///     transaction abort rate. However, moving an instance doesn't cause any
+        ///     downtime.
+        ///
+        /// The returned [long-running operation][google.longrunning.Operation] has
+        /// a name of the format
+        /// `&lt;instance_name&gt;/operations/&lt;operation_id&gt;` and can be used to track
+        /// the move instance operation. The
+        /// [metadata][google.longrunning.Operation.metadata] field type is
+        /// [MoveInstanceMetadata][google.spanner.admin.instance.v1.MoveInstanceMetadata].
+        /// The [response][google.longrunning.Operation.response] field type is
+        /// [Instance][google.spanner.admin.instance.v1.Instance],
+        /// if successful.
+        /// Cancelling the operation sets its metadata's
+        /// [cancel_time][google.spanner.admin.instance.v1.MoveInstanceMetadata.cancel_time].
+        /// Cancellation is not immediate because it involves moving any data
+        /// previously moved to the target instance configuration back to the original
+        /// instance configuration. You can use this operation to track the progress of
+        /// the cancellation. Upon successful completion of the cancellation, the
+        /// operation terminates with `CANCELLED` status.
+        ///
+        /// If not cancelled, upon completion of the returned operation:
+        ///
+        ///   * The instance successfully moves to the target instance
+        ///     configuration.
+        ///   * You are billed for compute and storage in target instance
+        ///   configuration.
+        ///
+        /// Authorization requires the `spanner.instances.update` permission on
+        /// the resource [instance][google.spanner.admin.instance.v1.Instance].
+        ///
+        /// For more details, see
+        /// [Move an instance](https://cloud.google.com/spanner/docs/move-instance).
+        </span><span class="kw">pub async fn </span>move_instance(
+            <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+            request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::MoveInstanceRequest&gt;,
+        ) -&gt; std::result::Result&lt;
+            tonic::Response&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::longrunning::Operation&gt;,
+            tonic::Status,
+        &gt; {
+            <span class="self">self</span>.inner
+                .ready()
+                .<span class="kw">await
+                </span>.map_err(|e| {
+                    tonic::Status::new(
+                        tonic::Code::Unknown,
+                        <span class="macro">format!</span>(<span class="string">"Service was not ready: {}"</span>, e.into()),
+                    )
+                })<span class="question-mark">?</span>;
+            <span class="kw">let </span>codec = tonic::codec::ProstCodec::default();
+            <span class="kw">let </span>path = http::uri::PathAndQuery::from_static(
+                <span class="string">"/google.spanner.admin.instance.v1.InstanceAdmin/MoveInstance"</span>,
+            );
+            <span class="kw">let </span><span class="kw-2">mut </span>req = request.into_request();
+            req.extensions_mut()
+                .insert(
+                    GrpcMethod::new(
+                        <span class="string">"google.spanner.admin.instance.v1.InstanceAdmin"</span>,
+                        <span class="string">"MoveInstance"</span>,
                     ),
                 );
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await

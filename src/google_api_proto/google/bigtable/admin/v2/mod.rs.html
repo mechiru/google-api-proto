@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/bigtable/admin/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/bigtable/admin/v2/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../" data-static-root-path="../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../src-files.js"></script><script defer src="../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -4899,11 +4899,213 @@
 <a href="#4899" id="4899">4899</a>
 <a href="#4900" id="4900">4900</a>
 <a href="#4901" id="4901">4901</a>
+<a href="#4902" id="4902">4902</a>
+<a href="#4903" id="4903">4903</a>
+<a href="#4904" id="4904">4904</a>
+<a href="#4905" id="4905">4905</a>
+<a href="#4906" id="4906">4906</a>
+<a href="#4907" id="4907">4907</a>
+<a href="#4908" id="4908">4908</a>
+<a href="#4909" id="4909">4909</a>
+<a href="#4910" id="4910">4910</a>
+<a href="#4911" id="4911">4911</a>
+<a href="#4912" id="4912">4912</a>
+<a href="#4913" id="4913">4913</a>
+<a href="#4914" id="4914">4914</a>
+<a href="#4915" id="4915">4915</a>
+<a href="#4916" id="4916">4916</a>
+<a href="#4917" id="4917">4917</a>
+<a href="#4918" id="4918">4918</a>
+<a href="#4919" id="4919">4919</a>
+<a href="#4920" id="4920">4920</a>
+<a href="#4921" id="4921">4921</a>
+<a href="#4922" id="4922">4922</a>
+<a href="#4923" id="4923">4923</a>
+<a href="#4924" id="4924">4924</a>
+<a href="#4925" id="4925">4925</a>
+<a href="#4926" id="4926">4926</a>
+<a href="#4927" id="4927">4927</a>
+<a href="#4928" id="4928">4928</a>
+<a href="#4929" id="4929">4929</a>
+<a href="#4930" id="4930">4930</a>
+<a href="#4931" id="4931">4931</a>
+<a href="#4932" id="4932">4932</a>
+<a href="#4933" id="4933">4933</a>
+<a href="#4934" id="4934">4934</a>
+<a href="#4935" id="4935">4935</a>
+<a href="#4936" id="4936">4936</a>
+<a href="#4937" id="4937">4937</a>
+<a href="#4938" id="4938">4938</a>
+<a href="#4939" id="4939">4939</a>
+<a href="#4940" id="4940">4940</a>
+<a href="#4941" id="4941">4941</a>
+<a href="#4942" id="4942">4942</a>
+<a href="#4943" id="4943">4943</a>
+<a href="#4944" id="4944">4944</a>
+<a href="#4945" id="4945">4945</a>
+<a href="#4946" id="4946">4946</a>
+<a href="#4947" id="4947">4947</a>
+<a href="#4948" id="4948">4948</a>
+<a href="#4949" id="4949">4949</a>
+<a href="#4950" id="4950">4950</a>
+<a href="#4951" id="4951">4951</a>
+<a href="#4952" id="4952">4952</a>
+<a href="#4953" id="4953">4953</a>
+<a href="#4954" id="4954">4954</a>
+<a href="#4955" id="4955">4955</a>
+<a href="#4956" id="4956">4956</a>
+<a href="#4957" id="4957">4957</a>
+<a href="#4958" id="4958">4958</a>
+<a href="#4959" id="4959">4959</a>
+<a href="#4960" id="4960">4960</a>
+<a href="#4961" id="4961">4961</a>
+<a href="#4962" id="4962">4962</a>
+<a href="#4963" id="4963">4963</a>
+<a href="#4964" id="4964">4964</a>
+<a href="#4965" id="4965">4965</a>
+<a href="#4966" id="4966">4966</a>
+<a href="#4967" id="4967">4967</a>
+<a href="#4968" id="4968">4968</a>
+<a href="#4969" id="4969">4969</a>
+<a href="#4970" id="4970">4970</a>
+<a href="#4971" id="4971">4971</a>
+<a href="#4972" id="4972">4972</a>
+<a href="#4973" id="4973">4973</a>
+<a href="#4974" id="4974">4974</a>
+<a href="#4975" id="4975">4975</a>
+<a href="#4976" id="4976">4976</a>
+<a href="#4977" id="4977">4977</a>
+<a href="#4978" id="4978">4978</a>
+<a href="#4979" id="4979">4979</a>
+<a href="#4980" id="4980">4980</a>
+<a href="#4981" id="4981">4981</a>
+<a href="#4982" id="4982">4982</a>
+<a href="#4983" id="4983">4983</a>
+<a href="#4984" id="4984">4984</a>
+<a href="#4985" id="4985">4985</a>
+<a href="#4986" id="4986">4986</a>
+<a href="#4987" id="4987">4987</a>
+<a href="#4988" id="4988">4988</a>
+<a href="#4989" id="4989">4989</a>
+<a href="#4990" id="4990">4990</a>
+<a href="#4991" id="4991">4991</a>
+<a href="#4992" id="4992">4992</a>
+<a href="#4993" id="4993">4993</a>
+<a href="#4994" id="4994">4994</a>
+<a href="#4995" id="4995">4995</a>
+<a href="#4996" id="4996">4996</a>
+<a href="#4997" id="4997">4997</a>
+<a href="#4998" id="4998">4998</a>
+<a href="#4999" id="4999">4999</a>
+<a href="#5000" id="5000">5000</a>
+<a href="#5001" id="5001">5001</a>
+<a href="#5002" id="5002">5002</a>
+<a href="#5003" id="5003">5003</a>
+<a href="#5004" id="5004">5004</a>
+<a href="#5005" id="5005">5005</a>
+<a href="#5006" id="5006">5006</a>
+<a href="#5007" id="5007">5007</a>
+<a href="#5008" id="5008">5008</a>
+<a href="#5009" id="5009">5009</a>
+<a href="#5010" id="5010">5010</a>
+<a href="#5011" id="5011">5011</a>
+<a href="#5012" id="5012">5012</a>
+<a href="#5013" id="5013">5013</a>
+<a href="#5014" id="5014">5014</a>
+<a href="#5015" id="5015">5015</a>
+<a href="#5016" id="5016">5016</a>
+<a href="#5017" id="5017">5017</a>
+<a href="#5018" id="5018">5018</a>
+<a href="#5019" id="5019">5019</a>
+<a href="#5020" id="5020">5020</a>
+<a href="#5021" id="5021">5021</a>
+<a href="#5022" id="5022">5022</a>
+<a href="#5023" id="5023">5023</a>
+<a href="#5024" id="5024">5024</a>
+<a href="#5025" id="5025">5025</a>
+<a href="#5026" id="5026">5026</a>
+<a href="#5027" id="5027">5027</a>
+<a href="#5028" id="5028">5028</a>
+<a href="#5029" id="5029">5029</a>
+<a href="#5030" id="5030">5030</a>
+<a href="#5031" id="5031">5031</a>
+<a href="#5032" id="5032">5032</a>
+<a href="#5033" id="5033">5033</a>
+<a href="#5034" id="5034">5034</a>
+<a href="#5035" id="5035">5035</a>
+<a href="#5036" id="5036">5036</a>
+<a href="#5037" id="5037">5037</a>
+<a href="#5038" id="5038">5038</a>
+<a href="#5039" id="5039">5039</a>
+<a href="#5040" id="5040">5040</a>
+<a href="#5041" id="5041">5041</a>
+<a href="#5042" id="5042">5042</a>
+<a href="#5043" id="5043">5043</a>
+<a href="#5044" id="5044">5044</a>
+<a href="#5045" id="5045">5045</a>
+<a href="#5046" id="5046">5046</a>
+<a href="#5047" id="5047">5047</a>
+<a href="#5048" id="5048">5048</a>
+<a href="#5049" id="5049">5049</a>
+<a href="#5050" id="5050">5050</a>
+<a href="#5051" id="5051">5051</a>
+<a href="#5052" id="5052">5052</a>
+<a href="#5053" id="5053">5053</a>
+<a href="#5054" id="5054">5054</a>
+<a href="#5055" id="5055">5055</a>
+<a href="#5056" id="5056">5056</a>
+<a href="#5057" id="5057">5057</a>
+<a href="#5058" id="5058">5058</a>
+<a href="#5059" id="5059">5059</a>
+<a href="#5060" id="5060">5060</a>
+<a href="#5061" id="5061">5061</a>
+<a href="#5062" id="5062">5062</a>
+<a href="#5063" id="5063">5063</a>
+<a href="#5064" id="5064">5064</a>
+<a href="#5065" id="5065">5065</a>
+<a href="#5066" id="5066">5066</a>
+<a href="#5067" id="5067">5067</a>
+<a href="#5068" id="5068">5068</a>
+<a href="#5069" id="5069">5069</a>
+<a href="#5070" id="5070">5070</a>
+<a href="#5071" id="5071">5071</a>
+<a href="#5072" id="5072">5072</a>
+<a href="#5073" id="5073">5073</a>
+<a href="#5074" id="5074">5074</a>
+<a href="#5075" id="5075">5075</a>
+<a href="#5076" id="5076">5076</a>
+<a href="#5077" id="5077">5077</a>
+<a href="#5078" id="5078">5078</a>
+<a href="#5079" id="5079">5079</a>
+<a href="#5080" id="5080">5080</a>
+<a href="#5081" id="5081">5081</a>
+<a href="#5082" id="5082">5082</a>
+<a href="#5083" id="5083">5083</a>
+<a href="#5084" id="5084">5084</a>
+<a href="#5085" id="5085">5085</a>
+<a href="#5086" id="5086">5086</a>
+<a href="#5087" id="5087">5087</a>
+<a href="#5088" id="5088">5088</a>
+<a href="#5089" id="5089">5089</a>
+<a href="#5090" id="5090">5090</a>
+<a href="#5091" id="5091">5091</a>
+<a href="#5092" id="5092">5092</a>
+<a href="#5093" id="5093">5093</a>
+<a href="#5094" id="5094">5094</a>
+<a href="#5095" id="5095">5095</a>
+<a href="#5096" id="5096">5096</a>
+<a href="#5097" id="5097">5097</a>
+<a href="#5098" id="5098">5098</a>
+<a href="#5099" id="5099">5099</a>
+<a href="#5100" id="5100">5100</a>
+<a href="#5101" id="5101">5101</a>
+<a href="#5102" id="5102">5102</a>
+<a href="#5103" id="5103">5103</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
 </span><span class="doccomment">/// Encapsulates progress related information for a Cloud Bigtable long
 /// running operation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OperationProgress {
     <span class="doccomment">/// Percent completion of the operation.
     /// Values are between 0 and 100 inclusive.
@@ -4950,40 +5152,598 @@
         }
     }
 }
+<span class="doccomment">/// A collection of Bigtable [Tables][google.bigtable.admin.v2.Table] and
+/// the resources that serve them.
+/// All tables in an instance are served from all
+/// [Clusters][google.bigtable.admin.v2.Cluster] in the instance.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Instance {
+    <span class="doccomment">/// The unique name of the instance. Values are of the form
+    /// `projects/{project}/instances/[a-z][a-z0-9\\-]+\[a-z0-9\]`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required. The descriptive name for this instance as it appears in UIs.
+    /// Can be changed at any time, but should be kept globally unique
+    /// to avoid confusion.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// (`OutputOnly`)
+    /// The current state of the instance.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::State"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The type of the instance. Defaults to `PRODUCTION`.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::Type"</span>, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>r#type: i32,
+    <span class="doccomment">/// Labels are a flexible and lightweight mechanism for organizing cloud
+    /// resources into groups that reflect a customer's organizational needs and
+    /// deployment strategies. They can be used to filter resources and aggregate
+    /// metrics.
+    ///
+    /// * Label keys must be between 1 and 63 characters long and must conform to
+    ///    the regular expression: `[\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-]{0,62}`.
+    /// * Label values must be between 0 and 63 characters long and must conform to
+    ///    the regular expression: `\[\p{Ll}\p{Lo}\p{N}_-\]{0,63}`.
+    /// * No more than 64 labels can be associated with a given resource.
+    /// * Keys and values must both be under 128 bytes.
+    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
+        ::prost::alloc::string::String,
+        ::prost::alloc::string::String,
+    &gt;,
+    <span class="doccomment">/// Output only. A server-assigned timestamp representing when this Instance
+    /// was created. For instances created before this field was added (August
+    /// 2021), this value is `seconds: 0, nanos: 1`.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Reserved for future use.
+    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"8"</span>)]
+    </span><span class="kw">pub </span>satisfies_pzs: ::core::option::Option&lt;bool&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Instance`.
+</span><span class="kw">pub mod </span>instance {
+    <span class="doccomment">/// Possible states of an instance.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The state of the instance could not be determined.
+        </span>NotKnown = <span class="number">0</span>,
+        <span class="doccomment">/// The instance has been successfully created and can serve requests
+        /// to its tables.
+        </span>Ready = <span class="number">1</span>,
+        <span class="doccomment">/// The instance is currently being created, and may be destroyed
+        /// if the creation process encounters an error.
+        </span>Creating = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::NotKnown =&gt; <span class="string">"STATE_NOT_KNOWN"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_NOT_KNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotKnown),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The type of the instance.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Type {
+        <span class="doccomment">/// The type of the instance is unspecified. If set when creating an
+        /// instance, a `PRODUCTION` instance will be created. If set when updating
+        /// an instance, the type will be left unchanged.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// An instance meant for production use. `serve_nodes` must be set
+        /// on the cluster.
+        </span>Production = <span class="number">1</span>,
+        <span class="doccomment">/// DEPRECATED: Prefer PRODUCTION for all use cases, as it no longer enforces
+        /// a higher minimum node count than DEVELOPMENT.
+        </span>Development = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>Type {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
+                Type::Production =&gt; <span class="string">"PRODUCTION"</span>,
+                Type::Development =&gt; <span class="string">"DEVELOPMENT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PRODUCTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Production),
+                <span class="string">"DEVELOPMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Development),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+}
+<span class="doccomment">/// The Autoscaling targets for a Cluster. These determine the recommended nodes.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoscalingTargets {
+    <span class="doccomment">/// The cpu utilization that the Autoscaler should be trying to achieve.
+    /// This number is on a scale from 0 (no utilization) to
+    /// 100 (total utilization), and is limited between 10 and 80, otherwise it
+    /// will return INVALID_ARGUMENT error.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>cpu_utilization_percent: i32,
+    <span class="doccomment">/// The storage utilization that the Autoscaler should be trying to achieve.
+    /// This number is limited between 2560 (2.5TiB) and 5120 (5TiB) for a SSD
+    /// cluster and between 8192 (8TiB) and 16384 (16TiB) for an HDD cluster,
+    /// otherwise it will return INVALID_ARGUMENT error. If this value is set to 0,
+    /// it will be treated as if it were set to the default value: 2560 for SSD,
+    /// 8192 for HDD.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>storage_utilization_gib_per_node: i32,
+}
+<span class="doccomment">/// Limits for the number of nodes a Cluster can autoscale up/down to.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AutoscalingLimits {
+    <span class="doccomment">/// Required. Minimum number of nodes to scale down to.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>min_serve_nodes: i32,
+    <span class="doccomment">/// Required. Maximum number of nodes to scale up to.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>max_serve_nodes: i32,
+}
+<span class="doccomment">/// A resizable group of nodes in a particular cloud location, capable
+/// of serving all [Tables][google.bigtable.admin.v2.Table] in the parent
+/// [Instance][google.bigtable.admin.v2.Instance].
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Cluster {
+    <span class="doccomment">/// The unique name of the cluster. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/[a-z][-a-z0-9]*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Immutable. The location where this cluster's nodes and storage reside. For
+    /// best performance, clients should be located as close as possible to this
+    /// cluster. Currently only zones are supported, so values should be of the
+    /// form `projects/{project}/locations/{zone}`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The current state of the cluster.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"cluster::State"</span>, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>state: i32,
+    <span class="doccomment">/// The number of nodes allocated to this cluster. More nodes enable higher
+    /// throughput and more consistent performance.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>serve_nodes: i32,
+    <span class="doccomment">/// Immutable. The type of storage used by this cluster to serve its
+    /// parent instance's tables, unless explicitly overridden.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"StorageType"</span>, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>default_storage_type: i32,
+    <span class="doccomment">/// Immutable. The encryption configuration for CMEK-protected clusters.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>encryption_config: ::core::option::Option&lt;cluster::EncryptionConfig&gt;,
+    <span class="attr">#[prost(oneof = <span class="string">"cluster::Config"</span>, tags = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>config: ::core::option::Option&lt;cluster::Config&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `Cluster`.
+</span><span class="kw">pub mod </span>cluster {
+    <span class="doccomment">/// Autoscaling config for a cluster.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ClusterAutoscalingConfig {
+        <span class="doccomment">/// Required. Autoscaling limits for this cluster.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>autoscaling_limits: ::core::option::Option&lt;<span class="kw">super</span>::AutoscalingLimits&gt;,
+        <span class="doccomment">/// Required. Autoscaling targets for this cluster.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>autoscaling_targets: ::core::option::Option&lt;<span class="kw">super</span>::AutoscalingTargets&gt;,
+    }
+    <span class="doccomment">/// Configuration for a cluster.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ClusterConfig {
+        <span class="doccomment">/// Autoscaling configuration for this cluster.
+        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>cluster_autoscaling_config: ::core::option::Option&lt;ClusterAutoscalingConfig&gt;,
+    }
+    <span class="doccomment">/// Cloud Key Management Service (Cloud KMS) settings for a CMEK-protected
+    /// cluster.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>EncryptionConfig {
+        <span class="doccomment">/// Describes the Cloud KMS encryption key that will be used to protect the
+        /// destination Bigtable cluster. The requirements for this key are:
+        ///   1) The Cloud Bigtable service account associated with the project that
+        ///   contains this cluster must be granted the
+        ///   `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.
+        ///   2) Only regional keys can be used and the region of the CMEK key must
+        ///   match the region of the cluster.
+        ///   3) All clusters within an instance must use the same CMEK key.
+        /// Values are of the form
+        /// `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}`
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>kms_key_name: ::prost::alloc::string::String,
+    }
+    <span class="doccomment">/// Possible states of a cluster.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>State {
+        <span class="doccomment">/// The state of the cluster could not be determined.
+        </span>NotKnown = <span class="number">0</span>,
+        <span class="doccomment">/// The cluster has been successfully created and is ready to serve requests.
+        </span>Ready = <span class="number">1</span>,
+        <span class="doccomment">/// The cluster is currently being created, and may be destroyed
+        /// if the creation process encounters an error.
+        /// A cluster may not be able to serve requests while being created.
+        </span>Creating = <span class="number">2</span>,
+        <span class="doccomment">/// The cluster is currently being resized, and may revert to its previous
+        /// node count if the process encounters an error.
+        /// A cluster is still capable of serving requests while being resized,
+        /// but may exhibit performance as if its number of allocated nodes is
+        /// between the starting and requested states.
+        </span>Resizing = <span class="number">3</span>,
+        <span class="doccomment">/// The cluster has no backing nodes. The data (tables) still
+        /// exist, but no operations can be performed on the cluster.
+        </span>Disabled = <span class="number">4</span>,
+    }
+    <span class="kw">impl </span>State {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                State::NotKnown =&gt; <span class="string">"STATE_NOT_KNOWN"</span>,
+                State::Ready =&gt; <span class="string">"READY"</span>,
+                State::Creating =&gt; <span class="string">"CREATING"</span>,
+                State::Resizing =&gt; <span class="string">"RESIZING"</span>,
+                State::Disabled =&gt; <span class="string">"DISABLED"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"STATE_NOT_KNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotKnown),
+                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
+                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
+                <span class="string">"RESIZING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Resizing),
+                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Config {
+        <span class="doccomment">/// Configuration for this cluster.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+        </span>ClusterConfig(ClusterConfig),
+    }
+}
+<span class="doccomment">/// A configuration object describing how Cloud Bigtable should treat traffic
+/// from a particular end user application.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>AppProfile {
+    <span class="doccomment">/// The unique name of the app profile. Values are of the form
+    /// `projects/{project}/instances/{instance}/appProfiles/[_a-zA-Z0-9][-_.a-zA-Z0-9]*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Strongly validated etag for optimistic concurrency control. Preserve the
+    /// value returned from `GetAppProfile` when calling `UpdateAppProfile` to
+    /// fail the request if there has been a modification in the mean time. The
+    /// `update_mask` of the request need not include `etag` for this protection
+    /// to apply.
+    /// See [Wikipedia](&lt;https://en.wikipedia.org/wiki/HTTP_ETag&gt;) and
+    /// [RFC 7232](&lt;https://tools.ietf.org/html/rfc7232#section-2.3&gt;) for more
+    /// details.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
+    <span class="doccomment">/// Long form description of the use case for this AppProfile.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// The routing policy for all read/write requests that use this app profile.
+    /// A value must be explicitly set.
+    </span><span class="attr">#[prost(oneof = <span class="string">"app_profile::RoutingPolicy"</span>, tags = <span class="string">"5, 6"</span>)]
+    </span><span class="kw">pub </span>routing_policy: ::core::option::Option&lt;app_profile::RoutingPolicy&gt;,
+    <span class="doccomment">/// Options for isolating this app profile's traffic from other use cases.
+    </span><span class="attr">#[prost(oneof = <span class="string">"app_profile::Isolation"</span>, tags = <span class="string">"7, 11, 10"</span>)]
+    </span><span class="kw">pub </span>isolation: ::core::option::Option&lt;app_profile::Isolation&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `AppProfile`.
+</span><span class="kw">pub mod </span>app_profile {
+    <span class="doccomment">/// Read/write requests are routed to the nearest cluster in the instance, and
+    /// will fail over to the nearest cluster that is available in the event of
+    /// transient errors or delays. Clusters in a region are considered
+    /// equidistant. Choosing this option sacrifices read-your-writes consistency
+    /// to improve availability.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>MultiClusterRoutingUseAny {
+        <span class="doccomment">/// The set of clusters to route to. The order is ignored; clusters will be
+        /// tried in order of distance. If left empty, all clusters are eligible.
+        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>cluster_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    }
+    <span class="doccomment">/// Unconditionally routes all read/write requests to a specific cluster.
+    /// This option preserves read-your-writes consistency but does not improve
+    /// availability.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>SingleClusterRouting {
+        <span class="doccomment">/// The cluster to which read/write requests should be routed.
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>cluster_id: ::prost::alloc::string::String,
+        <span class="doccomment">/// Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are
+        /// allowed by this app profile. It is unsafe to send these requests to
+        /// the same table/row/column in multiple clusters.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>allow_transactional_writes: bool,
+    }
+    <span class="doccomment">/// Standard options for isolating this app profile's traffic from other use
+    /// cases.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>StandardIsolation {
+        <span class="doccomment">/// The priority of requests sent using this app profile.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"Priority"</span>, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>priority: i32,
+    }
+    <span class="doccomment">/// Data Boost is a serverless compute capability that lets you run
+    /// high-throughput read jobs on your Bigtable data, without impacting the
+    /// performance of the clusters that handle your application traffic.
+    /// Currently, Data Boost exclusively supports read-only use-cases with
+    /// single-cluster routing.
+    ///
+    /// Data Boost reads are only guaranteed to see the results of writes that
+    /// were written at least 30 minutes ago. This means newly written values may
+    /// not become visible for up to 30m, and also means that old values may
+    /// remain visible for up to 30m after being deleted or overwritten. To
+    /// mitigate the staleness of the data, users may either wait 30m, or use
+    /// CheckConsistency.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>DataBoostIsolationReadOnly {
+        <span class="doccomment">/// The Compute Billing Owner for this Data Boost App Profile.
+        </span><span class="attr">#[prost(
+            enumeration = <span class="string">"data_boost_isolation_read_only::ComputeBillingOwner"</span>,
+            optional,
+            tag = <span class="string">"1"
+        </span>)]
+        </span><span class="kw">pub </span>compute_billing_owner: ::core::option::Option&lt;i32&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `DataBoostIsolationReadOnly`.
+    </span><span class="kw">pub mod </span>data_boost_isolation_read_only {
+        <span class="doccomment">/// Compute Billing Owner specifies how usage should be accounted when using
+        /// Data Boost. Compute Billing Owner also configures which Cloud Project is
+        /// charged for relevant quota.
+        </span><span class="attr">#[derive(
+            Clone,
+            Copy,
+            Debug,
+            PartialEq,
+            Eq,
+            Hash,
+            PartialOrd,
+            Ord,
+            ::prost::Enumeration
+        )]
+        #[repr(i32)]
+        </span><span class="kw">pub enum </span>ComputeBillingOwner {
+            <span class="doccomment">/// Unspecified value.
+            </span>Unspecified = <span class="number">0</span>,
+            <span class="doccomment">/// The host Cloud Project containing the targeted Bigtable Instance /
+            /// Table pays for compute.
+            </span>HostPays = <span class="number">1</span>,
+        }
+        <span class="kw">impl </span>ComputeBillingOwner {
+            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+            ///
+            /// The values are not transformed in any way and thus are considered stable
+            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+                <span class="kw">match </span><span class="self">self </span>{
+                    ComputeBillingOwner::Unspecified =&gt; {
+                        <span class="string">"COMPUTE_BILLING_OWNER_UNSPECIFIED"
+                    </span>}
+                    ComputeBillingOwner::HostPays =&gt; <span class="string">"HOST_PAYS"</span>,
+                }
+            }
+            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+                <span class="kw">match </span>value {
+                    <span class="string">"COMPUTE_BILLING_OWNER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                    <span class="string">"HOST_PAYS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HostPays),
+                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+                }
+            }
+        }
+    }
+    <span class="doccomment">/// Possible priorities for an app profile. Note that higher priority writes
+    /// can sometimes queue behind lower priority writes to the same tablet, as
+    /// writes must be strictly sequenced in the durability log.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>Priority {
+        <span class="doccomment">/// Default value. Mapped to PRIORITY_HIGH (the legacy behavior) on creation.
+        </span>Unspecified = <span class="number">0</span>,
+        Low = <span class="number">1</span>,
+        Medium = <span class="number">2</span>,
+        High = <span class="number">3</span>,
+    }
+    <span class="kw">impl </span>Priority {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                Priority::Unspecified =&gt; <span class="string">"PRIORITY_UNSPECIFIED"</span>,
+                Priority::Low =&gt; <span class="string">"PRIORITY_LOW"</span>,
+                Priority::Medium =&gt; <span class="string">"PRIORITY_MEDIUM"</span>,
+                Priority::High =&gt; <span class="string">"PRIORITY_HIGH"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"PRIORITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"PRIORITY_LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
+                <span class="string">"PRIORITY_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
+                <span class="string">"PRIORITY_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
+    <span class="doccomment">/// The routing policy for all read/write requests that use this app profile.
+    /// A value must be explicitly set.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>RoutingPolicy {
+        <span class="doccomment">/// Use a multi-cluster routing policy.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+        </span>MultiClusterRoutingUseAny(MultiClusterRoutingUseAny),
+        <span class="doccomment">/// Use a single-cluster routing policy.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+        </span>SingleClusterRouting(SingleClusterRouting),
+    }
+    <span class="doccomment">/// Options for isolating this app profile's traffic from other use cases.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Isolation {
+        <span class="doccomment">/// This field has been deprecated in favor of `standard_isolation.priority`.
+        /// If you set this field, `standard_isolation.priority` will be set instead.
+        ///
+        /// The priority of requests sent using this app profile.
+        </span><span class="attr">#[prost(enumeration = <span class="string">"Priority"</span>, tag = <span class="string">"7"</span>)]
+        </span>Priority(i32),
+        <span class="doccomment">/// The standard options used for isolating this app profile's traffic from
+        /// other use cases.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
+        </span>StandardIsolation(StandardIsolation),
+        <span class="doccomment">/// Specifies that this app profile is intended for read-only usage via the
+        /// Data Boost feature.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
+        </span>DataBoostIsolationReadOnly(DataBoostIsolationReadOnly),
+    }
+}
+<span class="doccomment">/// A tablet is a defined by a start and end key and is explained in
+/// &lt;https://cloud.google.com/bigtable/docs/overview#architecture&gt; and
+/// &lt;https://cloud.google.com/bigtable/docs/performance#optimization.&gt;
+/// A Hot tablet is a tablet that exhibits high average cpu usage during the time
+/// interval from start time to end time.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>HotTablet {
+    <span class="doccomment">/// The unique name of the hot tablet. Values are of the form
+    /// `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/\[a-zA-Z0-9_-\]*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Name of the table that contains the tablet. Values are of the form
+    /// `projects/{project}/instances/{instance}/tables/[_a-zA-Z0-9][-_.a-zA-Z0-9]*`.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The start time of the hot tablet.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. The end time of the hot tablet.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Tablet Start Key (inclusive).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>start_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// Tablet End Key (inclusive).
+    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>end_key: ::prost::alloc::string::String,
+    <span class="doccomment">/// Output only. The average CPU usage spent by a node on this tablet over the
+    /// start_time to end_time time range. The percentage is the amount of CPU used
+    /// by the node to serve the tablet, from 0% (tablet was not interacted with)
+    /// to 100% (the node spent all cycles serving the hot tablet).
+    </span><span class="attr">#[prost(float, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>node_cpu_usage_percent: f32,
+}
 <span class="doccomment">/// `Type` represents the type of data that is written to, read from, or stored
 /// in Bigtable. It is heavily based on the GoogleSQL standard to help maintain
 /// familiarity and consistency across products and features.
 ///
 /// For compatibility with Bigtable's existing untyped APIs, each `Type` includes
 /// an `Encoding` which describes how to convert to/from the underlying data.
-/// This might involve composing a series of steps into an "encoding chain," for
-/// example to convert from INT64 -&gt; STRING -&gt; raw bytes. In most cases, a "link"
-/// in the encoding chain will be based an on existing GoogleSQL conversion
-/// function like `CAST`.
 ///
-/// Each link in the encoding chain also defines the following properties:
-///   * Natural sort: Does the encoded value sort consistently with the original
-///     typed value? Note that Bigtable will always sort data based on the raw
-///     encoded value, *not* the decoded type.
+/// Each encoding also defines the following properties:
+///
+///   * Order-preserving: Does the encoded value sort consistently with the
+///     original typed value? Note that Bigtable will always sort data based on
+///     the raw encoded value, *not* the decoded type.
 ///      - Example: BYTES values sort in the same order as their raw encodings.
-///      - Counterexample: Encoding INT64 to a fixed-width STRING does *not*
-///        preserve sort order when dealing with negative numbers.
-///        INT64(1) &gt; INT64(-1), but STRING("-00001") &gt; STRING("00001).
-///      - The overall encoding chain has this property if *every* link does.
+///      - Counterexample: Encoding INT64 as a fixed-width decimal string does
+///        *not* preserve sort order when dealing with negative numbers.
+///        `INT64(1) &gt; INT64(-1)`, but `STRING("-00001") &gt; STRING("00001)`.
 ///   * Self-delimiting: If we concatenate two encoded values, can we always tell
 ///     where the first one ends and the second one begins?
 ///      - Example: If we encode INT64s to fixed-width STRINGs, the first value
 ///        will always contain exactly N digits, possibly preceded by a sign.
 ///      - Counterexample: If we concatenate two UTF-8 encoded STRINGs, we have
 ///        no way to tell where the first one ends.
-///      - The overall encoding chain has this property if *any* link does.
 ///   * Compatibility: Which other systems have matching encoding schemes? For
 ///     example, does this encoding have a GoogleSQL equivalent? HBase? Java?
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Type {
     <span class="doccomment">/// The kind of type that this represents.
-    </span><span class="attr">#[prost(oneof = <span class="string">"r#type::Kind"</span>, tags = <span class="string">"1, 2, 5, 6"</span>)]
+    </span><span class="attr">#[prost(oneof = <span class="string">"r#type::Kind"</span>, tags = <span class="string">"1, 2, 5, 12, 9, 8, 10, 11, 6, 7, 3, 4"</span>)]
     </span><span class="kw">pub </span>kind: ::core::option::Option&lt;r#type::Kind&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Type`.
@@ -4991,7 +5751,7 @@
     <span class="doccomment">/// Bytes
     /// Values of type `Bytes` are stored in `Value.bytes_value`.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Bytes {
         <span class="doccomment">/// The encoding to use when converting to/from lower level types.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -5001,7 +5761,7 @@
     </span><span class="kw">pub mod </span>bytes {
         <span class="doccomment">/// Rules used to convert to/from lower level types.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Encoding {
             <span class="doccomment">/// Which encoding to use.
             </span><span class="attr">#[prost(oneof = <span class="string">"encoding::Encoding"</span>, tags = <span class="string">"1"</span>)]
@@ -5010,15 +5770,15 @@
         <span class="doccomment">/// Nested message and enum types in `Encoding`.
         </span><span class="kw">pub mod </span>encoding {
             <span class="doccomment">/// Leaves the value "as-is"
-            /// * Natural sort? Yes
+            /// * Order-preserving? Yes
             /// * Self-delimiting? No
             /// * Compatibility? N/A
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>Raw {}
             <span class="doccomment">/// Which encoding to use.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
             </span><span class="kw">pub enum </span>Encoding {
                 <span class="doccomment">/// Use `Raw` encoding.
                 </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -5029,7 +5789,7 @@
     <span class="doccomment">/// String
     /// Values of type `String` are stored in `Value.string_value`.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>String {
         <span class="doccomment">/// The encoding to use when converting to/from lower level types.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -5039,38 +5799,45 @@
     </span><span class="kw">pub mod </span>string {
         <span class="doccomment">/// Rules used to convert to/from lower level types.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Encoding {
             <span class="doccomment">/// Which encoding to use.
-            </span><span class="attr">#[prost(oneof = <span class="string">"encoding::Encoding"</span>, tags = <span class="string">"1"</span>)]
+            </span><span class="attr">#[prost(oneof = <span class="string">"encoding::Encoding"</span>, tags = <span class="string">"1, 2"</span>)]
             </span><span class="kw">pub </span>encoding: ::core::option::Option&lt;encoding::Encoding&gt;,
         }
         <span class="doccomment">/// Nested message and enum types in `Encoding`.
         </span><span class="kw">pub mod </span>encoding {
+            <span class="doccomment">/// Deprecated: prefer the equivalent `Utf8Bytes`.
+            </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>Utf8Raw {}
             <span class="doccomment">/// UTF-8 encoding
-            /// * Natural sort? No (ASCII characters only)
+            /// * Order-preserving? Yes (code point order)
             /// * Self-delimiting? No
             /// * Compatibility?
             ///     - BigQuery Federation `TEXT` encoding
             ///     - HBase `Bytes.toBytes`
             ///     - Java `String#getBytes(StandardCharsets.UTF_8)`
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
-            </span><span class="kw">pub struct </span>Utf8Raw {}
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+            </span><span class="kw">pub struct </span>Utf8Bytes {}
             <span class="doccomment">/// Which encoding to use.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
             </span><span class="kw">pub enum </span>Encoding {
-                <span class="doccomment">/// Use `Utf8Raw` encoding.
+                <span class="doccomment">/// Deprecated: if set, converts to an empty `utf8_bytes`.
                 </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
                 </span>Utf8Raw(Utf8Raw),
+                <span class="doccomment">/// Use `Utf8Bytes` encoding.
+                </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+                </span>Utf8Bytes(Utf8Bytes),
             }
         }
     }
     <span class="doccomment">/// Int64
     /// Values of type `Int64` are stored in `Value.int_value`.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Int64 {
         <span class="doccomment">/// The encoding to use when converting to/from lower level types.
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -5080,7 +5847,7 @@
     </span><span class="kw">pub mod </span>int64 {
         <span class="doccomment">/// Rules used to convert to/from lower level types.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Encoding {
             <span class="doccomment">/// Which encoding to use.
             </span><span class="attr">#[prost(oneof = <span class="string">"encoding::Encoding"</span>, tags = <span class="string">"1"</span>)]
@@ -5090,28 +5857,108 @@
         </span><span class="kw">pub mod </span>encoding {
             <span class="doccomment">/// Encodes the value as an 8-byte big endian twos complement `Bytes`
             /// value.
-            /// * Natural sort? No (positive values only)
+            /// * Order-preserving? No (positive values only)
             /// * Self-delimiting? Yes
             /// * Compatibility?
             ///     - BigQuery Federation `BINARY` encoding
             ///     - HBase `Bytes.toBytes`
             ///     - Java `ByteBuffer.putLong()` with `ByteOrder.BIG_ENDIAN`
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Message)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Message)]
             </span><span class="kw">pub struct </span>BigEndianBytes {
-                <span class="doccomment">/// The underlying `Bytes` type, which may be able to encode further.
+                <span class="doccomment">/// Deprecated: ignored if set.
                 </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
                 </span><span class="kw">pub </span>bytes_type: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::Bytes&gt;,
             }
             <span class="doccomment">/// Which encoding to use.
             </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-            #[derive(Clone, PartialEq, ::prost::Oneof)]
+            #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
             </span><span class="kw">pub enum </span>Encoding {
                 <span class="doccomment">/// Use `BigEndianBytes` encoding.
                 </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
                 </span>BigEndianBytes(BigEndianBytes),
             }
         }
+    }
+    <span class="doccomment">/// bool
+    /// Values of type `Bool` are stored in `Value.bool_value`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Bool {}
+    <span class="doccomment">/// Float32
+    /// Values of type `Float32` are stored in `Value.float_value`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Float32 {}
+    <span class="doccomment">/// Float64
+    /// Values of type `Float64` are stored in `Value.float_value`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Float64 {}
+    <span class="doccomment">/// Timestamp
+    /// Values of type `Timestamp` are stored in `Value.timestamp_value`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Timestamp {}
+    <span class="doccomment">/// Date
+    /// Values of type `Date` are stored in `Value.date_value`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Date {}
+    <span class="doccomment">/// A structured data value, consisting of fields which map to dynamically
+    /// typed values.
+    /// Values of type `Struct` are stored in `Value.array_value` where entries are
+    /// in the same order and number as `field_types`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Struct {
+        <span class="doccomment">/// The names and types of the fields in this struct.
+        </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>fields: ::prost::alloc::vec::Vec&lt;r#struct::Field&gt;,
+    }
+    <span class="doccomment">/// Nested message and enum types in `Struct`.
+    </span><span class="kw">pub mod </span>r#struct {
+        <span class="doccomment">/// A struct field and its type.
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Field {
+            <span class="doccomment">/// The field name (optional). Fields without a `field_name` are considered
+            /// anonymous and cannot be referenced by name.
+            </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+            </span><span class="kw">pub </span>field_name: ::prost::alloc::string::String,
+            <span class="doccomment">/// The type of values in this field.
+            </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+            </span><span class="kw">pub </span>r#type: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::Type&gt;,
+        }
+    }
+    <span class="doccomment">/// An ordered list of elements of a given type.
+    /// Values of type `Array` are stored in `Value.array_value`.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Array {
+        <span class="doccomment">/// The type of the elements in the array. This must not be `Array`.
+        </span><span class="attr">#[prost(message, optional, boxed, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>element_type: ::core::option::Option&lt;
+            ::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::Type&gt;,
+        &gt;,
+    }
+    <span class="doccomment">/// A mapping of keys to values of a given type.
+    /// Values of type `Map` are stored in a `Value.array_value` where each entry
+    /// is another `Value.array_value` with two elements (the key and the value,
+    /// in that order).
+    /// Normally encoded Map values won't have repeated keys, however, clients are
+    /// expected to handle the case in which they do. If the same key appears
+    /// multiple times, the _last_ value takes precedence.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>Map {
+        <span class="doccomment">/// The type of a map key.
+        /// Only `Bytes`, `String`, and `Int64` are allowed as key types.
+        </span><span class="attr">#[prost(message, optional, boxed, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>key_type: ::core::option::Option&lt;::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::Type&gt;&gt;,
+        <span class="doccomment">/// The type of the values in a map.
+        </span><span class="attr">#[prost(message, optional, boxed, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>value_type: ::core::option::Option&lt;::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::Type&gt;&gt;,
     }
     <span class="doccomment">/// A value that combines incremental updates into a summarized value.
     ///
@@ -5132,7 +5979,7 @@
         </span><span class="attr">#[prost(message, optional, boxed, tag = <span class="string">"2"</span>)]
         </span><span class="kw">pub </span>state_type: ::core::option::Option&lt;::prost::alloc::boxed::Box&lt;<span class="kw">super</span>::Type&gt;&gt;,
         <span class="doccomment">/// Which aggregator function to use. The configured types must match.
-        </span><span class="attr">#[prost(oneof = <span class="string">"aggregate::Aggregator"</span>, tags = <span class="string">"4"</span>)]
+        </span><span class="attr">#[prost(oneof = <span class="string">"aggregate::Aggregator"</span>, tags = <span class="string">"4, 5, 6, 7"</span>)]
         </span><span class="kw">pub </span>aggregator: ::core::option::Option&lt;aggregate::Aggregator&gt;,
     }
     <span class="doccomment">/// Nested message and enum types in `Aggregate`.
@@ -5141,15 +5988,46 @@
         /// Allowed input: `Int64`
         /// State: same as input
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Sum {}
+        <span class="doccomment">/// Computes the max of the input values.
+        /// Allowed input: `Int64`
+        /// State: same as input
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Max {}
+        <span class="doccomment">/// Computes the min of the input values.
+        /// Allowed input: `Int64`
+        /// State: same as input
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>Min {}
+        <span class="doccomment">/// Computes an approximate unique count over the input values. When using
+        /// raw data as input, be careful to use a consistent encoding. Otherwise
+        /// the same value encoded differently could count more than once, or two
+        /// distinct values could count as identical.
+        /// Input: Any, or omit for Raw
+        /// State: TBD
+        /// Special state conversions: `Int64` (the unique count estimate)
+        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="kw">pub struct </span>HyperLogLogPlusPlusUniqueCount {}
         <span class="doccomment">/// Which aggregator function to use. The configured types must match.
         </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Aggregator {
             <span class="doccomment">/// Sum aggregator.
             </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
             </span>Sum(Sum),
+            <span class="doccomment">/// HyperLogLogPlusPlusUniqueCount aggregator.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
+            </span>HllppUniqueCount(HyperLogLogPlusPlusUniqueCount),
+            <span class="doccomment">/// Max aggregator.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
+            </span>Max(Max),
+            <span class="doccomment">/// Min aggregator.
+            </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+            </span>Min(Min),
         }
     }
     <span class="doccomment">/// The kind of type that this represents.
@@ -5165,9 +6043,33 @@
         <span class="doccomment">/// Int64
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>Int64Type(Int64),
+        <span class="doccomment">/// Float32
+        </span><span class="attr">#[prost(message, tag = <span class="string">"12"</span>)]
+        </span>Float32Type(Float32),
+        <span class="doccomment">/// Float64
+        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
+        </span>Float64Type(Float64),
+        <span class="doccomment">/// Bool
+        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+        </span>BoolType(Bool),
+        <span class="doccomment">/// Timestamp
+        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
+        </span>TimestampType(Timestamp),
+        <span class="doccomment">/// Date
+        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
+        </span>DateType(Date),
         <span class="doccomment">/// Aggregate
         </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
         </span>AggregateType(::prost::alloc::boxed::Box&lt;Aggregate&gt;),
+        <span class="doccomment">/// Struct
+        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
+        </span>StructType(Struct),
+        <span class="doccomment">/// Array
+        </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
+        </span>ArrayType(::prost::alloc::boxed::Box&lt;Array&gt;),
+        <span class="doccomment">/// Map
+        </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
+        </span>MapType(::prost::alloc::boxed::Box&lt;Map&gt;),
     }
 }
 <span class="doccomment">/// Information about a table restore.
@@ -5195,7 +6097,7 @@
 }
 <span class="doccomment">/// Change stream configuration.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ChangeStreamConfig {
     <span class="doccomment">/// How long the change stream should be retained. Change stream data older
     /// than the retention period will not be returned when reading the change
@@ -5345,7 +6247,7 @@
     }
     <span class="doccomment">/// Defines an automated backup policy for a table
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>AutomatedBackupPolicy {
         <span class="doccomment">/// Required. How long the automated backups should be retained. The only
         /// supported value at this time is 3 days.
@@ -5454,7 +6356,7 @@
         }
     }
     <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>AutomatedBackupConfig {
         <span class="doccomment">/// If specified, automated backups are enabled for this table.
         /// Otherwise, automated backups are disabled.
@@ -5834,14 +6736,17 @@
     </span><span class="kw">pub </span>source_table: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Name of the backup from which this backup was copied. If a
     /// backup is not created by copying a backup, this field will be empty. Values
-    /// are of the form: projects/&lt;project&gt;/instances/&lt;instance&gt;/backups/&lt;backup&gt;.
+    /// are of the form:
+    /// projects/&lt;project&gt;/instances/&lt;instance&gt;/clusters/&lt;cluster&gt;/backups/&lt;backup&gt;
     </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>source_backup: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The expiration time of the backup, with microseconds
-    /// granularity that must be at least 6 hours and at most 90 days
-    /// from the time the request is received. Once the `expire_time`
-    /// has passed, Cloud Bigtable will delete the backup and free the
-    /// resources used by the backup.
+    <span class="doccomment">/// Required. The expiration time of the backup.
+    /// When creating a backup or updating its `expire_time`, the value must be
+    /// greater than the backup creation time by:
+    /// - At least 6 hours
+    /// - At most 90 days
+    ///
+    /// Once the `expire_time` has passed, Cloud Bigtable will delete the backup.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>expire_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
     <span class="doccomment">/// Output only. `start_time` is the time that the backup was started
@@ -5864,6 +6769,19 @@
     <span class="doccomment">/// Output only. The encryption information for the backup.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"9"</span>)]
     </span><span class="kw">pub </span>encryption_info: ::core::option::Option&lt;EncryptionInfo&gt;,
+    <span class="doccomment">/// Indicates the backup type of the backup.
+    </span><span class="attr">#[prost(enumeration = <span class="string">"backup::BackupType"</span>, tag = <span class="string">"11"</span>)]
+    </span><span class="kw">pub </span>backup_type: i32,
+    <span class="doccomment">/// The time at which the hot backup will be converted to a standard backup.
+    /// Once the `hot_to_standard_time` has passed, Cloud Bigtable will convert the
+    /// hot backup to a standard backup. This value must be greater than the backup
+    /// creation time by:
+    /// - At least 24 hours
+    ///
+    /// This field only applies for hot backups. When creating or updating a
+    /// standard backup, attempting to set this field will fail the request.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>hot_to_standard_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Backup`.
 </span><span class="kw">pub mod </span>backup {
@@ -5911,6 +6829,54 @@
             }
         }
     }
+    <span class="doccomment">/// The type of the backup.
+    </span><span class="attr">#[derive(
+        Clone,
+        Copy,
+        Debug,
+        PartialEq,
+        Eq,
+        Hash,
+        PartialOrd,
+        Ord,
+        ::prost::Enumeration
+    )]
+    #[repr(i32)]
+    </span><span class="kw">pub enum </span>BackupType {
+        <span class="doccomment">/// Not specified.
+        </span>Unspecified = <span class="number">0</span>,
+        <span class="doccomment">/// The default type for Cloud Bigtable managed backups. Supported for
+        /// backups created in both HDD and SSD instances. Requires optimization when
+        /// restored to a table in an SSD instance.
+        </span>Standard = <span class="number">1</span>,
+        <span class="doccomment">/// A backup type with faster restore to SSD performance. Only supported for
+        /// backups created in SSD instances. A new SSD table restored from a hot
+        /// backup reaches production performance more quickly than a standard
+        /// backup.
+        </span>Hot = <span class="number">2</span>,
+    }
+    <span class="kw">impl </span>BackupType {
+        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+        ///
+        /// The values are not transformed in any way and thus are considered stable
+        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+            <span class="kw">match </span><span class="self">self </span>{
+                BackupType::Unspecified =&gt; <span class="string">"BACKUP_TYPE_UNSPECIFIED"</span>,
+                BackupType::Standard =&gt; <span class="string">"STANDARD"</span>,
+                BackupType::Hot =&gt; <span class="string">"HOT"</span>,
+            }
+        }
+        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+            <span class="kw">match </span>value {
+                <span class="string">"BACKUP_TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+                <span class="string">"STANDARD" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Standard),
+                <span class="string">"HOT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Hot),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+            }
+        }
+    }
 }
 <span class="doccomment">/// Information about a backup.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -5932,7 +6898,8 @@
     </span><span class="kw">pub </span>source_table: ::prost::alloc::string::String,
     <span class="doccomment">/// Output only. Name of the backup from which this backup was copied. If a
     /// backup is not created by copying a backup, this field will be empty. Values
-    /// are of the form: projects/&lt;project&gt;/instances/&lt;instance&gt;/backups/&lt;backup&gt;.
+    /// are of the form:
+    /// projects/&lt;project&gt;/instances/&lt;instance&gt;/clusters/&lt;cluster&gt;/backups/&lt;backup&gt;
     </span><span class="attr">#[prost(string, tag = <span class="string">"10"</span>)]
     </span><span class="kw">pub </span>source_backup: ::prost::alloc::string::String,
 }
@@ -6393,7 +7360,7 @@
     <span class="doccomment">/// Which type of read needs to consistently observe which type of write?
     /// Default: `standard_read_remote_writes`
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Mode {
         <span class="doccomment">/// Checks that reads using an app profile with `StandardIsolation` can
         /// see all writes committed before the token was created, even if the
@@ -6410,17 +7377,17 @@
 <span class="doccomment">/// Checks that all writes before the consistency token was generated are
 /// replicated in every cluster and readable.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StandardReadRemoteWrites {}
 <span class="doccomment">/// Checks that all writes before the consistency token was generated in the same
 /// cluster are readable by Databoost.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DataBoostReadLocalWrites {}
 <span class="doccomment">/// Response message for
 /// [google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency][google.bigtable.admin.v2.BigtableTableAdmin.CheckConsistency]
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CheckConsistencyResponse {
     <span class="doccomment">/// True only if the token is consistent. A token is consistent if replication
     /// has caught up with the restrictions specified in the request.
@@ -6762,7 +7729,7 @@
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CopyBackupRequest {
     <span class="doccomment">/// Required. The name of the destination cluster that will contain the backup
-    /// copy. The cluster must already exists. Values are of the form:
+    /// copy. The cluster must already exist. Values are of the form:
     /// `projects/{project}/instances/{instance}/clusters/{cluster}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
@@ -7834,7 +8801,7 @@
         /// returned table [long-running operation][google.longrunning.Operation] can
         /// be used to track the progress of the operation, and to cancel it.  The
         /// [metadata][google.longrunning.Operation.metadata] field type is
-        /// [RestoreTableMetadata][google.bigtable.admin.RestoreTableMetadata].  The
+        /// [RestoreTableMetadata][google.bigtable.admin.v2.RestoreTableMetadata].  The
         /// [response][google.longrunning.Operation.response] type is
         /// [Table][google.bigtable.admin.v2.Table], if successful.
         </span><span class="kw">pub async fn </span>restore_table(
@@ -8005,569 +8972,6 @@
             <span class="self">self</span>.inner.unary(req, path, codec).<span class="kw">await
         </span>}
     }
-}
-<span class="doccomment">/// A collection of Bigtable [Tables][google.bigtable.admin.v2.Table] and
-/// the resources that serve them.
-/// All tables in an instance are served from all
-/// [Clusters][google.bigtable.admin.v2.Cluster] in the instance.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Instance {
-    <span class="doccomment">/// The unique name of the instance. Values are of the form
-    /// `projects/{project}/instances/[a-z][a-z0-9\\-]+\[a-z0-9\]`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required. The descriptive name for this instance as it appears in UIs.
-    /// Can be changed at any time, but should be kept globally unique
-    /// to avoid confusion.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// (`OutputOnly`)
-    /// The current state of the instance.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::State"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// The type of the instance. Defaults to `PRODUCTION`.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"instance::Type"</span>, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>r#type: i32,
-    <span class="doccomment">/// Labels are a flexible and lightweight mechanism for organizing cloud
-    /// resources into groups that reflect a customer's organizational needs and
-    /// deployment strategies. They can be used to filter resources and aggregate
-    /// metrics.
-    ///
-    /// * Label keys must be between 1 and 63 characters long and must conform to
-    ///    the regular expression: `[\p{Ll}\p{Lo}][\p{Ll}\p{Lo}\p{N}_-]{0,62}`.
-    /// * Label values must be between 0 and 63 characters long and must conform to
-    ///    the regular expression: `\[\p{Ll}\p{Lo}\p{N}_-\]{0,63}`.
-    /// * No more than 64 labels can be associated with a given resource.
-    /// * Keys and values must both be under 128 bytes.
-    </span><span class="attr">#[prost(btree_map = <span class="string">"string, string"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>labels: ::prost::alloc::collections::BTreeMap&lt;
-        ::prost::alloc::string::String,
-        ::prost::alloc::string::String,
-    &gt;,
-    <span class="doccomment">/// Output only. A server-assigned timestamp representing when this Instance
-    /// was created. For instances created before this field was added (August
-    /// 2021), this value is `seconds: 0, nanos: 1`.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>create_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. Reserved for future use.
-    </span><span class="attr">#[prost(bool, optional, tag = <span class="string">"8"</span>)]
-    </span><span class="kw">pub </span>satisfies_pzs: ::core::option::Option&lt;bool&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Instance`.
-</span><span class="kw">pub mod </span>instance {
-    <span class="doccomment">/// Possible states of an instance.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The state of the instance could not be determined.
-        </span>NotKnown = <span class="number">0</span>,
-        <span class="doccomment">/// The instance has been successfully created and can serve requests
-        /// to its tables.
-        </span>Ready = <span class="number">1</span>,
-        <span class="doccomment">/// The instance is currently being created, and may be destroyed
-        /// if the creation process encounters an error.
-        </span>Creating = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::NotKnown =&gt; <span class="string">"STATE_NOT_KNOWN"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_NOT_KNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotKnown),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The type of the instance.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Type {
-        <span class="doccomment">/// The type of the instance is unspecified. If set when creating an
-        /// instance, a `PRODUCTION` instance will be created. If set when updating
-        /// an instance, the type will be left unchanged.
-        </span>Unspecified = <span class="number">0</span>,
-        <span class="doccomment">/// An instance meant for production use. `serve_nodes` must be set
-        /// on the cluster.
-        </span>Production = <span class="number">1</span>,
-        <span class="doccomment">/// DEPRECATED: Prefer PRODUCTION for all use cases, as it no longer enforces
-        /// a higher minimum node count than DEVELOPMENT.
-        </span>Development = <span class="number">2</span>,
-    }
-    <span class="kw">impl </span>Type {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Type::Unspecified =&gt; <span class="string">"TYPE_UNSPECIFIED"</span>,
-                Type::Production =&gt; <span class="string">"PRODUCTION"</span>,
-                Type::Development =&gt; <span class="string">"DEVELOPMENT"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"TYPE_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PRODUCTION" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Production),
-                <span class="string">"DEVELOPMENT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Development),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-}
-<span class="doccomment">/// The Autoscaling targets for a Cluster. These determine the recommended nodes.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoscalingTargets {
-    <span class="doccomment">/// The cpu utilization that the Autoscaler should be trying to achieve.
-    /// This number is on a scale from 0 (no utilization) to
-    /// 100 (total utilization), and is limited between 10 and 80, otherwise it
-    /// will return INVALID_ARGUMENT error.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>cpu_utilization_percent: i32,
-    <span class="doccomment">/// The storage utilization that the Autoscaler should be trying to achieve.
-    /// This number is limited between 2560 (2.5TiB) and 5120 (5TiB) for a SSD
-    /// cluster and between 8192 (8TiB) and 16384 (16TiB) for an HDD cluster,
-    /// otherwise it will return INVALID_ARGUMENT error. If this value is set to 0,
-    /// it will be treated as if it were set to the default value: 2560 for SSD,
-    /// 8192 for HDD.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>storage_utilization_gib_per_node: i32,
-}
-<span class="doccomment">/// Limits for the number of nodes a Cluster can autoscale up/down to.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AutoscalingLimits {
-    <span class="doccomment">/// Required. Minimum number of nodes to scale down to.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>min_serve_nodes: i32,
-    <span class="doccomment">/// Required. Maximum number of nodes to scale up to.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>max_serve_nodes: i32,
-}
-<span class="doccomment">/// A resizable group of nodes in a particular cloud location, capable
-/// of serving all [Tables][google.bigtable.admin.v2.Table] in the parent
-/// [Instance][google.bigtable.admin.v2.Instance].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Cluster {
-    <span class="doccomment">/// The unique name of the cluster. Values are of the form
-    /// `projects/{project}/instances/{instance}/clusters/[a-z][-a-z0-9]*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Immutable. The location where this cluster's nodes and storage reside. For
-    /// best performance, clients should be located as close as possible to this
-    /// cluster. Currently only zones are supported, so values should be of the
-    /// form `projects/{project}/locations/{zone}`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The current state of the cluster.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"cluster::State"</span>, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>state: i32,
-    <span class="doccomment">/// The number of nodes allocated to this cluster. More nodes enable higher
-    /// throughput and more consistent performance.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>serve_nodes: i32,
-    <span class="doccomment">/// Immutable. The type of storage used by this cluster to serve its
-    /// parent instance's tables, unless explicitly overridden.
-    </span><span class="attr">#[prost(enumeration = <span class="string">"StorageType"</span>, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>default_storage_type: i32,
-    <span class="doccomment">/// Immutable. The encryption configuration for CMEK-protected clusters.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>encryption_config: ::core::option::Option&lt;cluster::EncryptionConfig&gt;,
-    <span class="attr">#[prost(oneof = <span class="string">"cluster::Config"</span>, tags = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>config: ::core::option::Option&lt;cluster::Config&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `Cluster`.
-</span><span class="kw">pub mod </span>cluster {
-    <span class="doccomment">/// Autoscaling config for a cluster.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ClusterAutoscalingConfig {
-        <span class="doccomment">/// Required. Autoscaling limits for this cluster.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>autoscaling_limits: ::core::option::Option&lt;<span class="kw">super</span>::AutoscalingLimits&gt;,
-        <span class="doccomment">/// Required. Autoscaling targets for this cluster.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>autoscaling_targets: ::core::option::Option&lt;<span class="kw">super</span>::AutoscalingTargets&gt;,
-    }
-    <span class="doccomment">/// Configuration for a cluster.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ClusterConfig {
-        <span class="doccomment">/// Autoscaling configuration for this cluster.
-        </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>cluster_autoscaling_config: ::core::option::Option&lt;ClusterAutoscalingConfig&gt;,
-    }
-    <span class="doccomment">/// Cloud Key Management Service (Cloud KMS) settings for a CMEK-protected
-    /// cluster.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>EncryptionConfig {
-        <span class="doccomment">/// Describes the Cloud KMS encryption key that will be used to protect the
-        /// destination Bigtable cluster. The requirements for this key are:
-        ///   1) The Cloud Bigtable service account associated with the project that
-        ///   contains this cluster must be granted the
-        ///   `cloudkms.cryptoKeyEncrypterDecrypter` role on the CMEK key.
-        ///   2) Only regional keys can be used and the region of the CMEK key must
-        ///   match the region of the cluster.
-        ///   3) All clusters within an instance must use the same CMEK key.
-        /// Values are of the form
-        /// `projects/{project}/locations/{location}/keyRings/{keyring}/cryptoKeys/{key}`
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>kms_key_name: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Possible states of a cluster.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>State {
-        <span class="doccomment">/// The state of the cluster could not be determined.
-        </span>NotKnown = <span class="number">0</span>,
-        <span class="doccomment">/// The cluster has been successfully created and is ready to serve requests.
-        </span>Ready = <span class="number">1</span>,
-        <span class="doccomment">/// The cluster is currently being created, and may be destroyed
-        /// if the creation process encounters an error.
-        /// A cluster may not be able to serve requests while being created.
-        </span>Creating = <span class="number">2</span>,
-        <span class="doccomment">/// The cluster is currently being resized, and may revert to its previous
-        /// node count if the process encounters an error.
-        /// A cluster is still capable of serving requests while being resized,
-        /// but may exhibit performance as if its number of allocated nodes is
-        /// between the starting and requested states.
-        </span>Resizing = <span class="number">3</span>,
-        <span class="doccomment">/// The cluster has no backing nodes. The data (tables) still
-        /// exist, but no operations can be performed on the cluster.
-        </span>Disabled = <span class="number">4</span>,
-    }
-    <span class="kw">impl </span>State {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                State::NotKnown =&gt; <span class="string">"STATE_NOT_KNOWN"</span>,
-                State::Ready =&gt; <span class="string">"READY"</span>,
-                State::Creating =&gt; <span class="string">"CREATING"</span>,
-                State::Resizing =&gt; <span class="string">"RESIZING"</span>,
-                State::Disabled =&gt; <span class="string">"DISABLED"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"STATE_NOT_KNOWN" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::NotKnown),
-                <span class="string">"READY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Ready),
-                <span class="string">"CREATING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Creating),
-                <span class="string">"RESIZING" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Resizing),
-                <span class="string">"DISABLED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Disabled),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Config {
-        <span class="doccomment">/// Configuration for this cluster.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"7"</span>)]
-        </span>ClusterConfig(ClusterConfig),
-    }
-}
-<span class="doccomment">/// A configuration object describing how Cloud Bigtable should treat traffic
-/// from a particular end user application.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>AppProfile {
-    <span class="doccomment">/// The unique name of the app profile. Values are of the form
-    /// `projects/{project}/instances/{instance}/appProfiles/[_a-zA-Z0-9][-_.a-zA-Z0-9]*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Strongly validated etag for optimistic concurrency control. Preserve the
-    /// value returned from `GetAppProfile` when calling `UpdateAppProfile` to
-    /// fail the request if there has been a modification in the mean time. The
-    /// `update_mask` of the request need not include `etag` for this protection
-    /// to apply.
-    /// See [Wikipedia](&lt;https://en.wikipedia.org/wiki/HTTP_ETag&gt;) and
-    /// [RFC 7232](&lt;https://tools.ietf.org/html/rfc7232#section-2.3&gt;) for more
-    /// details.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>etag: ::prost::alloc::string::String,
-    <span class="doccomment">/// Long form description of the use case for this AppProfile.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// The routing policy for all read/write requests that use this app profile.
-    /// A value must be explicitly set.
-    </span><span class="attr">#[prost(oneof = <span class="string">"app_profile::RoutingPolicy"</span>, tags = <span class="string">"5, 6"</span>)]
-    </span><span class="kw">pub </span>routing_policy: ::core::option::Option&lt;app_profile::RoutingPolicy&gt;,
-    <span class="doccomment">/// Options for isolating this app profile's traffic from other use cases.
-    </span><span class="attr">#[prost(oneof = <span class="string">"app_profile::Isolation"</span>, tags = <span class="string">"7, 11, 10"</span>)]
-    </span><span class="kw">pub </span>isolation: ::core::option::Option&lt;app_profile::Isolation&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `AppProfile`.
-</span><span class="kw">pub mod </span>app_profile {
-    <span class="doccomment">/// Read/write requests are routed to the nearest cluster in the instance, and
-    /// will fail over to the nearest cluster that is available in the event of
-    /// transient errors or delays. Clusters in a region are considered
-    /// equidistant. Choosing this option sacrifices read-your-writes consistency
-    /// to improve availability.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>MultiClusterRoutingUseAny {
-        <span class="doccomment">/// The set of clusters to route to. The order is ignored; clusters will be
-        /// tried in order of distance. If left empty, all clusters are eligible.
-        </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>cluster_ids: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    }
-    <span class="doccomment">/// Unconditionally routes all read/write requests to a specific cluster.
-    /// This option preserves read-your-writes consistency but does not improve
-    /// availability.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>SingleClusterRouting {
-        <span class="doccomment">/// The cluster to which read/write requests should be routed.
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>cluster_id: ::prost::alloc::string::String,
-        <span class="doccomment">/// Whether or not `CheckAndMutateRow` and `ReadModifyWriteRow` requests are
-        /// allowed by this app profile. It is unsafe to send these requests to
-        /// the same table/row/column in multiple clusters.
-        </span><span class="attr">#[prost(bool, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>allow_transactional_writes: bool,
-    }
-    <span class="doccomment">/// Standard options for isolating this app profile's traffic from other use
-    /// cases.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>StandardIsolation {
-        <span class="doccomment">/// The priority of requests sent using this app profile.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"Priority"</span>, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>priority: i32,
-    }
-    <span class="doccomment">/// Data Boost is a serverless compute capability that lets you run
-    /// high-throughput read jobs on your Bigtable data, without impacting the
-    /// performance of the clusters that handle your application traffic.
-    /// Currently, Data Boost exclusively supports read-only use-cases with
-    /// single-cluster routing.
-    ///
-    /// Data Boost reads are only guaranteed to see the results of writes that
-    /// were written at least 30 minutes ago. This means newly written values may
-    /// not become visible for up to 30m, and also means that old values may
-    /// remain visible for up to 30m after being deleted or overwritten. To
-    /// mitigate the staleness of the data, users may either wait 30m, or use
-    /// CheckConsistency.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>DataBoostIsolationReadOnly {
-        <span class="doccomment">/// The Compute Billing Owner for this Data Boost App Profile.
-        </span><span class="attr">#[prost(
-            enumeration = <span class="string">"data_boost_isolation_read_only::ComputeBillingOwner"</span>,
-            optional,
-            tag = <span class="string">"1"
-        </span>)]
-        </span><span class="kw">pub </span>compute_billing_owner: ::core::option::Option&lt;i32&gt;,
-    }
-    <span class="doccomment">/// Nested message and enum types in `DataBoostIsolationReadOnly`.
-    </span><span class="kw">pub mod </span>data_boost_isolation_read_only {
-        <span class="doccomment">/// Compute Billing Owner specifies how usage should be accounted when using
-        /// Data Boost. Compute Billing Owner also configures which Cloud Project is
-        /// charged for relevant quota.
-        </span><span class="attr">#[derive(
-            Clone,
-            Copy,
-            Debug,
-            PartialEq,
-            Eq,
-            Hash,
-            PartialOrd,
-            Ord,
-            ::prost::Enumeration
-        )]
-        #[repr(i32)]
-        </span><span class="kw">pub enum </span>ComputeBillingOwner {
-            <span class="doccomment">/// Unspecified value.
-            </span>Unspecified = <span class="number">0</span>,
-            <span class="doccomment">/// The host Cloud Project containing the targeted Bigtable Instance /
-            /// Table pays for compute.
-            </span>HostPays = <span class="number">1</span>,
-        }
-        <span class="kw">impl </span>ComputeBillingOwner {
-            <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-            ///
-            /// The values are not transformed in any way and thus are considered stable
-            /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-            </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-                <span class="kw">match </span><span class="self">self </span>{
-                    ComputeBillingOwner::Unspecified =&gt; {
-                        <span class="string">"COMPUTE_BILLING_OWNER_UNSPECIFIED"
-                    </span>}
-                    ComputeBillingOwner::HostPays =&gt; <span class="string">"HOST_PAYS"</span>,
-                }
-            }
-            <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-            </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-                <span class="kw">match </span>value {
-                    <span class="string">"COMPUTE_BILLING_OWNER_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                    <span class="string">"HOST_PAYS" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::HostPays),
-                    <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-                }
-            }
-        }
-    }
-    <span class="doccomment">/// Possible priorities for an app profile. Note that higher priority writes
-    /// can sometimes queue behind lower priority writes to the same tablet, as
-    /// writes must be strictly sequenced in the durability log.
-    </span><span class="attr">#[derive(
-        Clone,
-        Copy,
-        Debug,
-        PartialEq,
-        Eq,
-        Hash,
-        PartialOrd,
-        Ord,
-        ::prost::Enumeration
-    )]
-    #[repr(i32)]
-    </span><span class="kw">pub enum </span>Priority {
-        <span class="doccomment">/// Default value. Mapped to PRIORITY_HIGH (the legacy behavior) on creation.
-        </span>Unspecified = <span class="number">0</span>,
-        Low = <span class="number">1</span>,
-        Medium = <span class="number">2</span>,
-        High = <span class="number">3</span>,
-    }
-    <span class="kw">impl </span>Priority {
-        <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
-        ///
-        /// The values are not transformed in any way and thus are considered stable
-        /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-        </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-            <span class="kw">match </span><span class="self">self </span>{
-                Priority::Unspecified =&gt; <span class="string">"PRIORITY_UNSPECIFIED"</span>,
-                Priority::Low =&gt; <span class="string">"PRIORITY_LOW"</span>,
-                Priority::Medium =&gt; <span class="string">"PRIORITY_MEDIUM"</span>,
-                Priority::High =&gt; <span class="string">"PRIORITY_HIGH"</span>,
-            }
-        }
-        <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-        </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-            <span class="kw">match </span>value {
-                <span class="string">"PRIORITY_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-                <span class="string">"PRIORITY_LOW" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Low),
-                <span class="string">"PRIORITY_MEDIUM" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Medium),
-                <span class="string">"PRIORITY_HIGH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::High),
-                <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-            }
-        }
-    }
-    <span class="doccomment">/// The routing policy for all read/write requests that use this app profile.
-    /// A value must be explicitly set.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>RoutingPolicy {
-        <span class="doccomment">/// Use a multi-cluster routing policy.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
-        </span>MultiClusterRoutingUseAny(MultiClusterRoutingUseAny),
-        <span class="doccomment">/// Use a single-cluster routing policy.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"6"</span>)]
-        </span>SingleClusterRouting(SingleClusterRouting),
-    }
-    <span class="doccomment">/// Options for isolating this app profile's traffic from other use cases.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Isolation {
-        <span class="doccomment">/// This field has been deprecated in favor of `standard_isolation.priority`.
-        /// If you set this field, `standard_isolation.priority` will be set instead.
-        ///
-        /// The priority of requests sent using this app profile.
-        </span><span class="attr">#[prost(enumeration = <span class="string">"Priority"</span>, tag = <span class="string">"7"</span>)]
-        </span>Priority(i32),
-        <span class="doccomment">/// The standard options used for isolating this app profile's traffic from
-        /// other use cases.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
-        </span>StandardIsolation(StandardIsolation),
-        <span class="doccomment">/// Specifies that this app profile is intended for read-only usage via the
-        /// Data Boost feature.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"10"</span>)]
-        </span>DataBoostIsolationReadOnly(DataBoostIsolationReadOnly),
-    }
-}
-<span class="doccomment">/// A tablet is a defined by a start and end key and is explained in
-/// &lt;https://cloud.google.com/bigtable/docs/overview#architecture&gt; and
-/// &lt;https://cloud.google.com/bigtable/docs/performance#optimization.&gt;
-/// A Hot tablet is a tablet that exhibits high average cpu usage during the time
-/// interval from start time to end time.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>HotTablet {
-    <span class="doccomment">/// The unique name of the hot tablet. Values are of the form
-    /// `projects/{project}/instances/{instance}/clusters/{cluster}/hotTablets/\[a-zA-Z0-9_-\]*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Name of the table that contains the tablet. Values are of the form
-    /// `projects/{project}/instances/{instance}/tables/[_a-zA-Z0-9][-_.a-zA-Z0-9]*`.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>table_name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The start time of the hot tablet.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Output only. The end time of the hot tablet.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Tablet Start Key (inclusive).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>start_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// Tablet End Key (inclusive).
-    </span><span class="attr">#[prost(string, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>end_key: ::prost::alloc::string::String,
-    <span class="doccomment">/// Output only. The average CPU usage spent by a node on this tablet over the
-    /// start_time to end_time time range. The percentage is the amount of CPU used
-    /// by the node to serve the tablet, from 0% (tablet was not interacted with)
-    /// to 100% (the node spent all cycles serving the hot tablet).
-    </span><span class="attr">#[prost(float, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>node_cpu_usage_percent: f32,
 }
 <span class="doccomment">/// Request message for BigtableInstanceAdmin.CreateInstance.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -8786,7 +9190,7 @@
 </span><span class="kw">pub mod </span>create_cluster_metadata {
     <span class="doccomment">/// Progress info for copying a table's data to the new cluster.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>TableProgress {
         <span class="doccomment">/// Estimate of the size of the table to be copied.
         </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
@@ -8999,7 +9403,7 @@
 }
 <span class="doccomment">/// The metadata for the Operation returned by UpdateAppProfile.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UpdateAppProfileMetadata {}
 <span class="doccomment">/// Request message for BigtableInstanceAdmin.ListHotTablets.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]

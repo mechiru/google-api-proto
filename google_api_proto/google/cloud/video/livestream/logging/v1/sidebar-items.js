@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"mod":["channel_activity"],"struct":["AudioFormat","AudioStream","ChannelActivity","InputAccept","InputDisconnect","InputError","InputStreamProperty","StreamingError","StreamingStateChange","VideoFormat","VideoStream"]};
+window.SIDEBAR_ITEMS = {"mod":["channel_activity","scte35_command"],"struct":["AudioFormat","AudioStream","ChannelActivity","EventStateChange","InputAccept","InputDisconnect","InputError","InputStreamProperty","Scte35Command","StreamingError","StreamingStateChange","VideoFormat","VideoStream"]};

@@ -1,0 +1,1 @@
+window.SIDEBAR_ITEMS = {"enum":["Insight","OperatingStatus","PriceLevel"],"mod":["area_insights_client","location_filter"],"struct":["ComputeInsightsRequest","ComputeInsightsResponse","Filter","LocationFilter","PlaceInsight","RatingFilter","TypeFilter"]};

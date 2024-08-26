@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/aiplatform/v1beta1/schema/predict/prediction/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../../../" data-static-root-path="../../../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../../../src-files.js"></script><script defer src="../../../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../../../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../../../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../../../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/cloud/aiplatform/v1beta1/schema/predict/prediction/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../../../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../../../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../../../../../../" data-static-root-path="../../../../../../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../../../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../../../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../../../../../../src-files.js"></script><script defer src="../../../../../../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../../../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../../../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../../../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -263,7 +263,15 @@
 <a href="#263" id="263">263</a>
 <a href="#264" id="264">264</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Prediction output format for Video Action Recognition.
+</span><span class="doccomment">/// Prediction output format for Time Series Forecasting.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TimeSeriesForecastingPredictionResult {
+    <span class="doccomment">/// The regression value.
+    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: f32,
+}
+<span class="doccomment">/// Prediction output format for Video Action Recognition.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VideoActionRecognitionPredictionResult {
@@ -289,6 +297,58 @@
     /// value means higher confidence.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>confidence: ::core::option::Option&lt;f32&gt;,
+}
+<span class="doccomment">/// Prediction output format for Text Extraction.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextExtractionPredictionResult {
+    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified,
+    /// ordered by the confidence score descendingly.
+    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;i64&gt;,
+    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified,
+    /// order matches the IDs.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The start offsets, inclusive, of the text segment in which the
+    /// AnnotationSpec has been identified. Expressed as a zero-based number
+    /// of characters as measured from the start of the text snippet.
+    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>text_segment_start_offsets: ::prost::alloc::vec::Vec&lt;i64&gt;,
+    <span class="doccomment">/// The end offsets, inclusive, of the text segment in which the
+    /// AnnotationSpec has been identified. Expressed as a zero-based number
+    /// of characters as measured from the start of the text snippet.
+    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>text_segment_end_offsets: ::prost::alloc::vec::Vec&lt;i64&gt;,
+    <span class="doccomment">/// The Model's confidences in correctness of the predicted IDs, higher
+    /// value means higher confidence. Order matches the Ids.
+    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
+}
+<span class="doccomment">/// Prediction output format for Image Object Detection.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ImageObjectDetectionPredictionResult {
+    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified, ordered
+    /// by the confidence score descendingly.
+    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;i64&gt;,
+    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified, order
+    /// matches the IDs.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The Model's confidences in correctness of the predicted IDs, higher value
+    /// means higher confidence. Order matches the Ids.
+    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
+    <span class="doccomment">/// Bounding boxes, i.e. the rectangles over the image, that pinpoint
+    /// the found AnnotationSpecs. Given in order that matches the IDs. Each
+    /// bounding box is an array of 4 numbers `xMin`, `xMax`, `yMin`, and
+    /// `yMax`, which represent the extremal coordinates of the box. They are
+    /// relative to the image size, and the point 0,0 is in the top left
+    /// of the image.
+    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>bboxes: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
 }
 <span class="doccomment">/// Prediction output format for Video Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -330,31 +390,6 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>confidence: ::core::option::Option&lt;f32&gt;,
 }
-<span class="doccomment">/// Prediction output format for Image Object Detection.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ImageObjectDetectionPredictionResult {
-    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified, ordered
-    /// by the confidence score descendingly.
-    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;i64&gt;,
-    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified, order
-    /// matches the IDs.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The Model's confidences in correctness of the predicted IDs, higher value
-    /// means higher confidence. Order matches the Ids.
-    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
-    <span class="doccomment">/// Bounding boxes, i.e. the rectangles over the image, that pinpoint
-    /// the found AnnotationSpecs. Given in order that matches the IDs. Each
-    /// bounding box is an array of 4 numbers `xMin`, `xMax`, `yMin`, and
-    /// `yMax`, which represent the extremal coordinates of the box. They are
-    /// relative to the image size, and the point 0,0 is in the top left
-    /// of the image.
-    </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>bboxes: ::prost::alloc::vec::Vec&lt;::prost_types::ListValue&gt;,
-}
 <span class="doccomment">/// Prediction output format for Image Segmentation.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
@@ -375,9 +410,23 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>confidence_mask: ::prost::alloc::string::String,
 }
-<span class="doccomment">/// Prediction output format for Tabular Regression.
+<span class="doccomment">/// Prediction output format for Tabular Classification.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TabularClassificationPredictionResult {
+    <span class="doccomment">/// The name of the classes being classified, contains all possible values of
+    /// the target column.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>classes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The model's confidence in each class being correct, higher
+    /// value means higher confidence. The N-th score corresponds to
+    /// the N-th class in classes.
+    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>scores: ::prost::alloc::vec::Vec&lt;f32&gt;,
+}
+<span class="doccomment">/// Prediction output format for Tabular Regression.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TabularRegressionPredictionResult {
     <span class="doccomment">/// The regression value.
     </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
@@ -388,6 +437,34 @@
     <span class="doccomment">/// The upper bound of the prediction interval.
     </span><span class="attr">#[prost(float, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>upper_bound: f32,
+}
+<span class="doccomment">/// Prediction output format for Text Sentiment
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TextSentimentPredictionResult {
+    <span class="doccomment">/// The integer sentiment labels between 0 (inclusive) and sentimentMax label
+    /// (inclusive), while 0 maps to the least positive sentiment and
+    /// sentimentMax maps to the most positive one. The higher the score is, the
+    /// more positive the sentiment in the text snippet is. Note: sentimentMax is
+    /// an integer value between 1 (inclusive) and 10 (inclusive).
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>sentiment: i32,
+}
+<span class="doccomment">/// Prediction output format for Image and Text Classification.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>ClassificationPredictionResult {
+    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified.
+    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;i64&gt;,
+    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified, order
+    /// matches the IDs.
+    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>display_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
+    <span class="doccomment">/// The Model's confidences in correctness of the predicted IDs, higher value
+    /// means higher confidence. Order matches the Ids.
+    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
 }
 <span class="doccomment">/// Prediction output format for Video Object Tracking.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
@@ -427,7 +504,7 @@
     /// AnnotationSpec. The coordinates are relative to the frame size, and the
     /// point 0,0 is in the top left of the frame.
     </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Frame {
         <span class="doccomment">/// A time (frame) of a video in which the object has been detected.
         /// Expressed as a number of seconds as measured from the
@@ -448,82 +525,5 @@
         </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
         </span><span class="kw">pub </span>y_max: ::core::option::Option&lt;f32&gt;,
     }
-}
-<span class="doccomment">/// Prediction output format for Text Extraction.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextExtractionPredictionResult {
-    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified,
-    /// ordered by the confidence score descendingly.
-    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;i64&gt;,
-    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified,
-    /// order matches the IDs.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The start offsets, inclusive, of the text segment in which the
-    /// AnnotationSpec has been identified. Expressed as a zero-based number
-    /// of characters as measured from the start of the text snippet.
-    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>text_segment_start_offsets: ::prost::alloc::vec::Vec&lt;i64&gt;,
-    <span class="doccomment">/// The end offsets, inclusive, of the text segment in which the
-    /// AnnotationSpec has been identified. Expressed as a zero-based number
-    /// of characters as measured from the start of the text snippet.
-    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>text_segment_end_offsets: ::prost::alloc::vec::Vec&lt;i64&gt;,
-    <span class="doccomment">/// The Model's confidences in correctness of the predicted IDs, higher
-    /// value means higher confidence. Order matches the Ids.
-    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
-}
-<span class="doccomment">/// Prediction output format for Image and Text Classification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>ClassificationPredictionResult {
-    <span class="doccomment">/// The resource IDs of the AnnotationSpecs that had been identified.
-    </span><span class="attr">#[prost(int64, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>ids: ::prost::alloc::vec::Vec&lt;i64&gt;,
-    <span class="doccomment">/// The display names of the AnnotationSpecs that had been identified, order
-    /// matches the IDs.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>display_names: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The Model's confidences in correctness of the predicted IDs, higher value
-    /// means higher confidence. Order matches the Ids.
-    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>confidences: ::prost::alloc::vec::Vec&lt;f32&gt;,
-}
-<span class="doccomment">/// Prediction output format for Time Series Forecasting.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TimeSeriesForecastingPredictionResult {
-    <span class="doccomment">/// The regression value.
-    </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: f32,
-}
-<span class="doccomment">/// Prediction output format for Tabular Classification.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TabularClassificationPredictionResult {
-    <span class="doccomment">/// The name of the classes being classified, contains all possible values of
-    /// the target column.
-    </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>classes: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
-    <span class="doccomment">/// The model's confidence in each class being correct, higher
-    /// value means higher confidence. The N-th score corresponds to
-    /// the N-th class in classes.
-    </span><span class="attr">#[prost(float, repeated, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>scores: ::prost::alloc::vec::Vec&lt;f32&gt;,
-}
-<span class="doccomment">/// Prediction output format for Text Sentiment
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TextSentimentPredictionResult {
-    <span class="doccomment">/// The integer sentiment labels between 0 (inclusive) and sentimentMax label
-    /// (inclusive), while 0 maps to the least positive sentiment and
-    /// sentimentMax maps to the most positive one. The higher the score is, the
-    /// more positive the sentiment in the text snippet is. Note: sentimentMax is
-    /// an integer value between 1 (inclusive) and 10 (inclusive).
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>sentiment: i32,
 }
 </code></pre></div></section></main></body></html>

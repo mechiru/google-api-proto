@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/type/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-081576b923113409.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.79.0 (129f3b996 2024-06-10)" data-channel="1.79.0" data-search-js="search-bf21c90c8c1d92b1.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-e32f0c247825364d.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-09095024cf37855e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><nav class="sub"><form class="search-form"><span></span><div id="sidebar-button" tabindex="-1"><a href="../../../../google_api_proto/all.html" title="show sidebar"></a></div><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Type ‘S’ or ‘/’ to search, ‘?’ for more options…" type="search"><div id="help-button" tabindex="-1"><a href="../../../../help.html" title="help">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../../settings.html" title="settings">Settings</a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `google-api-proto/src/google/type/mod.rs`."><title>mod.rs - source</title><script>if(window.location.protocol!=="file:")document.head.insertAdjacentHTML("beforeend","SourceSerif4-Regular-46f98efaafac5295.ttf.woff2,FiraSans-Regular-018c141bf0843ffd.woff2,FiraSans-Medium-8f9a781e4970d388.woff2,SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2,SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2".split(",").map(f=>`<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../static.files/${f}">`).join(""))</script><link rel="stylesheet" href="../../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../../static.files/rustdoc-dd39b87e5fcfba68.css"><meta name="rustdoc-vars" data-root-path="../../../../" data-static-root-path="../../../../static.files/" data-current-crate="google_api_proto" data-themes="" data-resource-suffix="" data-rustdoc-version="1.80.1 (3f5fd8dd4 2024-08-06)" data-channel="1.80.1" data-search-js="search-d52510db62a78183.js" data-settings-js="settings-4313503d2e1961c2.js" ><script src="../../../../static.files/storage-118b08c4c78b968e.js"></script><script defer src="../../../../static.files/src-script-e66d777a5a92e9b2.js"></script><script defer src="../../../../src-files.js"></script><script defer src="../../../../static.files/main-20a3ad099b048cf2.js"></script><noscript><link rel="stylesheet" href="../../../../static.files/noscript-df360f571f6edeae.css"></noscript><link rel="alternate icon" type="image/png" href="../../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="src-sidebar-title"><h2>Files</h2></div></nav><div class="sidebar-resizer"></div><main><rustdoc-search></rustdoc-search><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -976,57 +976,135 @@
 <a href="#976" id="976">976</a>
 <a href="#977" id="977">977</a>
 </pre></div><pre class="rust"><code><span class="comment">// This file is @generated by prost-build.
-</span><span class="doccomment">/// Represents a textual expression in the Common Expression Language (CEL)
-/// syntax. CEL is a C-like expression language. The syntax and semantics of CEL
-/// are documented at &lt;https://github.com/google/cel-spec.&gt;
+</span><span class="doccomment">/// An object that represents a latitude/longitude pair. This is expressed as a
+/// pair of doubles to represent degrees latitude and degrees longitude. Unless
+/// specified otherwise, this must conform to the
+/// &lt;a href="&lt;http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf"&gt;WGS84&gt;
+/// standard&lt;/a&gt;. Values must be within normalized ranges.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>LatLng {
+    <span class="doccomment">/// The latitude in degrees. It must be in the range \[-90.0, +90.0\].
+    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>latitude: f64,
+    <span class="doccomment">/// The longitude in degrees. It must be in the range \[-180.0, +180.0\].
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>longitude: f64,
+}
+<span class="doccomment">/// Represents a time interval, encoded as a Timestamp start (inclusive) and a
+/// Timestamp end (exclusive).
 ///
-/// Example (Comparison):
-///
-///      title: "Summary size limit"
-///      description: "Determines if a summary is less than 100 chars"
-///      expression: "document.summary.size() &lt; 100"
-///
-/// Example (Equality):
-///
-///      title: "Requestor is owner"
-///      description: "Determines if requestor is the document owner"
-///      expression: "document.owner == request.auth.claims.email"
-///
-/// Example (Logic):
-///
-///      title: "Public documents"
-///      description: "Determine whether the document should be publicly visible"
-///      expression: "document.type != 'private' &amp;&amp; document.type != 'internal'"
-///
-/// Example (Data Manipulation):
-///
-///      title: "Notification string"
-///      description: "Create a notification string with a timestamp."
-///      expression: "'New message received at ' + string(document.create_time)"
-///
-/// The exact variables and functions that may be referenced within an expression
-/// are determined by the service that evaluates it. See the service
-/// documentation for additional information.
+/// The start must be less than or equal to the end.
+/// When the start equals the end, the interval is empty (matches no time).
+/// When both start and end are unspecified, the interval matches any time.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Interval {
+    <span class="doccomment">/// Optional. Inclusive start of the interval.
+    ///
+    /// If specified, a Timestamp matching this interval will have to be the same
+    /// or after the start.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Optional. Exclusive end of the interval.
+    ///
+    /// If specified, a Timestamp matching this interval will have to be before the
+    /// end.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+}
+<span class="doccomment">/// A `CalendarPeriod` represents the abstract concept of a time period that has
+/// a canonical start. Grammatically, "the start of the current
+/// `CalendarPeriod`." All calendar times begin at midnight UTC.
+</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
+#[repr(i32)]
+</span><span class="kw">pub enum </span>CalendarPeriod {
+    <span class="doccomment">/// Undefined period, raises an error.
+    </span>Unspecified = <span class="number">0</span>,
+    <span class="doccomment">/// A day.
+    </span>Day = <span class="number">1</span>,
+    <span class="doccomment">/// A week. Weeks begin on Monday, following
+    /// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).
+    </span>Week = <span class="number">2</span>,
+    <span class="doccomment">/// A fortnight. The first calendar fortnight of the year begins at the start
+    /// of week 1 according to
+    /// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).
+    </span>Fortnight = <span class="number">3</span>,
+    <span class="doccomment">/// A month.
+    </span>Month = <span class="number">4</span>,
+    <span class="doccomment">/// A quarter. Quarters start on dates 1-Jan, 1-Apr, 1-Jul, and 1-Oct of each
+    /// year.
+    </span>Quarter = <span class="number">5</span>,
+    <span class="doccomment">/// A half-year. Half-years start on dates 1-Jan and 1-Jul.
+    </span>Half = <span class="number">6</span>,
+    <span class="doccomment">/// A year.
+    </span>Year = <span class="number">7</span>,
+}
+<span class="kw">impl </span>CalendarPeriod {
+    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+    ///
+    /// The values are not transformed in any way and thus are considered stable
+    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
+    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
+        <span class="kw">match </span><span class="self">self </span>{
+            CalendarPeriod::Unspecified =&gt; <span class="string">"CALENDAR_PERIOD_UNSPECIFIED"</span>,
+            CalendarPeriod::Day =&gt; <span class="string">"DAY"</span>,
+            CalendarPeriod::Week =&gt; <span class="string">"WEEK"</span>,
+            CalendarPeriod::Fortnight =&gt; <span class="string">"FORTNIGHT"</span>,
+            CalendarPeriod::Month =&gt; <span class="string">"MONTH"</span>,
+            CalendarPeriod::Quarter =&gt; <span class="string">"QUARTER"</span>,
+            CalendarPeriod::Half =&gt; <span class="string">"HALF"</span>,
+            CalendarPeriod::Year =&gt; <span class="string">"YEAR"</span>,
+        }
+    }
+    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
+    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
+        <span class="kw">match </span>value {
+            <span class="string">"CALENDAR_PERIOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
+            <span class="string">"DAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Day),
+            <span class="string">"WEEK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Week),
+            <span class="string">"FORTNIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fortnight),
+            <span class="string">"MONTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Month),
+            <span class="string">"QUARTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Quarter),
+            <span class="string">"HALF" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Half),
+            <span class="string">"YEAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Year),
+            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
+        }
+    }
+}
+<span class="doccomment">/// Localized variant of a text in a particular language.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Expr {
-    <span class="doccomment">/// Textual representation of an expression in Common Expression Language
-    /// syntax.
+</span><span class="kw">pub struct </span>LocalizedText {
+    <span class="doccomment">/// Localized string in the language corresponding to `language_code' below.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>expression: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Title for the expression, i.e. a short string describing
-    /// its purpose. This can be used e.g. in UIs which allow to enter the
-    /// expression.
+    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
+    <span class="doccomment">/// The text's BCP-47 language code, such as "en-US" or "sr-Latn".
+    ///
+    /// For more information, see
+    /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
     </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. Description of the expression. This is a longer text which
-    /// describes the expression, e.g. when hovered over it in a UI.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. String indicating the location of the expression for error
-    /// reporting, e.g. a file name and a position in the file.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Represents an amount of money with its currency type.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Money {
+    <span class="doccomment">/// The three-letter currency code defined in ISO 4217.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>currency_code: ::prost::alloc::string::String,
+    <span class="doccomment">/// The whole units of the amount.
+    /// For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>units: i64,
+    <span class="doccomment">/// Number of nano (10^-9) units of the amount.
+    /// The value must be between -999,999,999 and +999,999,999 inclusive.
+    /// If `units` is positive, `nanos` must be positive or zero.
+    /// If `units` is zero, `nanos` can be positive, zero, or negative.
+    /// If `units` is negative, `nanos` must be negative or zero.
+    /// For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>nanos: i32,
 }
 <span class="doccomment">/// Represents a whole or partial calendar date, such as a birthday. The time of
 /// day and time zone are either specified elsewhere or are insignificant. The
@@ -1042,7 +1120,7 @@
 /// Related types are [google.type.TimeOfDay][google.type.TimeOfDay] and
 /// `google.protobuf.Timestamp`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Date {
     <span class="doccomment">/// Year of the date. Must be from 1 to 9999, or 0 to specify a date without
     /// a year.
@@ -1057,311 +1135,6 @@
     /// significant.
     </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>day: i32,
-}
-<span class="doccomment">/// Represents civil time (or occasionally physical time).
-///
-/// This type can represent a civil time in one of a few possible ways:
-///
-///   * When utc_offset is set and time_zone is unset: a civil time on a calendar
-///     day with a particular offset from UTC.
-///   * When time_zone is set and utc_offset is unset: a civil time on a calendar
-///     day in a particular time zone.
-///   * When neither time_zone nor utc_offset is set: a civil time on a calendar
-///     day in local time.
-///
-/// The date is relative to the Proleptic Gregorian Calendar.
-///
-/// If year is 0, the DateTime is considered not to have a specific year. month
-/// and day must have valid, non-zero values.
-///
-/// This type may also be used to represent a physical time if all the date and
-/// time fields are set and either case of the `time_offset` oneof is set.
-/// Consider using `Timestamp` message for physical time instead. If your use
-/// case also would like to store the user's timezone, that can be done in
-/// another field.
-///
-/// This type is more flexible than some applications may want. Make sure to
-/// document and validate your application's limitations.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>DateTime {
-    <span class="doccomment">/// Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a
-    /// datetime without a year.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>year: i32,
-    <span class="doccomment">/// Required. Month of year. Must be from 1 to 12.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>month: i32,
-    <span class="doccomment">/// Required. Day of month. Must be from 1 to 31 and valid for the year and
-    /// month.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>day: i32,
-    <span class="doccomment">/// Required. Hours of day in 24 hour format. Should be from 0 to 23. An API
-    /// may choose to allow the value "24:00:00" for scenarios like business
-    /// closing time.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>hours: i32,
-    <span class="doccomment">/// Required. Minutes of hour of day. Must be from 0 to 59.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
-    </span><span class="kw">pub </span>minutes: i32,
-    <span class="doccomment">/// Required. Seconds of minutes of the time. Must normally be from 0 to 59. An
-    /// API may allow the value 60 if it allows leap-seconds.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
-    </span><span class="kw">pub </span>seconds: i32,
-    <span class="doccomment">/// Required. Fractions of seconds in nanoseconds. Must be from 0 to
-    /// 999,999,999.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
-    </span><span class="kw">pub </span>nanos: i32,
-    <span class="doccomment">/// Optional. Specifies either the UTC offset or the time zone of the DateTime.
-    /// Choose carefully between them, considering that time zone data may change
-    /// in the future (for example, a country modifies their DST start/end dates,
-    /// and future DateTimes in the affected range had already been stored).
-    /// If omitted, the DateTime is considered to be in local time.
-    </span><span class="attr">#[prost(oneof = <span class="string">"date_time::TimeOffset"</span>, tags = <span class="string">"8, 9"</span>)]
-    </span><span class="kw">pub </span>time_offset: ::core::option::Option&lt;date_time::TimeOffset&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `DateTime`.
-</span><span class="kw">pub mod </span>date_time {
-    <span class="doccomment">/// Optional. Specifies either the UTC offset or the time zone of the DateTime.
-    /// Choose carefully between them, considering that time zone data may change
-    /// in the future (for example, a country modifies their DST start/end dates,
-    /// and future DateTimes in the affected range had already been stored).
-    /// If omitted, the DateTime is considered to be in local time.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>TimeOffset {
-        <span class="doccomment">/// UTC offset. Must be whole seconds, between -18 hours and +18 hours.
-        /// For example, a UTC offset of -4:00 would be represented as
-        /// { seconds: -14400 }.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
-        </span>UtcOffset(::prost_types::Duration),
-        <span class="doccomment">/// Time zone.
-        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
-        </span>TimeZone(<span class="kw">super</span>::TimeZone),
-    }
-}
-<span class="doccomment">/// Represents a time zone from the
-/// [IANA Time Zone Database](&lt;https://www.iana.org/time-zones&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TimeZone {
-    <span class="doccomment">/// IANA Time Zone Database time zone, e.g. "America/New_York".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. IANA Time Zone Database version number, e.g. "2019a".
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
-}
-<span class="doccomment">/// A quaternion is defined as the quotient of two directed lines in a
-/// three-dimensional space or equivalently as the quotient of two Euclidean
-/// vectors (&lt;https://en.wikipedia.org/wiki/Quaternion&gt;).
-///
-/// Quaternions are often used in calculations involving three-dimensional
-/// rotations (&lt;https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation&gt;),
-/// as they provide greater mathematical robustness by avoiding the gimbal lock
-/// problems that can be encountered when using Euler angles
-/// (&lt;https://en.wikipedia.org/wiki/Gimbal_lock&gt;).
-///
-/// Quaternions are generally represented in this form:
-///
-///      w + xi + yj + zk
-///
-/// where x, y, z, and w are real numbers, and i, j, and k are three imaginary
-/// numbers.
-///
-/// Our naming choice `(x, y, z, w)` comes from the desire to avoid confusion for
-/// those interested in the geometric properties of the quaternion in the 3D
-/// Cartesian space. Other texts often use alternative names or subscripts, such
-/// as `(a, b, c, d)`, `(1, i, j, k)`, or `(0, 1, 2, 3)`, which are perhaps
-/// better suited for mathematical interpretations.
-///
-/// To avoid any confusion, as well as to maintain compatibility with a large
-/// number of software libraries, the quaternions represented using the protocol
-/// buffer below *must* follow the Hamilton convention, which defines `ij = k`
-/// (i.e. a right-handed algebra), and therefore:
-///
-///      i^2 = j^2 = k^2 = ijk = −1
-///      ij = −ji = k
-///      jk = −kj = i
-///      ki = −ik = j
-///
-/// Please DO NOT use this to represent quaternions that follow the JPL
-/// convention, or any of the other quaternion flavors out there.
-///
-/// Definitions:
-///
-///    - Quaternion norm (or magnitude): `sqrt(x^2 + y^2 + z^2 + w^2)`.
-///    - Unit (or normalized) quaternion: a quaternion whose norm is 1.
-///    - Pure quaternion: a quaternion whose scalar component (`w`) is 0.
-///    - Rotation quaternion: a unit quaternion used to represent rotation.
-///    - Orientation quaternion: a unit quaternion used to represent orientation.
-///
-/// A quaternion can be normalized by dividing it by its norm. The resulting
-/// quaternion maintains the same direction, but has a norm of 1, i.e. it moves
-/// on the unit sphere. This is generally necessary for rotation and orientation
-/// quaternions, to avoid rounding errors:
-/// &lt;https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions&gt;
-///
-/// Note that `(x, y, z, w)` and `(-x, -y, -z, -w)` represent the same rotation,
-/// but normalization would be even more useful, e.g. for comparison purposes, if
-/// it would produce a unique representation. It is thus recommended that `w` be
-/// kept positive, which can be achieved by changing all the signs when `w` is
-/// negative.
-///
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Quaternion {
-    <span class="doccomment">/// The x component.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>x: f64,
-    <span class="doccomment">/// The y component.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>y: f64,
-    <span class="doccomment">/// The z component.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>z: f64,
-    <span class="doccomment">/// The scalar component.
-    </span><span class="attr">#[prost(double, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>w: f64,
-}
-<span class="doccomment">/// An object representing a phone number, suitable as an API wire format.
-///
-/// This representation:
-///
-///   - should not be used for locale-specific formatting of a phone number, such
-///     as "+1 (650) 253-0000 ext. 123"
-///
-///   - is not designed for efficient storage
-///   - may not be suitable for dialing - specialized libraries (see references)
-///     should be used to parse the number for that purpose
-///
-/// To do something meaningful with this number, such as format it for various
-/// use-cases, convert it to an `i18n.phonenumbers.PhoneNumber` object first.
-///
-/// For instance, in Java this would be:
-///
-///     com.google.type.PhoneNumber wireProto =
-///         com.google.type.PhoneNumber.newBuilder().build();
-///     com.google.i18n.phonenumbers.Phonenumber.PhoneNumber phoneNumber =
-///         PhoneNumberUtil.getInstance().parse(wireProto.getE164Number(), "ZZ");
-///     if (!wireProto.getExtension().isEmpty()) {
-///       phoneNumber.setExtension(wireProto.getExtension());
-///     }
-///
-///   Reference(s):
-///    - &lt;https://github.com/google/libphonenumber&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>PhoneNumber {
-    <span class="doccomment">/// The phone number's extension. The extension is not standardized in ITU
-    /// recommendations, except for being defined as a series of numbers with a
-    /// maximum length of 40 digits. Other than digits, some other dialing
-    /// characters such as ',' (indicating a wait) or '#' may be stored here.
-    ///
-    /// Note that no regions currently use extensions with short codes, so this
-    /// field is normally only set in conjunction with an E.164 number. It is held
-    /// separately from the E.164 number to allow for short code extensions in the
-    /// future.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>extension: ::prost::alloc::string::String,
-    <span class="doccomment">/// Required.  Either a regular number, or a short code.  New fields may be
-    /// added to the oneof below in the future, so clients should ignore phone
-    /// numbers for which none of the fields they coded against are set.
-    </span><span class="attr">#[prost(oneof = <span class="string">"phone_number::Kind"</span>, tags = <span class="string">"1, 2"</span>)]
-    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;phone_number::Kind&gt;,
-}
-<span class="doccomment">/// Nested message and enum types in `PhoneNumber`.
-</span><span class="kw">pub mod </span>phone_number {
-    <span class="doccomment">/// An object representing a short code, which is a phone number that is
-    /// typically much shorter than regular phone numbers and can be used to
-    /// address messages in MMS and SMS systems, as well as for abbreviated dialing
-    /// (e.g. "Text 611 to see how many minutes you have remaining on your plan.").
-    ///
-    /// Short codes are restricted to a region and are not internationally
-    /// dialable, which means the same short code can exist in different regions,
-    /// with different usage and pricing, even if those regions share the same
-    /// country calling code (e.g. US and CA).
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
-    </span><span class="kw">pub struct </span>ShortCode {
-        <span class="doccomment">/// Required. The BCP-47 region code of the location where calls to this
-        /// short code can be made, such as "US" and "BB".
-        ///
-        /// Reference(s):
-        ///   - &lt;http://www.unicode.org/reports/tr35/#unicode_region_subtag&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
-        <span class="doccomment">/// Required. The short code digits, without a leading plus ('+') or country
-        /// calling code, e.g. "611".
-        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-        </span><span class="kw">pub </span>number: ::prost::alloc::string::String,
-    }
-    <span class="doccomment">/// Required.  Either a regular number, or a short code.  New fields may be
-    /// added to the oneof below in the future, so clients should ignore phone
-    /// numbers for which none of the fields they coded against are set.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
-    </span><span class="kw">pub enum </span>Kind {
-        <span class="doccomment">/// The phone number, represented as a leading plus sign ('+'), followed by a
-        /// phone number that uses a relaxed ITU E.164 format consisting of the
-        /// country calling code (1 to 3 digits) and the subscriber number, with no
-        /// additional spaces or formatting, e.g.:
-        ///   - correct: "+15552220123"
-        ///   - incorrect: "+1 (555) 222-01234 x123".
-        ///
-        /// The ITU E.164 format limits the latter to 12 digits, but in practice not
-        /// all countries respect that, so we relax that restriction here.
-        /// National-only numbers are not allowed.
-        ///
-        /// References:
-        ///   - &lt;https://www.itu.int/rec/T-REC-E.164-201011-I&gt;
-        ///   - &lt;https://en.wikipedia.org/wiki/E.164.&gt;
-        ///   - &lt;https://en.wikipedia.org/wiki/List_of_country_calling_codes&gt;
-        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-        </span>E164Number(::prost::alloc::string::String),
-        <span class="doccomment">/// A short code.
-        ///
-        /// Reference(s):
-        ///   - &lt;https://en.wikipedia.org/wiki/Short_code&gt;
-        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
-        </span>ShortCode(ShortCode),
-    }
-}
-<span class="doccomment">/// Represents a time interval, encoded as a Timestamp start (inclusive) and a
-/// Timestamp end (exclusive).
-///
-/// The start must be less than or equal to the end.
-/// When the start equals the end, the interval is empty (matches no time).
-/// When both start and end are unspecified, the interval matches any time.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Interval {
-    <span class="doccomment">/// Optional. Inclusive start of the interval.
-    ///
-    /// If specified, a Timestamp matching this interval will have to be the same
-    /// or after the start.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Optional. Exclusive end of the interval.
-    ///
-    /// If specified, a Timestamp matching this interval will have to be before the
-    /// end.
-    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>end_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-}
-<span class="doccomment">/// Localized variant of a text in a particular language.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LocalizedText {
-    <span class="doccomment">/// Localized string in the language corresponding to `language_code' below.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>text: ::prost::alloc::string::String,
-    <span class="doccomment">/// The text's BCP-47 language code, such as "en-US" or "sr-Latn".
-    ///
-    /// For more information, see
-    /// &lt;http://www.unicode.org/reports/tr35/#Unicode_locale_identifier.&gt;
-    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>language_code: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Represents a postal address, e.g. for postal delivery or payments addresses.
 /// Given a postal address, a postal service can deliver items to a premise, P.O.
@@ -1475,6 +1248,225 @@
     </span><span class="attr">#[prost(string, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>organization: ::prost::alloc::string::String,
 }
+<span class="doccomment">/// Represents civil time (or occasionally physical time).
+///
+/// This type can represent a civil time in one of a few possible ways:
+///
+///   * When utc_offset is set and time_zone is unset: a civil time on a calendar
+///     day with a particular offset from UTC.
+///   * When time_zone is set and utc_offset is unset: a civil time on a calendar
+///     day in a particular time zone.
+///   * When neither time_zone nor utc_offset is set: a civil time on a calendar
+///     day in local time.
+///
+/// The date is relative to the Proleptic Gregorian Calendar.
+///
+/// If year is 0, the DateTime is considered not to have a specific year. month
+/// and day must have valid, non-zero values.
+///
+/// This type may also be used to represent a physical time if all the date and
+/// time fields are set and either case of the `time_offset` oneof is set.
+/// Consider using `Timestamp` message for physical time instead. If your use
+/// case also would like to store the user's timezone, that can be done in
+/// another field.
+///
+/// This type is more flexible than some applications may want. Make sure to
+/// document and validate your application's limitations.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>DateTime {
+    <span class="doccomment">/// Optional. Year of date. Must be from 1 to 9999, or 0 if specifying a
+    /// datetime without a year.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>year: i32,
+    <span class="doccomment">/// Required. Month of year. Must be from 1 to 12.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>month: i32,
+    <span class="doccomment">/// Required. Day of month. Must be from 1 to 31 and valid for the year and
+    /// month.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>day: i32,
+    <span class="doccomment">/// Required. Hours of day in 24 hour format. Should be from 0 to 23. An API
+    /// may choose to allow the value "24:00:00" for scenarios like business
+    /// closing time.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>hours: i32,
+    <span class="doccomment">/// Required. Minutes of hour of day. Must be from 0 to 59.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+    </span><span class="kw">pub </span>minutes: i32,
+    <span class="doccomment">/// Required. Seconds of minutes of the time. Must normally be from 0 to 59. An
+    /// API may allow the value 60 if it allows leap-seconds.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>seconds: i32,
+    <span class="doccomment">/// Required. Fractions of seconds in nanoseconds. Must be from 0 to
+    /// 999,999,999.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"7"</span>)]
+    </span><span class="kw">pub </span>nanos: i32,
+    <span class="doccomment">/// Optional. Specifies either the UTC offset or the time zone of the DateTime.
+    /// Choose carefully between them, considering that time zone data may change
+    /// in the future (for example, a country modifies their DST start/end dates,
+    /// and future DateTimes in the affected range had already been stored).
+    /// If omitted, the DateTime is considered to be in local time.
+    </span><span class="attr">#[prost(oneof = <span class="string">"date_time::TimeOffset"</span>, tags = <span class="string">"8, 9"</span>)]
+    </span><span class="kw">pub </span>time_offset: ::core::option::Option&lt;date_time::TimeOffset&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `DateTime`.
+</span><span class="kw">pub mod </span>date_time {
+    <span class="doccomment">/// Optional. Specifies either the UTC offset or the time zone of the DateTime.
+    /// Choose carefully between them, considering that time zone data may change
+    /// in the future (for example, a country modifies their DST start/end dates,
+    /// and future DateTimes in the affected range had already been stored).
+    /// If omitted, the DateTime is considered to be in local time.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>TimeOffset {
+        <span class="doccomment">/// UTC offset. Must be whole seconds, between -18 hours and +18 hours.
+        /// For example, a UTC offset of -4:00 would be represented as
+        /// { seconds: -14400 }.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"8"</span>)]
+        </span>UtcOffset(::prost_types::Duration),
+        <span class="doccomment">/// Time zone.
+        </span><span class="attr">#[prost(message, tag = <span class="string">"9"</span>)]
+        </span>TimeZone(<span class="kw">super</span>::TimeZone),
+    }
+}
+<span class="doccomment">/// Represents a time zone from the
+/// [IANA Time Zone Database](&lt;https://www.iana.org/time-zones&gt;).
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TimeZone {
+    <span class="doccomment">/// IANA Time Zone Database time zone, e.g. "America/New_York".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>id: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. IANA Time Zone Database version number, e.g. "2019a".
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// A representation of a decimal value, such as 2.5. Clients may convert values
+/// into language-native decimal formats, such as Java's [BigDecimal][] or
+/// Python's [decimal.Decimal][].
+///
+/// \[BigDecimal\]:
+/// &lt;https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html&gt;
+/// \[decimal.Decimal\]: &lt;https://docs.python.org/3/library/decimal.html&gt;
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Decimal {
+    <span class="doccomment">/// The decimal value, as a string.
+    ///
+    /// The string representation consists of an optional sign, `+` (`U+002B`)
+    /// or `-` (`U+002D`), followed by a sequence of zero or more decimal digits
+    /// ("the integer"), optionally followed by a fraction, optionally followed
+    /// by an exponent.
+    ///
+    /// The fraction consists of a decimal point followed by zero or more decimal
+    /// digits. The string must contain at least one digit in either the integer
+    /// or the fraction. The number formed by the sign, the integer and the
+    /// fraction is referred to as the significand.
+    ///
+    /// The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)
+    /// followed by one or more decimal digits.
+    ///
+    /// Services **should** normalize decimal values before storing them by:
+    ///
+    ///    - Removing an explicitly-provided `+` sign (`+2.5` -&gt; `2.5`).
+    ///    - Replacing a zero-length integer value with `0` (`.5` -&gt; `0.5`).
+    ///    - Coercing the exponent character to lower-case (`2.5E8` -&gt; `2.5e8`).
+    ///    - Removing an explicitly-provided zero exponent (`2.5e0` -&gt; `2.5`).
+    ///
+    /// Services **may** perform additional normalization based on its own needs
+    /// and the internal decimal implementation selected, such as shifting the
+    /// decimal point and exponent value together (example: `2.5e-1` &lt;-&gt; `0.25`).
+    /// Additionally, services **may** preserve trailing zeroes in the fraction
+    /// to indicate increased precision, but are not required to do so.
+    ///
+    /// Note that only the `.` character is supported to divide the integer
+    /// and the fraction; `,` **should not** be supported regardless of locale.
+    /// Additionally, thousand separators **should not** be supported. If a
+    /// service does support them, values **must** be normalized.
+    ///
+    /// The ENBF grammar is:
+    ///
+    ///      DecimalString =
+    ///        \[Sign\] Significand \[Exponent\];
+    ///
+    ///      Sign = '+' | '-';
+    ///
+    ///      Significand =
+    ///        Digits \['.'\] [Digits] | \[Digits\] '.' Digits;
+    ///
+    ///      Exponent = ('e' | 'E') \[Sign\] Digits;
+    ///
+    ///      Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };
+    ///
+    /// Services **should** clearly document the range of supported values, the
+    /// maximum supported precision (total number of digits), and, if applicable,
+    /// the scale (number of digits after the decimal point), as well as how it
+    /// behaves when receiving out-of-bounds values.
+    ///
+    /// Services **may** choose to accept values passed as input even when the
+    /// value has a higher precision or scale than the service supports, and
+    /// **should** round the value to fit the supported scale. Alternatively, the
+    /// service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)
+    /// if precision would be lost.
+    ///
+    /// Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in
+    /// gRPC) if the service receives a value outside of the supported range.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+}
+<span class="doccomment">/// Represents a textual expression in the Common Expression Language (CEL)
+/// syntax. CEL is a C-like expression language. The syntax and semantics of CEL
+/// are documented at &lt;https://github.com/google/cel-spec.&gt;
+///
+/// Example (Comparison):
+///
+///      title: "Summary size limit"
+///      description: "Determines if a summary is less than 100 chars"
+///      expression: "document.summary.size() &lt; 100"
+///
+/// Example (Equality):
+///
+///      title: "Requestor is owner"
+///      description: "Determines if requestor is the document owner"
+///      expression: "document.owner == request.auth.claims.email"
+///
+/// Example (Logic):
+///
+///      title: "Public documents"
+///      description: "Determine whether the document should be publicly visible"
+///      expression: "document.type != 'private' &amp;&amp; document.type != 'internal'"
+///
+/// Example (Data Manipulation):
+///
+///      title: "Notification string"
+///      description: "Create a notification string with a timestamp."
+///      expression: "'New message received at ' + string(document.create_time)"
+///
+/// The exact variables and functions that may be referenced within an expression
+/// are determined by the service that evaluates it. See the service
+/// documentation for additional information.
+</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Expr {
+    <span class="doccomment">/// Textual representation of an expression in Common Expression Language
+    /// syntax.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>expression: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Title for the expression, i.e. a short string describing
+    /// its purpose. This can be used e.g. in UIs which allow to enter the
+    /// expression.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. Description of the expression. This is a longer text which
+    /// describes the expression, e.g. when hovered over it in a UI.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
+    <span class="doccomment">/// Optional. String indicating the location of the expression for error
+    /// reporting, e.g. a file name and a position in the file.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>location: ::prost::alloc::string::String,
+}
 <span class="doccomment">/// Represents a day of the week.
 </span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
 #[repr(i32)]
@@ -1528,17 +1520,27 @@
         }
     }
 }
-<span class="doccomment">/// Represents a fraction in terms of a numerator divided by a denominator.
+<span class="doccomment">/// Represents a time of day. The date and time zone are either not significant
+/// or are specified elsewhere. An API may choose to allow leap seconds. Related
+/// types are [google.type.Date][google.type.Date] and
+/// `google.protobuf.Timestamp`.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Fraction {
-    <span class="doccomment">/// The numerator in the fraction, e.g. 2 in 2/3.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>numerator: i64,
-    <span class="doccomment">/// The value by which the numerator is divided, e.g. 3 in 2/3. Must be
-    /// positive.
-    </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>denominator: i64,
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>TimeOfDay {
+    <span class="doccomment">/// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose
+    /// to allow the value "24:00:00" for scenarios like business closing time.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>hours: i32,
+    <span class="doccomment">/// Minutes of hour of day. Must be from 0 to 59.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>minutes: i32,
+    <span class="doccomment">/// Seconds of minutes of the time. Must normally be from 0 to 59. An API may
+    /// allow the value 60 if it allows leap-seconds.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>seconds: i32,
+    <span class="doccomment">/// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
+    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>nanos: i32,
 }
 <span class="doccomment">/// Represents a color in the RGBA color space. This representation is designed
 /// for simplicity of conversion to/from color representations in various
@@ -1665,7 +1667,7 @@
 ///
 ///      // ...
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Color {
     <span class="doccomment">/// The amount of red in the color as a value in the interval \[0, 1\].
     </span><span class="attr">#[prost(float, tag = <span class="string">"1"</span>)]
@@ -1690,100 +1692,107 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"4"</span>)]
     </span><span class="kw">pub </span>alpha: ::core::option::Option&lt;f32&gt;,
 }
-<span class="doccomment">/// Represents a time of day. The date and time zone are either not significant
-/// or are specified elsewhere. An API may choose to allow leap seconds. Related
-/// types are [google.type.Date][google.type.Date] and
-/// `google.protobuf.Timestamp`.
+<span class="doccomment">/// An object representing a phone number, suitable as an API wire format.
+///
+/// This representation:
+///
+///   - should not be used for locale-specific formatting of a phone number, such
+///     as "+1 (650) 253-0000 ext. 123"
+///
+///   - is not designed for efficient storage
+///   - may not be suitable for dialing - specialized libraries (see references)
+///     should be used to parse the number for that purpose
+///
+/// To do something meaningful with this number, such as format it for various
+/// use-cases, convert it to an `i18n.phonenumbers.PhoneNumber` object first.
+///
+/// For instance, in Java this would be:
+///
+///     com.google.type.PhoneNumber wireProto =
+///         com.google.type.PhoneNumber.newBuilder().build();
+///     com.google.i18n.phonenumbers.Phonenumber.PhoneNumber phoneNumber =
+///         PhoneNumberUtil.getInstance().parse(wireProto.getE164Number(), "ZZ");
+///     if (!wireProto.getExtension().isEmpty()) {
+///       phoneNumber.setExtension(wireProto.getExtension());
+///     }
+///
+///   Reference(s):
+///    - &lt;https://github.com/google/libphonenumber&gt;
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>TimeOfDay {
-    <span class="doccomment">/// Hours of day in 24 hour format. Should be from 0 to 23. An API may choose
-    /// to allow the value "24:00:00" for scenarios like business closing time.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>hours: i32,
-    <span class="doccomment">/// Minutes of hour of day. Must be from 0 to 59.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>minutes: i32,
-    <span class="doccomment">/// Seconds of minutes of the time. Must normally be from 0 to 59. An API may
-    /// allow the value 60 if it allows leap-seconds.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>seconds: i32,
-    <span class="doccomment">/// Fractions of seconds in nanoseconds. Must be from 0 to 999,999,999.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
-    </span><span class="kw">pub </span>nanos: i32,
-}
-<span class="doccomment">/// An object that represents a latitude/longitude pair. This is expressed as a
-/// pair of doubles to represent degrees latitude and degrees longitude. Unless
-/// specified otherwise, this must conform to the
-/// &lt;a href="&lt;http://www.unoosa.org/pdf/icg/2012/template/WGS_84.pdf"&gt;WGS84&gt;
-/// standard&lt;/a&gt;. Values must be within normalized ranges.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>LatLng {
-    <span class="doccomment">/// The latitude in degrees. It must be in the range \[-90.0, +90.0\].
-    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>latitude: f64,
-    <span class="doccomment">/// The longitude in degrees. It must be in the range \[-180.0, +180.0\].
-    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>longitude: f64,
-}
-<span class="doccomment">/// A `CalendarPeriod` represents the abstract concept of a time period that has
-/// a canonical start. Grammatically, "the start of the current
-/// `CalendarPeriod`." All calendar times begin at midnight UTC.
-</span><span class="attr">#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash, PartialOrd, Ord, ::prost::Enumeration)]
-#[repr(i32)]
-</span><span class="kw">pub enum </span>CalendarPeriod {
-    <span class="doccomment">/// Undefined period, raises an error.
-    </span>Unspecified = <span class="number">0</span>,
-    <span class="doccomment">/// A day.
-    </span>Day = <span class="number">1</span>,
-    <span class="doccomment">/// A week. Weeks begin on Monday, following
-    /// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).
-    </span>Week = <span class="number">2</span>,
-    <span class="doccomment">/// A fortnight. The first calendar fortnight of the year begins at the start
-    /// of week 1 according to
-    /// [ISO 8601](&lt;https://en.wikipedia.org/wiki/ISO_week_date&gt;).
-    </span>Fortnight = <span class="number">3</span>,
-    <span class="doccomment">/// A month.
-    </span>Month = <span class="number">4</span>,
-    <span class="doccomment">/// A quarter. Quarters start on dates 1-Jan, 1-Apr, 1-Jul, and 1-Oct of each
-    /// year.
-    </span>Quarter = <span class="number">5</span>,
-    <span class="doccomment">/// A half-year. Half-years start on dates 1-Jan and 1-Jul.
-    </span>Half = <span class="number">6</span>,
-    <span class="doccomment">/// A year.
-    </span>Year = <span class="number">7</span>,
-}
-<span class="kw">impl </span>CalendarPeriod {
-    <span class="doccomment">/// String value of the enum field names used in the ProtoBuf definition.
+</span><span class="kw">pub struct </span>PhoneNumber {
+    <span class="doccomment">/// The phone number's extension. The extension is not standardized in ITU
+    /// recommendations, except for being defined as a series of numbers with a
+    /// maximum length of 40 digits. Other than digits, some other dialing
+    /// characters such as ',' (indicating a wait) or '#' may be stored here.
     ///
-    /// The values are not transformed in any way and thus are considered stable
-    /// (if the ProtoBuf definition does not change) and safe for programmatic use.
-    </span><span class="kw">pub fn </span>as_str_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="lifetime">'static </span>str {
-        <span class="kw">match </span><span class="self">self </span>{
-            CalendarPeriod::Unspecified =&gt; <span class="string">"CALENDAR_PERIOD_UNSPECIFIED"</span>,
-            CalendarPeriod::Day =&gt; <span class="string">"DAY"</span>,
-            CalendarPeriod::Week =&gt; <span class="string">"WEEK"</span>,
-            CalendarPeriod::Fortnight =&gt; <span class="string">"FORTNIGHT"</span>,
-            CalendarPeriod::Month =&gt; <span class="string">"MONTH"</span>,
-            CalendarPeriod::Quarter =&gt; <span class="string">"QUARTER"</span>,
-            CalendarPeriod::Half =&gt; <span class="string">"HALF"</span>,
-            CalendarPeriod::Year =&gt; <span class="string">"YEAR"</span>,
-        }
+    /// Note that no regions currently use extensions with short codes, so this
+    /// field is normally only set in conjunction with an E.164 number. It is held
+    /// separately from the E.164 number to allow for short code extensions in the
+    /// future.
+    </span><span class="attr">#[prost(string, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>extension: ::prost::alloc::string::String,
+    <span class="doccomment">/// Required.  Either a regular number, or a short code.  New fields may be
+    /// added to the oneof below in the future, so clients should ignore phone
+    /// numbers for which none of the fields they coded against are set.
+    </span><span class="attr">#[prost(oneof = <span class="string">"phone_number::Kind"</span>, tags = <span class="string">"1, 2"</span>)]
+    </span><span class="kw">pub </span>kind: ::core::option::Option&lt;phone_number::Kind&gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PhoneNumber`.
+</span><span class="kw">pub mod </span>phone_number {
+    <span class="doccomment">/// An object representing a short code, which is a phone number that is
+    /// typically much shorter than regular phone numbers and can be used to
+    /// address messages in MMS and SMS systems, as well as for abbreviated dialing
+    /// (e.g. "Text 611 to see how many minutes you have remaining on your plan.").
+    ///
+    /// Short codes are restricted to a region and are not internationally
+    /// dialable, which means the same short code can exist in different regions,
+    /// with different usage and pricing, even if those regions share the same
+    /// country calling code (e.g. US and CA).
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ShortCode {
+        <span class="doccomment">/// Required. The BCP-47 region code of the location where calls to this
+        /// short code can be made, such as "US" and "BB".
+        ///
+        /// Reference(s):
+        ///   - &lt;http://www.unicode.org/reports/tr35/#unicode_region_subtag&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>region_code: ::prost::alloc::string::String,
+        <span class="doccomment">/// Required. The short code digits, without a leading plus ('+') or country
+        /// calling code, e.g. "611".
+        </span><span class="attr">#[prost(string, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>number: ::prost::alloc::string::String,
     }
-    <span class="doccomment">/// Creates an enum from field names used in the ProtoBuf definition.
-    </span><span class="kw">pub fn </span>from_str_name(value: <span class="kw-2">&amp;</span>str) -&gt; ::core::option::Option&lt;<span class="self">Self</span>&gt; {
-        <span class="kw">match </span>value {
-            <span class="string">"CALENDAR_PERIOD_UNSPECIFIED" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Unspecified),
-            <span class="string">"DAY" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Day),
-            <span class="string">"WEEK" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Week),
-            <span class="string">"FORTNIGHT" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Fortnight),
-            <span class="string">"MONTH" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Month),
-            <span class="string">"QUARTER" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Quarter),
-            <span class="string">"HALF" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Half),
-            <span class="string">"YEAR" </span>=&gt; <span class="prelude-val">Some</span>(<span class="self">Self</span>::Year),
-            <span class="kw">_ </span>=&gt; <span class="prelude-val">None</span>,
-        }
+    <span class="doccomment">/// Required.  Either a regular number, or a short code.  New fields may be
+    /// added to the oneof below in the future, so clients should ignore phone
+    /// numbers for which none of the fields they coded against are set.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="kw">pub enum </span>Kind {
+        <span class="doccomment">/// The phone number, represented as a leading plus sign ('+'), followed by a
+        /// phone number that uses a relaxed ITU E.164 format consisting of the
+        /// country calling code (1 to 3 digits) and the subscriber number, with no
+        /// additional spaces or formatting, e.g.:
+        ///   - correct: "+15552220123"
+        ///   - incorrect: "+1 (555) 222-01234 x123".
+        ///
+        /// The ITU E.164 format limits the latter to 12 digits, but in practice not
+        /// all countries respect that, so we relax that restriction here.
+        /// National-only numbers are not allowed.
+        ///
+        /// References:
+        ///   - &lt;https://www.itu.int/rec/T-REC-E.164-201011-I&gt;
+        ///   - &lt;https://en.wikipedia.org/wiki/E.164.&gt;
+        ///   - &lt;https://en.wikipedia.org/wiki/List_of_country_calling_codes&gt;
+        </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
+        </span>E164Number(::prost::alloc::string::String),
+        <span class="doccomment">/// A short code.
+        ///
+        /// Reference(s):
+        ///   - &lt;https://en.wikipedia.org/wiki/Short_code&gt;
+        </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
+        </span>ShortCode(ShortCode),
     }
 }
 <span class="doccomment">/// Represents a month in the Gregorian calendar.
@@ -1859,97 +1868,88 @@
         }
     }
 }
-<span class="doccomment">/// A representation of a decimal value, such as 2.5. Clients may convert values
-/// into language-native decimal formats, such as Java's [BigDecimal][] or
-/// Python's [decimal.Decimal][].
+<span class="doccomment">/// A quaternion is defined as the quotient of two directed lines in a
+/// three-dimensional space or equivalently as the quotient of two Euclidean
+/// vectors (&lt;https://en.wikipedia.org/wiki/Quaternion&gt;).
 ///
-/// \[BigDecimal\]:
-/// &lt;https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/math/BigDecimal.html&gt;
-/// \[decimal.Decimal\]: &lt;https://docs.python.org/3/library/decimal.html&gt;
+/// Quaternions are often used in calculations involving three-dimensional
+/// rotations (&lt;https://en.wikipedia.org/wiki/Quaternions_and_spatial_rotation&gt;),
+/// as they provide greater mathematical robustness by avoiding the gimbal lock
+/// problems that can be encountered when using Euler angles
+/// (&lt;https://en.wikipedia.org/wiki/Gimbal_lock&gt;).
+///
+/// Quaternions are generally represented in this form:
+///
+///      w + xi + yj + zk
+///
+/// where x, y, z, and w are real numbers, and i, j, and k are three imaginary
+/// numbers.
+///
+/// Our naming choice `(x, y, z, w)` comes from the desire to avoid confusion for
+/// those interested in the geometric properties of the quaternion in the 3D
+/// Cartesian space. Other texts often use alternative names or subscripts, such
+/// as `(a, b, c, d)`, `(1, i, j, k)`, or `(0, 1, 2, 3)`, which are perhaps
+/// better suited for mathematical interpretations.
+///
+/// To avoid any confusion, as well as to maintain compatibility with a large
+/// number of software libraries, the quaternions represented using the protocol
+/// buffer below *must* follow the Hamilton convention, which defines `ij = k`
+/// (i.e. a right-handed algebra), and therefore:
+///
+///      i^2 = j^2 = k^2 = ijk = −1
+///      ij = −ji = k
+///      jk = −kj = i
+///      ki = −ik = j
+///
+/// Please DO NOT use this to represent quaternions that follow the JPL
+/// convention, or any of the other quaternion flavors out there.
+///
+/// Definitions:
+///
+///    - Quaternion norm (or magnitude): `sqrt(x^2 + y^2 + z^2 + w^2)`.
+///    - Unit (or normalized) quaternion: a quaternion whose norm is 1.
+///    - Pure quaternion: a quaternion whose scalar component (`w`) is 0.
+///    - Rotation quaternion: a unit quaternion used to represent rotation.
+///    - Orientation quaternion: a unit quaternion used to represent orientation.
+///
+/// A quaternion can be normalized by dividing it by its norm. The resulting
+/// quaternion maintains the same direction, but has a norm of 1, i.e. it moves
+/// on the unit sphere. This is generally necessary for rotation and orientation
+/// quaternions, to avoid rounding errors:
+/// &lt;https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions&gt;
+///
+/// Note that `(x, y, z, w)` and `(-x, -y, -z, -w)` represent the same rotation,
+/// but normalization would be even more useful, e.g. for comparison purposes, if
+/// it would produce a unique representation. It is thus recommended that `w` be
+/// kept positive, which can be achieved by changing all the signs when `w` is
+/// negative.
+///
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Decimal {
-    <span class="doccomment">/// The decimal value, as a string.
-    ///
-    /// The string representation consists of an optional sign, `+` (`U+002B`)
-    /// or `-` (`U+002D`), followed by a sequence of zero or more decimal digits
-    /// ("the integer"), optionally followed by a fraction, optionally followed
-    /// by an exponent.
-    ///
-    /// The fraction consists of a decimal point followed by zero or more decimal
-    /// digits. The string must contain at least one digit in either the integer
-    /// or the fraction. The number formed by the sign, the integer and the
-    /// fraction is referred to as the significand.
-    ///
-    /// The exponent consists of the character `e` (`U+0065`) or `E` (`U+0045`)
-    /// followed by one or more decimal digits.
-    ///
-    /// Services **should** normalize decimal values before storing them by:
-    ///
-    ///    - Removing an explicitly-provided `+` sign (`+2.5` -&gt; `2.5`).
-    ///    - Replacing a zero-length integer value with `0` (`.5` -&gt; `0.5`).
-    ///    - Coercing the exponent character to lower-case (`2.5E8` -&gt; `2.5e8`).
-    ///    - Removing an explicitly-provided zero exponent (`2.5e0` -&gt; `2.5`).
-    ///
-    /// Services **may** perform additional normalization based on its own needs
-    /// and the internal decimal implementation selected, such as shifting the
-    /// decimal point and exponent value together (example: `2.5e-1` &lt;-&gt; `0.25`).
-    /// Additionally, services **may** preserve trailing zeroes in the fraction
-    /// to indicate increased precision, but are not required to do so.
-    ///
-    /// Note that only the `.` character is supported to divide the integer
-    /// and the fraction; `,` **should not** be supported regardless of locale.
-    /// Additionally, thousand separators **should not** be supported. If a
-    /// service does support them, values **must** be normalized.
-    ///
-    /// The ENBF grammar is:
-    ///
-    ///      DecimalString =
-    ///        \[Sign\] Significand \[Exponent\];
-    ///
-    ///      Sign = '+' | '-';
-    ///
-    ///      Significand =
-    ///        Digits \['.'\] [Digits] | \[Digits\] '.' Digits;
-    ///
-    ///      Exponent = ('e' | 'E') \[Sign\] Digits;
-    ///
-    ///      Digits = { '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' };
-    ///
-    /// Services **should** clearly document the range of supported values, the
-    /// maximum supported precision (total number of digits), and, if applicable,
-    /// the scale (number of digits after the decimal point), as well as how it
-    /// behaves when receiving out-of-bounds values.
-    ///
-    /// Services **may** choose to accept values passed as input even when the
-    /// value has a higher precision or scale than the service supports, and
-    /// **should** round the value to fit the supported scale. Alternatively, the
-    /// service **may** error with `400 Bad Request` (`INVALID_ARGUMENT` in gRPC)
-    /// if precision would be lost.
-    ///
-    /// Services **should** error with `400 Bad Request` (`INVALID_ARGUMENT` in
-    /// gRPC) if the service receives a value outside of the supported range.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>value: ::prost::alloc::string::String,
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Quaternion {
+    <span class="doccomment">/// The x component.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>x: f64,
+    <span class="doccomment">/// The y component.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>y: f64,
+    <span class="doccomment">/// The z component.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"3"</span>)]
+    </span><span class="kw">pub </span>z: f64,
+    <span class="doccomment">/// The scalar component.
+    </span><span class="attr">#[prost(double, tag = <span class="string">"4"</span>)]
+    </span><span class="kw">pub </span>w: f64,
 }
-<span class="doccomment">/// Represents an amount of money with its currency type.
+<span class="doccomment">/// Represents a fraction in terms of a numerator divided by a denominator.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
-</span><span class="kw">pub struct </span>Money {
-    <span class="doccomment">/// The three-letter currency code defined in ISO 4217.
-    </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
-    </span><span class="kw">pub </span>currency_code: ::prost::alloc::string::String,
-    <span class="doccomment">/// The whole units of the amount.
-    /// For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar.
+#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="kw">pub struct </span>Fraction {
+    <span class="doccomment">/// The numerator in the fraction, e.g. 2 in 2/3.
+    </span><span class="attr">#[prost(int64, tag = <span class="string">"1"</span>)]
+    </span><span class="kw">pub </span>numerator: i64,
+    <span class="doccomment">/// The value by which the numerator is divided, e.g. 3 in 2/3. Must be
+    /// positive.
     </span><span class="attr">#[prost(int64, tag = <span class="string">"2"</span>)]
-    </span><span class="kw">pub </span>units: i64,
-    <span class="doccomment">/// Number of nano (10^-9) units of the amount.
-    /// The value must be between -999,999,999 and +999,999,999 inclusive.
-    /// If `units` is positive, `nanos` must be positive or zero.
-    /// If `units` is zero, `nanos` can be positive, zero, or negative.
-    /// If `units` is negative, `nanos` must be negative or zero.
-    /// For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
-    </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
-    </span><span class="kw">pub </span>nanos: i32,
+    </span><span class="kw">pub </span>denominator: i64,
 }
 </code></pre></div></section></main></body></html>
