@@ -35,10 +35,7 @@ impl Manifest {
 
     pub fn list_feature(&self) -> anyhow::Result<Vec<String>> {
         let features = match self.document["features"].as_table() {
-            Some(features) => features
-                .into_iter()
-                .map(|(k, _)| k.to_owned())
-                .collect::<Vec<_>>(),
+            Some(features) => features.into_iter().map(|(k, _)| k.to_owned()).collect::<Vec<_>>(),
             None => Vec::new(),
         };
         Ok(features)
