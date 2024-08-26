@@ -2,6 +2,7 @@
 members = [
   "google-api-proto",
   "xtask",
+  "examples",
 ]
 resolver = "2"
 
