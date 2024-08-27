@@ -123909,8 +123909,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -123935,7 +123935,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             AcceleratorTypesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -124075,8 +124075,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -124101,7 +124101,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             AddressesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -124323,8 +124323,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -124349,7 +124349,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             AutoscalersClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -124575,8 +124575,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -124601,7 +124601,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             BackendBucketsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -124982,8 +124982,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -125008,7 +125008,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             BackendServicesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -125512,8 +125512,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -125538,7 +125538,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             DiskTypesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -125666,8 +125666,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -125692,7 +125692,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             DisksClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -126201,8 +126201,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -126227,7 +126227,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ExternalVpnGatewaysClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -126454,8 +126454,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -126480,7 +126480,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             FirewallPoliciesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -127038,8 +127038,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -127064,7 +127064,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             FirewallsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -127253,8 +127253,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -127279,7 +127279,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ForwardingRulesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -127545,8 +127545,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -127571,7 +127571,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             GlobalAddressesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -127775,8 +127775,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -127801,7 +127801,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             GlobalForwardingRulesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -128051,8 +128051,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -128077,7 +128077,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             GlobalNetworkEndpointGroupsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -128347,8 +128347,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -128373,7 +128373,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             GlobalOperationsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -128560,8 +128560,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -128586,7 +128586,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             GlobalOrganizationOperationsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -128732,8 +128732,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -128758,7 +128758,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             GlobalPublicDelegatedPrefixesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -128967,8 +128967,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -128993,7 +128993,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             HealthChecksClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -129224,8 +129224,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -129250,7 +129250,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ImageFamilyViewsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -129329,8 +129329,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -129355,7 +129355,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ImagesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -129673,8 +129673,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -129699,7 +129699,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstanceGroupManagerResizeRequestsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -129908,8 +129908,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -129934,7 +129934,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstanceGroupManagersClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -130591,8 +130591,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -130617,7 +130617,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstanceGroupsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -130917,8 +130917,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -130943,7 +130943,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstanceSettingsServiceClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -131055,8 +131055,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -131081,7 +131081,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstanceTemplatesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -131366,8 +131366,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -131392,7 +131392,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstancesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -132737,8 +132737,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -132763,7 +132763,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InstantSnapshotsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -133070,8 +133070,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -133096,7 +133096,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InterconnectAttachmentsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -133358,8 +133358,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -133384,7 +133384,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InterconnectLocationsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -133497,8 +133497,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -133523,7 +133523,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InterconnectRemoteLocationsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -133640,8 +133640,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -133666,7 +133666,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             InterconnectsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -133930,8 +133930,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -133956,7 +133956,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             LicenseCodesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -134061,8 +134061,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -134087,7 +134087,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             LicensesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -134314,8 +134314,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -134340,7 +134340,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             MachineImagesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -134581,8 +134581,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -134607,7 +134607,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             MachineTypesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -134738,8 +134738,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -134764,7 +134764,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NetworkAttachmentsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -135077,8 +135077,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -135103,7 +135103,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NetworkEdgeSecurityServicesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -135310,8 +135310,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -135336,7 +135336,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NetworkEndpointGroupsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -135664,8 +135664,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -135690,7 +135690,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NetworkFirewallPoliciesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -136221,8 +136221,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -136247,7 +136247,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NetworksClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -136578,8 +136578,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -136604,7 +136604,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NodeGroupsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -137046,8 +137046,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -137072,7 +137072,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NodeTemplatesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -137344,8 +137344,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -137370,7 +137370,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             NodeTypesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -137498,8 +137498,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -137524,7 +137524,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             PacketMirroringsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -137772,8 +137772,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -137798,7 +137798,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ProjectsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -138221,8 +138221,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -138247,7 +138247,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             PublicAdvertisedPrefixesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -138506,8 +138506,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -138532,7 +138532,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             PublicDelegatedPrefixesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -138824,8 +138824,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -138850,7 +138850,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionAutoscalersClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -139063,8 +139063,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -139089,7 +139089,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionBackendServicesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -139498,8 +139498,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -139524,7 +139524,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionCommitmentsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -139714,8 +139714,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -139740,7 +139740,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionDiskTypesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -139844,8 +139844,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -139870,7 +139870,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionDisksClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -140380,8 +140380,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -140406,7 +140406,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionHealthCheckServicesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -140609,8 +140609,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -140635,7 +140635,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionHealthChecksClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -140851,8 +140851,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -140877,7 +140877,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionInstanceGroupManagersClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -141513,8 +141513,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -141539,7 +141539,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionInstanceGroupsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -141712,8 +141712,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -141738,7 +141738,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionInstanceTemplatesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -141909,8 +141909,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -141935,7 +141935,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionInstancesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -142014,8 +142014,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -142040,7 +142040,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionInstantSnapshotsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -142334,8 +142334,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -142360,7 +142360,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionNetworkEndpointGroupsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -142630,8 +142630,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -142656,7 +142656,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionNetworkFirewallPoliciesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -143236,8 +143236,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -143262,7 +143262,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionNotificationEndpointsClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -143439,8 +143439,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -143465,7 +143465,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionOperationsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -143619,8 +143619,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -143645,7 +143645,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionSecurityPoliciesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -143958,8 +143958,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -143984,7 +143984,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionSslCertificatesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -144150,8 +144150,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -144176,7 +144176,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionSslPoliciesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -144394,8 +144394,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -144420,7 +144420,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionTargetHttpProxiesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -144621,8 +144621,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -144647,7 +144647,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionTargetHttpsProxiesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -144906,8 +144906,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -144932,7 +144932,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionTargetTcpProxiesClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -145100,8 +145100,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -145126,7 +145126,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionUrlMapsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -145353,8 +145353,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -145379,7 +145379,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionZonesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -145453,8 +145453,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -145479,7 +145479,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RegionsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -145576,8 +145576,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -145602,7 +145602,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ReservationsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -145920,8 +145920,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -145946,7 +145946,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ResourcePoliciesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -146247,8 +146247,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -146273,7 +146273,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RoutersClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -146603,8 +146603,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -146629,7 +146629,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             RoutesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -146772,8 +146772,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -146798,7 +146798,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             SecurityPoliciesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -147188,8 +147188,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -147214,7 +147214,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ServiceAttachmentsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -147527,8 +147527,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -147553,7 +147553,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             SnapshotSettingsServiceClient::new(
                 InterceptedService::new(inner, interceptor),
@@ -147665,8 +147665,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -147691,7 +147691,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             SnapshotsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -147940,8 +147940,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -147966,7 +147966,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             SslCertificatesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -148151,8 +148151,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -148177,7 +148177,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             SslPoliciesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -148414,8 +148414,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -148440,7 +148440,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             StoragePoolTypesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -148580,8 +148580,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -148606,7 +148606,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             StoragePoolsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -148927,8 +148927,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -148953,7 +148953,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             SubnetworksClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -149327,8 +149327,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -149353,7 +149353,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetGrpcProxiesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -149541,8 +149541,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -149567,7 +149567,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetHttpProxiesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -149816,8 +149816,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -149842,7 +149842,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetHttpsProxiesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -150212,8 +150212,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -150238,7 +150238,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetInstancesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -150453,8 +150453,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -150479,7 +150479,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetPoolsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -150847,8 +150847,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -150873,7 +150873,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetSslProxiesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -151173,8 +151173,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -151199,7 +151199,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetTcpProxiesClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -151444,8 +151444,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -151470,7 +151470,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             TargetVpnGatewaysClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -151694,8 +151694,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -151720,7 +151720,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             UrlMapsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -151988,8 +151988,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -152014,7 +152014,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             VpnGatewaysClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -152276,8 +152276,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -152302,7 +152302,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             VpnTunnelsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -152501,8 +152501,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -152527,7 +152527,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ZoneOperationsClient::new(InterceptedService::new(inner, interceptor))
         }
@@ -152681,8 +152681,8 @@
     <span class="kw">where
         </span>T: tonic::client::GrpcService&lt;tonic::body::BoxBody&gt;,
         T::Error: Into&lt;StdError&gt;,
-        T::ResponseBody: Body&lt;Data = Bytes&gt; + Send + <span class="lifetime">'static</span>,
-        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + Send,
+        T::ResponseBody: Body&lt;Data = Bytes&gt; + std::marker::Send + <span class="lifetime">'static</span>,
+        &lt;T::ResponseBody <span class="kw">as </span>Body&gt;::Error: Into&lt;StdError&gt; + std::marker::Send,
     {
         <span class="kw">pub fn </span>new(inner: T) -&gt; <span class="self">Self </span>{
             <span class="kw">let </span>inner = tonic::client::Grpc::new(inner);
@@ -152707,7 +152707,7 @@
             &gt;,
             &lt;T <span class="kw">as </span>tonic::codegen::Service&lt;
                 http::Request&lt;tonic::body::BoxBody&gt;,
-            &gt;&gt;::Error: Into&lt;StdError&gt; + Send + Sync,
+            &gt;&gt;::Error: Into&lt;StdError&gt; + std::marker::Send + std::marker::Sync,
         {
             ZonesClient::new(InterceptedService::new(inner, interceptor))
         }

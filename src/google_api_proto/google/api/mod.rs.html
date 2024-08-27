@@ -4935,6 +4935,27 @@
 <a href="#4935" id="4935">4935</a>
 <a href="#4936" id="4936">4936</a>
 <a href="#4937" id="4937">4937</a>
+<a href="#4938" id="4938">4938</a>
+<a href="#4939" id="4939">4939</a>
+<a href="#4940" id="4940">4940</a>
+<a href="#4941" id="4941">4941</a>
+<a href="#4942" id="4942">4942</a>
+<a href="#4943" id="4943">4943</a>
+<a href="#4944" id="4944">4944</a>
+<a href="#4945" id="4945">4945</a>
+<a href="#4946" id="4946">4946</a>
+<a href="#4947" id="4947">4947</a>
+<a href="#4948" id="4948">4948</a>
+<a href="#4949" id="4949">4949</a>
+<a href="#4950" id="4950">4950</a>
+<a href="#4951" id="4951">4951</a>
+<a href="#4952" id="4952">4952</a>
+<a href="#4953" id="4953">4953</a>
+<a href="#4954" id="4954">4954</a>
+<a href="#4955" id="4955">4955</a>
+<a href="#4956" id="4956">4956</a>
+<a href="#4957" id="4957">4957</a>
+<a href="#4958" id="4958">4958</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-api-apikeys-v2"</span>))]
 </span><span class="kw">pub mod </span>apikeys;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-api-cloudquotas-v1"</span>))]
@@ -6101,6 +6122,27 @@
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
+    <span class="doccomment">/// Experimental features to be included during client library generation.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
+    </span><span class="kw">pub </span>experimental_features: ::core::option::Option&lt;
+        python_settings::ExperimentalFeatures,
+    &gt;,
+}
+<span class="doccomment">/// Nested message and enum types in `PythonSettings`.
+</span><span class="kw">pub mod </span>python_settings {
+    <span class="doccomment">/// Experimental features to be included during client library generation.
+    /// These fields will be deprecated once the feature graduates and is enabled
+    /// by default.
+    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
+    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>ExperimentalFeatures {
+        <span class="doccomment">/// Enables generation of asynchronous REST clients if `rest` transport is
+        /// enabled. By default, asynchronous REST clients will not be generated.
+        /// This feature will be enabled by default 1 month after launching the
+        /// feature in preview packages.
+        </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>rest_async_io_enabled: bool,
+    }
 }
 <span class="doccomment">/// Settings for Node client libraries.
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
