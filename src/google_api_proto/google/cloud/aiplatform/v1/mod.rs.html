@@ -37697,6 +37697,12 @@
 <a href="#37697" id="37697">37697</a>
 <a href="#37698" id="37698">37698</a>
 <a href="#37699" id="37699">37699</a>
+<a href="#37700" id="37700">37700</a>
+<a href="#37701" id="37701">37701</a>
+<a href="#37702" id="37702">37702</a>
+<a href="#37703" id="37703">37703</a>
+<a href="#37704" id="37704">37704</a>
+<a href="#37705" id="37705">37705</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1-schema-predict-instance"</span>,
@@ -55242,6 +55248,12 @@
     /// `Scheduling.restart_job_on_worker_restart` to false.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>disable_retries: bool,
+    <span class="doccomment">/// Optional. This is the maximum duration that a job will wait for the
+    /// requested resources to be provisioned if the scheduling strategy is set to
+    /// \[Strategy.DWS_FLEX_START\].
+    /// If set to 0, the job will wait indefinitely. The default is 24 hours.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"6"</span>)]
+    </span><span class="kw">pub </span>max_wait_duration: ::core::option::Option&lt;::prost_types::Duration&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `Scheduling`.
 </span><span class="kw">pub mod </span>scheduling {
