@@ -3196,7 +3196,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateAssessmentRequest {
-    <span class="doccomment">/// Required. The name of the project in which the assessment will be created,
+    <span class="doccomment">/// Required. The name of the project in which the assessment is created,
     /// in the format `projects/{project}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
@@ -3384,7 +3384,7 @@
     /// `projects/{project}/assessments/{assessment}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
-    <span class="doccomment">/// Optional. The annotation that will be assigned to the Event. This field can
+    <span class="doccomment">/// Optional. The annotation that is assigned to the Event. This field can
     /// be left empty to provide reasons that apply to an event without concluding
     /// whether the event is legitimate or fraudulent.
     </span><span class="attr">#[prost(enumeration = <span class="string">"annotate_assessment_request::Annotation"</span>, tag = <span class="string">"2"</span>)]
@@ -3838,7 +3838,7 @@
     #[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"6"</span>)]
     </span><span class="kw">pub </span>hashed_account_id: ::prost::bytes::Bytes,
     <span class="doccomment">/// Optional. Flag for a reCAPTCHA express request for an assessment without a
-    /// token. If enabled, `site_key` must reference an Express site key.
+    /// token. If enabled, `site_key` must reference an express key.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"14"</span>)]
     </span><span class="kw">pub </span>express: bool,
     <span class="doccomment">/// Optional. The URI resource the user requested that triggered an assessment.
@@ -3856,12 +3856,12 @@
     </span><span class="attr">#[prost(string, repeated, tag = <span class="string">"11"</span>)]
     </span><span class="kw">pub </span>headers: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
     <span class="doccomment">/// Optional. Flag for enabling firewall policy config assessment.
-    /// If this flag is enabled, the firewall policy will be evaluated and a
-    /// suggested firewall action will be returned in the response.
+    /// If this flag is enabled, the firewall policy is evaluated and a
+    /// suggested firewall action is returned in the response.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"12"</span>)]
     </span><span class="kw">pub </span>firewall_policy_evaluation: bool,
     <span class="doccomment">/// Optional. Data describing a payment transaction to be assessed. Sending
-    /// this data enables reCAPTCHA Enterprise Fraud Prevention and the
+    /// this data enables reCAPTCHA Fraud Prevention and the
     /// FraudPreventionAssessment component in the response.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"13"</span>)]
     </span><span class="kw">pub </span>transaction_data: ::core::option::Option&lt;TransactionData&gt;,
@@ -4620,7 +4620,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateKeyRequest {
-    <span class="doccomment">/// Required. The name of the project in which the key will be created, in the
+    <span class="doccomment">/// Required. The name of the project in which the key is created, in the
     /// format `projects/{project}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
@@ -4632,7 +4632,7 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListKeysRequest {
-    <span class="doccomment">/// Required. The name of the project that contains the keys that will be
+    <span class="doccomment">/// Required. The name of the project that contains the keys that are
     /// listed, in the format `projects/{project}`.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>parent: ::prost::alloc::string::String,
@@ -4683,7 +4683,7 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>key: ::core::option::Option&lt;Key&gt;,
     <span class="doccomment">/// Optional. The mask to control which fields of the key get updated. If the
-    /// mask is not present, all fields will be updated.
+    /// mask is not present, all fields are updated.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
 }
@@ -4754,7 +4754,7 @@
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>firewall_policy: ::core::option::Option&lt;FirewallPolicy&gt;,
     <span class="doccomment">/// Optional. The mask to control which fields of the policy get updated. If
-    /// the mask is not present, all fields will be updated.
+    /// the mask is not present, all fields are updated.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>update_mask: ::core::option::Option&lt;::prost_types::FieldMask&gt;,
 }
@@ -4823,11 +4823,11 @@
     <span class="doccomment">/// Inclusive start time aligned to a day (UTC).
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>start_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
-    <span class="doccomment">/// Metrics will be continuous and in order by dates, and in the granularity
+    <span class="doccomment">/// Metrics are continuous and in order by dates, and in the granularity
     /// of day. All Key types should have score-based data.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"2"</span>)]
     </span><span class="kw">pub </span>score_metrics: ::prost::alloc::vec::Vec&lt;ScoreMetrics&gt;,
-    <span class="doccomment">/// Metrics will be continuous and in order by dates, and in the granularity
+    <span class="doccomment">/// Metrics are continuous and in order by dates, and in the granularity
     /// of day. Only challenge-based keys (CHECKBOX, INVISIBLE), will have
     /// challenge-based data.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
@@ -4894,7 +4894,7 @@
         <span class="doccomment">/// Settings for keys that can be used by iOS apps.
         </span><span class="attr">#[prost(message, tag = <span class="string">"5"</span>)]
         </span>IosSettings(<span class="kw">super</span>::IosKeySettings),
-        <span class="doccomment">/// Settings for keys that can be used by reCAPTCHA Express.
+        <span class="doccomment">/// Settings specific to keys that can be used for reCAPTCHA Express.
         </span><span class="attr">#[prost(message, tag = <span class="string">"11"</span>)]
         </span>ExpressSettings(<span class="kw">super</span>::ExpressKeySettings),
     }
@@ -5201,13 +5201,13 @@
 </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FirewallPolicyAssessment {
-    <span class="doccomment">/// Output only. If the processing of a policy config fails, an error will be
-    /// populated and the firewall_policy will be left empty.
+    <span class="doccomment">/// Output only. If the processing of a policy config fails, an error is
+    /// populated and the firewall_policy is left empty.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"5"</span>)]
     </span><span class="kw">pub </span>error: ::core::option::Option&lt;<span class="kw">super</span>::<span class="kw">super</span>::<span class="kw">super</span>::rpc::Status&gt;,
     <span class="doccomment">/// Output only. The policy that matched the request. If more than one policy
     /// may match, this is the first match. If no policy matches the incoming
-    /// request, the policy field will be left empty.
+    /// request, the policy field is left empty.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>firewall_policy: ::core::option::Option&lt;FirewallPolicy&gt;,
 }
@@ -6049,7 +6049,7 @@
         <span class="doccomment">/// Adds an IP override to a key. The following restrictions hold:
         /// * The maximum number of IP overrides per key is 100.
         /// * For any conflict (such as IP already exists or IP part of an existing
-        ///   IP range), an error will be returned.
+        ///   IP range), an error is returned.
         </span><span class="kw">pub async fn </span>add_ip_override(
             <span class="kw-2">&amp;mut </span><span class="self">self</span>,
             request: <span class="kw">impl </span>tonic::IntoRequest&lt;<span class="kw">super</span>::AddIpOverrideRequest&gt;,
