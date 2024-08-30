@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"struct":["ApiKeyConfig"]};
+window.SIDEBAR_ITEMS = {"enum":["AuthConfig"],"struct":["ApiKeyConfig"]};

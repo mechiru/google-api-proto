@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["ModelConfig"],"struct":["VertexPredictionEndpoint"]};
+window.SIDEBAR_ITEMS = {"enum":["ModelConfig"],"mod":["sparse_embedding_config"],"struct":["HybridSearchConfig","SparseEmbeddingConfig","VertexPredictionEndpoint"]};

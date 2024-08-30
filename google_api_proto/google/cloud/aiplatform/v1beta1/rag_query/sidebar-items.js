@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Query"]};
+window.SIDEBAR_ITEMS = {"enum":["Query"],"struct":["Ranking"]};
