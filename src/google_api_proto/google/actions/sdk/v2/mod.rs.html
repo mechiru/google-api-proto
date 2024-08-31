@@ -2477,92 +2477,6 @@
 <a href="#2477" id="2477">2477</a>
 <a href="#2478" id="2478">2478</a>
 <a href="#2479" id="2479">2479</a>
-<a href="#2480" id="2480">2480</a>
-<a href="#2481" id="2481">2481</a>
-<a href="#2482" id="2482">2482</a>
-<a href="#2483" id="2483">2483</a>
-<a href="#2484" id="2484">2484</a>
-<a href="#2485" id="2485">2485</a>
-<a href="#2486" id="2486">2486</a>
-<a href="#2487" id="2487">2487</a>
-<a href="#2488" id="2488">2488</a>
-<a href="#2489" id="2489">2489</a>
-<a href="#2490" id="2490">2490</a>
-<a href="#2491" id="2491">2491</a>
-<a href="#2492" id="2492">2492</a>
-<a href="#2493" id="2493">2493</a>
-<a href="#2494" id="2494">2494</a>
-<a href="#2495" id="2495">2495</a>
-<a href="#2496" id="2496">2496</a>
-<a href="#2497" id="2497">2497</a>
-<a href="#2498" id="2498">2498</a>
-<a href="#2499" id="2499">2499</a>
-<a href="#2500" id="2500">2500</a>
-<a href="#2501" id="2501">2501</a>
-<a href="#2502" id="2502">2502</a>
-<a href="#2503" id="2503">2503</a>
-<a href="#2504" id="2504">2504</a>
-<a href="#2505" id="2505">2505</a>
-<a href="#2506" id="2506">2506</a>
-<a href="#2507" id="2507">2507</a>
-<a href="#2508" id="2508">2508</a>
-<a href="#2509" id="2509">2509</a>
-<a href="#2510" id="2510">2510</a>
-<a href="#2511" id="2511">2511</a>
-<a href="#2512" id="2512">2512</a>
-<a href="#2513" id="2513">2513</a>
-<a href="#2514" id="2514">2514</a>
-<a href="#2515" id="2515">2515</a>
-<a href="#2516" id="2516">2516</a>
-<a href="#2517" id="2517">2517</a>
-<a href="#2518" id="2518">2518</a>
-<a href="#2519" id="2519">2519</a>
-<a href="#2520" id="2520">2520</a>
-<a href="#2521" id="2521">2521</a>
-<a href="#2522" id="2522">2522</a>
-<a href="#2523" id="2523">2523</a>
-<a href="#2524" id="2524">2524</a>
-<a href="#2525" id="2525">2525</a>
-<a href="#2526" id="2526">2526</a>
-<a href="#2527" id="2527">2527</a>
-<a href="#2528" id="2528">2528</a>
-<a href="#2529" id="2529">2529</a>
-<a href="#2530" id="2530">2530</a>
-<a href="#2531" id="2531">2531</a>
-<a href="#2532" id="2532">2532</a>
-<a href="#2533" id="2533">2533</a>
-<a href="#2534" id="2534">2534</a>
-<a href="#2535" id="2535">2535</a>
-<a href="#2536" id="2536">2536</a>
-<a href="#2537" id="2537">2537</a>
-<a href="#2538" id="2538">2538</a>
-<a href="#2539" id="2539">2539</a>
-<a href="#2540" id="2540">2540</a>
-<a href="#2541" id="2541">2541</a>
-<a href="#2542" id="2542">2542</a>
-<a href="#2543" id="2543">2543</a>
-<a href="#2544" id="2544">2544</a>
-<a href="#2545" id="2545">2545</a>
-<a href="#2546" id="2546">2546</a>
-<a href="#2547" id="2547">2547</a>
-<a href="#2548" id="2548">2548</a>
-<a href="#2549" id="2549">2549</a>
-<a href="#2550" id="2550">2550</a>
-<a href="#2551" id="2551">2551</a>
-<a href="#2552" id="2552">2552</a>
-<a href="#2553" id="2553">2553</a>
-<a href="#2554" id="2554">2554</a>
-<a href="#2555" id="2555">2555</a>
-<a href="#2556" id="2556">2556</a>
-<a href="#2557" id="2557">2557</a>
-<a href="#2558" id="2558">2558</a>
-<a href="#2559" id="2559">2559</a>
-<a href="#2560" id="2560">2560</a>
-<a href="#2561" id="2561">2561</a>
-<a href="#2562" id="2562">2562</a>
-<a href="#2563" id="2563">2563</a>
-<a href="#2564" id="2564">2564</a>
-<a href="#2565" id="2565">2565</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-actions-sdk-v2-conversation"</span>))]
 </span><span class="kw">pub mod </span>conversation;
 <span class="attr">#[cfg(
@@ -2587,8 +2501,7 @@
 /// must provide a username and password for a test account in
 /// Settings.testing_instructions for the review team to review the app (they
 /// will not be visible to users).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AccountLinking {
     <span class="doccomment">/// Required. If `true`, users are allowed to sign up for new accounts via voice.
     /// If `false`, account creation is only allowed on your website. Select this
@@ -2745,8 +2658,7 @@
     }
 }
 <span class="doccomment">/// Styles applied to cards that are presented to users
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ThemeCustomization {
     <span class="doccomment">/// Background color of cards. Acts as a fallback if `background_image` is
     /// not provided by developers or `background_image` doesn't fit for certain
@@ -2844,8 +2756,7 @@
 <span class="doccomment">/// Represents settings of an Actions project that are specific to a user locale.
 /// In this instance, user means the end user who invokes your Actions.
 /// **This message is localizable.**
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LocalizedSettings {
     <span class="doccomment">/// Required. The default display name for this Actions project (if there is no
     /// translation available)
@@ -2912,8 +2823,7 @@
 }
 <span class="doccomment">/// Contains a set of requirements that the client surface must support to invoke
 /// Actions in your project.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SurfaceRequirements {
     <span class="doccomment">/// The minimum set of capabilities needed to invoke the Actions in your
     /// project. If the surface is missing any of these, the Action will not be
@@ -2922,8 +2832,7 @@
     </span><span class="kw">pub </span>minimum_requirements: ::prost::alloc::vec::Vec&lt;CapabilityRequirement&gt;,
 }
 <span class="doccomment">/// Represents a requirement about the availability of a given capability.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CapabilityRequirement {
     <span class="doccomment">/// The type of capability.
     </span><span class="attr">#[prost(enumeration = <span class="string">"capability_requirement::SurfaceCapability"</span>, tag = <span class="string">"1"</span>)]
@@ -2996,8 +2905,7 @@
     }
 }
 <span class="doccomment">/// Represents settings of an Actions project that are not locale specific.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Settings {
     <span class="doccomment">/// Actions project id.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3210,16 +3118,14 @@
     }
 }
 <span class="doccomment">/// Wrapper for repeated validation result.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ValidationResults {
     <span class="doccomment">/// Multiple validation results.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>results: ::prost::alloc::vec::Vec&lt;ValidationResult&gt;,
 }
 <span class="doccomment">/// Represents a validation result associated with the app content.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ValidationResult {
     <span class="doccomment">/// Holds the validation message.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3231,8 +3137,7 @@
 <span class="doccomment">/// Nested message and enum types in `ValidationResult`.
 </span><span class="kw">pub mod </span>validation_result {
     <span class="doccomment">/// Context to identify the resource the validation message relates to.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ValidationContext {
         <span class="doccomment">/// Language code of the lozalized resource.
         /// Empty if the error is for non-localized resource.
@@ -3244,8 +3149,7 @@
 }
 <span class="doccomment">/// Information about the encrypted OAuth client secret used in account linking
 /// flows (for AUTH_CODE grant type).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AccountLinkingSecret {
     <span class="doccomment">/// Encrypted account linking client secret ciphertext.
     </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
@@ -3258,8 +3162,7 @@
     </span><span class="kw">pub </span>encryption_key_version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Represents the list of Actions defined in a project.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Actions {
     <span class="doccomment">/// Map from intents to custom Actions to configure invocation for the project.
     /// The invocation intents could either be system or custom intents defined
@@ -3276,8 +3179,7 @@
 </span><span class="kw">pub mod </span>actions {
     <span class="doccomment">/// Defines the engagement mechanisms associated with this action. This
     /// allows end users to subscribe to push notification and daily update.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Engagement {
         <span class="doccomment">/// The title of the engagement that will be sent to end users asking for
         /// their permission to receive updates. The prompt sent to end users for
@@ -3309,19 +3211,16 @@
     <span class="doccomment">/// Nested message and enum types in `Engagement`.
     </span><span class="kw">pub mod </span>engagement {
         <span class="doccomment">/// Defines push notification settings that this engagement supports.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>PushNotification {}
         <span class="doccomment">/// Defines daily update settings that this engagement supports.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>DailyUpdate {}
         <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
         /// corresponding settings. Action links are used to deep link a user into a
         /// specific action.
         /// ActionLink is deprecated. Use AssistantLink instead.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>ActionLink {
             <span class="doccomment">/// User friendly display title for the link.
             </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3330,16 +3229,14 @@
         <span class="doccomment">/// Indicates whether sharing links is enabled for this action and the
         /// corresponding settings. Assistant links are used to deep link a user into
         /// a specific action.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>AssistantLink {
             <span class="doccomment">/// User friendly display title for the link.
             </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
             </span><span class="kw">pub </span>title: ::prost::alloc::string::String,
         }
         <span class="doccomment">/// Recurring update settings that this engagement supports.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
+        </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>RecurringUpdate {
             <span class="doccomment">/// Daily update settings that this engagement supports.
             </span><span class="attr">#[prost(message, tag = <span class="string">"3"</span>)]
@@ -3347,8 +3244,7 @@
         }
     }
     <span class="doccomment">/// Details regarding a custom action.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>CustomAction {
         <span class="doccomment">/// Engagement mechanisms associated with the action to help end users
         /// subscribe to push notifications and daily updates.
@@ -3361,8 +3257,7 @@
 }
 <span class="doccomment">/// Contains information that's "transportable" i.e. not specific to any given
 /// project and can be moved between projects.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Manifest {
     <span class="doccomment">/// Version of the file format. The current file format version is 1.0
     /// Example: "1.0"
@@ -3377,8 +3272,7 @@
 ///   - `/webhooks/my_webhook.yaml`
 ///   - `/webhooks/my_webhook/index.js`
 ///   - `/webhooks/my_webhook/package.json`
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Webhook {
     <span class="doccomment">/// List of handlers for this webhook.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -3392,8 +3286,7 @@
     <span class="doccomment">/// Declares the name of the webhoook handler. A webhook can have
     /// multiple handlers registered. These handlers can be called from multiple
     /// places in your Actions project.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Handler {
         <span class="doccomment">/// Required. Name of the handler. Must be unique across all handlers the Actions
         /// project. You can check the name of this handler to invoke the correct
@@ -3402,8 +3295,7 @@
         </span><span class="kw">pub </span>name: ::prost::alloc::string::String,
     }
     <span class="doccomment">/// REST endpoint to notify if you're not using the inline editor.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>HttpsEndpoint {
         <span class="doccomment">/// The HTTPS base URL for your fulfillment endpoint (HTTP is not supported).
         /// Handler names are appended to the base URL path after a colon
@@ -3426,8 +3318,7 @@
     }
     <span class="doccomment">/// Holds the metadata of an inline Cloud Function deployed from the
     /// webhooks folder.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>InlineCloudFunction {
         <span class="doccomment">/// The name of the Cloud Function entry point. The value of this field
         /// should match the name of the method exported from the source code.
@@ -3435,8 +3326,7 @@
         </span><span class="kw">pub </span>execute_function: ::prost::alloc::string::String,
     }
     <span class="doccomment">/// Only one webhook type is supported.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>WebhookType {
         <span class="doccomment">/// Custom webhook HTTPS endpoint.
         </span><span class="attr">#[prost(message, tag = <span class="string">"2"</span>)]
@@ -3447,8 +3337,7 @@
     }
 }
 <span class="doccomment">/// Wrapper for repeated config files. Repeated fields cannot exist in a oneof.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConfigFiles {
     <span class="doccomment">/// Multiple config files.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -3457,8 +3346,7 @@
 <span class="doccomment">/// Represents a single file which contains structured data. Developers can
 /// define most of their project using structured config including Actions,
 /// Settings, Fulfillment.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConfigFile {
     <span class="doccomment">/// Relative path of the config file from the project root in the SDK file
     /// structure. Each file types below have an allowed file path.
@@ -3475,8 +3363,7 @@
 <span class="doccomment">/// Nested message and enum types in `ConfigFile`.
 </span><span class="kw">pub mod </span>config_file {
     <span class="doccomment">/// Each type of config file should have a corresponding field in the oneof.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>File {
         <span class="doccomment">/// Single manifest file.
         /// Allowed file path: `manifest.yaml`
@@ -3539,8 +3426,7 @@
     }
 }
 <span class="doccomment">/// Wrapper for repeated data file. Repeated fields cannot exist in a oneof.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DataFiles {
     <span class="doccomment">/// Multiple data files.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -3548,8 +3434,7 @@
 }
 <span class="doccomment">/// Represents a single file which contains unstructured data. Examples include
 /// image files, audio files, and cloud function source code.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DataFile {
     <span class="doccomment">/// Relative path of the data file from the project root in the SDK file
     /// structure.
@@ -3580,8 +3465,7 @@
     </span><span class="kw">pub </span>payload: ::prost::bytes::Bytes,
 }
 <span class="doccomment">/// Wrapper for a list of files.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Files {
     <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
     /// data files.
@@ -3592,8 +3476,7 @@
 </span><span class="kw">pub mod </span>files {
     <span class="doccomment">/// Only one type of files can be sent to the server at a time, config files or
     /// data files.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>FileType {
         <span class="doccomment">/// List of config files. This includes manifest, settings, interaction model
         /// resource bundles and more.
@@ -3609,8 +3492,7 @@
 /// Actions Builder conversation request. For an overview of the stages involved
 /// in a conversation request, see
 /// &lt;https://developers.google.com/assistant/conversational/actions.&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExecutionEvent {
     <span class="doccomment">/// Timestamp when the event happened.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -3643,8 +3525,7 @@
     <span class="doccomment">/// Detailed information specific to different of events that may be involved
     /// in processing a conversation round. The field set here defines the type of
     /// this event.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>EventData {
         <span class="doccomment">/// User input handling event.
         </span><span class="attr">#[prost(message, tag = <span class="string">"4"</span>)]
@@ -3688,8 +3569,7 @@
     }
 }
 <span class="doccomment">/// Current state of the execution.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ExecutionState {
     <span class="doccomment">/// ID of the scene which is currently  active.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3716,8 +3596,7 @@
     </span><span class="kw">pub </span>household_storage: ::core::option::Option&lt;::prost_types::Struct&gt;,
 }
 <span class="doccomment">/// Represents the current state of a the scene's slots.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Slots {
     <span class="doccomment">/// The current status of slot filling.
     </span><span class="attr">#[prost(enumeration = <span class="string">"conversation::SlotFillingStatus"</span>, tag = <span class="string">"2"</span>)]
@@ -3730,8 +3609,7 @@
     &gt;,
 }
 <span class="doccomment">/// Information related to user input.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UserConversationInput {
     <span class="doccomment">/// Type of user input. E.g. keyboard, voice, touch, etc.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3742,8 +3620,7 @@
 }
 <span class="doccomment">/// Information about triggered intent match (global or within a scene):
 /// &lt;https://developers.google.com/assistant/conversational/intents&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>IntentMatch {
     <span class="doccomment">/// Intent id which triggered this interaction.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3763,8 +3640,7 @@
 }
 <span class="doccomment">/// Results of conditions evaluation:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#conditions&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConditionsEvaluated {
     <span class="doccomment">/// List of conditions which were evaluated to 'false'.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -3774,8 +3650,7 @@
     </span><span class="kw">pub </span>success_condition: ::core::option::Option&lt;Condition&gt;,
 }
 <span class="doccomment">/// Evaluated condition.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Condition {
     <span class="doccomment">/// Expression specified in this condition.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3789,8 +3664,7 @@
 }
 <span class="doccomment">/// Information about execution of onSceneEnter stage:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#on_enter&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OnSceneEnter {
     <span class="doccomment">/// Handler name specified in onSceneEnter event.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3798,8 +3672,7 @@
 }
 <span class="doccomment">/// Event triggered by destination scene returned from webhook:
 /// &lt;https://developers.google.com/assistant/conversational/webhooks#transition_scenes&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WebhookInitiatedTransition {
     <span class="doccomment">/// ID of the scene the transition is leading to.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3807,8 +3680,7 @@
 }
 <span class="doccomment">/// Information about a request dispatched to the Action webhook:
 /// &lt;https://developers.google.com/assistant/conversational/webhooks#payloads&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WebhookRequest {
     <span class="doccomment">/// Payload of the webhook request.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3816,8 +3688,7 @@
 }
 <span class="doccomment">/// Information about a response received from the Action webhook:
 /// &lt;https://developers.google.com/assistant/conversational/webhooks#payloads&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WebhookResponse {
     <span class="doccomment">/// Payload of the webhook response.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3825,8 +3696,7 @@
 }
 <span class="doccomment">/// Information about matched slot(s):
 /// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SlotMatch {
     <span class="doccomment">/// Parameters extracted by NLU from user input.
     </span><span class="attr">#[prost(btree_map = <span class="string">"string, message"</span>, tag = <span class="string">"2"</span>)]
@@ -3837,8 +3707,7 @@
 }
 <span class="doccomment">/// Information about currently requested slot:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SlotRequested {
     <span class="doccomment">/// Name of the requested slot.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3849,26 +3718,21 @@
 }
 <span class="doccomment">/// Event which happens after webhook validation was finished for slot(s):
 /// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SlotValidated {}
 <span class="doccomment">/// Event which happens when form is fully filled:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#slot_filling&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FormFilled {}
 <span class="doccomment">/// Event which happens when system needs user input:
 /// &lt;https://developers.google.com/assistant/conversational/scenes#input&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WaitingForUserInput {}
 <span class="doccomment">/// Event which informs that conversation with agent was ended.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>EndConversation {}
 <span class="doccomment">/// Request for playing a round of the conversation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SendInteractionRequest {
     <span class="doccomment">/// Required. The project being tested, indicated by the Project ID.
     /// Format: projects/{project}
@@ -3888,8 +3752,7 @@
     </span><span class="kw">pub </span>conversation_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// User input provided on a conversation round.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UserInput {
     <span class="doccomment">/// Content of the input sent by the user.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -3953,8 +3816,7 @@
     }
 }
 <span class="doccomment">/// Properties of device relevant to a conversation round.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DeviceProperties {
     <span class="doccomment">/// Surface used for interacting with the Action.
     </span><span class="attr">#[prost(enumeration = <span class="string">"device_properties::Surface"</span>, tag = <span class="string">"1"</span>)]
@@ -4034,8 +3896,7 @@
     }
 }
 <span class="doccomment">/// Container that represents a location.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Location {
     <span class="doccomment">/// Geo coordinates.
     /// Requires the \[DEVICE_PRECISE_LOCATION\]
@@ -4063,8 +3924,7 @@
     </span><span class="kw">pub </span>city: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Response to a round of the conversation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SendInteractionResponse {
     <span class="doccomment">/// Output provided to the user.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -4078,8 +3938,7 @@
     </span><span class="kw">pub </span>conversation_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// User-visible output to the conversation round.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Output {
     <span class="doccomment">/// Spoken response sent to user as a plain string.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -4098,8 +3957,7 @@
     </span><span class="kw">pub </span>actions_builder_prompt: ::core::option::Option&lt;conversation::Prompt&gt;,
 }
 <span class="doccomment">/// Diagnostics information related to the conversation round.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Diagnostics {
     <span class="doccomment">/// List of events with details about processing of the conversation round
     /// throughout the stages of the Actions Builder interaction model.
@@ -4108,8 +3966,7 @@
     </span><span class="kw">pub </span>actions_builder_events: ::prost::alloc::vec::Vec&lt;ExecutionEvent&gt;,
 }
 <span class="doccomment">/// Request for finding matching intents.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MatchIntentsRequest {
     <span class="doccomment">/// Required. The project being tested, indicated by the Project ID.
     /// Format: projects/{project}
@@ -4126,8 +3983,7 @@
     </span><span class="kw">pub </span>locale: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Response for finding matching intents.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MatchIntentsResponse {
     <span class="doccomment">/// Intents matched, ordered from most to least relevant. Only the first
     /// 50 matches are returned.
@@ -4135,8 +3991,7 @@
     </span><span class="kw">pub </span>matched_intents: ::prost::alloc::vec::Vec&lt;conversation::Intent&gt;,
 }
 <span class="doccomment">/// Request for setting Web &amp; App Activity preferences.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SetWebAndAppActivityControlRequest {
     <span class="doccomment">/// Whether the setting should be set to an enabled or disabled state.
     </span><span class="attr">#[prost(bool, tag = <span class="string">"1"</span>)]
@@ -4320,8 +4175,7 @@
     }
 }
 <span class="doccomment">/// Definition of release channel resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReleaseChannel {
     <span class="doccomment">/// The unique name of the release channel in the following format.
     /// `projects/{project}/releaseChannels/{release_channel}`.
@@ -4337,8 +4191,7 @@
     </span><span class="kw">pub </span>pending_version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Definition of version resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Version {
     <span class="doccomment">/// The unique identifier of the version in the following format.
     /// `projects/{project}/versions/{version}`.
@@ -4357,8 +4210,7 @@
 <span class="doccomment">/// Nested message and enum types in `Version`.
 </span><span class="kw">pub mod </span>version {
     <span class="doccomment">/// Represents the current state of the version.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>VersionState {
         <span class="doccomment">/// The current state of the version.
         </span><span class="attr">#[prost(enumeration = <span class="string">"version_state::State"</span>, tag = <span class="string">"1"</span>)]
@@ -4446,8 +4298,7 @@
     }
 }
 <span class="doccomment">/// Streaming RPC request for WriteDraft.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WriteDraftRequest {
     <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
     /// `{project}` is the cloud project ID associated with the project.
@@ -4464,8 +4315,7 @@
     </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
 }
 <span class="doccomment">/// Definition of draft resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Draft {
     <span class="doccomment">/// The unique identifier of the draft in the following format.
     /// `projects/{project}/draft`
@@ -4478,8 +4328,7 @@
     </span><span class="kw">pub </span>validation_results: ::core::option::Option&lt;ValidationResults&gt;,
 }
 <span class="doccomment">/// Streaming RPC request for WritePreview.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>WritePreviewRequest {
     <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
     /// `{project}` is the cloud project ID associated with the project.
@@ -4495,12 +4344,10 @@
 <span class="doccomment">/// Nested message and enum types in `WritePreviewRequest`.
 </span><span class="kw">pub mod </span>write_preview_request {
     <span class="doccomment">/// Indicates the preview content will be coming from the Draft.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ContentFromDraft {}
     <span class="doccomment">/// Indicates the preview content will be coming from an exiting version.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ContentFromSubmittedVersion {
         <span class="doccomment">/// Required. Submitted version of the project to be used to create a preview.
         /// Format: `projects/{project}/versions/{version}`
@@ -4508,8 +4355,7 @@
         </span><span class="kw">pub </span>version: ::prost::alloc::string::String,
     }
     <span class="doccomment">/// Settings for updating the preview.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>PreviewSettings {
         <span class="doccomment">/// Indicates whether or not to run certain operations, such as transactions,
         /// in sandbox mode. By default, preview requests run these operations in
@@ -4518,8 +4364,7 @@
         </span><span class="kw">pub </span>sandbox: ::core::option::Option&lt;bool&gt;,
     }
     <span class="doccomment">/// Data source used to created the preview.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Source {
         <span class="doccomment">/// List of files sent to the server at a time. This is a list of config
         /// files or data files.
@@ -4539,8 +4384,7 @@
     }
 }
 <span class="doccomment">/// Definition of preview resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Preview {
     <span class="doccomment">/// The unique identifier of the preview.
     /// Format: `projects/{project}/preview`
@@ -4554,8 +4398,7 @@
     </span><span class="kw">pub </span>simulator_url: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Streaming RPC request for CreateVersion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CreateVersionRequest {
     <span class="doccomment">/// Required. The parent resource name in the format `projects/{project}`. The
     /// `{project}` is the cloud project ID associated with the project.
@@ -4578,8 +4421,7 @@
     </span><span class="kw">pub </span>release_channel: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC request for ReadDraft.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReadDraftRequest {
     <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}/draft`. The
     /// `{project}` is the cloud project ID associated with the project.
@@ -4593,16 +4435,14 @@
     </span><span class="kw">pub </span>client_secret_encryption_key_version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Streaming RPC response for ReadDraft.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReadDraftResponse {
     <span class="doccomment">/// List of files sent from the server at a time.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"3"</span>)]
     </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
 }
 <span class="doccomment">/// RPC request for ReadVersion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReadVersionRequest {
     <span class="doccomment">/// Required. The name of the version resource in the format
     /// `projects/{project}/versions/{version}`. `{project}` is the
@@ -4618,24 +4458,21 @@
     </span><span class="kw">pub </span>client_secret_encryption_key_version: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Streaming RPC response for ReadVersion.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ReadVersionResponse {
     <span class="doccomment">/// List of files sent from the server at a time.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>files: ::core::option::Option&lt;Files&gt;,
 }
 <span class="doccomment">/// RPC request for EncryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>EncryptSecretRequest {
     <span class="doccomment">/// Required. The account linking client secret plaintext.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>client_secret: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC response for EncryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>EncryptSecretResponse {
     <span class="doccomment">/// Contains the encrypted account linking client secret and the key version
     /// used to encrypt the secret.
@@ -4643,24 +4480,21 @@
     </span><span class="kw">pub </span>account_linking_secret: ::core::option::Option&lt;AccountLinkingSecret&gt;,
 }
 <span class="doccomment">/// RPC request for DecryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DecryptSecretRequest {
     <span class="doccomment">/// Required. The account linking client secret ciphertext.
     </span><span class="attr">#[prost(bytes = <span class="string">"bytes"</span>, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>encrypted_client_secret: ::prost::bytes::Bytes,
 }
 <span class="doccomment">/// RPC response for DecryptSecret.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DecryptSecretResponse {
     <span class="doccomment">/// The account linking client secret plaintext.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>client_secret: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC request for ListSampleProjects.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListSampleProjectsRequest {
     <span class="doccomment">/// Optional. The maximum number of sample projects to return. The service may return
     /// fewer than this value.
@@ -4674,8 +4508,7 @@
     </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC response for ListSampleProjects.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListSampleProjectsResponse {
     <span class="doccomment">/// The list of sample projects supported.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -4686,8 +4519,7 @@
     </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Definition of sample project resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SampleProject {
     <span class="doccomment">/// The name of the sample project.
     /// Format: `sampleProjects/{sample_project}`
@@ -4701,8 +4533,7 @@
     </span><span class="kw">pub </span>description: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC request for listing release channels
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListReleaseChannelsRequest {
     <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}`. The
     /// `{project}` is the cloud project ID associated with the project.
@@ -4721,8 +4552,7 @@
     </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC response for listing release channels
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListReleaseChannelsResponse {
     <span class="doccomment">/// List of the release channels for the given project id.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -4733,8 +4563,7 @@
     </span><span class="kw">pub </span>next_page_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC request for listing versions
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListVersionsRequest {
     <span class="doccomment">/// Required. The name of the resource in the format `projects/{project}`. The
     /// `{project}` is the cloud project ID associated with the project.
@@ -4753,8 +4582,7 @@
     </span><span class="kw">pub </span>page_token: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// RPC response for listing versions
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ListVersionsResponse {
     <span class="doccomment">/// List of the versions for the given project id.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]

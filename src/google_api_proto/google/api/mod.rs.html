@@ -4874,88 +4874,6 @@
 <a href="#4874" id="4874">4874</a>
 <a href="#4875" id="4875">4875</a>
 <a href="#4876" id="4876">4876</a>
-<a href="#4877" id="4877">4877</a>
-<a href="#4878" id="4878">4878</a>
-<a href="#4879" id="4879">4879</a>
-<a href="#4880" id="4880">4880</a>
-<a href="#4881" id="4881">4881</a>
-<a href="#4882" id="4882">4882</a>
-<a href="#4883" id="4883">4883</a>
-<a href="#4884" id="4884">4884</a>
-<a href="#4885" id="4885">4885</a>
-<a href="#4886" id="4886">4886</a>
-<a href="#4887" id="4887">4887</a>
-<a href="#4888" id="4888">4888</a>
-<a href="#4889" id="4889">4889</a>
-<a href="#4890" id="4890">4890</a>
-<a href="#4891" id="4891">4891</a>
-<a href="#4892" id="4892">4892</a>
-<a href="#4893" id="4893">4893</a>
-<a href="#4894" id="4894">4894</a>
-<a href="#4895" id="4895">4895</a>
-<a href="#4896" id="4896">4896</a>
-<a href="#4897" id="4897">4897</a>
-<a href="#4898" id="4898">4898</a>
-<a href="#4899" id="4899">4899</a>
-<a href="#4900" id="4900">4900</a>
-<a href="#4901" id="4901">4901</a>
-<a href="#4902" id="4902">4902</a>
-<a href="#4903" id="4903">4903</a>
-<a href="#4904" id="4904">4904</a>
-<a href="#4905" id="4905">4905</a>
-<a href="#4906" id="4906">4906</a>
-<a href="#4907" id="4907">4907</a>
-<a href="#4908" id="4908">4908</a>
-<a href="#4909" id="4909">4909</a>
-<a href="#4910" id="4910">4910</a>
-<a href="#4911" id="4911">4911</a>
-<a href="#4912" id="4912">4912</a>
-<a href="#4913" id="4913">4913</a>
-<a href="#4914" id="4914">4914</a>
-<a href="#4915" id="4915">4915</a>
-<a href="#4916" id="4916">4916</a>
-<a href="#4917" id="4917">4917</a>
-<a href="#4918" id="4918">4918</a>
-<a href="#4919" id="4919">4919</a>
-<a href="#4920" id="4920">4920</a>
-<a href="#4921" id="4921">4921</a>
-<a href="#4922" id="4922">4922</a>
-<a href="#4923" id="4923">4923</a>
-<a href="#4924" id="4924">4924</a>
-<a href="#4925" id="4925">4925</a>
-<a href="#4926" id="4926">4926</a>
-<a href="#4927" id="4927">4927</a>
-<a href="#4928" id="4928">4928</a>
-<a href="#4929" id="4929">4929</a>
-<a href="#4930" id="4930">4930</a>
-<a href="#4931" id="4931">4931</a>
-<a href="#4932" id="4932">4932</a>
-<a href="#4933" id="4933">4933</a>
-<a href="#4934" id="4934">4934</a>
-<a href="#4935" id="4935">4935</a>
-<a href="#4936" id="4936">4936</a>
-<a href="#4937" id="4937">4937</a>
-<a href="#4938" id="4938">4938</a>
-<a href="#4939" id="4939">4939</a>
-<a href="#4940" id="4940">4940</a>
-<a href="#4941" id="4941">4941</a>
-<a href="#4942" id="4942">4942</a>
-<a href="#4943" id="4943">4943</a>
-<a href="#4944" id="4944">4944</a>
-<a href="#4945" id="4945">4945</a>
-<a href="#4946" id="4946">4946</a>
-<a href="#4947" id="4947">4947</a>
-<a href="#4948" id="4948">4948</a>
-<a href="#4949" id="4949">4949</a>
-<a href="#4950" id="4950">4950</a>
-<a href="#4951" id="4951">4951</a>
-<a href="#4952" id="4952">4952</a>
-<a href="#4953" id="4953">4953</a>
-<a href="#4954" id="4954">4954</a>
-<a href="#4955" id="4955">4955</a>
-<a href="#4956" id="4956">4956</a>
-<a href="#4957" id="4957">4957</a>
-<a href="#4958" id="4958">4958</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(any(feature = <span class="string">"google-api-apikeys-v2"</span>))]
 </span><span class="kw">pub mod </span>apikeys;
 <span class="attr">#[cfg(any(feature = <span class="string">"google-api-cloudquotas-v1"</span>))]
@@ -5122,8 +5040,7 @@
 ///        pattern: "folders/{folder}/logs/{log}"
 ///        pattern: "organizations/{organization}/logs/{log}"
 ///        pattern: "billingAccounts/{billing_account}/logs/{log}"
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResourceDescriptor {
     <span class="doccomment">/// The resource type. It must be in the format of
     /// {service_name}/{resource_type_kind}. The `resource_type_kind` must be
@@ -5303,8 +5220,7 @@
 }
 <span class="doccomment">/// Defines a proto annotation that describes a string field that refers to
 /// an API resource.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ResourceReference {
     <span class="doccomment">/// The resource type that the annotated field references.
     ///
@@ -5343,8 +5259,7 @@
     </span><span class="kw">pub </span>child_type: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A description of a label.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LabelDescriptor {
     <span class="doccomment">/// The label key.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -5488,8 +5403,7 @@
 /// provide a `list` method that returns the monitored resource descriptors used
 /// by the API.
 ///
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MonitoredResourceDescriptor {
     <span class="doccomment">/// Optional. The resource name of the monitored resource descriptor:
     /// `"projects/{project_id}/monitoredResourceDescriptors/{type}"` where
@@ -5542,8 +5456,7 @@
 ///        "labels": { "project_id": "my-project",
 ///                    "instance_id": "12345678901234",
 ///                    "zone": "us-central1-a" }}
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MonitoredResource {
     <span class="doccomment">/// Required. The monitored resource type. This field must match
     /// the `type` field of a
@@ -5569,8 +5482,7 @@
 /// instance. There is some other useful auxiliary metadata. Monitoring and
 /// Logging use an ingestion pipeline to extract metadata for cloud resources of
 /// all types, and store the metadata in this message.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MonitoredResourceMetadata {
     <span class="doccomment">/// Output only. Values for predefined system metadata labels.
     /// System labels are a kind of metadata extracted by Google, including
@@ -5594,8 +5506,7 @@
 <span class="doccomment">/// Defines the HTTP configuration for an API service. It contains a list of
 /// [HttpRule][google.api.HttpRule], each specifying the mapping of an RPC method
 /// to one or more HTTP REST API methods.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Http {
     <span class="doccomment">/// A list of HTTP configuration rules that apply to individual API methods.
     ///
@@ -5875,8 +5786,7 @@
 /// If an API needs to use a JSON array for request or response body, it can map
 /// the request or response body to a repeated field. However, some gRPC
 /// Transcoding implementations may not support this feature.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HttpRule {
     <span class="doccomment">/// Selects a method to which this rule applies.
     ///
@@ -5916,8 +5826,7 @@
     <span class="doccomment">/// Determines the URL pattern is matched by this rules. This pattern can be
     /// used with any of the {get|put|post|delete|patch} methods. A custom method
     /// can be defined using the 'custom' field.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Pattern {
         <span class="doccomment">/// Maps to HTTP GET. Used for listing and getting information about
         /// resources.
@@ -5944,8 +5853,7 @@
     }
 }
 <span class="doccomment">/// A custom pattern is used for defining custom HTTP verb.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CustomHttpPattern {
     <span class="doccomment">/// The name of this custom HTTP verb.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -5955,8 +5863,7 @@
     </span><span class="kw">pub </span>path: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Required information for every language.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CommonLanguageSettings {
     <span class="doccomment">/// Link to automatically generated reference documentation.  Example:
     /// &lt;https://cloud.google.com/nodejs/docs/reference/asset/latest&gt;
@@ -5968,8 +5875,7 @@
     </span><span class="kw">pub </span>destinations: ::prost::alloc::vec::Vec&lt;i32&gt;,
 }
 <span class="doccomment">/// Details about how and where to publish client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ClientLibrarySettings {
     <span class="doccomment">/// Version of the API to apply these settings to. This is the full protobuf
     /// package for the API, ending in the version element.
@@ -6011,8 +5917,7 @@
 <span class="doccomment">/// This message configures the settings for publishing [Google Cloud Client
 /// libraries](&lt;https://cloud.google.com/apis/docs/cloud-client-libraries&gt;)
 /// generated from the service config.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Publishing {
     <span class="doccomment">/// A list of API method settings, e.g. the behavior for methods that use the
     /// long-running operation pattern.
@@ -6060,8 +5965,7 @@
     </span><span class="kw">pub </span>rest_reference_documentation_uri: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Settings for Java client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>JavaSettings {
     <span class="doccomment">/// The package name to use in Java. Clobbers the java_package option
     /// set in the protobuf. This should be used **only** by APIs
@@ -6100,24 +6004,21 @@
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
 }
 <span class="doccomment">/// Settings for C++ client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>CppSettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
 }
 <span class="doccomment">/// Settings for Php client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PhpSettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
 }
 <span class="doccomment">/// Settings for Python client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>PythonSettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -6133,8 +6034,7 @@
     <span class="doccomment">/// Experimental features to be included during client library generation.
     /// These fields will be deprecated once the feature graduates and is enabled
     /// by default.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>ExperimentalFeatures {
         <span class="doccomment">/// Enables generation of asynchronous REST clients if `rest` transport is
         /// enabled. By default, asynchronous REST clients will not be generated.
@@ -6145,16 +6045,14 @@
     }
 }
 <span class="doccomment">/// Settings for Node client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>NodeSettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
 }
 <span class="doccomment">/// Settings for Dotnet client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DotnetSettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
@@ -6199,24 +6097,21 @@
     </span><span class="kw">pub </span>handwritten_signatures: ::prost::alloc::vec::Vec&lt;::prost::alloc::string::String&gt;,
 }
 <span class="doccomment">/// Settings for Ruby client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RubySettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
 }
 <span class="doccomment">/// Settings for Go client libraries.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>GoSettings {
     <span class="doccomment">/// Some settings.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>common: ::core::option::Option&lt;CommonLanguageSettings&gt;,
 }
 <span class="doccomment">/// Describes the generator configuration for a method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MethodSettings {
     <span class="doccomment">/// The fully qualified name of the method, for which the options below apply.
     /// This is used to find the method to apply the options.
@@ -6266,8 +6161,7 @@
     /// All default values below are from those used in the client library
     /// generators (e.g.
     /// [Java](&lt;https://github.com/googleapis/gapic-generator-java/blob/04c2faa191a9b5a10b92392fe8482279c4404803/src/main/java/com/google/api/generator/gapic/composer/common/RetrySettingsComposer.java&gt;)).
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LongRunning {
         <span class="doccomment">/// Initial delay after which the first poll request will be made.
         /// Default value: 5 seconds.
@@ -6395,8 +6289,7 @@
 /// Although it is not forbidden, it is generally a bad idea to include
 /// non-finite values (infinities or NaNs) in the population of values, as this
 /// will render the `mean` and `sum_of_squared_deviation` fields meaningless.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Distribution {
     <span class="doccomment">/// The number of values in the population. Must be non-negative. This value
     /// must equal the sum of the values in `bucket_counts` if a histogram is
@@ -6450,8 +6343,7 @@
 <span class="doccomment">/// Nested message and enum types in `Distribution`.
 </span><span class="kw">pub mod </span>distribution {
     <span class="doccomment">/// The range of the population values.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Range {
         <span class="doccomment">/// The minimum of the population values.
         </span><span class="attr">#[prost(double, tag = <span class="string">"1"</span>)]
@@ -6475,8 +6367,7 @@
     /// of finite values: lower bound of the underflow bucket is -infinity and the
     /// upper bound of the overflow bucket is +infinity. The finite buckets are
     /// so-called because both bounds are finite.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>BucketOptions {
         <span class="doccomment">/// Exactly one of these three fields must be set.
         </span><span class="attr">#[prost(oneof = <span class="string">"bucket_options::Options"</span>, tags = <span class="string">"1, 2, 3"</span>)]
@@ -6494,8 +6385,7 @@
         ///     Upper bound (0 &lt;= i &lt; N-1):     offset + (width * i).
         ///
         ///     Lower bound (1 &lt;= i &lt; N):       offset + (width * (i - 1)).
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Linear {
             <span class="doccomment">/// Must be greater than 0.
             </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -6517,8 +6407,7 @@
         ///     Upper bound (0 &lt;= i &lt; N-1):     scale * (growth_factor ^ i).
         ///
         ///     Lower bound (1 &lt;= i &lt; N):       scale * (growth_factor ^ (i - 1)).
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Exponential {
             <span class="doccomment">/// Must be greater than 0.
             </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
@@ -6541,16 +6430,14 @@
         /// The `bounds` field must contain at least one element. If `bounds` has
         /// only one element, then there are no finite buckets, and that single
         /// element is the common boundary of the overflow and underflow buckets.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Message)]
+        </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
         </span><span class="kw">pub struct </span>Explicit {
             <span class="doccomment">/// The values must be monotonically increasing.
             </span><span class="attr">#[prost(double, repeated, tag = <span class="string">"1"</span>)]
             </span><span class="kw">pub </span>bounds: ::prost::alloc::vec::Vec&lt;f64&gt;,
         }
         <span class="doccomment">/// Exactly one of these three fields must be set.
-        </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-        #[derive(Clone, PartialEq, ::prost::Oneof)]
+        </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
         </span><span class="kw">pub enum </span>Options {
             <span class="doccomment">/// The linear bucket.
             </span><span class="attr">#[prost(message, tag = <span class="string">"1"</span>)]
@@ -6568,8 +6455,7 @@
     /// particular value added to a Distribution bucket, such as a trace ID that
     /// was active when a value was added. They may contain further information,
     /// such as a example values and timestamps, origin, etc.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>Exemplar {
         <span class="doccomment">/// Value of the exemplar point. This value determines to which bucket the
         /// exemplar belongs.
@@ -6597,8 +6483,7 @@
 /// deleting or altering it stops data collection and makes the metric type's
 /// existing data unusable.
 ///
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MetricDescriptor {
     <span class="doccomment">/// The resource name of the metric descriptor.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -6762,8 +6647,7 @@
 <span class="doccomment">/// Nested message and enum types in `MetricDescriptor`.
 </span><span class="kw">pub mod </span>metric_descriptor {
     <span class="doccomment">/// Additional annotations that can be used to guide the usage of a metric.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>MetricDescriptorMetadata {
         <span class="doccomment">/// Deprecated. Must use the
         /// [MetricDescriptor.launch_stage][google.api.MetricDescriptor.launch_stage]
@@ -6900,8 +6784,7 @@
 }
 <span class="doccomment">/// A specific metric, identified by specifying values for all of the
 /// labels of a [`MetricDescriptor`][google.api.MetricDescriptor].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Metric {
     <span class="doccomment">/// An existing metric type, see
     /// [google.api.MetricDescriptor][google.api.MetricDescriptor]. For example,
@@ -7275,8 +7158,7 @@
 ///
 ///      x-goog-request-params:
 ///      table_location=instances/instance_bar&amp;routing_id=prof_qux
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RoutingRule {
     <span class="doccomment">/// A collection of Routing Parameter specifications.
     /// **NOTE:** If multiple Routing Parameters describe the same key
@@ -7288,8 +7170,7 @@
     </span><span class="kw">pub </span>routing_parameters: ::prost::alloc::vec::Vec&lt;RoutingParameter&gt;,
 }
 <span class="doccomment">/// A projection from an input message to the GRPC or REST header.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>RoutingParameter {
     <span class="doccomment">/// A request field to extract the header key-value pair from.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -7394,8 +7275,7 @@
 ///
 /// Use of this type only changes how the request and response bodies are
 /// handled, all other features will continue to work unchanged.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>HttpBody {
     <span class="doccomment">/// The HTTP Content-Type header value specifying the content type of the body.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -7409,8 +7289,7 @@
     </span><span class="kw">pub </span>extensions: ::prost::alloc::vec::Vec&lt;::prost_types::Any&gt;,
 }
 <span class="doccomment">/// Rich semantic information of an API field beyond basic typing.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FieldInfo {
     <span class="doccomment">/// The standard format of a field value. This does not explicitly configure
     /// any API consumer, just documents the API's format for the field it is
@@ -7493,8 +7372,7 @@
     }
 }
 <span class="doccomment">/// A reference to a message type, for use in [FieldInfo][google.api.FieldInfo].
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>TypeReference {
     <span class="doccomment">/// The name of the type that the annotated, generic field may represent.
     /// If the type is in the same protobuf package, the value can be the simple
@@ -7509,8 +7387,7 @@
     </span><span class="kw">pub </span>type_name: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Configuration controlling usage of a service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Usage {
     <span class="doccomment">/// Requirements that must be satisfied before a consumer project can use the
     /// service. Each requirement is of the form &lt;service.name&gt;/&lt;requirement-id&gt;;
@@ -7564,8 +7441,7 @@
 ///        rules:
 ///        - selector: "google.example.library.v1.LibraryService.CreateBook"
 ///          allow_unregistered_calls: true
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>UsageRule {
     <span class="doccomment">/// Selects the methods to which this rule applies. Use '*' to indicate all
     /// methods in all APIs.
@@ -7593,8 +7469,7 @@
 ///        labels:
 ///        - key: /customer_id
 ///          description: Identifier of a library customer
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>LogDescriptor {
     <span class="doccomment">/// The name of the log. It must be less than 512 characters long and can
     /// include the following characters: upper- and lower-case alphanumeric
@@ -7637,8 +7512,7 @@
 ///        # to decide whether the subsequent cross-origin request is allowed
 ///        # to proceed.
 ///        allow_cors: true
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Endpoint {
     <span class="doccomment">/// The canonical name of this endpoint.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -7715,8 +7589,7 @@
 ///         value_type: INT64
 ///
 ///
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Quota {
     <span class="doccomment">/// List of QuotaLimit definitions for the service.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"3"</span>)]
@@ -7728,8 +7601,7 @@
 }
 <span class="doccomment">/// Bind API methods to metrics. Binding a method to a metric causes that
 /// metric's configured quota behaviors to apply to the method call.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MetricRule {
     <span class="doccomment">/// Selects the methods to which this rule applies.
     ///
@@ -7752,8 +7624,7 @@
 <span class="doccomment">/// `QuotaLimit` defines a specific limit that applies over a specified duration
 /// for a limit type. There can be at most one limit for a duration and limit
 /// type combination defined within a `QuotaGroup`.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>QuotaLimit {
     <span class="doccomment">/// Name of the quota limit.
     ///
@@ -7853,8 +7724,7 @@
 ///         description: Allows usage of the API without watermarks.
 ///       - name: EXTENDED_TILE_CACHE_PERIOD
 ///         type: INT64
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ProjectProperties {
     <span class="doccomment">/// List of per consumer project-specific properties.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
@@ -7870,8 +7740,7 @@
 ///
 /// These values can be set via API producer console. Only API providers can
 /// define and set these properties.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Property {
     <span class="doccomment">/// The name of the property (a.k.a key).
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -7966,8 +7835,7 @@
 ///        - monitored_resource: library.googleapis.com/branch
 ///          logs:
 ///          - activity_history
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Logging {
     <span class="doccomment">/// Logging configurations for sending logs to the producer project.
     /// There can be multiple producer destinations, each one must have a
@@ -7986,8 +7854,7 @@
 </span><span class="kw">pub mod </span>logging {
     <span class="doccomment">/// Configuration of a specific logging destination (the producer project
     /// or the consumer project).
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>LoggingDestination {
         <span class="doccomment">/// The monitored resource type. The type must be defined in the
         /// [Service.monitored_resources][google.api.Service.monitored_resources]
@@ -8038,8 +7905,7 @@
 ///
 /// You can also specify extension ID instead of fully qualified extension name
 /// here.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Context {
     <span class="doccomment">/// A list of RPC context rules that apply to individual API methods.
     ///
@@ -8049,8 +7915,7 @@
 }
 <span class="doccomment">/// A context rule provides information about the context for an individual API
 /// element.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ContextRule {
     <span class="doccomment">/// Selects the methods to which this rule applies.
     ///
@@ -8085,8 +7950,7 @@
 /// Includes detailed information about a field that have changed with
 /// applicable advice about potential consequences for the change, such as
 /// backwards-incompatibility.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>ConfigChange {
     <span class="doccomment">/// Object hierarchy path to the change, with levels separated by a '.'
     /// character. For repeated fields, an applicable unique identifier field is
@@ -8117,8 +7981,7 @@
 }
 <span class="doccomment">/// Generated advice about this change, used for providing more
 /// information about how a change will affect the existing service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Advice {
     <span class="doccomment">/// Useful description for why this advice was applied and what actions should
     /// be taken to mitigate any implied risks.
@@ -8221,8 +8084,7 @@
 /// &lt;pre&gt;&lt;code&gt;&amp;#40;== resource_for v1.shelves.books ==&amp;#41;&lt;/code&gt;&lt;/pre&gt;
 /// The directive `suppress_warning` does not directly affect documentation
 /// and is documented together with service config validation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Documentation {
     <span class="doccomment">/// A short description of what the service does. The summary must be plain
     /// text. It becomes the overview of the service displayed in Google Cloud
@@ -8264,8 +8126,7 @@
     </span><span class="kw">pub </span>overview: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// A documentation rule provides information about individual API elements.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>DocumentationRule {
     <span class="doccomment">/// The selector is a comma-separated list of patterns for any element such as
     /// a method, a field, an enum value. Each pattern is a qualified name of the
@@ -8288,8 +8149,7 @@
 }
 <span class="doccomment">/// Represents a documentation page. A page can contain subpages to represent
 /// nested documentation set structure.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Page {
     <span class="doccomment">/// The name of the page. It will be used as an identity of the page to
     /// generate URI of the page, text of the link to this page in navigation,
@@ -8335,8 +8195,7 @@
 ///        - selector: google.calendar.Delegate
 ///          oauth:
 ///            canonical_scopes: &lt;https://www.googleapis.com/auth/calendar.read&gt;
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Authentication {
     <span class="doccomment">/// A list of authentication rules that apply to individual API methods.
     ///
@@ -8356,8 +8215,7 @@
 ///
 /// If a method doesn't have any auth requirements, request credentials will be
 /// ignored.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AuthenticationRule {
     <span class="doccomment">/// Selects the methods to which this rule applies.
     ///
@@ -8377,8 +8235,7 @@
     </span><span class="kw">pub </span>requirements: ::prost::alloc::vec::Vec&lt;AuthRequirement&gt;,
 }
 <span class="doccomment">/// Specifies a location to extract JWT from an API request.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>JwtLocation {
     <span class="doccomment">/// The value prefix. The value format is "value_prefix{token}"
     /// Only applies to "in" header type. Must be empty for "in" query type.
@@ -8395,8 +8252,7 @@
 }
 <span class="doccomment">/// Nested message and enum types in `JwtLocation`.
 </span><span class="kw">pub mod </span>jwt_location {
-    <span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    <span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>In {
         <span class="doccomment">/// Specifies HTTP header name to extract JWT token.
         </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -8412,8 +8268,7 @@
 <span class="doccomment">/// Configuration for an authentication provider, including support for
 /// [JSON Web Token
 /// (JWT)](&lt;https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AuthProvider {
     <span class="doccomment">/// The unique identifier of the auth provider. It will be referred to by
     /// `AuthRequirement.provider_id`.
@@ -8505,8 +8360,7 @@
 /// Please note that even though each of the canonical scopes is enough for a
 /// request to be accepted and passed to the backend, a request can still fail
 /// due to the backend requiring additional scopes or permissions.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>OAuthRequirements {
     <span class="doccomment">/// The list of publicly documented OAuth scopes that are allowed access. An
     /// OAuth token containing any of these scopes will be accepted.
@@ -8521,8 +8375,7 @@
 <span class="doccomment">/// User-defined authentication requirements, including support for
 /// [JSON Web Token
 /// (JWT)](&lt;https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32&gt;).
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>AuthRequirement {
     <span class="doccomment">/// [id][google.api.AuthProvider.id] from authentication provider.
     ///
@@ -8582,8 +8435,7 @@
 ///        - monitored_resource: library.googleapis.com/billing_branch
 ///          metrics:
 ///          - library.googleapis.com/book/borrowed_count
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Billing {
     <span class="doccomment">/// Billing configurations for sending metrics to the consumer project.
     /// There can be multiple consumer destinations per service, each one must have
@@ -8596,8 +8448,7 @@
 </span><span class="kw">pub mod </span>billing {
     <span class="doccomment">/// Configuration of a specific billing destination (Currently only support
     /// bill against consumer project).
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>BillingDestination {
         <span class="doccomment">/// The monitored resource type. The type must be defined in
         /// [Service.monitored_resources][google.api.Service.monitored_resources]
@@ -8617,8 +8468,7 @@
 /// system, not by an individual API. It is typically mapped to an HTTP header
 /// and/or a URL query parameter. This configuration specifies which methods
 /// change the names of the system parameters.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SystemParameters {
     <span class="doccomment">/// Define system parameters.
     ///
@@ -8654,8 +8504,7 @@
 }
 <span class="doccomment">/// Define a system parameter rule mapping system parameter definitions to
 /// methods.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SystemParameterRule {
     <span class="doccomment">/// Selects the methods to which this rule applies. Use '*' to indicate all
     /// methods in all APIs.
@@ -8675,8 +8524,7 @@
 <span class="doccomment">/// Define a parameter's name and location. The parameter may be passed as either
 /// an HTTP header or a URL query parameter, and if both are passed the behavior
 /// is implementation-dependent.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SystemParameter {
     <span class="doccomment">/// Define the name of the parameter, such as "api_key" . It is case sensitive.
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
@@ -8691,16 +8539,14 @@
     </span><span class="kw">pub </span>url_query_parameter: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Source information used to create a Service Config
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>SourceInfo {
     <span class="doccomment">/// All files used during config generation.
     </span><span class="attr">#[prost(message, repeated, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>source_files: ::prost::alloc::vec::Vec&lt;::prost_types::Any&gt;,
 }
 <span class="doccomment">/// `Backend` defines the backend configuration for a service.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Backend {
     <span class="doccomment">/// A list of API backend rules that apply to individual API methods.
     ///
@@ -8709,8 +8555,7 @@
     </span><span class="kw">pub </span>rules: ::prost::alloc::vec::Vec&lt;BackendRule&gt;,
 }
 <span class="doccomment">/// A backend rule provides configuration for an individual API element.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>BackendRule {
     <span class="doccomment">/// Selects the methods to which this rule applies.
     ///
@@ -8904,8 +8749,7 @@
     ///
     /// Refer to &lt;https://developers.google.com/identity/protocols/OpenIDConnect&gt; for
     /// JWT ID token.
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Oneof)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Authentication {
         <span class="doccomment">/// The JWT audience is used when generating a JWT ID token for the backend.
         /// This ID token will be added in the HTTP "authorization" header, and sent
@@ -8943,8 +8787,7 @@
 ///
 /// Here, all methods are publicly visible except for the restricted methods
 /// EnhancedSearch and Delegate.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Visibility {
     <span class="doccomment">/// A list of visibility rules that apply to individual API elements.
     ///
@@ -8954,8 +8797,7 @@
 }
 <span class="doccomment">/// A visibility rule provides visibility configuration for an individual API
 /// element.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>VisibilityRule {
     <span class="doccomment">/// Selects methods, messages, fields, enums, etc. to which this rule applies.
     ///
@@ -9610,8 +9452,7 @@
 /// before a request can be processed. This policy annotation is used to
 /// generate the overall policy that will be used for automatic runtime
 /// policy enforcement and documentation generation.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>FieldPolicy {
     <span class="doccomment">/// Selects one or more request or response message fields to apply this
     /// `FieldPolicy`.
@@ -9636,8 +9477,7 @@
     </span><span class="kw">pub </span>resource_type: ::prost::alloc::string::String,
 }
 <span class="doccomment">/// Defines policies applying to an RPC method.
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>MethodPolicy {
     <span class="doccomment">/// Selects a method to which these policies should be enforced, for example,
     /// "google.pubsub.v1.Subscriber.CreateSubscription".
@@ -9659,8 +9499,7 @@
 ///
 ///      control:
 ///        environment: servicecontrol.googleapis.com
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Control {
     <span class="doccomment">/// The service controller environment to use. If empty, no control plane
     /// feature (like quota and billing) will be enabled. The recommended value for
@@ -9723,8 +9562,7 @@
 ///          metrics:
 ///          - library.googleapis.com/book/returned_count
 ///          - library.googleapis.com/book/num_overdue
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Monitoring {
     <span class="doccomment">/// Monitoring configurations for sending metrics to the producer project.
     /// There can be multiple producer destinations. A monitored resource type may
@@ -9751,8 +9589,7 @@
 </span><span class="kw">pub mod </span>monitoring {
     <span class="doccomment">/// Configuration of a specific monitoring destination (the producer project
     /// or the consumer project).
-    </span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-    #[derive(Clone, PartialEq, ::prost::Message)]
+    </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
     </span><span class="kw">pub struct </span>MonitoringDestination {
         <span class="doccomment">/// The monitored resource type. The type must be defined in
         /// [Service.monitored_resources][google.api.Service.monitored_resources]
@@ -9799,8 +9636,7 @@
 ///        - selector: "*"
 ///          requirements:
 ///            provider_id: google_calendar_auth
-</span><span class="attr">#[allow(clippy::derive_partial_eq_without_eq)]
-#[derive(Clone, PartialEq, ::prost::Message)]
+</span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>Service {
     <span class="doccomment">/// The service name, which is a DNS-like logical identifier for the
     /// service, such as `calendar.googleapis.com`. The service name
