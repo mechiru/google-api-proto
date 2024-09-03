@@ -569,8 +569,8 @@
 </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StorageDescriptor {
     <span class="doccomment">/// Optional. The physical location of the metastore partition
-    /// (e.g. 'gs://spark-dataproc-data/pangea-data/case_sensitive/' or
-    /// 'gs://spark-dataproc-data/pangea-data/*').
+    /// (e.g. `gs://spark-dataproc-data/pangea-data/case_sensitive/` or
+    /// `gs://spark-dataproc-data/pangea-data/*`).
     </span><span class="attr">#[prost(string, tag = <span class="string">"1"</span>)]
     </span><span class="kw">pub </span>location_uri: ::prost::alloc::string::String,
     <span class="doccomment">/// Optional. Specifies the fully qualified class name of the InputFormat
@@ -803,7 +803,7 @@
     }
 }
 <span class="doccomment">/// The top-level message sent by the client to the
-/// [Partitions.StreamMetastorePartitions]() method.
+/// [Partitions.StreamMetastorePartitions][] method.
 /// Follows the default gRPC streaming maximum size of 4 MB.
 </span><span class="attr">#[derive(Clone, PartialEq, ::prost::Message)]
 </span><span class="kw">pub struct </span>StreamMetastorePartitionsRequest {
@@ -827,7 +827,7 @@
     </span><span class="kw">pub </span>skip_existing_partitions: bool,
 }
 <span class="doccomment">/// This is the response message sent by the server
-/// to the client for the [Partitions.StreamMetastorePartitions]() method when
+/// to the client for the [Partitions.StreamMetastorePartitions][] method when
 /// the commit is successful. Server will close the stream after sending this
 /// message.
 </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
