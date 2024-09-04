@@ -42352,6 +42352,32 @@
 <a href="#42352" id="42352">42352</a>
 <a href="#42353" id="42353">42353</a>
 <a href="#42354" id="42354">42354</a>
+<a href="#42355" id="42355">42355</a>
+<a href="#42356" id="42356">42356</a>
+<a href="#42357" id="42357">42357</a>
+<a href="#42358" id="42358">42358</a>
+<a href="#42359" id="42359">42359</a>
+<a href="#42360" id="42360">42360</a>
+<a href="#42361" id="42361">42361</a>
+<a href="#42362" id="42362">42362</a>
+<a href="#42363" id="42363">42363</a>
+<a href="#42364" id="42364">42364</a>
+<a href="#42365" id="42365">42365</a>
+<a href="#42366" id="42366">42366</a>
+<a href="#42367" id="42367">42367</a>
+<a href="#42368" id="42368">42368</a>
+<a href="#42369" id="42369">42369</a>
+<a href="#42370" id="42370">42370</a>
+<a href="#42371" id="42371">42371</a>
+<a href="#42372" id="42372">42372</a>
+<a href="#42373" id="42373">42373</a>
+<a href="#42374" id="42374">42374</a>
+<a href="#42375" id="42375">42375</a>
+<a href="#42376" id="42376">42376</a>
+<a href="#42377" id="42377">42377</a>
+<a href="#42378" id="42378">42378</a>
+<a href="#42379" id="42379">42379</a>
+<a href="#42380" id="42380">42380</a>
 </pre></div><pre class="rust"><code><span class="attr">#[cfg(
     any(
         feature = <span class="string">"google-cloud-aiplatform-v1beta1-schema"</span>,
@@ -67981,6 +68007,10 @@
         </span><span class="kw">pub </span>candidates_token_count: i32,
         <span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
         </span><span class="kw">pub </span>total_token_count: i32,
+        <span class="doccomment">/// Output only. Number of tokens in the cached part in the input (the cached
+        /// content).
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>cached_content_token_count: i32,
     }
 }
 <span class="doccomment">/// Request message for \[PredictionService.ChatCompletions\]
@@ -78184,12 +78214,34 @@
     <span class="doccomment">/// Output only. When the cache entry was last updated in UTC time.
     </span><span class="attr">#[prost(message, optional, tag = <span class="string">"8"</span>)]
     </span><span class="kw">pub </span>update_time: ::core::option::Option&lt;::prost_types::Timestamp&gt;,
+    <span class="doccomment">/// Output only. Metadata on the usage of the cached content.
+    </span><span class="attr">#[prost(message, optional, tag = <span class="string">"12"</span>)]
+    </span><span class="kw">pub </span>usage_metadata: ::core::option::Option&lt;cached_content::UsageMetadata&gt;,
     <span class="doccomment">/// Expiration time of the cached content.
     </span><span class="attr">#[prost(oneof = <span class="string">"cached_content::Expiration"</span>, tags = <span class="string">"9, 10"</span>)]
     </span><span class="kw">pub </span>expiration: ::core::option::Option&lt;cached_content::Expiration&gt;,
 }
 <span class="doccomment">/// Nested message and enum types in `CachedContent`.
 </span><span class="kw">pub mod </span>cached_content {
+    <span class="doccomment">/// Metadata on the usage of the cached content.
+    </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Message)]
+    </span><span class="kw">pub struct </span>UsageMetadata {
+        <span class="doccomment">/// Total number of tokens that the cached content consumes.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"1"</span>)]
+        </span><span class="kw">pub </span>total_token_count: i32,
+        <span class="doccomment">/// Number of text characters.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"2"</span>)]
+        </span><span class="kw">pub </span>text_count: i32,
+        <span class="doccomment">/// Number of images.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"3"</span>)]
+        </span><span class="kw">pub </span>image_count: i32,
+        <span class="doccomment">/// Duration of video in seconds.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"4"</span>)]
+        </span><span class="kw">pub </span>video_duration_seconds: i32,
+        <span class="doccomment">/// Duration of audio in seconds.
+        </span><span class="attr">#[prost(int32, tag = <span class="string">"5"</span>)]
+        </span><span class="kw">pub </span>audio_duration_seconds: i32,
+    }
     <span class="doccomment">/// Expiration time of the cached content.
     </span><span class="attr">#[derive(Clone, Copy, PartialEq, ::prost::Oneof)]
     </span><span class="kw">pub enum </span>Expiration {

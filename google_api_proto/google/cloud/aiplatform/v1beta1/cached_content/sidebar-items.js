@@ -1,1 +1,1 @@
-window.SIDEBAR_ITEMS = {"enum":["Expiration"]};
+window.SIDEBAR_ITEMS = {"enum":["Expiration"],"struct":["UsageMetadata"]};
