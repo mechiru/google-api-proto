@@ -26,7 +26,7 @@ jobs:
         with:
           tool: cargo-release@0.24.11
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         with:
           token: ${{ secrets.MY_GITHUB_TOKEN }}
           fetch-depth: 10
